@@ -310,6 +310,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
     
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 
@@ -333,6 +334,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Filter contact
@@ -354,6 +356,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
   
 
@@ -382,6 +385,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Delete property
@@ -404,6 +408,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Filter property
@@ -425,6 +430,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 
@@ -453,6 +459,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Unassociate property client
@@ -475,6 +482,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Mark property as sold
@@ -497,6 +505,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Mark property as unsold
@@ -519,6 +528,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 #### Use case: Find clients associated to property
@@ -540,6 +550,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 
@@ -567,6 +578,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a2. User enters information again
 
       Steps 3a1 - 3a2 are repeated until all data are valid
+  
       Use case resumes at step 4
 
 
