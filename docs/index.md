@@ -15,4 +15,5 @@ TheRealDeal is a Command Line Interface (CLI) application for **real estate agen
 
 
 **Acknowledgements**
+
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
