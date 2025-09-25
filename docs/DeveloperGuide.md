@@ -290,7 +290,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Add contact**
+#### Use case: Add contact
 
 **Main Success Scenario:**
 
@@ -313,7 +313,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case resumes at step 4
 
 
-**Use case: Delete contact**
+#### Use case: Delete contact
 
 **Main Success Scenario:**
 
@@ -335,7 +335,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Filter contact**
+#### Use case: Filter contact
 
 **Main Success Scenario:**
 
@@ -362,7 +362,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     
       Use case ends
 
-**Use case: Add property**
+#### Use case: Add property
 
 **Main Success Scenario:**
 
@@ -384,7 +384,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Delete property**
+#### Use case: Delete property
 
 **Main Success Scenario:**
 
@@ -406,7 +406,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Filter property**
+#### Use case: Filter property
 
 **Main Success Scenario:**
 
@@ -433,7 +433,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends
 
-**Use case: Associate property to client**
+#### Use case: Associate property to client
 
 **Main Success Scenario:**
 
@@ -455,7 +455,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Unassociate property client**
+#### Use case: Unassociate property client
 
 **Main Success Scenario:**
 
@@ -477,7 +477,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Mark property as sold**
+#### Use case: Mark property as sold
 
 **Main Success Scenario:**
 
@@ -499,7 +499,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Mark property as unsold**
+#### Use case: Mark property as unsold
 
 **Main Success Scenario:**
 
@@ -521,7 +521,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Steps 3a1 - 3a2 are repeated until all data are valid
       Use case resumes at step 4
 
-**Use case: Find clients associated to property**
+#### Use case: Find clients associated to property
 
 **Main Success Scenario:**
 
@@ -548,7 +548,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends
 
-**Use case: Find properties associated to client**
+#### Use case: Find properties associated to client
 
 **Main Success Scenario:**
 
