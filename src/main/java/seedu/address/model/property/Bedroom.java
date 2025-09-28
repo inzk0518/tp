@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 public class Bedroom {
-    public static final String MESSAGE_CONSTRAINTS = "Number of bedrooms should be a non-negative integer between 0 to 20";
+    public static final String MESSAGE_CONSTRAINTS = "Invalid number of bedrooms. Use an integer between 0 and 20.";
 
     /*
      * The number of bedrooms must be a non-negative integer.

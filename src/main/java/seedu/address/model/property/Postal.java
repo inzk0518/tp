@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 public class Postal {
-    public static final String MESSAGE_CONSTRAINTS = "Postal codes should only contain numeric characters and must be 6 characters long";
+    public static final String MESSAGE_CONSTRAINTS = "Invalid postal code. Use a 6-digit Singapore postal code.";
 
     /*
      * The postal code must be exactly 6 numeric characters.

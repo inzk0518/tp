@@ -5,8 +5,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 public class Type {
-    public static final String MESSAGE_CONSTRAINTS = "Property types should be one of the following: "
-            + "HDB, Condo, Landed, Apartment, Office, or Others";
+    public static final String MESSAGE_CONSTRAINTS = "Invalid type. Allowed: hdb, condo, landed, apartment, office or others.";
 
     public final static String VALIDATION_REGEX = "(?i)HDB|Condo|Landed|Apartment|Office|Others";
 
