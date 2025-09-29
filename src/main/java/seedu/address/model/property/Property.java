@@ -86,8 +86,12 @@ public class Property {
             return true;
         }
 
-        return otherProperty != null
-                && otherProperty.getId().equals(getId());
+        boolean sameId = otherProperty != null && otherProperty.getId().equals(getId());
+        boolean sameAddress = otherProperty != null
+                && otherProperty.getAddress().equals(getAddress())
+                && otherProperty.getPostal().equals(getPostal());
+
+        return sameId || sameAddress;
     }
 
 
