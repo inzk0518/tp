@@ -61,12 +61,11 @@ public class AddPropertyCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // TODO: Implement hasProperty and addProperty methods in Model interface
-        // if (model.hasProperty(toAdd)) {
-        //     throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
-        // }
+        if (model.hasProperty(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
+        }
 
-        // model.addProperty(toAdd);
+        model.addProperty(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.toString()));
     }
 
