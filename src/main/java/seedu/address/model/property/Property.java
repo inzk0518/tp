@@ -18,11 +18,12 @@ public class Property {
     private final Price price;
     private final Status status;
     private final Type type;
+    private final Owner owner;
 
     public Property(Address address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
-                    Postal postal, Price price, Status status, Type type) {
+                    Postal postal, Price price, Status status, Type type, Owner owner) {
         // Listing can be null
-        requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type);
+        requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
         this.address = address;
         this.bathroom = bathroom;
         this.bedroom = bedroom;
@@ -32,6 +33,7 @@ public class Property {
         this.price = price;
         this.status = status;
         this.type = type;
+        this.owner = owner;
         this.id = java.util.UUID.randomUUID().toString();
     }
 
@@ -75,6 +77,9 @@ public class Property {
     public String getId() {
         return id;
     }
+    public Owner getOwner() {
+        return owner;
+    }
 
     public boolean isSameProperty(Property otherProperty) {
         if (otherProperty == this) {
@@ -89,7 +94,7 @@ public class Property {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type);
+        return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
     }
 
     /*
@@ -116,7 +121,8 @@ public class Property {
                 && postal.equals(otherProperty.postal)
                 && price.equals(otherProperty.price)
                 && status.equals(otherProperty.status)
-                && type.equals(otherProperty.type);
+                && type.equals(otherProperty.type)
+                && owner.equals(otherProperty.owner);
     }
 
     @Override
@@ -132,5 +138,7 @@ public class Property {
                 .add("Price", price)
                 .add("Status", status)
                 .add("Type", type)
+                .add("Owner", owner)
                 .toString();
+    }
 }

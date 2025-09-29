@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -52,6 +53,10 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command addressBookCommand = addressBookParser.parseCommand(commandText);
         Command propertyBookCommand = propertyBookParser.parseCommand(commandText);
+        if (addressBookCommand == null && propertyBookCommand == null) {
+            logger.finer("This user input caused a ParseException: " + commandText);
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+        }
         Command command = addressBookCommand != null ? addressBookCommand : propertyBookCommand;
         commandResult = command.execute(model);
 

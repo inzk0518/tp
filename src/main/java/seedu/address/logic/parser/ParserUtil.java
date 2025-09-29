@@ -16,6 +16,7 @@ import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
 import seedu.address.model.property.Listing;
+import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Status;
@@ -264,5 +265,19 @@ public class ParserUtil {
             throw new ParseException(Listing.MESSAGE_CONSTRAINTS);
         }
         return new Listing(trimmedListing);
+    }
+    
+    /**
+     * Parses a {@code String owner} into a {@code Owner}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code owner} is invalid.
+     */    public static Owner parseOwner(String owner) throws ParseException {
+        requireNonNull(owner);
+        String trimmedOwner = owner.trim();
+        if (!Owner.isValidOwner(trimmedOwner)) {
+            throw new ParseException(Owner.MESSAGE_CONSTRAINTS);
+        }
+        return new Owner(trimmedOwner);
     }
 }
