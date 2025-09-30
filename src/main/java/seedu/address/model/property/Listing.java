@@ -1,9 +1,13 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Property's listing type in the property book.
+ * Guarantees: immutable; is valid as declared in
+ * {@link #isValidListing(String)}
+ */
 public class Listing {
     public static final String MESSAGE_CONSTRAINTS = "Invalid listing \"VALUE\". Allowed: sale, rent.";
 

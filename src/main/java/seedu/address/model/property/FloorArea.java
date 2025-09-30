@@ -1,9 +1,13 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Property's floor area in the property book.
+ * Guarantees: immutable; is valid as declared in
+ * {@link #isValidFloorArea(String)}
+ */
 public class FloorArea {
     public static final String MESSAGE_CONSTRAINTS = "Invalid floor-area value. Use an integer between 50 and 100000 (sqft).";
 

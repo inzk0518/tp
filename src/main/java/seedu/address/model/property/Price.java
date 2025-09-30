@@ -1,9 +1,12 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Property's price in the property book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidPrice(String)}
+ */
 public class Price {
     public static final String MESSAGE_CONSTRAINTS = "Invalid price. Use a positive integer ≤ 1,000,000,000,000.";
 

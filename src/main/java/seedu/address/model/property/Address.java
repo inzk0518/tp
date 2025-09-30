@@ -1,7 +1,6 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
@@ -14,7 +13,8 @@ public class Address {
     public static final String MESSAGE_CONSTRAINTS = "Invalid address. Provide 5–200 chars with at least one letter and one digit.";
 
     /*
-     * Address must be 5-200 characters long, contain at least one letter and one digit.
+     * Address must be 5-200 characters long, contain at least one letter and one
+     * digit.
      * Uses positive lookahead to ensure both letter and digit are present.
      */
     public static final String VALIDATION_REGEX = "^(?=.*[A-Za-z])(?=.*\\d).{5,200}$";

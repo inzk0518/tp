@@ -1,7 +1,8 @@
 package seedu.address.model;
 
-import java.util.List;
 import static java.util.Objects.requireNonNull;
+
+import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -17,17 +18,21 @@ public class PropertyBook implements ReadOnlyPropertyBook {
     private final UniquePropertyList properties;
 
     /*
-     * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
-     * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
+     * The 'unusual' code block below is a non-static initialization block,
+     * sometimes used to avoid duplication
+     * between constructors. See
+     * https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
      *
-     * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
-     *   among constructors.
+     * Note that non-static init blocks are not recommended to use. There are other
+     * ways to avoid duplication
+     * among constructors.
      */
     {
         properties = new UniquePropertyList();
     }
 
-    public PropertyBook() {}
+    public PropertyBook() {
+    }
 
     /**
      * Creates a PropertyBook using the Properties in the {@code toBeCopied}
@@ -59,7 +64,8 @@ public class PropertyBook implements ReadOnlyPropertyBook {
     //// property-level operations
 
     /**
-     * Returns true if a property with the same identity as {@code property} exists in the property book.
+     * Returns true if a property with the same identity as {@code property} exists
+     * in the property book.
      */
     public boolean hasProperty(Property property) {
         requireNonNull(property);
@@ -75,9 +81,12 @@ public class PropertyBook implements ReadOnlyPropertyBook {
     }
 
     /**
-     * Replaces the given property {@code target} in the list with {@code editedProperty}.
+     * Replaces the given property {@code target} in the list with
+     * {@code editedProperty}.
      * {@code target} must exist in the property book.
-     * The property identity of {@code editedProperty} must not be the same as another existing property in the property book.
+     * The property identity of {@code editedProperty} must not be the same as
+     * another existing
+     * property in the property book.
      */
     public void setProperty(Property target, Property editedProperty) {
         requireNonNull(editedProperty);

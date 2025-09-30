@@ -72,9 +72,11 @@ class JsonAdaptedProperty {
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     * Converts this Jackson-friendly adapted person object into the model's
+     * {@code Person} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
+     * @throws IllegalValueException if there were any data constraints violated in
+     *                               the adapted person.
      */
     public Property toModelType() throws IllegalValueException {
         if (address == null) {
@@ -86,7 +88,8 @@ class JsonAdaptedProperty {
         final Address modelAddress = new Address(address);
 
         if (bathroom == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Bathroom.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Bathroom.class.getSimpleName()));
         }
         if (!Bathroom.isValidBathroom(bathroom)) {
             throw new IllegalValueException(Bathroom.MESSAGE_CONSTRAINTS);
@@ -102,7 +105,8 @@ class JsonAdaptedProperty {
         final Bedroom modelBedroom = new Bedroom(bedroom);
 
         if (floorArea == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, FloorArea.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    FloorArea.class.getSimpleName()));
         }
         if (!FloorArea.isValidFloorArea(floorArea)) {
             throw new IllegalValueException(FloorArea.MESSAGE_CONSTRAINTS);

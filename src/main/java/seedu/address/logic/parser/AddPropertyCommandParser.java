@@ -1,19 +1,20 @@
 package seedu.address.logic.parser;
 
-import java.util.stream.Stream;
-
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import seedu.address.logic.commands.AddPropertyCommand;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_FLOOR_AREA;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_LISTING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_POSTAL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
+
+import java.util.stream.Stream;
+
+import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Address;
 import seedu.address.model.property.Bathroom;
@@ -40,12 +41,12 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
     @Override
     public AddPropertyCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, 
+                ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL,
                         PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_STATUS,
                         PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA,
                         PREFIX_PROPERTY_LISTING, PREFIX_PROPERTY_OWNER);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, 
+        if (!arePrefixesPresent(argMultimap, PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL,
                 PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_STATUS,
                 PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA,
                 PREFIX_PROPERTY_OWNER)
@@ -67,14 +68,14 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
         Bathroom bathroom = ParserUtil.parseBathroom(argMultimap.getValue(PREFIX_PROPERTY_BATHROOM).get());
         FloorArea floorArea = ParserUtil.parseFloorArea(argMultimap.getValue(PREFIX_PROPERTY_FLOOR_AREA).get());
         Owner owner = ParserUtil.parseOwner(argMultimap.getValue(PREFIX_PROPERTY_OWNER).get());
-        
+
         // Listing is optional
         Listing listing = null;
         if (argMultimap.getValue(PREFIX_PROPERTY_LISTING).isPresent()) {
             listing = ParserUtil.parseListing(argMultimap.getValue(PREFIX_PROPERTY_LISTING).get());
         }
 
-        Property property = new Property(address, bathroom, bedroom, floorArea, listing, 
+        Property property = new Property(address, bathroom, bedroom, floorArea, listing,
                 postal, price, status, type, owner);
 
         return new AddPropertyCommand(property);

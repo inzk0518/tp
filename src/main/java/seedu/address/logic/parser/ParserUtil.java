@@ -1,8 +1,9 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.HashSet;
-import static java.util.Objects.requireNonNull;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -266,13 +267,14 @@ public class ParserUtil {
         }
         return new Listing(trimmedListing);
     }
-    
+
     /**
      * Parses a {@code String owner} into a {@code Owner}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code owner} is invalid.
-     */    public static Owner parseOwner(String owner) throws ParseException {
+     */
+    public static Owner parseOwner(String owner) throws ParseException {
         requireNonNull(owner);
         String trimmedOwner = owner.trim();
         if (!Owner.isValidOwner(trimmedOwner)) {

@@ -1,14 +1,18 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Property's status in the property book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidStatus(String)}
+ */
 public class Status {
     public static final String MESSAGE_CONSTRAINTS = "Invalid status \"VALUE\". Allowed: listed, sold, rented, off-market.";
 
     /*
-     * The status must be one of the predefined values: listed, sold, rented, or off-market.
+     * The status must be one of the predefined values: listed, sold, rented, or
+     * off-market.
      * Case-insensitive matching is supported.
      */
     public static final String VALIDATION_REGEX = "^(?i)(listed|sold|rented|off-market)$";

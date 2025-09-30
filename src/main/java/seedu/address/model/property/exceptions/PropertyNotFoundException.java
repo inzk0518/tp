@@ -8,3 +8,4 @@ public class PropertyNotFoundException extends RuntimeException {
         super("Property not found");
     }
 }
+

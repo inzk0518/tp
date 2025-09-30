@@ -1,5 +1,7 @@
 package seedu.address.logic;
 
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
@@ -8,7 +10,6 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -26,8 +27,7 @@ import seedu.address.storage.Storage;
 public class LogicManager implements Logic {
     public static final String FILE_OPS_ERROR_FORMAT = "Could not save data due to the following error: %s";
 
-    public static final String FILE_OPS_PERMISSION_ERROR_FORMAT =
-            "Could not save data to file %s due to insufficient permissions to write to the file or the folder.";
+    public static final String FILE_OPS_PERMISSION_ERROR_FORMAT = "Could not save data to file %s due to insufficient permissions to write to the file or the folder.";
 
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
@@ -37,7 +37,8 @@ public class LogicManager implements Logic {
     private final PropertyBookParser propertyBookParser;
 
     /**
-     * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
+     * Constructs a {@code LogicManager} with the given {@code Model} and
+     * {@code Storage}.
      */
     public LogicManager(Model model, Storage storage) {
         this.model = model;

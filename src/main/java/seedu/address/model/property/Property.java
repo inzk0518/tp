@@ -1,8 +1,14 @@
 package seedu.address.model.property;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import seedu.address.commons.util.ToStringBuilder;
 
+/**
+ * Represents a Property in the property book.
+ * Guarantees: details are present and not null, field values are validated,
+ * immutable.
+ */
 public class Property {
 
     // Identity fields
@@ -20,8 +26,12 @@ public class Property {
     private final Type type;
     private final Owner owner;
 
+    /**
+     * Constructs a {@code Property}.
+     * Every field must be present and not null except listing which can be null.
+     */
     public Property(Address address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
-                    Postal postal, Price price, Status status, Type type, Owner owner) {
+            Postal postal, Price price, Status status, Type type, Owner owner) {
         // Listing can be null
         requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
         this.address = address;
@@ -77,10 +87,15 @@ public class Property {
     public String getId() {
         return id;
     }
+
     public Owner getOwner() {
         return owner;
     }
 
+    /**
+     * Returns true if both properties have the same identity and data fields.
+     * This defines a weaker notion of equality between two properties.
+     */
     public boolean isSameProperty(Property otherProperty) {
         if (otherProperty == this) {
             return true;
@@ -94,11 +109,11 @@ public class Property {
         return sameId || sameAddress;
     }
 
-
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
+        return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type,
+                owner);
     }
 
     /*
@@ -121,7 +136,7 @@ public class Property {
                 && bedroom.equals(otherProperty.bedroom)
                 && floorArea.equals(otherProperty.floorArea)
                 && ((listing == null && otherProperty.listing == null)
-                    || (listing != null && listing.equals(otherProperty.listing)))
+                        || (listing != null && listing.equals(otherProperty.listing)))
                 && postal.equals(otherProperty.postal)
                 && price.equals(otherProperty.price)
                 && status.equals(otherProperty.status)

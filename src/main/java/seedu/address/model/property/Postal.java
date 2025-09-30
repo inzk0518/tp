@@ -1,9 +1,12 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Property's postal code in the property book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidPostal(String)}
+ */
 public class Postal {
     public static final String MESSAGE_CONSTRAINTS = "Invalid postal code. Use a 6-digit Singapore postal code.";
 

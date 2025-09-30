@@ -1,20 +1,25 @@
 package seedu.address.model.property;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Iterator;
 import java.util.List;
-import static java.util.Objects.requireNonNull;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.model.property.exceptions.DuplicatePropertyException;
 import seedu.address.model.property.exceptions.PropertyNotFoundException;
 
 /**
- * A list of properties that enforces uniqueness between its elements and does not allow nulls.
- * A property is considered unique by comparing using {@code Property#isSameProperty(Property)}. As such, adding and updating of
- * properties uses Property#isSameProperty(Property) for equality so as to ensure that the property being added or updated is
- * unique in terms of identity in the UniquePropertyList. However, the removal of a property uses Property#equals(Object) so
+ * A list of properties that enforces uniqueness between its elements and does
+ * not allow nulls.
+ * A property is considered unique by comparing using
+ * {@code Property#isSameProperty(Property)}. As such, adding and updating of
+ * properties uses Property#isSameProperty(Property) for equality so as to
+ * ensure that the property being added or updated is
+ * unique in terms of identity in the UniquePropertyList. However, the removal
+ * of a property uses Property#equals(Object) so
  * as to ensure that the property with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
@@ -24,11 +29,12 @@ import seedu.address.model.property.exceptions.PropertyNotFoundException;
 public class UniquePropertyList implements Iterable<Property> {
 
     private final ObservableList<Property> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Property> internalUnmodifiableList =
-            FXCollections.unmodifiableObservableList(internalList);
+    private final ObservableList<Property> internalUnmodifiableList = FXCollections
+            .unmodifiableObservableList(internalList);
 
     /**
-     * Returns true if the list contains an equivalent property as the given argument.
+     * Returns true if the list contains an equivalent property as the given
+     * argument.
      */
     public boolean contains(Property toCheck) {
         requireNonNull(toCheck);
@@ -50,7 +56,8 @@ public class UniquePropertyList implements Iterable<Property> {
     /**
      * Replaces the property {@code target} in the list with {@code editedProperty}.
      * {@code target} must exist in the list.
-     * The property identity of {@code editedProperty} must not be the same as another existing property in the list.
+     * The property identity of {@code editedProperty} must not be the same as
+     * another existing property in the list.
      */
     public void setProperty(Property target, Property editedProperty) {
         requireAllNonNull(target, editedProperty);

@@ -23,9 +23,11 @@ public class StorageManager implements Storage {
     private UserPrefsStorage userPrefsStorage;
 
     /**
-     * Creates a {@code StorageManager} with the given {@code AddressBookStorage} and {@code UserPrefStorage}.
+     * Creates a {@code StorageManager} with the given {@code AddressBookStorage}
+     * and {@code UserPrefStorage}.
      */
-    public StorageManager(AddressBookStorage addressBookStorage, PropertyBookStorage propertyBookStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(AddressBookStorage addressBookStorage, PropertyBookStorage propertyBookStorage,
+            UserPrefsStorage userPrefsStorage) {
         this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
         this.propertyBookStorage = propertyBookStorage;
@@ -47,7 +49,6 @@ public class StorageManager implements Storage {
     public void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
-
 
     // ================ AddressBook methods ==============================
 
@@ -78,7 +79,7 @@ public class StorageManager implements Storage {
         addressBookStorage.saveAddressBook(addressBook, filePath);
     }
 
-        // ================ PropertyBook methods ==============================
+    // ================ PropertyBook methods ==============================
 
     @Override
     public Path getPropertyBookFilePath() {

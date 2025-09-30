@@ -1,7 +1,9 @@
 package seedu.address.model;
 
-import java.nio.file.Path;
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -9,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 
@@ -26,12 +27,15 @@ public class ModelManager implements Model {
     private final FilteredList<Property> filteredProperties;
 
     /**
-     * Initializes a ModelManager with the given addressBook, propertyBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, propertyBook and
+     * userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyPropertyBook propertyBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyPropertyBook propertyBook,
+            ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(addressBook, propertyBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + ", property book: " + propertyBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with address book: " + addressBook + ", property book: " + propertyBook
+                + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.propertyBook = new PropertyBook(propertyBook);
@@ -44,7 +48,8 @@ public class ModelManager implements Model {
         this(new AddressBook(), new PropertyBook(), new UserPrefs());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // =========== UserPrefs
+    // ==================================================================================
 
     @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
@@ -134,7 +139,8 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
-    //=========== Property List Accessors =============================================================
+    // =========== Property List Accessors
+    // =============================================================
 
     @Override
     public boolean hasProperty(Property property) {
@@ -160,10 +166,12 @@ public class ModelManager implements Model {
         propertyBook.setProperty(target, editedProperty);
     }
 
-    //=========== Filtered List Accessors =============================================================
+    // =========== Filtered List Accessors
+    // =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Person} backed by the
+     * internal list of
      * {@code versionedAddressBook}
      */
     @Override
@@ -177,10 +185,12 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
-    //=========== Filtered Property List Accessors =============================================================
+    // =========== Filtered Property List Accessors
+    // =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Property} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Property} backed by the
+     * internal list of
      * {@code propertyBook}
      */
     @Override

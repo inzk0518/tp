@@ -14,7 +14,7 @@ import seedu.address.model.property.Property;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
-    
+
     /** {@code Predicate} that always evaluate to true */
     Predicate<Property> PREDICATE_SHOW_ALL_PROPERTIES = unused -> true;
 
@@ -129,7 +129,8 @@ public interface Model {
     /**
      * Replaces the given property {@code target} with {@code editedProperty}.
      * {@code target} must exist in the property book.
-     * The property identity of {@code editedProperty} must not be the same as another existing property in the property book.
+     * The property identity of {@code editedProperty} must not be the same as another existing property
+     * in the property book.
      */
     void setProperty(Property target, Property editedProperty);
 

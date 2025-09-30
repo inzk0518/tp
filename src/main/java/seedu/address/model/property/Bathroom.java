@@ -1,9 +1,13 @@
 package seedu.address.model.property;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Property's number of bathrooms in the property book.
+ * Guarantees: immutable; is valid as declared in
+ * {@link #isValidBathroom(String)}
+ */
 public class Bathroom {
     public static final String MESSAGE_CONSTRAINTS = "Invalid number of bathrooms. Use an integer between 0 and 20.";
 
