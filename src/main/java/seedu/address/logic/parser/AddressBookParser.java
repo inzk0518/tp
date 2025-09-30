@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -77,7 +78,7 @@ public class AddressBookParser {
             return new HelpCommand();
 
         default:
-            return null;
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
 
