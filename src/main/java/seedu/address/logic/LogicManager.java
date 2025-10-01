@@ -1,10 +1,9 @@
 package seedu.address.logic;
 
-import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -14,7 +13,9 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.CommandSetParser;
 import seedu.address.logic.parser.PropertyBookParser;
+import seedu.address.logic.parser.UnifiedCommandParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -27,14 +28,15 @@ import seedu.address.storage.Storage;
 public class LogicManager implements Logic {
     public static final String FILE_OPS_ERROR_FORMAT = "Could not save data due to the following error: %s";
 
-    public static final String FILE_OPS_PERMISSION_ERROR_FORMAT = "Could not save data to file %s due to insufficient permissions to write to the file or the folder.";
+    public static final String FILE_OPS_PERMISSION_ERROR_FORMAT =
+            "Could not save data to file %s due to insufficient permissions to write to the file"
+                + " or the folder.";
 
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
     private final Model model;
     private final Storage storage;
-    private final AddressBookParser addressBookParser;
-    private final PropertyBookParser propertyBookParser;
+    private final CommandSetParser commandParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and
@@ -43,8 +45,10 @@ public class LogicManager implements Logic {
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        addressBookParser = new AddressBookParser();
-        propertyBookParser = new PropertyBookParser();
+        commandParser = new UnifiedCommandParser(List.of(
+                new AddressBookParser(),
+                new PropertyBookParser()
+        ));
     }
 
     @Override
@@ -52,13 +56,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command addressBookCommand = addressBookParser.parseCommand(commandText);
-        Command propertyBookCommand = propertyBookParser.parseCommand(commandText);
-        if (addressBookCommand == null && propertyBookCommand == null) {
-            logger.finer("This user input caused a ParseException: " + commandText);
-            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
-        }
-        Command command = addressBookCommand != null ? addressBookCommand : propertyBookCommand;
+        Command command = commandParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
         try {

@@ -8,7 +8,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidStatus(String)}
  */
 public class Status {
-    public static final String MESSAGE_CONSTRAINTS = "Invalid status \"VALUE\". Allowed: listed, sold, rented, off-market.";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Invalid status \"VALUE\". Allowed: listed, sold, rented, off-market.";
 
     /*
      * The status must be one of the predefined values: listed, sold, rented, or

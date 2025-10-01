@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -11,11 +12,12 @@ import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.UnknownCommandParseException;
 
 /**
  * Parses user input.
  */
-public class PropertyBookParser {
+public class PropertyBookParser implements CommandSetParser {
 
     /**
      * Used for initial separation of command word and args.
@@ -30,6 +32,7 @@ public class PropertyBookParser {
      * @return the command based on the user input
      * @throws ParseException if the user input does not conform the expected format
      */
+    @Override
     public Command parseCommand(String userInput) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
@@ -40,17 +43,15 @@ public class PropertyBookParser {
         final String arguments = matcher.group("arguments");
 
         // Note to developers: Change the log level in config.json to enable lower level (i.e., FINE, FINER and lower)
-        // log messages such as the one below.
-        // Lower level log messages are used sparingly to minimize noise in the code.
+        // log messages such as the one below. Lower level log messages are used sparingly to minimize noise in the
+        // code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
         switch (commandWord) {
-
         case AddPropertyCommand.COMMAND_WORD:
             return new AddPropertyCommandParser().parse(arguments);
-
         default:
-            return null;
+            throw new UnknownCommandParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
 }

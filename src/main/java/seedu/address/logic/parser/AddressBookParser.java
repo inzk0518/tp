@@ -18,11 +18,12 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.UnknownCommandParseException;
 
 /**
  * Parses user input.
  */
-public class AddressBookParser {
+public class AddressBookParser implements CommandSetParser {
 
     /**
      * Used for initial separation of command word and args.
@@ -37,6 +38,7 @@ public class AddressBookParser {
      * @return the command based on the user input
      * @throws ParseException if the user input does not conform the expected format
      */
+    @Override
     public Command parseCommand(String userInput) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
@@ -47,38 +49,29 @@ public class AddressBookParser {
         final String arguments = matcher.group("arguments");
 
         // Note to developers: Change the log level in config.json to enable lower level (i.e., FINE, FINER and lower)
-        // log messages such as the one below.
-        // Lower level log messages are used sparingly to minimize noise in the code.
+        // log messages such as the one below. Lower level log messages are used sparingly to minimize noise in the
+        // code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
         switch (commandWord) {
-
         case AddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
-
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
-
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
-
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
-
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
-
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
-
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
-
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
-
         default:
-            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+            throw new UnknownCommandParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
 

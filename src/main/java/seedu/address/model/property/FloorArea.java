@@ -9,7 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * {@link #isValidFloorArea(String)}
  */
 public class FloorArea {
-    public static final String MESSAGE_CONSTRAINTS = "Invalid floor-area value. Use an integer between 50 and 100000 (sqft).";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Invalid floor-area value. Use an integer between 50 and 100000 (sqft).";
 
     /*
      * The floor area must be an integer between 50 and 100000 (inclusive).

@@ -50,12 +50,12 @@ public class Owner {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof Listing)) {
+        if (!(other instanceof Owner)) {
             return false;
         }
 
-        Listing otherListing = (Listing) other;
-        return value.equals(otherListing.value);
+        Owner otherOwner = (Owner) other;
+        return value.equals(otherOwner.value);
     }
 
     @Override

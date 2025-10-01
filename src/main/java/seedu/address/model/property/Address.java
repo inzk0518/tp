@@ -10,7 +10,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Invalid address. Provide 5–200 chars with at least one letter and one digit.";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Invalid address. Provide 5-200 chars with at least one letter and one digit.";
 
     /*
      * Address must be 5-200 characters long, contain at least one letter and one

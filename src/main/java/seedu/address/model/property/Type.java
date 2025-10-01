@@ -8,7 +8,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidType(String)}
  */
 public class Type {
-    public static final String MESSAGE_CONSTRAINTS = "Invalid type. Allowed: hdb, condo, landed, apartment, office or others.";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Invalid type. Allowed: hdb, condo, landed, apartment, office or others.";
 
     public static final String VALIDATION_REGEX = "(?i)HDB|Condo|Landed|Apartment|Office|Others";
 
