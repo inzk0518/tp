@@ -1,6 +1,7 @@
 package seedu.address.model.property;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -19,6 +20,15 @@ class PropertyValueObjectsTest {
     }
 
     @Test
+    void address_equals() {
+        Address address = new Address("123 Main St 5");
+        assertTrue(address.equals(new Address("123 Main St 5")));
+        assertTrue(address.equals(address));
+        assertFalse(address.equals(null));
+        assertFalse(address.equals(new Address("456 Market Ave 9")));
+    }
+
+    @Test
     void bathroom_validation() {
         assertThrows(NullPointerException.class, () -> new Bathroom(null));
         assertThrows(IllegalArgumentException.class, () -> new Bathroom("-1"));
@@ -26,6 +36,15 @@ class PropertyValueObjectsTest {
         assertThrows(NullPointerException.class, () -> Bathroom.isValidBathroom(null));
         assertTrue(Bathroom.isValidBathroom("0"));
         assertTrue(Bathroom.isValidBathroom("20"));
+    }
+
+    @Test
+    void bathroom_equals() {
+        Bathroom bathroom = new Bathroom("2");
+        assertTrue(bathroom.equals(new Bathroom("2")));
+        assertTrue(bathroom.equals(bathroom));
+        assertFalse(bathroom.equals(null));
+        assertFalse(bathroom.equals(new Bathroom("1")));
     }
 
     @Test
@@ -39,6 +58,15 @@ class PropertyValueObjectsTest {
     }
 
     @Test
+    void bedroom_equals() {
+        Bedroom bedroom = new Bedroom("3");
+        assertTrue(bedroom.equals(new Bedroom("3")));
+        assertTrue(bedroom.equals(bedroom));
+        assertFalse(bedroom.equals(null));
+        assertFalse(bedroom.equals(new Bedroom("2")));
+    }
+
+    @Test
     void floorArea_validation() {
         assertThrows(NullPointerException.class, () -> new FloorArea(null));
         assertThrows(IllegalArgumentException.class, () -> new FloorArea("49"));
@@ -46,6 +74,15 @@ class PropertyValueObjectsTest {
         assertThrows(NullPointerException.class, () -> FloorArea.isValidFloorArea(null));
         assertTrue(FloorArea.isValidFloorArea("50"));
         assertTrue(FloorArea.isValidFloorArea("100000"));
+    }
+
+    @Test
+    void floorArea_equals() {
+        FloorArea floorArea = new FloorArea("120");
+        assertTrue(floorArea.equals(new FloorArea("120")));
+        assertTrue(floorArea.equals(floorArea));
+        assertFalse(floorArea.equals(null));
+        assertFalse(floorArea.equals(new FloorArea("80")));
     }
 
     @Test
@@ -59,6 +96,16 @@ class PropertyValueObjectsTest {
     }
 
     @Test
+    void listing_equals() {
+        Listing listing = new Listing("sale");
+        assertTrue(listing.equals(new Listing("sale")));
+        assertTrue(listing.equals(new Listing("SALE")));
+        assertTrue(listing.equals(listing));
+        assertFalse(listing.equals(null));
+        assertFalse(listing.equals(new Listing("rent")));
+    }
+
+    @Test
     void postal_validation() {
         assertThrows(NullPointerException.class, () -> new Postal(null));
         assertThrows(IllegalArgumentException.class, () -> new Postal("12345"));
@@ -66,6 +113,15 @@ class PropertyValueObjectsTest {
         assertThrows(IllegalArgumentException.class, () -> new Postal("ABC123"));
         assertThrows(NullPointerException.class, () -> Postal.isValidPostal(null));
         assertTrue(Postal.isValidPostal("123456"));
+    }
+
+    @Test
+    void postal_equals() {
+        Postal postal = new Postal("123456");
+        assertTrue(postal.equals(new Postal("123456")));
+        assertTrue(postal.equals(postal));
+        assertFalse(postal.equals(null));
+        assertFalse(postal.equals(new Postal("654321")));
     }
 
     @Test
@@ -80,6 +136,15 @@ class PropertyValueObjectsTest {
     }
 
     @Test
+    void price_equals() {
+        Price price = new Price("500000");
+        assertTrue(price.equals(new Price("500000")));
+        assertTrue(price.equals(price));
+        assertFalse(price.equals(null));
+        assertFalse(price.equals(new Price("600000")));
+    }
+
+    @Test
     void status_validation() {
         assertThrows(NullPointerException.class, () -> new Status(null));
         assertThrows(IllegalArgumentException.class, () -> new Status("pending"));
@@ -87,6 +152,16 @@ class PropertyValueObjectsTest {
         assertTrue(Status.isValidStatus("listed"));
         assertTrue(Status.isValidStatus("sold"));
         assertEquals("rented", new Status("RENTED").toString());
+    }
+
+    @Test
+    void status_equals() {
+        Status status = new Status("listed");
+        assertTrue(status.equals(new Status("listed")));
+        assertTrue(status.equals(new Status("LISTED")));
+        assertTrue(status.equals(status));
+        assertFalse(status.equals(null));
+        assertFalse(status.equals(new Status("sold")));
     }
 
     @Test
@@ -100,6 +175,15 @@ class PropertyValueObjectsTest {
     }
 
     @Test
+    void type_equals() {
+        Type type = new Type("HDB");
+        assertTrue(type.equals(new Type("hdb")));
+        assertTrue(type.equals(type));
+        assertFalse(type.equals(null));
+        assertFalse(type.equals(new Type("condo")));
+    }
+
+    @Test
     void owner_validation() {
         assertThrows(NullPointerException.class, () -> new Owner(null));
         assertThrows(IllegalArgumentException.class, () -> new Owner(""));
@@ -107,5 +191,14 @@ class PropertyValueObjectsTest {
         assertThrows(NullPointerException.class, () -> Owner.isValidOwner(null));
         assertTrue(Owner.isValidOwner("owner_123"));
         assertEquals("owner123", new Owner(" owner123 ").toString());
+    }
+
+    @Test
+    void owner_equals() {
+        Owner owner = new Owner("owner123");
+        assertTrue(owner.equals(new Owner("owner123")));
+        assertTrue(owner.equals(owner));
+        assertFalse(owner.equals(null));
+        assertFalse(owner.equals(new Owner("owner456")));
     }
 }
