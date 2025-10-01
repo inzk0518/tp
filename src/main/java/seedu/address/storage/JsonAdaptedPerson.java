@@ -36,8 +36,8 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
-    private final Integer budgetMin;
-    private final Integer budgetMax;
+    private final String budgetMin;
+    private final String budgetMax;
     private final String notes;
     private final String status;
 
@@ -51,8 +51,8 @@ class JsonAdaptedPerson {
                              @JsonProperty("email") String email,
                              @JsonProperty("address") String address,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                             @JsonProperty("budgetMin") Integer budgetMin,
-                             @JsonProperty("budgetMax") Integer budgetMax,
+                             @JsonProperty("budgetMin") String budgetMin,
+                             @JsonProperty("budgetMax") String budgetMax,
                              @JsonProperty("notes") String notes,
                              @JsonProperty("status") String status) {
         this.uuid = uuid;

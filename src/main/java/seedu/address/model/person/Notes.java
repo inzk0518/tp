@@ -9,12 +9,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Notes {
 
-    public static final String MESSAGE_CONSTRAINTS = "Notes can take any values, but should not be blank";
+    public static final String MESSAGE_CONSTRAINTS = "Notes can take any values, and can be blank";
 
     /*
-     * The first character of notes must not be a whitespace.
+     * Any string value including empty string
      */
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    public static final String VALIDATION_REGEX = ".*";
 
     public final String value;
 

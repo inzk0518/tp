@@ -65,10 +65,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        BudgetMin budgetMin = ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).get());
-        BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).get());
-        Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).get());
-        Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).get());
+        BudgetMin budgetMin = ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).orElse(null));
+        BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
+        Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
+        Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
 
         Person person = new Person(Uuid.createNew(), name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status);

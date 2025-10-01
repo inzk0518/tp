@@ -10,12 +10,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Status {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Status should be one of the following: 'Active' or 'Inactive'";
+            "Status should be one of the following: 'Active' or 'Inactive' or ''";
 
     /*
-     * Only allows specific values.
+     * Only allows specific values, Active, Inactive, and empty string
      */
-    public static final String VALIDATION_REGEX = "Active|Inactive";
+    public static final String VALIDATION_REGEX = "Active|Inactive| |";
 
     public final String value;
 

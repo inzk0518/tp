@@ -5,20 +5,21 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's minimum budget in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidBudgetMin(int)}.
+ * Guarantees: immutable; is valid as declared in {@link #isValidBudgetMin(String)}.
  */
 public class BudgetMin {
 
     public static final String MESSAGE_CONSTRAINTS = "BudgetMin should be a non-negative integer";
+    public static final String VALIDATION_REGEX = "^\\d+$"; // zero or more
 
-    public final int value;
+    public final String value;
 
     /**
      * Constructs a {@code BudgetMin}.
      *
      * @param budgetMin A valid minimum budget.
      */
-    public BudgetMin(int budgetMin) {
+    public BudgetMin(String budgetMin) {
         requireNonNull(budgetMin);
         checkArgument(isValidBudgetMin(budgetMin), MESSAGE_CONSTRAINTS);
         value = budgetMin;
@@ -27,8 +28,8 @@ public class BudgetMin {
     /**
      * Returns true if a given integer is a valid minimum budget.
      */
-    public static boolean isValidBudgetMin(int test) {
-        return test >= 0;
+    public static boolean isValidBudgetMin(String test) {
+        return test != null && test.matches(VALIDATION_REGEX);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class BudgetMin {
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(value);
+        return value.hashCode();
     }
 }

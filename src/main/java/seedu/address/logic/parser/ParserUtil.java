@@ -132,14 +132,16 @@ public class ParserUtil {
      * @throws ParseException if the given {@code budgetMin} is not a valid integer or violates constraints.
      */
     public static BudgetMin parseBudgetMin(String budgetMin) throws ParseException {
-        requireNonNull(budgetMin);
-        String trimmed = budgetMin.trim();
-        try {
-            int value = Integer.parseInt(trimmed);
-            return new BudgetMin(value);
-        } catch (NumberFormatException e) {
+        if (budgetMin == null) { //TODO abstract out null check?
+            return new BudgetMin("0");
+        }
+
+        String trimmedBudgetMin = budgetMin.trim();
+
+        if (!BudgetMin.isValidBudgetMin(trimmedBudgetMin)) {
             throw new ParseException(BudgetMin.MESSAGE_CONSTRAINTS);
         }
+        return new BudgetMin(trimmedBudgetMin);
     }
 
     /**
@@ -149,14 +151,16 @@ public class ParserUtil {
      * @throws ParseException if the given {@code budgetMax} is not a valid integer or violates constraints.
      */
     public static BudgetMax parseBudgetMax(String budgetMax) throws ParseException {
-        requireNonNull(budgetMax);
-        String trimmed = budgetMax.trim();
-        try {
-            int value = Integer.parseInt(trimmed);
-            return new BudgetMax(value);
-        } catch (NumberFormatException e) {
+        if (budgetMax == null) { //TODO abstract out null check?
+            return new BudgetMax(String.valueOf(Integer.MAX_VALUE));
+        }
+
+        String trimmedBudgetMax = budgetMax.trim();
+
+        if (!BudgetMax.isValidBudgetMax(trimmedBudgetMax)) {
             throw new ParseException(BudgetMax.MESSAGE_CONSTRAINTS);
         }
+        return new BudgetMax(trimmedBudgetMax);
     }
 
     /**
@@ -166,7 +170,9 @@ public class ParserUtil {
      * @throws ParseException if the given {@code notes} is invalid (e.g., null).
      */
     public static Notes parseNotes(String notes) throws ParseException {
-        requireNonNull(notes);
+        if (notes == null) { //TODO abstract out null check?
+            return new Notes("");
+        }
         String trimmedNotes = notes.trim();
         return new Notes(trimmedNotes); //TODO add exception?
     }
@@ -178,7 +184,9 @@ public class ParserUtil {
      * @throws ParseException if the given {@code status} is invalid (fails {@link Status#isValidStatus}).
      */
     public static Status parseStatus(String status) throws ParseException {
-        requireNonNull(status);
+        if (status == null) { //TODO abstract out null check?
+            return new Status("");
+        }
         String trimmedStatus = status.trim();
         if (!Status.isValidStatus(trimmedStatus)) {
             throw new ParseException(Status.MESSAGE_CONSTRAINTS);
