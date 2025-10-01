@@ -17,7 +17,7 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
-    private final int uuid;
+    private final Uuid uuid;
     private final Name name;
     private final Phone phone;
     private final Email email;
@@ -25,22 +25,54 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-
+    private final BudgetMin budgetMin;
+    private final BudgetMax budgetMax;
+    private final Notes notes;
+    private final Status status;
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(Uuid uuid,
+                  Name name,
+                  Phone phone,
+                  Email email,
+                  Address address,
+                  Set<Tag> tags,
+                  BudgetMin budgetMin,
+                  BudgetMax budgetMax,
+                  Notes notes,
+                  Status status) {
         requireAllNonNull(name, phone, email, address, tags);
-        this.uuid = UUIDManager.generateUUID();
+        this.uuid = uuid;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.budgetMin = budgetMin;
+        this.budgetMax = budgetMax;
+        this.notes = notes;
+        this.status = status;
     }
 
-    public int getUUID() {
+    public Uuid getUuid() {
         return uuid;
+    }
+
+    public BudgetMin getBudgetMin() {
+        return budgetMin;
+    }
+
+    public BudgetMax getBudgetMax() {
+        return budgetMax;
+    }
+
+    public Notes getNotes() {
+        return notes;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public Name getName() {
@@ -101,23 +133,34 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && uuid.equals(otherPerson.uuid)
+                && budgetMin.equals(otherPerson.budgetMin)
+                && budgetMax.equals(otherPerson.budgetMax)
+                && notes.equals(otherPerson.notes)
+                && status.equals(otherPerson.status);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(uuid, name, phone, email, address, tags,
+                            budgetMin, budgetMax, notes, status);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("uuid", uuid)
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("budgetMin", budgetMin)
+                .add("budgetMax", budgetMax)
+                .add("notes", notes)
+                .add("status", status)
                 .toString();
     }
 
