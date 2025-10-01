@@ -15,7 +15,7 @@ public class Status {
     /*
      * Only allows specific values, Active, Inactive, and empty string
      */
-    public static final String VALIDATION_REGEX = "Active|Inactive| |";
+    public static final String VALIDATION_REGEX = "(?i)Active|Inactive| |";
 
     public final String value;
 
