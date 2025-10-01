@@ -25,7 +25,6 @@ import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Status;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -70,7 +69,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
         Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
 
-        Person person = new Person(Uuid.createNew(), name, phone, email, address, tagList,
+        // use null for UUID first, UUID will be made in AddCommand
+        Person person = new Person(null, name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status);
 
         return new AddCommand(person);

@@ -25,13 +25,6 @@ public class Uuid {
     }
 
     /**
-     * Factory method to create a new Uuid using {@link UuidManager}.
-     */
-    public static Uuid createNew() {
-        return new Uuid(UuidManager.generateUuid());
-    }
-
-    /**
      * Returns true if a given integer is a valid UUID.
      */
     public static boolean isValidUuid(int test) {
