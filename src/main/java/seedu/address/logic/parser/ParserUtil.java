@@ -10,9 +10,13 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.BudgetMax;
+import seedu.address.model.person.BudgetMin;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Notes;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Status;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -120,5 +124,65 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+    /**
+     * Parses a {@code String budgetMin} into a {@code BudgetMin}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code budgetMin} is not a valid integer or violates constraints.
+     */
+    public static BudgetMin parseBudgetMin(String budgetMin) throws ParseException {
+        requireNonNull(budgetMin);
+        String trimmed = budgetMin.trim();
+        try {
+            int value = Integer.parseInt(trimmed);
+            return new BudgetMin(value);
+        } catch (NumberFormatException e) {
+            throw new ParseException(BudgetMin.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Parses a {@code String budgetMax} into a {@code BudgetMax}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code budgetMax} is not a valid integer or violates constraints.
+     */
+    public static BudgetMax parseBudgetMax(String budgetMax) throws ParseException {
+        requireNonNull(budgetMax);
+        String trimmed = budgetMax.trim();
+        try {
+            int value = Integer.parseInt(trimmed);
+            return new BudgetMax(value);
+        } catch (NumberFormatException e) {
+            throw new ParseException(BudgetMax.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Parses a {@code String notes} into a {@code Notes}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code notes} is invalid (e.g., null).
+     */
+    public static Notes parseNotes(String notes) throws ParseException {
+        requireNonNull(notes);
+        String trimmedNotes = notes.trim();
+        return new Notes(trimmedNotes); //TODO add exception?
+    }
+
+    /**
+     * Parses a {@code String status} into a {@code Status}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code status} is invalid (fails {@link Status#isValidStatus}).
+     */
+    public static Status parseStatus(String status) throws ParseException {
+        requireNonNull(status);
+        String trimmedStatus = status.trim();
+        if (!Status.isValidStatus(trimmedStatus)) {
+            throw new ParseException(Status.MESSAGE_CONSTRAINTS);
+        }
+        return new Status(trimmedStatus);
     }
 }
