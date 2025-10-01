@@ -14,8 +14,10 @@ public class Address {
     /*
      * The first character of the address must not be a whitespace,
      * also "" (a blank string) is a valid input.
+     * Maximum 200 characters
      */
-    public static final String VALIDATION_REGEX = "^$|[^\\\\s].*";
+    public static final String VALIDATION_REGEX = "^$|[^\\s].{0,199}$";
+
 
     public final String value;
 

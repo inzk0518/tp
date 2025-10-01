@@ -12,9 +12,10 @@ public class Notes {
     public static final String MESSAGE_CONSTRAINTS = "Notes can take any values, and can be blank";
 
     /*
-     * Any string value including empty string
+     * Any string value including empty string,
+     * maximum length of 500 characters
      */
-    public static final String VALIDATION_REGEX = ".*";
+    public static final String VALIDATION_REGEX = "^.{0,500}$";
 
     public final String value;
 

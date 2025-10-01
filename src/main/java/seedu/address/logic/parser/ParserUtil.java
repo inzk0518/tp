@@ -157,7 +157,7 @@ public class ParserUtil {
      */
     public static BudgetMax parseBudgetMax(String budgetMax) throws ParseException {
         if (budgetMax == null) { //TODO abstract out null check?
-            return new BudgetMax(String.valueOf(Integer.MAX_VALUE));
+            return new BudgetMax(String.valueOf(200_000_000_000L));
         }
 
         String trimmedBudgetMax = budgetMax.trim();
