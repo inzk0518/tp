@@ -3,7 +3,6 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.animation.Animation;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.BudgetMax;
 import seedu.address.model.person.BudgetMin;
