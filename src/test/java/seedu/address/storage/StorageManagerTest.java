@@ -12,8 +12,21 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.AddressBook;
+import seedu.address.model.PropertyBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.property.Address;
+import seedu.address.model.property.Bathroom;
+import seedu.address.model.property.Bedroom;
+import seedu.address.model.property.FloorArea;
+import seedu.address.model.property.Listing;
+import seedu.address.model.property.Owner;
+import seedu.address.model.property.Postal;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.Property;
+import seedu.address.model.property.Status;
+import seedu.address.model.property.Type;
 
 public class StorageManagerTest {
 
@@ -64,6 +77,30 @@ public class StorageManagerTest {
     @Test
     public void getAddressBookFilePath() {
         assertNotNull(storageManager.getAddressBookFilePath());
+    }
+
+    @Test
+    public void propertyBookReadSave() throws Exception {
+        /*
+         * Note: This integration test verifies the StorageManager is wired to {@link JsonPropertyBookStorage}.
+         * More extensive persistence checks live in {@link JsonPropertyBookStorageTest} (when available).
+         */
+        PropertyBook original = new PropertyBook();
+        original.addProperty(buildAlphaProperty());
+        storageManager.savePropertyBook(original);
+        ReadOnlyPropertyBook retrieved = storageManager.readPropertyBook().get();
+        assertEquals(original, new PropertyBook(retrieved));
+    }
+
+    @Test
+    public void getPropertyBookFilePath() {
+        assertNotNull(storageManager.getPropertyBookFilePath());
+    }
+
+    private Property buildAlphaProperty() {
+        return new Property(new Address("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
+                new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
+                new Status("listed"), new Type("HDB"), new Owner("owner123"));
     }
 
 }
