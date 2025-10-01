@@ -282,19 +282,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                         | delete contacts                                  | remove contacts that I no longer need                                    |
 | `* * *`  | user                         | delete properties                                | remove properties that I no longer need                                  |
 | `* * *`  | user                         | filter my contacts by their details              | find and prioritise clients easily                                       |
-| `* * *`  | user                         | filter properties by criteria                    | find my properties for my clients easily and better match client's needs |
+| `* * *`  | user                         | filter my properties by criteria                    | find my properties for my clients easily and better match client's needs |
 | `* * *`  | user                         | track client associations to properties          | easily cross-reference clients                                           |
 | `* * *`  | user                         | track when properties are sold                   | filter them from searches                                                |
+| `* * *`  | detail-oriented user         | view a client’s full profile details             | prepare before meeting or calling them                                   |
 | `* *`    | user                         | edit stored information                          | avoid manually deleting and adding data back when something changes      |
 | `* *`    | collaborating user           | import Excel contact lists into the system       | avoid adding contacts one by one                                         |
 | `* *`    | user                         | record the dates of client property visits       | maintain a clear history of interactions                                 |
 | `* *`    | collaborating user           | export data of contacts                          | pass the information to associated contacts                              |
 | `* *`    | user                         | draft messages based on client profiles          | provide updates quickly and professionally                               |
 | `* *`    | user                         | mark clients as “active” or “inactive”           |                                                                          |
-| `* *`    | detail-oriented user         | view a client’s full profile                     | prepare before meeting or calling them                                   |
 | `* *`    | user                         | store signed contracts                           | quickly retrieve them if disputes or clarifications arise                |
 | `* *`    | user                         | generate reports                                 | analyze performance and opportunities                                    |
-| `* *`    | user                         | tag clients with labels                          | organize them better                                                     |
+| `* *`    | user                         | tag clients with labels                          | organise them better                                                     |
 | `* *`    | user                         | track commission earned from each deal           | measure my performance                                                   |
 | `* *`    | user                         | have a recent contact list                       |                                                                          |
 | `*`      | user dealing with complaints | see the whole interaction history                | understand the context fully and manage the situation well               |
