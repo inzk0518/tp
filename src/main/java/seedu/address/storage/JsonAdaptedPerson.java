@@ -139,12 +139,22 @@ class JsonAdaptedPerson {
         if (budgetMin == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "BudgetMin"));
         }
-        final BudgetMin modelBudgetMin = new BudgetMin(budgetMin);
+        BudgetMin modelBudgetMin;
+        try {
+            modelBudgetMin = new BudgetMin(budgetMin);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(BudgetMin.MESSAGE_CONSTRAINTS);
+        }
 
         if (budgetMax == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "BudgetMax"));
         }
-        final BudgetMax modelBudgetMax = new BudgetMax(budgetMax);
+        BudgetMax modelBudgetMax;
+        try {
+            modelBudgetMax = new BudgetMax(budgetMax);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(BudgetMax.MESSAGE_CONSTRAINTS);
+        }
 
         if (notes == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Notes"));
