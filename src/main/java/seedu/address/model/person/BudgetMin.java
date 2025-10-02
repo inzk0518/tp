@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class BudgetMin {
 
-    public static final String MESSAGE_CONSTRAINTS = "BudgetMin should be a non-negative integer";
+    public static final String MESSAGE_CONSTRAINTS = "BudgetMin should be a non-negative integer.";
     public static final String VALIDATION_REGEX = "^\\d+$"; // zero or more
 
     public final String value;

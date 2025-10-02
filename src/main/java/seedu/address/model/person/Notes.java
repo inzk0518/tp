@@ -9,7 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Notes {
 
-    public static final String MESSAGE_CONSTRAINTS = "Notes can take any values, and can be blank";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Notes can take any values, and can be blank. Maximum length of 500 characters.";
 
     /*
      * Any string value including empty string,

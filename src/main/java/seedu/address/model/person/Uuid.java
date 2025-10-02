@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Uuid {
 
-    public static final String MESSAGE_CONSTRAINTS = "UUID should be a positive integer";
+    public static final String MESSAGE_CONSTRAINTS = "UUID should be a positive integer.";
 
     public final int value;
 
