@@ -653,7 +653,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1. **Business Constraints**
    * Must accommodate typical real estate agency workflows
 
-=======
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
