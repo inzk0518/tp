@@ -23,7 +23,7 @@ public class Person {
     private final Email email;
 
     // Data fields
-    private final Address address;
+    private final PersonAddress address;
     private final Set<Tag> tags = new HashSet<>();
     private final BudgetMin budgetMin;
     private final BudgetMax budgetMax;
@@ -36,7 +36,7 @@ public class Person {
                   Name name,
                   Phone phone,
                   Email email,
-                  Address address,
+                  PersonAddress address,
                   Set<Tag> tags,
                   BudgetMin budgetMin,
                   BudgetMax budgetMax,
@@ -87,7 +87,7 @@ public class Person {
         return email;
     }
 
-    public Address getAddress() {
+    public PersonAddress getAddress() {
         return address;
     }
 

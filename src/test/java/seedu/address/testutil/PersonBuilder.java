@@ -3,13 +3,13 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.person.Address;
 import seedu.address.model.person.BudgetMax;
 import seedu.address.model.person.BudgetMin;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Status;
 import seedu.address.model.person.Uuid;
@@ -34,7 +34,7 @@ public class PersonBuilder {
     private Name name;
     private Phone phone;
     private Email email;
-    private Address address;
+    private PersonAddress address;
     private Set<Tag> tags;
     private BudgetMin budgetMin;
     private BudgetMax budgetMax;
@@ -50,7 +50,7 @@ public class PersonBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
+        address = new PersonAddress(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         budgetMin = new BudgetMin(DEFAULT_BUDGET_MIN);
         budgetMax = new BudgetMax(DEFAULT_BUDGET_MAX);
@@ -101,7 +101,7 @@ public class PersonBuilder {
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
     public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
+        this.address = new PersonAddress(address);
         return this;
     }
 

@@ -25,13 +25,13 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.BudgetMax;
 import seedu.address.model.person.BudgetMin;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Status;
 import seedu.address.model.tag.Tag;
@@ -110,7 +110,7 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+        PersonAddress updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         BudgetMin updatedBudgetMin = editPersonDescriptor.getBudgetMin().orElse(personToEdit.getBudgetMin());
         BudgetMax updatedBudgetMax = editPersonDescriptor.getBudgetMax().orElse(personToEdit.getBudgetMax());
         Notes updatedNotes = editPersonDescriptor.getNotes().orElse(personToEdit.getNotes());
@@ -153,7 +153,7 @@ public class EditCommand extends Command {
         private Name name;
         private Phone phone;
         private Email email;
-        private Address address;
+        private PersonAddress address;
         private BudgetMin budgetMin;
         private BudgetMax budgetMax;
         private Notes notes;
@@ -209,11 +209,11 @@ public class EditCommand extends Command {
             return Optional.ofNullable(email);
         }
 
-        public void setAddress(Address address) {
+        public void setAddress(PersonAddress address) {
             this.address = address;
         }
 
-        public Optional<Address> getAddress() {
+        public Optional<PersonAddress> getAddress() {
             return Optional.ofNullable(address);
         }
 
