@@ -42,7 +42,7 @@ public class Person {
                   BudgetMax budgetMax,
                   Notes notes,
                   Status status) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone);
         this.uuid = uuid;
         this.name = name;
         this.phone = phone;
@@ -101,7 +101,6 @@ public class Person {
 
     /**
      * Returns true if both persons have the same name & same phone number.
-     * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
@@ -114,11 +113,10 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two persons.
+     * Returns true if both persons have the same name & same phone number.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other) { //TODO merge equals with isSamePerson?
         if (other == this) {
             return true;
         }
@@ -129,16 +127,9 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags)
-                && uuid.equals(otherPerson.uuid)
-                && budgetMin.equals(otherPerson.budgetMin)
-                && budgetMax.equals(otherPerson.budgetMax)
-                && notes.equals(otherPerson.notes)
-                && status.equals(otherPerson.status);
+        return Objects.equals(name, otherPerson.name)
+                && Objects.equals(phone, otherPerson.phone);
+
     }
 
     @Override

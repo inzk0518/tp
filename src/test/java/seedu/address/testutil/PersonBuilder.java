@@ -21,6 +21,7 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class PersonBuilder {
 
+    public static final Integer DEFAULT_UUID = 1;
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
@@ -39,11 +40,13 @@ public class PersonBuilder {
     private BudgetMax budgetMax;
     private Notes notes;
     private Status status;
+    private Uuid uuid;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
+        uuid = new Uuid(DEFAULT_UUID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -68,6 +71,14 @@ public class PersonBuilder {
         budgetMax = personToCopy.getBudgetMax();
         notes = personToCopy.getNotes();
         status = personToCopy.getStatus();
+    }
+
+    /**
+     * Sets the {@code uuid} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withUuid(int uuid) {
+        this.uuid = new Uuid(uuid);
+        return this;
     }
 
     /**
