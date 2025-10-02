@@ -43,9 +43,4 @@ public class BudgetMin {
                 || (other instanceof BudgetMin
                 && value == ((BudgetMin) other).value);
     }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
 }

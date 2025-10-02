@@ -43,9 +43,4 @@ public class BudgetMax {
                 || (other instanceof BudgetMax
                 && value == ((BudgetMax) other).value);
     }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
 }

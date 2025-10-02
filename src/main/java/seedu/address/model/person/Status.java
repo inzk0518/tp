@@ -48,9 +48,4 @@ public class Status {
                 || (other instanceof Status
                 && value.equals(((Status) other).value));
     }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
 }
