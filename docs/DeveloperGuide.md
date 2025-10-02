@@ -653,9 +653,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1. **Business Constraints**
    * Must accommodate typical real estate agency workflows
 
+=======
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
+
+### Glossary
+
+* **Mainstream OS**: Windows, Linux, Unix, MacOS
+* **Client**: A person (e.g. buyer, seller) managed by the real estate agent in the system
+* **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
+* **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
+* **Client ID**: A unique identifier assigned to clients for precise identification 
+* **Property ID**: A unique identifier assigned to properties for precise identification
+* **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
+* **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
+* **Listing**: Whether a property is available for sale or rent
+* **Budget Range**: The minimum and maximum price range a buyer is willing to spend
+* **Type**: Category of property such as HDB, condo or landed
+* **Floor Area**: The size of a property measured in square feet
 
 --------------------------------------------------------------------------------------------------------------------
 
