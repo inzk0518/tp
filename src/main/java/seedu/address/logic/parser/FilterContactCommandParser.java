@@ -15,6 +15,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,13 +55,28 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, VALID_PREFIXES.toArray(new Prefix[0]));
 
-        // Check for unrecognized prefixes  TODO doesn't work currently
+        // if there is extra words before the first prefix or wrong prefix is the first
+        // example: filtercontact abc n/bob
+        //          filtercontact abc
+        //          filtercontact abc/
+        String preamble = argMultimap.getPreamble();
+        if (!preamble.isEmpty()) {
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+        }
+
+        // Check inside all values for invalid prefixes
+        // for invalid prefixes -> filtercontact n/brian abc/
+        // the argMultimap will have key = "n/" and value = "brian abc/"
         for (Prefix prefix : argMultimap.getAllPrefixes()) {
-            if (!VALID_PREFIXES.contains(prefix) && !prefix.getPrefix().isEmpty()) {
-                throw new ParseException(String.format(
-                        MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+            for (String value : argMultimap.getAllValues(prefix)) {
+                if (looksLikePrefix(value)) {
+                    throw new ParseException(String.format(
+                            MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+                }
             }
         }
+
         FilterContactPredicate predicate = new FilterContactPredicate(
                 getKeywords(argMultimap.getValue(PREFIX_NAME)),
                 getKeywords(argMultimap.getValue(PREFIX_PHONE)),
@@ -72,8 +88,18 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
                 getKeywords(argMultimap.getValue(PREFIX_NOTES)),
                 getKeywords(argMultimap.getValue(PREFIX_STATUS))
         );
-            return new FilterContactCommand(predicate);
+
+        return new FilterContactCommand(predicate);
     }
+
+    /**
+     * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
+     */
+    private boolean looksLikePrefix(String s) {
+        s = s.trim();
+        return s.contains("/"); // naive checking TODO: could result in error if notes has /
+    }
+
 
     /**
      * Splits a value string into a list of keywords if present.
@@ -81,7 +107,7 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
      * @param value The optional string value.
      * @return An {@link Optional} containing a list of trimmed keywords, or empty if not present.
      */
-    private Optional<java.util.List<String>> getKeywords(Optional<String> value) {
+    private Optional<List<String>> getKeywords(Optional<String> value) {
         return value
                 .map(String::trim)
                 .filter(v -> !v.isEmpty())
