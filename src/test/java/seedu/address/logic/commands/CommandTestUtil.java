@@ -12,11 +12,13 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.person.FilterContactPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
@@ -118,8 +120,15 @@ public class CommandTestUtil {
 
         Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
         final String[] splitName = person.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
+        // Create a FilterContactPredicate that filters by name keyword
+        FilterContactPredicate predicate = new FilterContactPredicate(
+                Optional.of(Arrays.asList(splitName[0])), // name keywords
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty()
+        );
+        model.updateFilteredPersonList(predicate);
         assertEquals(1, model.getFilteredPersonList().size());
     }
 
