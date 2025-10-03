@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.person.FilterContactPredicate;
@@ -76,5 +77,12 @@ public class FilterContactCommand extends Command {
 
         FilterContactCommand otherFilterContactCommand = (FilterContactCommand) other;
         return predicate.equals(otherFilterContactCommand.predicate);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("predicate", predicate)
+                .toString();
     }
 }

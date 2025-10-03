@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.StringUtil;
+import seedu.address.commons.util.ToStringBuilder;
 
 /**
  * Tests whether a {@code Person} matches the filtering criteria given.
@@ -104,5 +105,29 @@ public class FilterContactPredicate implements Predicate<Person> {
                 && budgetMax.equals(((FilterContactPredicate) other).budgetMax)
                 && notes.equals(((FilterContactPredicate) other).notes)
                 && status.equals(((FilterContactPredicate) other).status));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(FilterContactPredicate.class.getSimpleName()).append(" {");
+
+        names.ifPresent(n -> sb.append("names=").append(n).append(", "));
+        phones.ifPresent(p -> sb.append("phones=").append(p).append(", "));
+        emails.ifPresent(e -> sb.append("emails=").append(e).append(", "));
+        addresses.ifPresent(a -> sb.append("addresses=").append(a).append(", "));
+        tags.ifPresent(t -> sb.append("tags=").append(t).append(", "));
+        budgetMin.ifPresent(min -> sb.append("budgetMin=").append(min).append(", "));
+        budgetMax.ifPresent(max -> sb.append("budgetMax=").append(max).append(", "));
+        notes.ifPresent(n -> sb.append("notes=").append(n).append(", "));
+        status.ifPresent(s -> sb.append("status=").append(s).append(", "));
+
+        // Remove trailing comma and space if present
+        if (sb.lastIndexOf(", ") == sb.length() - 2) {
+            sb.delete(sb.length() - 2, sb.length());
+        }
+
+        sb.append("}");
+        return sb.toString();
     }
 }
