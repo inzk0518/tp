@@ -23,6 +23,7 @@ class JsonAdaptedProperty {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Property's %s field is missing!";
 
+    private final String id;
     private final String address;
     private final String bathroom;
     private final String bedroom;
@@ -38,11 +39,13 @@ class JsonAdaptedProperty {
      * Constructs a {@code JsonAdaptedProperty} with the given property details.
      */
     @JsonCreator
-    public JsonAdaptedProperty(@JsonProperty("address") String address, @JsonProperty("bathroom") String bathroom,
-            @JsonProperty("bedroom") String bedroom, @JsonProperty("floorArea") String floorArea,
-            @JsonProperty("listing") String listing, @JsonProperty("postal") String postal,
-            @JsonProperty("price") String price, @JsonProperty("status") String status,
-            @JsonProperty("type") String type, @JsonProperty("owner") String owner) {
+    public JsonAdaptedProperty(@JsonProperty("id") String id, @JsonProperty("address") String address,
+            @JsonProperty("bathroom") String bathroom, @JsonProperty("bedroom") String bedroom,
+            @JsonProperty("floorArea") String floorArea, @JsonProperty("listing") String listing,
+            @JsonProperty("postal") String postal, @JsonProperty("price") String price,
+            @JsonProperty("status") String status, @JsonProperty("type") String type,
+            @JsonProperty("owner") String owner) {
+        this.id = id;
         this.address = address;
         this.bathroom = bathroom;
         this.bedroom = bedroom;
@@ -59,6 +62,7 @@ class JsonAdaptedProperty {
      * Converts a given {@code Property} into this class for Jackson use.
      */
     public JsonAdaptedProperty(Property source) {
+        id = source.getId();
         address = source.getPropertyAddress().value;
         bathroom = source.getBathroom().value;
         bedroom = source.getBedroom().value;
@@ -79,6 +83,11 @@ class JsonAdaptedProperty {
      *                               the adapted person.
      */
     public Property toModelType() throws IllegalValueException {
+        if (id == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Property.class.getSimpleName()));
+        }
+        // No validation for id as it is generated using UUID
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     PropertyAddress.class.getSimpleName()));

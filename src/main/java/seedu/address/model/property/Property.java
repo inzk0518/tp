@@ -44,7 +44,7 @@ public class Property {
         this.status = status;
         this.type = type;
         this.owner = owner;
-        this.id = java.util.UUID.randomUUID().toString();
+        this.id = java.util.UUID.randomUUID().toString().substring(0, 6);
     }
 
     // Getter methods
