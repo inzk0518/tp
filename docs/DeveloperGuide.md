@@ -262,58 +262,349 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* real estate agents
+* has to manage a lot of clients with different informations
+* has to manage large property list
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: manage clients faster than a typical mouse/GUI driven app
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
-
-*{More to be added}*
+| Priority | As a…                        | I want to…                                       | So that I can…                                                           |
+| -------- | ---------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------ |
+| `* * *`  | user                         | add contacts                                     | keep track of my clients                                                 |
+| `* * *`  | user                         | store properties                                 | keep track of my advertising properties                                  |
+| `* * *`  | user                         | delete contacts                                  | remove contacts that I no longer need                                    |
+| `* * *`  | user                         | delete properties                                | remove properties that I no longer need                                  |
+| `* * *`  | user                         | filter my contacts by their details              | find and prioritise clients easily                                       |
+| `* * *`  | user                         | filter my properties by criteria                    | find my properties for my clients easily and better match client's needs |
+| `* * *`  | user                         | track client associations to properties          | easily cross-reference clients                                           |
+| `* * *`  | user                         | track when properties are sold                   | filter them from searches                                                |
+| `* * *`  | detail-oriented user         | view a client’s full profile details             | prepare before meeting or calling them                                   |
+| `* *`    | user                         | edit stored information                          | avoid manually deleting and adding data back when something changes      |
+| `* *`    | collaborating user           | import Excel contact lists into the system       | avoid adding contacts one by one                                         |
+| `* *`    | user                         | record the dates of client property visits       | maintain a clear history of interactions                                 |
+| `* *`    | collaborating user           | export data of contacts                          | pass the information to associated contacts                              |
+| `* *`    | user                         | draft messages based on client profiles          | provide updates quickly and professionally                               |
+| `* *`    | user                         | mark clients as “active” or “inactive”           |                                                                          |
+| `* *`    | user                         | store signed contracts                           | quickly retrieve them if disputes or clarifications arise                |
+| `* *`    | user                         | generate reports                                 | analyze performance and opportunities                                    |
+| `* *`    | user                         | tag clients with labels                          | organise them better                                                     |
+| `* *`    | user                         | track commission earned from each deal           | measure my performance                                                   |
+| `* *`    | user                         | have a recent contact list                       |                                                                          |
+| `*`      | user dealing with complaints | see the whole interaction history                | understand the context fully and manage the situation well               |
+| `*`      | forgetful user               | set automatic reminders for contract expirations | avoid missing key dates                                                  |
+| `*`      | user                         | mark and track the negotiation stage of a deal   | see deal progress                                                        |
+| `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
+| `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+#### Use case: Add contact
 
-**MSS**
+**Main Success Scenario:**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User chooses to add a new contact
+2.  System requests contact details (name, phone number, email, etc.)
+3.  User enters the required information
+4.  System stores the required information
+5.  System displays a success message
 
-    Use case ends.
+    Use case ends
 
 **Extensions**
 
-* 2a. The list is empty.
+* 3a. System detects missing, incorrect or duplicate information
 
-  Use case ends.
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
 
-* 3a. The given index is invalid.
+      Steps 3a1 - 3a2 are repeated until all data are valid
 
-    * 3a1. AddressBook shows an error message.
+      Use case resumes at step 4
 
-      Use case resumes at step 2.
 
-*{More to be added}*
+#### Use case: Delete contact
+
+**Main Success Scenario:**
+
+1.  User chooses to delete a contact
+2.  System requests for which contact to delete
+3.  User enters the contact to be deleted
+4.  System removes the contact from the storage
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Filter contact
+
+**Main Success Scenario:**
+
+1.  User chooses to filter contacts by contact details
+2.  System requests contact details (name, phone number, email, etc.)
+3.  User enters the required information
+4.  System retrieves information and displays the contacts
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+
+* 4a. System finds no contacts matching the properties
+    * 4a1. System displays "No contacts found" message
+
+      Use case ends
+
+#### Use case: Add property
+
+**Main Success Scenario:**
+
+1.  User chooses to add a new property
+2.  System requests property details (address, no. of bedrooms, etc.)
+3.  User enters the required information
+4.  System stores the required information
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Delete property
+
+**Main Success Scenario:**
+
+1.  User chooses to delete a property
+2.  System requests for which property to delete
+3.  User enters the property to be deleted
+4.  System removes the property from the storage
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Filter property
+
+**Main Success Scenario:**
+
+1.  User chooses to filter properties by property details
+2.  System requests property details (address, no. of bedrooms, etc.)
+3.  User enters the required information
+4.  System retrieves information and displays the properties
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+
+* 4a. System finds no properties matching the properties
+    * 4a1. System displays "No properties found" message
+
+      Use case ends
+
+#### Use case: Associate property to client
+
+**Main Success Scenario:**
+
+1.  User chooses to associate property to client
+2.  System requests property details and client details
+3.  User enters the required information
+4.  System stores the required information
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Unassociate property client
+
+**Main Success Scenario:**
+
+1.  User chooses to unassociate property to client
+2.  System requests property details and client details
+3.  User enters the required information
+4.  System stores the required information
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Mark property as sold
+
+**Main Success Scenario:**
+
+1.  User chooses to mark property as sold
+2.  System requests property details
+3.  User enters the required information
+4.  System stores the required information
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Mark property as unsold
+
+**Main Success Scenario:**
+
+1.  User chooses to mark property as unsold
+2.  System requests property details
+3.  User enters the required information
+4.  System stores the required information
+5.  System displays a success message
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+#### Use case: Find clients associated to property
+
+**Main Success Scenario:**
+
+1.  User chooses to find clients associated to a specific property
+2.  System requests property details
+3.  User enters the required information
+4.  System retrieves information and displays the clients
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+
+* 4a. System finds no clients associated to the property
+    * 4a1. System displays "No clients found" message
+
+      Use case ends
+
+#### Use case: Find properties associated to client
+
+**Main Success Scenario:**
+
+1.  User chooses to find properties associated to a specific client
+2.  System requests client details
+3.  User enters the required information
+4.  System retrieves information and displays the properties
+
+    Use case ends
+
+**Extensions**
+
+* 3a. System detects missing, incorrect or duplicate information
+
+    * 3a1. System displays an error message and requests new inputs
+    * 3a2. User enters information again
+
+      Steps 3a1 - 3a2 are repeated until all data are valid
+
+      Use case resumes at step 4
+
+
+* 4a. System finds no properties associated to the client
+    * 4a1. System displays "No properties found" message
+
+      Use case ends
 
 ### Non-Functional Requirements
 
@@ -365,6 +656,21 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
+
+### Glossary
+
+* **Mainstream OS**: Windows, Linux, Unix, MacOS
+* **Client**: A person (e.g. buyer, seller) managed by the real estate agent in the system
+* **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
+* **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
+* **Client ID**: A unique identifier assigned to clients for precise identification 
+* **Property ID**: A unique identifier assigned to properties for precise identification
+* **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
+* **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
+* **Listing**: Whether a property is available for sale or rent
+* **Budget Range**: The minimum and maximum price range a buyer is willing to spend
+* **Type**: Category of property such as HDB, condo or landed
+* **Floor Area**: The size of a property measured in square feet
 
 --------------------------------------------------------------------------------------------------------------------
 
