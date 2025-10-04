@@ -25,6 +25,7 @@ import seedu.address.model.property.Listing;
 import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.tag.Tag;
@@ -235,16 +236,14 @@ public class ParserUtilTest {
 
     @Test
     public void parsePropertyAddress_validValue_returnsAddress() throws Exception {
-        seedu.address.model.property.Address expectedAddress =
-                new seedu.address.model.property.Address(VALID_PROPERTY_ADDRESS);
+        PropertyAddress expectedAddress = new PropertyAddress(VALID_PROPERTY_ADDRESS);
         assertEquals(expectedAddress, ParserUtil.parsePropertyAddress(VALID_PROPERTY_ADDRESS));
     }
 
     @Test
     public void parsePropertyAddress_validValueWithWhitespace_returnsTrimmedAddress() throws Exception {
         String withWhitespace = WHITESPACE + VALID_PROPERTY_ADDRESS + WHITESPACE;
-        seedu.address.model.property.Address expectedAddress =
-                new seedu.address.model.property.Address(VALID_PROPERTY_ADDRESS);
+        PropertyAddress expectedAddress = new PropertyAddress(VALID_PROPERTY_ADDRESS);
         assertEquals(expectedAddress, ParserUtil.parsePropertyAddress(withWhitespace));
     }
 

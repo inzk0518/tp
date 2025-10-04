@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.property.Address;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -25,6 +24,7 @@ import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
@@ -59,7 +59,7 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
                 PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA,
                 PREFIX_PROPERTY_LISTING, PREFIX_PROPERTY_OWNER);
 
-        Address address = ParserUtil.parsePropertyAddress(argMultimap.getValue(PREFIX_PROPERTY_ADDRESS).get());
+        PropertyAddress address = ParserUtil.parsePropertyAddress(argMultimap.getValue(PREFIX_PROPERTY_ADDRESS).get());
         Postal postal = ParserUtil.parsePostal(argMultimap.getValue(PREFIX_PROPERTY_POSTAL).get());
         Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PROPERTY_PRICE).get());
         Type type = ParserUtil.parseType(argMultimap.getValue(PREFIX_PROPERTY_TYPE).get());

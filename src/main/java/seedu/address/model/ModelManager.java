@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -34,8 +35,9 @@ public class ModelManager implements Model {
             ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(addressBook, propertyBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + ", property book: " + propertyBook
-                + " and user prefs " + userPrefs);
+        logger.log(Level.FINE,
+                "Initializing with address book: {0}, property book: {1} and user prefs {2}",
+                new Object[]{addressBook, propertyBook, userPrefs});
 
         this.addressBook = new AddressBook(addressBook);
         this.propertyBook = new PropertyBook(propertyBook);

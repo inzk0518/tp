@@ -8,7 +8,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in
  * {@link #isValidAddress(String)}
  */
-public class Address {
+public class PropertyAddress {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Invalid address. Provide 5-200 chars with at least one letter and one digit.";
@@ -27,17 +27,17 @@ public class Address {
      *
      * @param address A valid address.
      */
-    public Address(String address) {
+    public PropertyAddress(String address) {
         address = address.trim();
         requireNonNull(address);
-        checkArgument(isValidAddress(address), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidPropertyAddress(address), MESSAGE_CONSTRAINTS);
         value = address;
     }
 
     /**
-     * Returns true if a given string is a valid address.
+     * Returns true if a given string is a valid property address.
      */
-    public static boolean isValidAddress(String test) {
+    public static boolean isValidPropertyAddress(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 
@@ -53,11 +53,11 @@ public class Address {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof Address)) {
+        if (!(other instanceof PropertyAddress)) {
             return false;
         }
 
-        Address otherAddress = (Address) other;
+        PropertyAddress otherAddress = (PropertyAddress) other;
         return value.equals(otherAddress.value);
     }
 

@@ -20,6 +20,7 @@ import seedu.address.model.property.Listing;
 import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.tag.Tag;
@@ -139,13 +140,13 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
-    public static seedu.address.model.property.Address parsePropertyAddress(String address) throws ParseException {
+    public static PropertyAddress parsePropertyAddress(String address) throws ParseException {
         requireNonNull(address);
         String trimmedAddress = address.trim();
-        if (!seedu.address.model.property.Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(seedu.address.model.property.Address.MESSAGE_CONSTRAINTS);
+        if (!PropertyAddress.isValidPropertyAddress(trimmedAddress)) {
+            throw new ParseException(PropertyAddress.MESSAGE_CONSTRAINTS);
         }
-        return new seedu.address.model.property.Address(trimmedAddress);
+        return new PropertyAddress(trimmedAddress);
     }
 
     /**

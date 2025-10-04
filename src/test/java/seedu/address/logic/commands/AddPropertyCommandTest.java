@@ -22,7 +22,6 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.model.property.Address;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -31,6 +30,7 @@ import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
@@ -85,13 +85,13 @@ class AddPropertyCommandTest {
     }
 
     private static Property buildAlphaProperty() {
-        return new Property(new Address("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
+        return new Property(new PropertyAddress("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
                 new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
                 new Status("listed"), new Type("HDB"), new Owner("owner123"));
     }
 
     private static Property buildBetaProperty() {
-        return new Property(new Address("456 Market Ave 9"), new Bathroom("1"), new Bedroom("2"),
+        return new Property(new PropertyAddress("456 Market Ave 9"), new Bathroom("1"), new Bedroom("2"),
                 new FloorArea("80"), new Listing("rent"), new Postal("654321"), new Price("3500"),
                 new Status("listed"), new Type("apartment"), new Owner("owner456"));
     }

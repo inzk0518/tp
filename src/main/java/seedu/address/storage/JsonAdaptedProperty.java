@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.property.Address;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -13,6 +12,7 @@ import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
@@ -59,7 +59,7 @@ class JsonAdaptedProperty {
      * Converts a given {@code Property} into this class for Jackson use.
      */
     public JsonAdaptedProperty(Property source) {
-        address = source.getAddress().value;
+        address = source.getPropertyAddress().value;
         bathroom = source.getBathroom().value;
         bedroom = source.getBedroom().value;
         floorArea = source.getFloorArea().value;
@@ -80,12 +80,13 @@ class JsonAdaptedProperty {
      */
     public Property toModelType() throws IllegalValueException {
         if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    PropertyAddress.class.getSimpleName()));
         }
-        if (!Address.isValidAddress(address)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        if (!PropertyAddress.isValidPropertyAddress(address)) {
+            throw new IllegalValueException(PropertyAddress.MESSAGE_CONSTRAINTS);
         }
-        final Address modelAddress = new Address(address);
+        final PropertyAddress modelAddress = new PropertyAddress(address);
 
         if (bathroom == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -97,7 +98,8 @@ class JsonAdaptedProperty {
         final Bathroom modelBathroom = new Bathroom(bathroom);
 
         if (bedroom == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Bedroom.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Bedroom.class.getSimpleName()));
         }
         if (!Bedroom.isValidBedroom(bedroom)) {
             throw new IllegalValueException(Bedroom.MESSAGE_CONSTRAINTS);
@@ -115,35 +117,40 @@ class JsonAdaptedProperty {
         // Listing can be null
         final Listing modelListing = new Listing(listing);
         if (postal == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Postal.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Postal.class.getSimpleName()));
         }
         if (!Postal.isValidPostal(postal)) {
             throw new IllegalValueException(Postal.MESSAGE_CONSTRAINTS);
         }
         final Postal modelPostal = new Postal(postal);
         if (price == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Price.class.getSimpleName()));
         }
         if (!Price.isValidPrice(price)) {
             throw new IllegalValueException(Price.MESSAGE_CONSTRAINTS);
         }
         final Price modelPrice = new Price(price);
         if (status == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Status.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Status.class.getSimpleName()));
         }
         if (!Status.isValidStatus(status)) {
             throw new IllegalValueException(Status.MESSAGE_CONSTRAINTS);
         }
         final Status modelStatus = new Status(status);
         if (type == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Type.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Type.class.getSimpleName()));
         }
         if (!Type.isValidType(type)) {
             throw new IllegalValueException(Type.MESSAGE_CONSTRAINTS);
         }
         final Type modelType = new Type(type);
         if (owner == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Owner.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Owner.class.getSimpleName()));
         }
         if (!Owner.isValidOwner(owner)) {
             throw new IllegalValueException(Owner.MESSAGE_CONSTRAINTS);

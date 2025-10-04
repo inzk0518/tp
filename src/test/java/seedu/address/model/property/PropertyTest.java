@@ -13,7 +13,7 @@ class PropertyTest {
     void constructor_fieldsAreAccessible() {
         Property property = buildAlphaProperty();
 
-        assertEquals(new Address("123 Main St 5"), property.getAddress());
+        assertEquals(new PropertyAddress("123 Main St 5"), property.getPropertyAddress());
         assertEquals(new Bathroom("2"), property.getBathroom());
         assertEquals(new Bedroom("3"), property.getBedroom());
         assertEquals(new FloorArea("120"), property.getFloorArea());
@@ -41,7 +41,8 @@ class PropertyTest {
     @Test
     void isSameProperty_sameAddressAndPostal_returnsTrue() {
         Property property = buildAlphaProperty();
-        Property duplicateIdentity = new Property(new Address("123 Main St 5"), new Bathroom("1"), new Bedroom("4"),
+        Property duplicateIdentity = new Property(new PropertyAddress("123 Main St 5"),
+                new Bathroom("1"), new Bedroom("4"),
                 new FloorArea("150"), new Listing("rent"), new Postal("123456"), new Price("600000"),
                 new Status("listed"), new Type("hdb"), new Owner("owner789"));
         assertTrue(property.isSameProperty(duplicateIdentity));
@@ -86,13 +87,13 @@ class PropertyTest {
     }
 
     private static Property buildAlphaProperty() {
-        return new Property(new Address("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
+        return new Property(new PropertyAddress("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
                 new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
                 new Status("listed"), new Type("HDB"), new Owner("owner123"));
     }
 
     private static Property buildBetaProperty() {
-        return new Property(new Address("456 Market Ave 9"), new Bathroom("1"), new Bedroom("2"),
+        return new Property(new PropertyAddress("456 Market Ave 9"), new Bathroom("1"), new Bedroom("2"),
                 new FloorArea("80"), new Listing("rent"), new Postal("654321"), new Price("3500"),
                 new Status("listed"), new Type("apartment"), new Owner("owner456"));
     }

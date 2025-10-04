@@ -11,21 +11,21 @@ class PropertyValueObjectsTest {
 
     @Test
     void address_validation() {
-        assertThrows(NullPointerException.class, () -> new Address(null));
-        assertThrows(IllegalArgumentException.class, () -> new Address("12345"));
-        assertThrows(IllegalArgumentException.class, () -> new Address("Main Street"));
-        assertThrows(NullPointerException.class, () -> Address.isValidAddress(null));
-        assertTrue(Address.isValidAddress("123 Main St 5"));
-        assertEquals("123 Main St 5", new Address(" 123 Main St 5 ").toString());
+        assertThrows(NullPointerException.class, () -> new PropertyAddress(null));
+        assertThrows(IllegalArgumentException.class, () -> new PropertyAddress("12345"));
+        assertThrows(IllegalArgumentException.class, () -> new PropertyAddress("Main Street"));
+        assertThrows(NullPointerException.class, () -> PropertyAddress.isValidPropertyAddress(null));
+        assertTrue(PropertyAddress.isValidPropertyAddress("123 Main St 5"));
+        assertEquals("123 Main St 5", new PropertyAddress(" 123 Main St 5 ").toString());
     }
 
     @Test
     void address_equals() {
-        Address address = new Address("123 Main St 5");
-        assertTrue(address.equals(new Address("123 Main St 5")));
+        PropertyAddress address = new PropertyAddress("123 Main St 5");
+        assertTrue(address.equals(new PropertyAddress("123 Main St 5")));
         assertTrue(address.equals(address));
         assertFalse(address.equals(null));
-        assertFalse(address.equals(new Address("456 Market Ave 9")));
+        assertFalse(address.equals(new PropertyAddress("456 Market Ave 9")));
     }
 
     @Test

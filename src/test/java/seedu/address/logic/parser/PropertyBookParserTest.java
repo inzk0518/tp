@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.property.Address;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -17,6 +16,7 @@ import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
@@ -39,7 +39,7 @@ class PropertyBookParserTest {
 
     @Test
     void parseCommand_addProperty() throws Exception {
-        Property expectedProperty = new Property(new Address("123 Main St 5"), new Bathroom("2"),
+        Property expectedProperty = new Property(new PropertyAddress("123 Main St 5"), new Bathroom("2"),
                 new Bedroom("3"), new FloorArea("120"), new Listing("sale"), new Postal("123456"),
                 new Price("500000"), new Status("listed"), new Type("HDB"), new Owner("owner123"));
         AddPropertyCommand expectedCommand = new AddPropertyCommand(expectedProperty);

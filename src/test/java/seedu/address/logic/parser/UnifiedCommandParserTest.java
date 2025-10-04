@@ -13,7 +13,6 @@ import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.property.Address;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -22,6 +21,7 @@ import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
@@ -42,7 +42,8 @@ class UnifiedCommandParserTest {
 
     private final UnifiedCommandParser parser = new UnifiedCommandParser(List.of(
             new AddressBookParser(),
-            new PropertyBookParser()));
+            new PropertyBookParser()
+    ));
 
     @Test
     void parseCommand_addressBookCommand_success() throws ParseException {
@@ -51,7 +52,7 @@ class UnifiedCommandParserTest {
 
     @Test
     void parseCommand_propertyBookCommand_success() throws ParseException {
-        Property expectedProperty = new Property(new Address("321 Market St 9"), new Bathroom("3"),
+        Property expectedProperty = new Property(new PropertyAddress("321 Market St 9"), new Bathroom("3"),
                 new Bedroom("4"), new FloorArea("150"), new Listing("rent"), new Postal("654321"),
                 new Price("750000"), new Status("sold"), new Type("Condo"), new Owner("owner321"));
         AddPropertyCommand expectedCommand = new AddPropertyCommand(expectedProperty);

@@ -15,7 +15,7 @@ public class Property {
     private final String id;
 
     // Data fields
-    private final Address address;
+    private final PropertyAddress address;
     private final Bathroom bathroom;
     private final Bedroom bedroom;
     private final FloorArea floorArea;
@@ -30,7 +30,7 @@ public class Property {
      * Constructs a {@code Property}.
      * Every field must be present and not null except listing which can be null.
      */
-    public Property(Address address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
+    public Property(PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
             Postal postal, Price price, Status status, Type type, Owner owner) {
         // Listing can be null
         requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
@@ -48,7 +48,7 @@ public class Property {
     }
 
     // Getter methods
-    public Address getAddress() {
+    public PropertyAddress getPropertyAddress() {
         return address;
     }
 
@@ -103,7 +103,7 @@ public class Property {
 
         boolean sameId = otherProperty != null && otherProperty.getId().equals(getId());
         boolean sameAddress = otherProperty != null
-                && otherProperty.getAddress().equals(getAddress())
+                && otherProperty.getPropertyAddress().equals(getPropertyAddress())
                 && otherProperty.getPostal().equals(getPostal());
 
         return sameId || sameAddress;
