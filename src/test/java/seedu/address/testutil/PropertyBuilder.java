@@ -12,6 +12,9 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
+/**
+ * A utility class to help with building Property objects.
+ */
 public class PropertyBuilder {
 
     public static final String DEFAULT_PROPERTY_ADDRESS = "123 Kent Ridge Road";
