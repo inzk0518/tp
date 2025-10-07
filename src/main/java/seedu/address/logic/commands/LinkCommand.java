@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.List;
-import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -69,32 +68,17 @@ public class LinkCommand extends Command {
         Person personToLink = lastShownPersonList.get(personIndex.getZeroBased());
         Property propertyToLink = lastShownPropertyList.get(propertyIndex.getZeroBased());
 
-        Set<Index> updatedLinkedPersonIds = propertyToLink.getLinkedPersonIds();
-        if (!updatedLinkedPersonIds.add(personIndex)) {
-            throw new CommandException(MESSAGE_PERSON_ALREADY_LINKED);
-        }
-        propertyToLink.setLinkedPersonIds(updatedLinkedPersonIds);
-
         switch (linkDescriptor.getRelationship()) {
         case "buyer":
-            Set<Index> updatedBuyingPropertyIds = personToLink.getBuyingPropertyIndexes();
-            if (!updatedBuyingPropertyIds.add(propertyIndex)) {
-                throw new CommandException(MESSAGE_PROPERTY_ALREADY_LINKED);
-            }
-            personToLink.setBuyingPropertyIds(updatedBuyingPropertyIds);
             break;
         case "seller":
-            Set<Index> updatedSellingPropertyIds = personToLink.getSellingPropertyIndexes();
-            if (!updatedSellingPropertyIds.add(propertyIndex)) {
-                throw new CommandException(MESSAGE_PROPERTY_ALREADY_LINKED);
-            }
-            personToLink.setSellingPropertyIds(updatedSellingPropertyIds);
             break;
         default:
             throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
         }
 
-        return new CommandResult(String.format(MESSAGE_LINK_PROPERTY_SUCCESS, propertyIndex, personIndex));
+        throw new CommandException("LinkCommand not yet Implemented");
+        // return new CommandResult(String.format(MESSAGE_LINK_PROPERTY_SUCCESS, propertyIndex, personIndex));
     }
 
     /**

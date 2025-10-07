@@ -31,13 +31,16 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+            Set<Index> buyingPropertyIds, Set<Index> sellingPropertyIds) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.buyingPropertyIds.addAll(buyingPropertyIds);
+        this.sellingPropertyIds.addAll(sellingPropertyIds);
     }
 
     public Name getName() {
@@ -65,33 +68,19 @@ public class Person {
     }
 
     /**
-     * Returns a copy of the buying property index set.
+     * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
      */
-    public Set<Index> getBuyingPropertyIndexes() {
-        return new HashSet<>(buyingPropertyIds);
+    public Set<Index> getBuyingPropertyIds() {
+        return Collections.unmodifiableSet(buyingPropertyIds);
     }
 
     /**
-     * Returns a copy of the selling property index set.
+     * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
      */
-    public Set<Index> getSellingPropertyIndexes() {
-        return new HashSet<>(sellingPropertyIds);
-    }
-
-    /**
-     * Sets {@code buyingPropertyIds} to this person's {@code buyingPropertyIds}.
-     */
-    public void setBuyingPropertyIds(Set<Index> buyingPropertyIds) {
-        this.buyingPropertyIds.clear();
-        this.buyingPropertyIds.addAll(buyingPropertyIds);
-    }
-
-    /**
-     * Sets {@code sellingPropertyIds} to this person's {@code sellingPropertyIds}.
-     */
-    public void setSellingPropertyIds(Set<Index> sellingPropertyIds) {
-        this.sellingPropertyIds.clear();
-        this.sellingPropertyIds.addAll(sellingPropertyIds);
+    public Set<Index> getSellingPropertyIds() {
+        return Collections.unmodifiableSet(sellingPropertyIds);
     }
 
     /**

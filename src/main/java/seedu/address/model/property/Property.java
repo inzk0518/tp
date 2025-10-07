@@ -99,19 +99,11 @@ public class Property {
     }
 
     /**
-     * Returns an immutable linked person index set, which throws {@code UnsupportedOperationException}
+     * Returns an immutable person index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
     public Set<Index> getLinkedPersonIds() {
         return Collections.unmodifiableSet(linkedPersonIds);
-    }
-
-    /**
-     * Sets {@code linkedPersonIds} to this property's {@code linkedPersonIds}.
-     */
-    public void setLinkedPersonIds(Set<Index> linkedPersonIds) {
-        this.linkedPersonIds.clear();
-        this.linkedPersonIds.addAll(linkedPersonIds);
     }
 
     /**

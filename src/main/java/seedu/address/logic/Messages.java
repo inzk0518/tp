@@ -47,10 +47,10 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
-        builder.append("; Buying Property Indexes: ");
-        person.getBuyingPropertyIndexes().forEach(builder::append);
-        builder.append("; Selling Property Indexes: ");
-        person.getSellingPropertyIndexes().forEach(builder::append);
+        builder.append("; Buying Property Ids: ");
+        person.getBuyingPropertyIds().forEach(builder::append);
+        builder.append("; Selling Property Ids: ");
+        person.getSellingPropertyIds().forEach(builder::append);
         return builder.toString();
     }
 
