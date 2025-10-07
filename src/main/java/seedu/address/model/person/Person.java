@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -24,6 +25,8 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final Set<Index> buyingPropertyIds = new HashSet<>();
+    private final Set<Index> sellingPropertyIds = new HashSet<>();
 
     /**
      * Every field must be present and not null.
@@ -62,6 +65,36 @@ public class Person {
     }
 
     /**
+     * Returns a copy of the buying property index set.
+     */
+    public Set<Index> getBuyingPropertyIndexes() {
+        return new HashSet<>(buyingPropertyIds);
+    }
+
+    /**
+     * Returns a copy of the selling property index set.
+     */
+    public Set<Index> getSellingPropertyIndexes() {
+        return new HashSet<>(sellingPropertyIds);
+    }
+
+    /**
+     * Sets {@code buyingPropertyIds} to this person's {@code buyingPropertyIds}.
+     */
+    public void setBuyingPropertyIds(Set<Index> buyingPropertyIds) {
+        this.buyingPropertyIds.clear();
+        this.buyingPropertyIds.addAll(buyingPropertyIds);
+    }
+
+    /**
+     * Sets {@code sellingPropertyIds} to this person's {@code sellingPropertyIds}.
+     */
+    public void setSellingPropertyIds(Set<Index> sellingPropertyIds) {
+        this.sellingPropertyIds.clear();
+        this.sellingPropertyIds.addAll(sellingPropertyIds);
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
@@ -94,13 +127,15 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && buyingPropertyIds.equals(otherPerson.buyingPropertyIds)
+                && sellingPropertyIds.equals(otherPerson.sellingPropertyIds);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, buyingPropertyIds, sellingPropertyIds);
     }
 
     @Override
@@ -111,6 +146,8 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("buyingPropertyIds", buyingPropertyIds)
+                .add("sellingPropertyIds", sellingPropertyIds)
                 .toString();
     }
 

@@ -3,6 +3,7 @@ package seedu.address.model.property;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -84,6 +85,12 @@ class PropertyTest {
         assertTrue(representation.contains("Address=123 Main St 5"));
         assertTrue(representation.contains("Postal=123456"));
         assertTrue(representation.contains("Price=500000"));
+    }
+
+    @Test
+    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
+        Property property = buildAlphaProperty();
+        assertThrows(UnsupportedOperationException.class, () -> property.getLinkedPersonIds().remove(0));
     }
 
     private static Property buildAlphaProperty() {

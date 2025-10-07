@@ -5,11 +5,17 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
+import java.util.List;
+import java.util.Set;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * Links a property to a person.
@@ -28,6 +34,10 @@ public class LinkCommand extends Command {
             + PREFIX_LINK_RELATIONSHIP + "buyer "
             + PREFIX_LINK_CLIENT_ID + "3";
 
+    public static final String MESSAGE_LINK_PROPERTY_SUCCESS = "Linked Property ID: %1$s to Person ID: %2$s";
+    public static final String MESSAGE_PERSON_ALREADY_LINKED = "Person already linked to this property.";
+    public static final String MESSAGE_PROPERTY_ALREADY_LINKED = "Property already linked to this person.";
+
     private final LinkDescriptor linkDescriptor;
 
     /**
@@ -42,8 +52,49 @@ public class LinkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Person> lastShownPersonList = model.getFilteredPersonList();
+        List<Property> lastShownPropertyList = model.getFilteredPropertyList();
 
-        throw new CommandException("LinkCommand is not yet implemented.");
+        Index personIndex = linkDescriptor.getPersonId();
+        Index propertyIndex = linkDescriptor.getPropertyId();
+
+        if (personIndex.getZeroBased() >= lastShownPersonList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        if (propertyIndex.getZeroBased() >= lastShownPropertyList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+        }
+
+        Person personToLink = lastShownPersonList.get(personIndex.getZeroBased());
+        Property propertyToLink = lastShownPropertyList.get(propertyIndex.getZeroBased());
+
+        Set<Index> updatedLinkedPersonIds = propertyToLink.getLinkedPersonIds();
+        if (!updatedLinkedPersonIds.add(personIndex)) {
+            throw new CommandException(MESSAGE_PERSON_ALREADY_LINKED);
+        }
+        propertyToLink.setLinkedPersonIds(updatedLinkedPersonIds);
+
+        switch (linkDescriptor.getRelationship()) {
+        case "buyer":
+            Set<Index> updatedBuyingPropertyIds = personToLink.getBuyingPropertyIndexes();
+            if (!updatedBuyingPropertyIds.add(propertyIndex)) {
+                throw new CommandException(MESSAGE_PROPERTY_ALREADY_LINKED);
+            }
+            personToLink.setBuyingPropertyIds(updatedBuyingPropertyIds);
+            break;
+        case "seller":
+            Set<Index> updatedSellingPropertyIds = personToLink.getSellingPropertyIndexes();
+            if (!updatedSellingPropertyIds.add(propertyIndex)) {
+                throw new CommandException(MESSAGE_PROPERTY_ALREADY_LINKED);
+            }
+            personToLink.setSellingPropertyIds(updatedSellingPropertyIds);
+            break;
+        default:
+            throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
+        }
+
+        return new CommandResult(String.format(MESSAGE_LINK_PROPERTY_SUCCESS, propertyIndex, personIndex));
     }
 
     /**

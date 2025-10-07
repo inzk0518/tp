@@ -18,6 +18,8 @@ public class Messages {
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX = "The property index provided is invalid";
+    public static final String MESSAGE_INVALID_RELATIONSHIP = "The relationship provided is invalid";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -45,6 +47,10 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
+        builder.append("; Buying Property Indexes: ");
+        person.getBuyingPropertyIndexes().forEach(builder::append);
+        builder.append("; Selling Property Indexes: ");
+        person.getSellingPropertyIndexes().forEach(builder::append);
         return builder.toString();
     }
 

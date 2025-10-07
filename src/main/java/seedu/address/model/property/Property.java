@@ -2,6 +2,11 @@ package seedu.address.model.property;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
@@ -25,6 +30,7 @@ public class Property {
     private final Status status;
     private final Type type;
     private final Owner owner;
+    private final Set<Index> linkedPersonIds = new HashSet<>();
 
     /**
      * Constructs a {@code Property}.
@@ -93,6 +99,22 @@ public class Property {
     }
 
     /**
+     * Returns an immutable linked person index set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Index> getLinkedPersonIds() {
+        return Collections.unmodifiableSet(linkedPersonIds);
+    }
+
+    /**
+     * Sets {@code linkedPersonIds} to this property's {@code linkedPersonIds}.
+     */
+    public void setLinkedPersonIds(Set<Index> linkedPersonIds) {
+        this.linkedPersonIds.clear();
+        this.linkedPersonIds.addAll(linkedPersonIds);
+    }
+
+    /**
      * Returns true if both properties have the same identity and data fields.
      * This defines a weaker notion of equality between two properties.
      */
@@ -158,6 +180,7 @@ public class Property {
                 .add("Status", status)
                 .add("Type", type)
                 .add("Owner", owner)
+                .add("Linked Person IDs", linkedPersonIds)
                 .toString();
     }
 }
