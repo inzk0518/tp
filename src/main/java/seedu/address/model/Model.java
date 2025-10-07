@@ -142,4 +142,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPropertyList(Predicate<Property> predicate);
+
+    Property getPropertyById(String id);
+
+    void markPropertyAsSold(Property property);
+
+    void markPropertyAsUnsold(Property property);
 }

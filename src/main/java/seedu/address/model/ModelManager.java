@@ -168,6 +168,75 @@ public class ModelManager implements Model {
         propertyBook.setProperty(target, editedProperty);
     }
 
+    // =========== Property ID-based operations =================================================
+
+    /**
+     * Returns the {@code Property} with the specified {@code id} from the current filtered property list.
+     * Returns {@code null} if no such property exists.
+     *
+     * @param id The unique ID of the property to retrieve.
+     * @return The {@code Property} object with the matching ID, or {@code null} if not found.
+     */
+    @Override
+    public Property getPropertyById(String id) {
+        requireNonNull(id);
+        for (Property property : propertyBook.getPropertyList()) {
+            if (property.getId().equals(id)) {
+                return property;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Marks the given {@code Property} as sold by creating a new {@code Property} instance
+     * with identical attributes but a {@code Status} of "sold".
+     *
+     * @param property The property to mark as sold. Must not be {@code null}.
+     */
+    @Override
+    public void markPropertyAsSold(Property property) {
+        requireNonNull(property);
+        Property updated = new Property(
+                property.getPropertyAddress(),
+                property.getBathroom(),
+                property.getBedroom(),
+                property.getFloorArea(),
+                property.getListing(),
+                property.getPostal(),
+                property.getPrice(),
+                new seedu.address.model.property.Status("sold"),
+                property.getType(),
+                property.getOwner()
+        );
+        propertyBook.setProperty(property, updated);
+    }
+
+    /**
+     * Marks the given {@code Property} as unsold by creating a new {@code Property} instance
+     * with identical attributes but a {@code Status} of "unsold".
+     *
+     * @param property The property to mark as unsold. Must not be {@code null}.
+     */
+    @Override
+    public void markPropertyAsUnsold(Property property) {
+        requireNonNull(property);
+        Property updated = new Property(
+                property.getPropertyAddress(),
+                property.getBathroom(),
+                property.getBedroom(),
+                property.getFloorArea(),
+                property.getListing(),
+                property.getPostal(),
+                property.getPrice(),
+                new seedu.address.model.property.Status("unsold"),
+                property.getType(),
+                property.getOwner()
+        );
+        propertyBook.setProperty(property, updated);
+    }
+
+
     // =========== Filtered List Accessors
     // =============================================================
 
