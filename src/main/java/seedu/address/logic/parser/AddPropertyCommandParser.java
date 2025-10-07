@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddPropertyCommand;
@@ -76,7 +77,7 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
         }
 
         Property property = new Property(address, bathroom, bedroom, floorArea, listing,
-                postal, price, status, type, owner);
+                postal, price, status, type, owner, new HashSet<>());
 
         return new AddPropertyCommand(property);
     }

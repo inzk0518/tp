@@ -37,7 +37,7 @@ public class Property {
      * Every field must be present and not null except listing which can be null.
      */
     public Property(PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
-            Postal postal, Price price, Status status, Type type, Owner owner) {
+            Postal postal, Price price, Status status, Type type, Owner owner, Set<Index> linkedPersonIds) {
         // Listing can be null
         requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
         this.address = address;
@@ -50,6 +50,7 @@ public class Property {
         this.status = status;
         this.type = type;
         this.owner = owner;
+        this.linkedPersonIds.addAll(linkedPersonIds);
         this.id = java.util.UUID.randomUUID().toString().substring(0, 6);
     }
 
@@ -127,7 +128,7 @@ public class Property {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type,
-                owner);
+                owner, linkedPersonIds);
     }
 
     /*
@@ -155,7 +156,8 @@ public class Property {
                 && price.equals(otherProperty.price)
                 && status.equals(otherProperty.status)
                 && type.equals(otherProperty.type)
-                && owner.equals(otherProperty.owner);
+                && owner.equals(otherProperty.owner)
+                && linkedPersonIds.equals(otherProperty.linkedPersonIds);
     }
 
     @Override

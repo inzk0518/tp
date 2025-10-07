@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import java.util.HashSet;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -166,7 +168,7 @@ class JsonAdaptedProperty {
         }
         final Owner modelOwner = new Owner(owner);
         return new Property(modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
-                modelPostal, modelPrice, modelStatus, modelType, modelOwner);
+                modelPostal, modelPrice, modelStatus, modelType, modelOwner, new HashSet<>());
     }
 
 }

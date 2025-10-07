@@ -1,5 +1,9 @@
 package seedu.address.testutil;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -11,6 +15,7 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
+import seedu.address.model.util.SampleDataUtil;
 
 /**
  * A utility class to help with building Property objects.
@@ -21,12 +26,13 @@ public class PropertyBuilder {
     public static final String DEFAULT_BATHROOM = "1";
     public static final String DEFAULT_BEDROOM = "2";
     public static final String DEFAULT_FLOORAREA = "2000";
-    public static final String DEFAULT_LISTING = null;
+    public static final String DEFAULT_LISTING = "rent";
     public static final String DEFAULT_POSTAL = "886231";
     public static final String DEFAULT_PRICE = "210000";
     public static final String DEFAULT_STATUS = "listed";
     public static final String DEFAULT_TYPE = "landed";
-    public static final String DEFAULT_OWNER = "333";
+    public static final String DEFAULT_OWNER = "owner123";
+    public static final Set<Index> DEFAULT_LINKED_PERSON_IDS = SampleDataUtil.getIndexSet();
 
     private PropertyAddress propertyAddress;
     private Bathroom bathroom;
@@ -38,6 +44,7 @@ public class PropertyBuilder {
     private Status status;
     private Type type;
     private Owner owner;
+    private Set<Index> linkedPersonIds;
 
     /**
      * Creates a {@code PropertyBuilder} with the default details.
@@ -53,6 +60,7 @@ public class PropertyBuilder {
         status = new Status(DEFAULT_STATUS);
         type = new Type(DEFAULT_TYPE);
         owner = new Owner(DEFAULT_OWNER);
+        linkedPersonIds = DEFAULT_LINKED_PERSON_IDS;
     }
 
     /**
@@ -69,6 +77,7 @@ public class PropertyBuilder {
         status = propertyToCopy.getStatus();
         type = propertyToCopy.getType();
         owner = propertyToCopy.getOwner();
+        linkedPersonIds = new HashSet<>(propertyToCopy.getLinkedPersonIds());
     }
 
     /**
@@ -152,10 +161,19 @@ public class PropertyBuilder {
     }
 
     /**
+     * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
+     */
+    public PropertyBuilder withLinkedPersonIds(int ... ids) {
+        this.linkedPersonIds = SampleDataUtil.getIndexSet(ids);
+        return this;
+    }
+
+    /**
      * Builds the {@code Property} that we are building.
      */
     public Property build() {
-        return new Property(propertyAddress, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
+        return new Property(propertyAddress, bathroom, bedroom, floorArea, listing, postal, price, status,
+                type, owner, linkedPersonIds);
     }
 
 }
