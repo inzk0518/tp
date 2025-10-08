@@ -2,6 +2,8 @@ package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
@@ -49,6 +51,89 @@ public class ModelManagerTest {
         assertEquals(new GuiSettings(), modelManager.getGuiSettings());
         assertEquals(new AddressBook(), new AddressBook(modelManager.getAddressBook()));
         assertEquals(new PropertyBook(), new PropertyBook(modelManager.getPropertyBook()));
+    }
+
+    @Test
+    public void getPropertyById_existingId_returnsProperty() {
+        modelManager.addProperty(PROPERTY_ALPHA);
+        modelManager.addProperty(PROPERTY_BETA);
+
+        assertEquals(PROPERTY_ALPHA, modelManager.getPropertyById(PROPERTY_ALPHA.getId()));
+        assertEquals(PROPERTY_BETA, modelManager.getPropertyById(PROPERTY_BETA.getId()));
+    }
+
+    @Test
+    public void getPropertyById_nonExistingId_returnsNull() {
+        assertNull(modelManager.getPropertyById("non-existent-id"));
+    }
+
+    @Test
+    public void markPropertyAsSold_marksCorrectly() {
+        modelManager.addProperty(PROPERTY_ALPHA);
+        modelManager.addProperty(PROPERTY_BETA);
+
+        Property originalAlpha = modelManager.getPropertyById(PROPERTY_ALPHA.getId());
+        Property originalBeta = modelManager.getPropertyById(PROPERTY_BETA.getId());
+
+        modelManager.markPropertyAsSold(originalAlpha);
+        modelManager.markPropertyAsSold(originalBeta);
+
+        // Find by address/postal as ID changes
+        Property soldAlpha = modelManager.getFilteredPropertyList().stream()
+                .filter(p -> p.getPropertyAddress().equals(PROPERTY_ALPHA.getPropertyAddress()))
+                .findFirst()
+                .orElse(null);
+
+        Property soldBeta = modelManager.getFilteredPropertyList().stream()
+                .filter(p -> p.getPropertyAddress().equals(PROPERTY_BETA.getPropertyAddress()))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(soldAlpha, "Updated property should not be null");
+        assertNotNull(soldBeta, "Updated property should not be null");
+
+        assertEquals(new Status("sold"), soldAlpha.getStatus());
+        assertEquals(new Status("sold"), soldBeta.getStatus());
+    }
+
+    @Test
+    public void markPropertyAsUnsold_marksCorrectly() {
+        modelManager.addProperty(PROPERTY_ALPHA);
+        modelManager.addProperty(PROPERTY_BETA);
+
+        Property originalAlpha = modelManager.getPropertyById(PROPERTY_ALPHA.getId());
+        Property originalBeta = modelManager.getPropertyById(PROPERTY_BETA.getId());
+
+        modelManager.markPropertyAsUnsold(originalAlpha);
+        modelManager.markPropertyAsUnsold(originalBeta);
+
+        // Find by address/postal as ID changes
+        Property unsoldAlpha = modelManager.getFilteredPropertyList().stream()
+                .filter(p -> p.getPropertyAddress().equals(PROPERTY_ALPHA.getPropertyAddress()))
+                .findFirst()
+                .orElse(null);
+
+        Property unsoldBeta = modelManager.getFilteredPropertyList().stream()
+                .filter(p -> p.getPropertyAddress().equals(PROPERTY_BETA.getPropertyAddress()))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(unsoldAlpha, "Updated property should not be null");
+        assertNotNull(unsoldBeta, "Updated property should not be null");
+
+        assertEquals(new Status("unsold"), unsoldAlpha.getStatus());
+        assertEquals(new Status("unsold"), unsoldBeta.getStatus());
+    }
+
+
+    @Test
+    public void markPropertyAsSold_nullProperty_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.markPropertyAsSold(null));
+    }
+
+    @Test
+    public void markPropertyAsUnsold_nullProperty_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.markPropertyAsUnsold(null));
     }
 
     @Test
