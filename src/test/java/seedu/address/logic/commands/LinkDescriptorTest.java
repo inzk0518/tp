@@ -37,12 +37,12 @@ public class LinkDescriptorTest {
 
         // different personId -> returns false
         editedDescriptor = new LinkDescriptorBuilder(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA)
-                .withPersonIndex(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getPersonId()).build();
+                .withPersonIds(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getPersonIds()).build();
         assertFalse(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA.equals(editedDescriptor));
 
         // different propertyId -> returns false
         editedDescriptor = new LinkDescriptorBuilder(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA)
-                .withPropertyIndex(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getPropertyId()).build();
+                .withPropertyIds(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getPropertyIds()).build();
         assertFalse(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA.equals(editedDescriptor));
     }
 
@@ -50,9 +50,9 @@ public class LinkDescriptorTest {
     public void toStringMethod() {
         LinkDescriptor descriptor = LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
         String expectedString = LinkDescriptor.class.getCanonicalName()
-                + "{personId=" + descriptor.getPersonId()
+                + "{personIds=" + descriptor.getPersonIds()
                 + ", relationship=" + descriptor.getRelationship()
-                + ", propertyId=" + descriptor.getPropertyId() + "}";
+                + ", propertyIds=" + descriptor.getPropertyIds() + "}";
         assertTrue(descriptor.toString().equals(expectedString));
     }
 }

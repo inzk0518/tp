@@ -23,7 +23,7 @@ import seedu.address.model.person.Person;
  */
 public class TypicalPersons {
 
-    public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
+    public static final Person ALICE = new PersonBuilderUtil().withName("Alice Pauline")
             .withUuid(1)
             .withAddress("123, Jurong West Ave 6, #08-111")
             .withEmail("alice@example.com")
@@ -35,7 +35,7 @@ public class TypicalPersons {
             .withTags("friends")
             .build();
 
-    public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
+    public static final Person BENSON = new PersonBuilderUtil().withName("Benson Meier")
             .withUuid(2)
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com")
@@ -47,7 +47,7 @@ public class TypicalPersons {
             .withTags("owesMoney", "friends")
             .build();
 
-    public static final Person CARL = new PersonBuilder().withName("Carl Kurz")
+    public static final Person CARL = new PersonBuilderUtil().withName("Carl Kurz")
             .withUuid(3)
             .withPhone("95352563")
             .withEmail("heinz@example.com")
@@ -58,7 +58,7 @@ public class TypicalPersons {
             .withStatus("Inactive")
             .build();
 
-    public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier")
+    public static final Person DANIEL = new PersonBuilderUtil().withName("Daniel Meier")
             .withUuid(4)
             .withPhone("87652533")
             .withEmail("cornelia@example.com")
@@ -70,7 +70,7 @@ public class TypicalPersons {
             .withTags("friends")
             .build();
 
-    public static final Person ELLE = new PersonBuilder().withName("Elle Meyer")
+    public static final Person ELLE = new PersonBuilderUtil().withName("Elle Meyer")
             .withUuid(5)
             .withPhone("9482224")
             .withEmail("werner@example.com")
@@ -81,7 +81,7 @@ public class TypicalPersons {
             .withStatus("Active")
             .build();
 
-    public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz")
+    public static final Person FIONA = new PersonBuilderUtil().withName("Fiona Kunz")
             .withUuid(6)
             .withPhone("9482427")
             .withEmail("lydia@example.com")
@@ -92,7 +92,7 @@ public class TypicalPersons {
             .withStatus("Inactive")
             .build();
 
-    public static final Person GEORGE = new PersonBuilder().withName("George Best")
+    public static final Person GEORGE = new PersonBuilderUtil().withName("George Best")
             .withUuid(7)
             .withPhone("9482442")
             .withEmail("anna@example.com")
@@ -104,7 +104,7 @@ public class TypicalPersons {
             .build();
 
     // Manually added
-    public static final Person HOON = new PersonBuilder().withName("Hoon Meier")
+    public static final Person HOON = new PersonBuilderUtil().withName("Hoon Meier")
             .withUuid(8)
             .withPhone("8482424")
             .withEmail("stefan@example.com")
@@ -115,7 +115,7 @@ public class TypicalPersons {
             .withStatus("Inactive")
             .build();
 
-    public static final Person IDA = new PersonBuilder().withName("Ida Mueller")
+    public static final Person IDA = new PersonBuilderUtil().withName("Ida Mueller")
             .withUuid(9)
             .withPhone("8482131")
             .withEmail("hans@example.com")
@@ -127,7 +127,7 @@ public class TypicalPersons {
             .build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
-    public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY)
+    public static final Person AMY = new PersonBuilderUtil().withName(VALID_NAME_AMY)
             .withUuid(10)
             .withPhone(VALID_PHONE_AMY)
             .withEmail(VALID_EMAIL_AMY)
@@ -139,7 +139,7 @@ public class TypicalPersons {
             .withTags(VALID_TAG_FRIEND)
             .build();
 
-    public static final Person BOB = new PersonBuilder().withName(VALID_NAME_BOB)
+    public static final Person BOB = new PersonBuilderUtil().withName(VALID_NAME_BOB)
             .withUuid(11)
             .withPhone(VALID_PHONE_BOB)
             .withEmail(VALID_EMAIL_BOB)

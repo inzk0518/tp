@@ -37,9 +37,9 @@ public class Property {
      * Constructs a {@code Property}.
      * Every field must be present and not null except listing which can be null.
      */
-    public Property(PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
-            Postal postal, Price price, Status status, Type type, Owner owner, Set<Uuid> buyingPersonIds,
-            Set<Uuid> sellingPersonIds) {
+    public Property(String id, PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea,
+            Listing listing, Postal postal, Price price, Status status, Type type, Owner owner,
+            Set<Uuid> buyingPersonIds, Set<Uuid> sellingPersonIds) {
         // Listing can be null
         requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
         this.address = address;
@@ -54,7 +54,12 @@ public class Property {
         this.owner = owner;
         this.buyingPersonIds.addAll(buyingPersonIds);
         this.sellingPersonIds.addAll(sellingPersonIds);
-        this.id = java.util.UUID.randomUUID().toString().substring(0, 6);
+
+        if (id == null) {
+            this.id = java.util.UUID.randomUUID().toString().substring(0, 6);
+        } else {
+            this.id = id;
+        }
     }
 
     // Getter methods

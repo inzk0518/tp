@@ -48,7 +48,7 @@ class PropertyTest {
     @Test
     void isSameProperty_sameAddressAndPostal_returnsTrue() {
         Property property = PROPERTY_ALPHA;
-        Property duplicateIdentity = new Property(new PropertyAddress("123 Main St 5"),
+        Property duplicateIdentity = new Property(null, new PropertyAddress("123 Main St 5"),
                 new Bathroom("1"), new Bedroom("4"),
                 new FloorArea("150"), new Listing("rent"), new Postal("123456"), new Price("600000"),
                 new Status("listed"), new Type("hdb"), new Owner("owner789"), new HashSet<>(), new HashSet<>());

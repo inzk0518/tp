@@ -1,5 +1,7 @@
 package seedu.address.testutil;
 
+import java.util.Set;
+
 import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
 import seedu.address.model.person.Uuid;
 
@@ -24,16 +26,16 @@ public class LinkDescriptorBuilder {
     /**
      * Sets the {@code personId} of the {@code LinkDescriptor} that we are building.
      */
-    public LinkDescriptorBuilder withPersonIndex(Uuid personId) {
-        descriptor.setPersonId(personId);
+    public LinkDescriptorBuilder withPersonIds(Set<Uuid> personIds) {
+        descriptor.setPersonIds(personIds);
         return this;
     }
 
     /**
      * Sets the {@code propertyId} of the {@code LinkDescriptor} that we are building.
      */
-    public LinkDescriptorBuilder withPropertyIndex(String propertyId) {
-        descriptor.setPropertyId(propertyId);
+    public LinkDescriptorBuilder withPropertyIds(Set<String> propertyIds) {
+        descriptor.setPropertyIds(propertyIds);
         return this;
     }
 

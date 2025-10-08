@@ -40,6 +40,8 @@ class JsonAdaptedPerson {
     private final String budgetMax;
     private final String notes;
     private final String status;
+    private final List<String> buyingPropertyIds = new ArrayList<>();
+    private final List<String> sellingPropertyIds = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -54,7 +56,9 @@ class JsonAdaptedPerson {
                              @JsonProperty("budgetMin") String budgetMin,
                              @JsonProperty("budgetMax") String budgetMax,
                              @JsonProperty("notes") String notes,
-                             @JsonProperty("status") String status) {
+                             @JsonProperty("status") String status,
+                             @JsonProperty("buyingPropertyIds") List<String> buyingPropertyIds,
+                             @JsonProperty("sellingPropertyIds") List<String> sellingPropertyIds) {
         this.uuid = uuid;
         this.name = name;
         this.phone = phone;
@@ -66,6 +70,12 @@ class JsonAdaptedPerson {
         this.status = status;
         if (tags != null) {
             this.tags.addAll(tags);
+        }
+        if (buyingPropertyIds != null) {
+            this.buyingPropertyIds.addAll(buyingPropertyIds);
+        }
+        if (sellingPropertyIds != null) {
+            this.sellingPropertyIds.addAll(sellingPropertyIds);
         }
     }
 
@@ -86,6 +96,8 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        buyingPropertyIds.addAll(source.getBuyingPropertyIds());
+        sellingPropertyIds.addAll(source.getSellingPropertyIds());
     }
 
     /**
@@ -172,9 +184,22 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
+
+        final List<String> tempBuyingPropertyIds = new ArrayList<>();
+        for (String id : this.buyingPropertyIds) {
+            tempBuyingPropertyIds.add(id);
+        }
+        final Set<String> modelBuyingPropertyIds = new HashSet<>(tempBuyingPropertyIds);
+
+        final List<String> tempSellingPropertyIds = new ArrayList<>();
+        for (String id : this.sellingPropertyIds) {
+            tempSellingPropertyIds.add(id);
+        }
+        final Set<String> modelSellingPropertyIds = new HashSet<>(tempSellingPropertyIds);
+
         return new Person(modelUuid, modelName, modelPhone, modelEmail, modelAddress,
                           modelTags, modelBudgetMin, modelBudgetMax, modelNotes, modelStatus,
-                new HashSet<>(), new HashSet<>());
+                modelBuyingPropertyIds, modelSellingPropertyIds);
     }
 
 }

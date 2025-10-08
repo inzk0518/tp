@@ -1,11 +1,15 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -36,6 +40,8 @@ class JsonAdaptedProperty {
     private final String status;
     private final String type;
     private final String owner;
+    private final List<String> buyingPersonIds = new ArrayList<>();
+    private final List<String> sellingPersonIds = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedProperty} with the given property details.
@@ -46,7 +52,8 @@ class JsonAdaptedProperty {
             @JsonProperty("floorArea") String floorArea, @JsonProperty("listing") String listing,
             @JsonProperty("postal") String postal, @JsonProperty("price") String price,
             @JsonProperty("status") String status, @JsonProperty("type") String type,
-            @JsonProperty("owner") String owner) {
+            @JsonProperty("owner") String owner, @JsonProperty("buyingPersonIds") List<String> buyingPersonIds,
+            @JsonProperty("sellingPersonIds") List<String> sellingPersonIds) {
         this.id = id;
         this.address = address;
         this.bathroom = bathroom;
@@ -58,6 +65,12 @@ class JsonAdaptedProperty {
         this.status = status;
         this.type = type;
         this.owner = owner;
+        if (buyingPersonIds != null) {
+            this.buyingPersonIds.addAll(buyingPersonIds);
+        }
+        if (sellingPersonIds != null) {
+            this.sellingPersonIds.addAll(sellingPersonIds);
+        }
     }
 
     /**
@@ -75,6 +88,18 @@ class JsonAdaptedProperty {
         status = source.getStatus().value;
         type = source.getType().value;
         owner = source.getOwner().value;
+        buyingPersonIds.addAll(source
+                .getBuyingPersonIds()
+                .stream()
+                .map(id -> id.value)
+                .map(i -> i.toString())
+                .toList());
+        sellingPersonIds.addAll(source
+                .getSellingPersonIds()
+                .stream()
+                .map(id -> id.value)
+                .map(i -> i.toString())
+                .toList());
     }
 
     /**
@@ -167,8 +192,22 @@ class JsonAdaptedProperty {
             throw new IllegalValueException(Owner.MESSAGE_CONSTRAINTS);
         }
         final Owner modelOwner = new Owner(owner);
-        return new Property(modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
-                modelPostal, modelPrice, modelStatus, modelType, modelOwner, new HashSet<>(), new HashSet<>());
+
+        final List<Uuid> tempBuyingPersonIds = new ArrayList<>();
+        for (String id : this.buyingPersonIds) {
+            tempBuyingPersonIds.add(new Uuid(Integer.parseInt(id)));
+        }
+        final Set<Uuid> modelBuyingPersonIds = new HashSet<>(tempBuyingPersonIds);
+
+        final List<Uuid> tempSellingPersonIds = new ArrayList<>();
+        for (String id : this.sellingPersonIds) {
+            tempSellingPersonIds.add(new Uuid(Integer.parseInt(id)));
+        }
+        final Set<Uuid> modelSellingPersonIds = new HashSet<>(tempSellingPersonIds);
+
+        return new Property(id, modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
+                modelPostal, modelPrice, modelStatus, modelType, modelOwner,
+                modelBuyingPersonIds, modelSellingPersonIds);
     }
 
 }

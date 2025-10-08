@@ -6,6 +6,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.LinkCommand;
@@ -34,22 +36,22 @@ public class LinkCommandParser implements Parser<LinkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, LinkCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP,
-                PREFIX_LINK_CLIENT_ID);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_LINK_RELATIONSHIP);
 
         String relationship = argMultimap.getValue(PREFIX_LINK_RELATIONSHIP).get();
         if (!relationship.equals("buyer") && !relationship.equals("seller")) {
             throw new ParseException(String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE));
         }
 
-        Uuid personId = ParserUtil.parseUuid(argMultimap.getValue(PREFIX_LINK_CLIENT_ID).get());
-        String propertyId = argMultimap.getValue(PREFIX_LINK_PROPERTY_ID).get();
+        Set<Uuid> personIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_LINK_CLIENT_ID));
+        Set<String> propertyIds = argMultimap.getAllValues(PREFIX_LINK_PROPERTY_ID)
+                .stream().collect(Collectors.toSet());
 
         LinkDescriptor linkDescriptor = new LinkDescriptor();
 
         linkDescriptor.setRelationship(relationship);
-        linkDescriptor.setPersonId(personId);
-        linkDescriptor.setPropertyId(propertyId);
+        linkDescriptor.setPersonIds(personIds);
+        linkDescriptor.setPropertyIds(propertyIds);
 
         return new LinkCommand(linkDescriptor);
     }

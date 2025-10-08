@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.PersonBuilderUtil;
 
 public class PersonRegistryTest {
 
@@ -20,8 +20,8 @@ public class PersonRegistryTest {
     @BeforeEach
     public void setUp() {
         personRegistry = new PersonRegistry();
-        alice = new PersonBuilder().withUuid(1).withName("Alice").withPhone("12345678").build();
-        bob = new PersonBuilder().withUuid(2).withName("Bob").withPhone("87654321").build();
+        alice = new PersonBuilderUtil().withUuid(1).withName("Alice").withPhone("12345678").build();
+        bob = new PersonBuilderUtil().withUuid(2).withName("Bob").withPhone("87654321").build();
     }
 
     @Test
@@ -39,7 +39,7 @@ public class PersonRegistryTest {
     @Test
     public void addPerson_duplicateUuid_replacesOldPerson() {
         personRegistry.addPerson(alice);
-        Person newAlice = new PersonBuilder().withUuid(alice.getUuid().value).withName("Alice New").build();
+        Person newAlice = new PersonBuilderUtil().withUuid(alice.getUuid().value).withName("Alice New").build();
         personRegistry.addPerson(newAlice);
         assertEquals(newAlice, personRegistry.getPerson(alice.getUuid().value));
     }

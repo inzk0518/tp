@@ -76,7 +76,7 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
             listing = ParserUtil.parseListing(argMultimap.getValue(PREFIX_PROPERTY_LISTING).get());
         }
 
-        Property property = new Property(address, bathroom, bedroom, floorArea, listing,
+        Property property = new Property(null, address, bathroom, bedroom, floorArea, listing,
                 postal, price, status, type, owner, new HashSet<>(), new HashSet<>());
 
         return new AddPropertyCommand(property);

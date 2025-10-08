@@ -9,6 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -36,7 +38,11 @@ public class LinkCommand extends Command {
             + PREFIX_LINK_RELATIONSHIP + "buyer "
             + PREFIX_LINK_CLIENT_ID + "3";
 
-    public static final String MESSAGE_LINK_PROPERTY_SUCCESS = "Linked Property ID: %1$s to Person ID: %2$s";
+    public static final String MESSAGE_LINK_BUYER_SUCCESS =
+            "Linked Property IDs: %1$s with Person IDs: %2$s as buyer";
+    public static final String MESSAGE_LINK_SELLER_SUCCESS =
+            "Linked Property IDs: %1$s with Person IDs: %2$s as seller";
+
     public static final String MESSAGE_PERSON_ALREADY_LINKED = "Person already linked to this property.";
     public static final String MESSAGE_PROPERTY_ALREADY_LINKED = "Property already linked to this person.";
 
@@ -57,25 +63,35 @@ public class LinkCommand extends Command {
         List<Person> lastShownPersonList = model.getFilteredPersonList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
 
-        Person targetPerson = linkDescriptor.getPersonInList(lastShownPersonList);
-        Property targetProperty = linkDescriptor.getPropertyInList(lastShownPropertyList);
+        List<Person> targetPeople = linkDescriptor.getPeopleInList(lastShownPersonList);
+        List<Property> targetProperties = linkDescriptor.getPropertiesInList(lastShownPropertyList);
 
-        Person updatedPerson = linkDescriptor.getUpdatedPerson(lastShownPersonList);
-        Property updatedProperty = linkDescriptor.getUpdatedProperty(lastShownPropertyList);
+        List<Person> updatedPeople = linkDescriptor.getUpdatedPeople(lastShownPersonList);
+        List<Property> updatedProperties = linkDescriptor.getUpdatedProperties(lastShownPropertyList);
 
-        model.setPerson(targetPerson, updatedPerson);
-        model.setProperty(targetProperty, updatedProperty);
+        Stream.iterate(0, x -> x < targetPeople.size(), x -> x + 1)
+                .forEach(i -> model.setPerson(targetPeople.get(i), updatedPeople.get(i)));
+        Stream.iterate(0, x -> x < targetProperties.size(), x -> x + 1)
+                .forEach(i -> model.setProperty(targetProperties.get(i), updatedProperties.get(i)));
 
-        return new CommandResult(String.format(MESSAGE_LINK_PROPERTY_SUCCESS, linkDescriptor.getPersonId(),
-                linkDescriptor.getPropertyId()));
+        switch (linkDescriptor.getRelationship()) {
+        case "buyer":
+            return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS, linkDescriptor.getPropertyIds(),
+                    linkDescriptor.getPersonIds()));
+        case "seller":
+            return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS, linkDescriptor.getPropertyIds(),
+                    linkDescriptor.getPersonIds()));
+        default:
+            throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
+        }
     }
 
     /**
      * Stores Ids and relationship to link a property to a person.
      */
     public static class LinkDescriptor {
-        private Uuid personId;
-        private String propertyId;
+        private Set<Uuid> personIds;
+        private Set<String> propertyIds;
         private String relationship;
 
         public LinkDescriptor() {}
@@ -84,29 +100,29 @@ public class LinkCommand extends Command {
          * Copy constructor.
          */
         public LinkDescriptor(LinkDescriptor toCopy) {
-            setPersonId(toCopy.personId);
-            setPropertyId(toCopy.propertyId);
+            setPersonIds(toCopy.personIds);
+            setPropertyIds(toCopy.propertyIds);
             setRelationship(toCopy.relationship);
         }
 
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(personId, propertyId, relationship);
+            return CollectionUtil.isAnyNonNull(personIds, propertyIds, relationship);
         }
 
-        public void setPersonId(Uuid personId) {
-            this.personId = personId;
+        public void setPersonIds(Set<Uuid> personIds) {
+            this.personIds = personIds;
         }
 
-        public Uuid getPersonId() {
-            return personId;
+        public Set<Uuid> getPersonIds() {
+            return personIds;
         }
 
-        public void setPropertyId(String propertyId) {
-            this.propertyId = propertyId;
+        public void setPropertyIds(Set<String> propertyIds) {
+            this.propertyIds = propertyIds;
         }
 
-        public String getPropertyId() {
-            return propertyId;
+        public Set<String> getPropertyIds() {
+            return propertyIds;
         }
 
         public void setRelationship(String relationship) {
@@ -118,71 +134,85 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns the {@code Person} in the list with the matching personId.
+         * Returns the {@code List<Person>} in the list with all matching personIds.
          *
-         * @throws CommandException if no such person exists in the list.
+         * @throws CommandException if any person is not found in the list.
          */
-        public Person getPersonInList(List<Person> personList) throws CommandException {
-            return personList.stream().filter(predicate -> predicate.getUuid().equals(personId)).findAny()
-                    .orElseThrow(() -> new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX));
+        public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
+            List<Person> peopleList = personList.stream()
+                    .filter(person -> personIds.contains(person.getUuid()))
+                    .collect(Collectors.toList());
+            if (peopleList.size() != personIds.size()) {
+                throw new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+            return peopleList;
         }
 
         /**
-         * Returns the {@code Property} in the list with the matching propertyId.
+         * Returns the {@code Set<Property>} in the list with the matching propertyId.
          *
          * @throws CommandException if no such property exists in the list.
          */
-        public Property getPropertyInList(List<Property> propertyList) throws CommandException {
-            return propertyList.stream().filter(predicate -> predicate.getId().equals(propertyId)).findAny()
-                    .orElseThrow(() -> new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX));
+        public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
+            List<Property> propertiesList = propertyList.stream()
+                    .filter(property -> propertyIds.contains(property.getId()))
+                    .collect(Collectors.toList());
+            if (propertiesList.size() != propertyIds.size()) {
+                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+            }
+            return propertiesList;
         }
 
         /**
-         * Returns an edited {@code Person} with the property linked.
+         * Returns an edited {@code Set<Person>} with the properties linked.
          *
          * @throws CommandException if the relationship is invalid.
          */
-        public Person getUpdatedPerson(List<Person> personList) throws CommandException {
-            Person personToEdit = getPersonInList(personList);
+        public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
+            List<Person> peopleToEdit = getPeopleInList(personList);
             switch (relationship) {
             case "buyer":
-                Set<String> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
-                updatedBuyingPropertyIds.add(propertyId);
-                return new Person(personToEdit.getUuid(), personToEdit.getName(), personToEdit.getPhone(),
-                        personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getTags(),
-                        personToEdit.getBudgetMin(), personToEdit.getBudgetMax(), personToEdit.getNotes(),
-                        personToEdit.getStatus(), updatedBuyingPropertyIds, personToEdit.getSellingPropertyIds());
+                return peopleToEdit.stream().map(personToEdit -> new Person(personToEdit.getUuid(),
+                        personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
+                        personToEdit.getAddress(), personToEdit.getTags(), personToEdit.getBudgetMin(),
+                        personToEdit.getBudgetMax(), personToEdit.getNotes(), personToEdit.getStatus(),
+                        Stream.concat(personToEdit.getBuyingPropertyIds().stream(), propertyIds.stream())
+                                .collect(Collectors.toSet()),
+                        personToEdit.getSellingPropertyIds()))
+                        .collect(Collectors.toList());
             case "seller":
-                Set<String> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
-                updatedSellingPropertyIds.add(propertyId);
-                return new Person(personToEdit.getUuid(), personToEdit.getName(), personToEdit.getPhone(),
-                        personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getTags(),
-                        personToEdit.getBudgetMin(), personToEdit.getBudgetMax(), personToEdit.getNotes(),
-                        personToEdit.getStatus(), personToEdit.getBuyingPropertyIds(), updatedSellingPropertyIds);
+                return peopleToEdit.stream().map(personToEdit -> new Person(personToEdit.getUuid(),
+                        personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
+                        personToEdit.getAddress(), personToEdit.getTags(), personToEdit.getBudgetMin(),
+                        personToEdit.getBudgetMax(), personToEdit.getNotes(), personToEdit.getStatus(),
+                        personToEdit.getBuyingPropertyIds(),
+                        Stream.concat(personToEdit.getSellingPropertyIds().stream(), propertyIds.stream())
+                                .collect(Collectors.toSet())))
+                        .collect(Collectors.toList());
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
             }
         }
 
         /**
-         * Returns an edited {@code Property} with the person linked.
+         * Returns an edited {@code Set<Property>} with the people linked.
          *
          * @throws CommandException if the relationship is invalid.
          */
-        public Property getUpdatedProperty(List<Property> propertyList)
+        public List<Property> getUpdatedProperties(List<Property> propertyList)
                 throws CommandException {
-            Property propertyToEdit = getPropertyInList(propertyList);
+            List<Property> propertiesToEdit = getPropertiesInList(propertyList);
             switch (relationship) {
             case "buyer":
-                Set<Uuid> updatedBuyingPersonIds = Set.copyOf(propertyToEdit.getBuyingPersonIds());
-                updatedBuyingPersonIds.add(personId);
-                propertyToEdit.setBuyingPersonIds(updatedBuyingPersonIds);
-                return propertyToEdit;
+                propertiesToEdit.stream().forEach(property -> property.setBuyingPersonIds(
+                        Stream.concat(property.getBuyingPersonIds().stream(), personIds.stream())
+                                .collect(Collectors.toSet())));
+                return propertiesToEdit;
             case "seller":
-                Set<Uuid> updatedSellingPersonIds = Set.copyOf(propertyToEdit.getSellingPersonIds());
-                updatedSellingPersonIds.add(personId);
-                propertyToEdit.setSellingPersonIds(updatedSellingPersonIds);
-                return propertyToEdit;
+                propertiesToEdit.stream().forEach(property -> property.setSellingPersonIds(
+                        Stream.concat(property.getSellingPersonIds().stream(), personIds.stream())
+                                .collect(Collectors.toSet())));
+                return propertiesToEdit;
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
             }
@@ -200,18 +230,32 @@ public class LinkCommand extends Command {
 
             LinkDescriptor otherLinkDescriptor = (LinkDescriptor) other;
 
-            return getPersonId().equals(otherLinkDescriptor.getPersonId())
-                    && getPropertyId().equals(otherLinkDescriptor.getPropertyId())
-                    && getRelationship().equals(otherLinkDescriptor.getRelationship());
+            return personIds.equals(otherLinkDescriptor.personIds)
+                    && propertyIds.equals(otherLinkDescriptor.propertyIds)
+                    && relationship.equals(otherLinkDescriptor.relationship);
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .add("personId", personId)
+                    .add("personIds", personIds)
                     .add("relationship", relationship)
-                    .add("propertyId", propertyId)
+                    .add("propertyIds", propertyIds)
                     .toString();
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof LinkCommand)) {
+            return false;
+        }
+
+        LinkCommand otherLinkCommand = (LinkCommand) other;
+        return linkDescriptor.equals(otherLinkCommand.linkDescriptor);
     }
 }

@@ -50,17 +50,31 @@ public class ParserUtil {
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
+
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
+     * Parses {@code propertyId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
      * trimmed.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * @throws ParseException if the specified propertyId is invalid (not non-zero unsigned integer).
      */
-    public static Uuid parseUuid(String uuid) throws ParseException {
-        String trimmedUuid = uuid.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedUuid)) {
+    public static Uuid parsePropertyId(String propertyId) throws ParseException {
+        requireNonNull(propertyId);
+        String trimmedPropertyId = propertyId.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedPropertyId)) {
             throw new ParseException(MESSAGE_INVALID_UUID);
         }
-        return new Uuid(Integer.parseInt(trimmedUuid));
+        return new Uuid(Integer.parseInt(trimmedPropertyId));
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Uuid>} and returns it.
+     */
+    public static Set<Uuid> parsePropertyIds(Collection<String> propertyIds) throws ParseException {
+        requireNonNull(propertyIds);
+        final Set<Uuid> propertyIdSet = new HashSet<>();
+        for (String propertyId : propertyIds) {
+            propertyIdSet.add(parsePropertyId(propertyId));
+        }
+        return propertyIdSet;
     }
 
     /**

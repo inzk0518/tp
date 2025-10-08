@@ -19,7 +19,7 @@ import seedu.address.model.util.SampleDataUtil;
 /**
  * A utility class to help with building Person objects.
  */
-public class PersonBuilder {
+public class PersonBuilderUtil {
 
     public static final Integer DEFAULT_UUID = 1;
     public static final String DEFAULT_NAME = "Amy Bee";
@@ -47,7 +47,7 @@ public class PersonBuilder {
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
-    public PersonBuilder() {
+    public PersonBuilderUtil() {
         uuid = new Uuid(DEFAULT_UUID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
@@ -65,17 +65,17 @@ public class PersonBuilder {
     /**
      * Initializes the PersonBuilder with the data of {@code personToCopy}.
      */
-    public PersonBuilder(Person personToCopy) {
-        uuid = personToCopy.getUuid();
-        name = personToCopy.getName();
-        phone = personToCopy.getPhone();
-        email = personToCopy.getEmail();
-        address = personToCopy.getAddress();
+    public PersonBuilderUtil(Person personToCopy) {
+        uuid = new Uuid(personToCopy.getUuid().value);
+        name = new Name(personToCopy.getName().fullName);
+        phone = new Phone(personToCopy.getPhone().value);
+        email = new Email(personToCopy.getEmail().value);
+        address = new PersonAddress(personToCopy.getAddress().value);
         tags = new HashSet<>(personToCopy.getTags());
-        budgetMin = personToCopy.getBudgetMin();
-        budgetMax = personToCopy.getBudgetMax();
-        notes = personToCopy.getNotes();
-        status = personToCopy.getStatus();
+        budgetMin = new BudgetMin(personToCopy.getBudgetMin().value);
+        budgetMax = new BudgetMax(personToCopy.getBudgetMax().value);
+        notes = new Notes(personToCopy.getNotes().value);
+        status = new PersonStatus(personToCopy.getStatus().value);
         buyingPropertyIds = new HashSet<>(personToCopy.getBuyingPropertyIds());
         sellingPropertyIds = new HashSet<>(personToCopy.getSellingPropertyIds());
     }
@@ -83,7 +83,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code uuid} of the {@code Person} that we are building.
      */
-    public PersonBuilder withUuid(int uuid) {
+    public PersonBuilderUtil withUuid(int uuid) {
         this.uuid = new Uuid(uuid);
         return this;
     }
@@ -91,7 +91,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Name} of the {@code Person} that we are building.
      */
-    public PersonBuilder withName(String name) {
+    public PersonBuilderUtil withName(String name) {
         this.name = new Name(name);
         return this;
     }
@@ -99,7 +99,7 @@ public class PersonBuilder {
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
+    public PersonBuilderUtil withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
@@ -107,7 +107,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
-    public PersonBuilder withAddress(String address) {
+    public PersonBuilderUtil withAddress(String address) {
         this.address = new PersonAddress(address);
         return this;
     }
@@ -115,7 +115,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Phone} of the {@code Person} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
+    public PersonBuilderUtil withPhone(String phone) {
         this.phone = new Phone(phone);
         return this;
     }
@@ -123,7 +123,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Email} of the {@code Person} that we are building.
      */
-    public PersonBuilder withEmail(String email) {
+    public PersonBuilderUtil withEmail(String email) {
         this.email = new Email(email);
         return this;
     }
@@ -131,7 +131,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code BudgetMin} of the {@code Person}.
      */
-    public PersonBuilder withBudgetMin(String min) {
+    public PersonBuilderUtil withBudgetMin(String min) {
         this.budgetMin = new BudgetMin(min);
         return this;
     }
@@ -139,7 +139,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code BudgetMax} of the {@code Person}.
      */
-    public PersonBuilder withBudgetMax(String max) {
+    public PersonBuilderUtil withBudgetMax(String max) {
         this.budgetMax = new BudgetMax(max);
         return this;
     }
@@ -147,7 +147,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Notes} of the {@code Person}.
      */
-    public PersonBuilder withNotes(String notes) {
+    public PersonBuilderUtil withNotes(String notes) {
         this.notes = new Notes(notes);
         return this;
     }
@@ -155,7 +155,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Status} of the {@code Person}.
      */
-    public PersonBuilder withStatus(String status) {
+    public PersonBuilderUtil withStatus(String status) {
         this.status = new PersonStatus(status);
         return this;
     }
@@ -163,7 +163,7 @@ public class PersonBuilder {
     /**
      * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withBuyingPropertyIds(String ... ids) {
+    public PersonBuilderUtil withBuyingPropertyIds(String ... ids) {
         this.buyingPropertyIds = Set.of(ids);
         return this;
     }
@@ -171,7 +171,7 @@ public class PersonBuilder {
     /**
      * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withSellingPropertyIds(String ... ids) {
+    public PersonBuilderUtil withSellingPropertyIds(String ... ids) {
         this.sellingPropertyIds = Set.of(ids);
         return this;
     }

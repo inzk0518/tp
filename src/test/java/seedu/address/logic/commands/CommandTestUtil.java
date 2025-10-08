@@ -16,6 +16,7 @@ import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -75,10 +76,10 @@ public class CommandTestUtil {
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
-        LINK_DESC_AMY_BUYER_PROPERTY_ALPHA = new LinkDescriptorBuilder().withPersonIndex(AMY.getUuid())
-                .withRelationship("buyer").withPropertyIndex(PROPERTY_ALPHA.getId()).build();
-        LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withPersonIndex(BOB.getUuid())
-                .withRelationship("seller").withPropertyIndex(PROPERTY_BETA.getId()).build();
+        LINK_DESC_AMY_BUYER_PROPERTY_ALPHA = new LinkDescriptorBuilder().withPersonIds(Set.of(AMY.getUuid()))
+                .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getId())).build();
+        LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withPersonIds(Set.of(BOB.getUuid()))
+                .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getId())).build();
     }
 
     /**
