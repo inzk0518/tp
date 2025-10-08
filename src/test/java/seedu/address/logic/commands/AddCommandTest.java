@@ -209,6 +209,21 @@ public class AddCommandTest {
         public void updateFilteredPropertyList(Predicate<Property> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void markPropertyAsSold(Property property) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void markPropertyAsUnsold(Property property) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Property getPropertyById(String id) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
