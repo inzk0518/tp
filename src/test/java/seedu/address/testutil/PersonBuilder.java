@@ -3,12 +3,12 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -22,18 +22,20 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
 
+    private Uuid uuid;
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
     private Set<Tag> tags;
-    private Set<Index> buyingPropertyIds;
-    private Set<Index> sellingPropertyIds;
+    private Set<String> buyingPropertyIds;
+    private Set<String> sellingPropertyIds;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
+        uuid = new Uuid(0);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -47,6 +49,7 @@ public class PersonBuilder {
      * Initializes the PersonBuilder with the data of {@code personToCopy}.
      */
     public PersonBuilder(Person personToCopy) {
+        uuid = personToCopy.getUuid();
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
@@ -54,6 +57,14 @@ public class PersonBuilder {
         tags = new HashSet<>(personToCopy.getTags());
         buyingPropertyIds = new HashSet<>(personToCopy.getBuyingPropertyIds());
         sellingPropertyIds = new HashSet<>(personToCopy.getSellingPropertyIds());
+    }
+
+    /**
+     * Sets the {@code Uuid} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withUuid(int uuid) {
+        this.uuid = new Uuid(uuid);
+        return this;
     }
 
     /**
@@ -99,21 +110,21 @@ public class PersonBuilder {
     /**
      * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withBuyingPropertyIds(int ... ids) {
-        this.buyingPropertyIds = SampleDataUtil.getIndexSet(ids);
+    public PersonBuilder withBuyingPropertyIds(String ... ids) {
+        this.buyingPropertyIds = Set.of(ids);
         return this;
     }
 
     /**
      * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withSellingPropertyIds(int ... ids) {
-        this.sellingPropertyIds = SampleDataUtil.getIndexSet(ids);
+    public PersonBuilder withSellingPropertyIds(String ... ids) {
+        this.sellingPropertyIds = Set.of(ids);
         return this;
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags, buyingPropertyIds, sellingPropertyIds);
+        return new Person(uuid, name, phone, email, address, tags, buyingPropertyIds, sellingPropertyIds);
     }
 
 }

@@ -1,19 +1,22 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.List;
+import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Property;
 
 /**
@@ -54,39 +57,25 @@ public class LinkCommand extends Command {
         List<Person> lastShownPersonList = model.getFilteredPersonList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
 
-        Index personIndex = linkDescriptor.getPersonId();
-        Index propertyIndex = linkDescriptor.getPropertyId();
+        Person targetPerson = linkDescriptor.getPersonInList(lastShownPersonList);
+        Property targetProperty = linkDescriptor.getPropertyInList(lastShownPropertyList);
 
-        if (personIndex.getZeroBased() >= lastShownPersonList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        }
+        Person updatedPerson = linkDescriptor.getUpdatedPerson(lastShownPersonList, lastShownPropertyList);
+        Property updatedProperty = linkDescriptor.getUpdatedProperty(lastShownPersonList, lastShownPropertyList);
 
-        if (propertyIndex.getZeroBased() >= lastShownPropertyList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
-        }
+        model.setPerson(targetPerson, updatedPerson);
+        model.setProperty(targetProperty, updatedProperty);
 
-        Person personToLink = lastShownPersonList.get(personIndex.getZeroBased());
-        Property propertyToLink = lastShownPropertyList.get(propertyIndex.getZeroBased());
-
-        switch (linkDescriptor.getRelationship()) {
-        case "buyer":
-            break;
-        case "seller":
-            break;
-        default:
-            throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
-        }
-
-        throw new CommandException("LinkCommand not yet Implemented");
-        // return new CommandResult(String.format(MESSAGE_LINK_PROPERTY_SUCCESS, propertyIndex, personIndex));
+        return new CommandResult(String.format(MESSAGE_LINK_PROPERTY_SUCCESS, linkDescriptor.getPersonId(),
+                linkDescriptor.getPropertyId()));
     }
 
     /**
      * Stores Ids and relationship to link a property to a person.
      */
     public static class LinkDescriptor {
-        private Index personId;
-        private Index propertyId;
+        private Uuid personId;
+        private String propertyId;
         private String relationship;
 
         public LinkDescriptor() {}
@@ -104,19 +93,19 @@ public class LinkCommand extends Command {
             return CollectionUtil.isAnyNonNull(personId, propertyId, relationship);
         }
 
-        public void setPersonId(Index personId) {
+        public void setPersonId(Uuid personId) {
             this.personId = personId;
         }
 
-        public Index getPersonId() {
+        public Uuid getPersonId() {
             return personId;
         }
 
-        public void setPropertyId(Index propertyId) {
+        public void setPropertyId(String propertyId) {
             this.propertyId = propertyId;
         }
 
-        public Index getPropertyId() {
+        public String getPropertyId() {
             return propertyId;
         }
 
@@ -126,6 +115,75 @@ public class LinkCommand extends Command {
 
         public String getRelationship() {
             return relationship;
+        }
+
+        /**
+         * Returns the {@code Person} in the list with the matching personId.
+         *
+         * @throws CommandException if no such person exists in the list.
+         */
+        public Person getPersonInList(List<Person> personList) throws CommandException {
+            return personList.stream().filter(predicate -> predicate.getUuid().equals(personId)).findAny()
+                    .orElseThrow(() -> new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX));
+        }
+
+        /**
+         * Returns the {@code Property} in the list with the matching propertyId.
+         *
+         * @throws CommandException if no such property exists in the list.
+         */
+        public Property getPropertyInList(List<Property> propertyList) throws CommandException {
+            return propertyList.stream().filter(predicate -> predicate.getId().equals(propertyId)).findAny()
+                    .orElseThrow(() -> new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX));
+        }
+
+        /**
+         * Returns an edited {@code Person} with the property linked.
+         *
+         * @throws CommandException if the relationship is invalid.
+         */
+        public Person getUpdatedPerson(List<Person> personList, List<Property> propertyList) throws CommandException {
+            Person personToEdit = getPersonInList(personList);
+            switch (relationship) {
+            case "buyer":
+                Set<String> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
+                updatedBuyingPropertyIds.add(propertyId);
+                return new Person(personToEdit.getUuid(), personToEdit.getName(), personToEdit.getPhone(),
+                        personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getTags(),
+                        updatedBuyingPropertyIds, personToEdit.getSellingPropertyIds());
+            case "seller":
+                Set<String> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
+                updatedSellingPropertyIds.add(propertyId);
+                return new Person(personToEdit.getUuid(), personToEdit.getName(), personToEdit.getPhone(),
+                        personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getTags(),
+                        personToEdit.getBuyingPropertyIds(), updatedSellingPropertyIds);
+            default:
+                throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
+            }
+        }
+
+        /**
+         * Returns an edited {@code Property} with the person linked.
+         *
+         * @throws CommandException if the relationship is invalid.
+         */
+        public Property getUpdatedProperty(List<Person> personList, List<Property> propertyList)
+                throws CommandException {
+            Property propertyToEdit = getPropertyInList(propertyList);
+            switch (relationship) {
+            case "buyer":
+                Set<Uuid> updatedBuyingPersonIds = Set.copyOf(propertyToEdit.getBuyingPersonIds());
+                updatedBuyingPersonIds.add(personId);
+                propertyToEdit.setBuyingPersonIds(updatedBuyingPersonIds);
+                return propertyToEdit;
+            case "seller":
+                Set<Uuid> updatedSellingPersonIds = Set.copyOf(propertyToEdit.getSellingPersonIds());
+                updatedSellingPersonIds.add(personId);
+                propertyToEdit.setSellingPersonIds(updatedSellingPersonIds);
+                return propertyToEdit;
+            default:
+                throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
+            }
         }
 
         @Override

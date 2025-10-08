@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.person.Uuid;
 
 /**
  * Represents a Property in the property book.
@@ -30,14 +30,16 @@ public class Property {
     private final Status status;
     private final Type type;
     private final Owner owner;
-    private final Set<Index> linkedPersonIds = new HashSet<>();
+    private final Set<Uuid> buyingPersonIds = new HashSet<>();
+    private final Set<Uuid> sellingPersonIds = new HashSet<>();
 
     /**
      * Constructs a {@code Property}.
      * Every field must be present and not null except listing which can be null.
      */
     public Property(PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea, Listing listing,
-            Postal postal, Price price, Status status, Type type, Owner owner, Set<Index> linkedPersonIds) {
+            Postal postal, Price price, Status status, Type type, Owner owner, Set<Uuid> buyingPersonIds,
+            Set<Uuid> sellingPersonIds) {
         // Listing can be null
         requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
         this.address = address;
@@ -50,7 +52,8 @@ public class Property {
         this.status = status;
         this.type = type;
         this.owner = owner;
-        this.linkedPersonIds.addAll(linkedPersonIds);
+        this.buyingPersonIds.addAll(buyingPersonIds);
+        this.sellingPersonIds.addAll(sellingPersonIds);
         this.id = java.util.UUID.randomUUID().toString().substring(0, 6);
     }
 
@@ -103,8 +106,26 @@ public class Property {
      * Returns an immutable person index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Index> getLinkedPersonIds() {
-        return Collections.unmodifiableSet(linkedPersonIds);
+    public Set<Uuid> getBuyingPersonIds() {
+        return Collections.unmodifiableSet(buyingPersonIds);
+    }
+
+    /**
+     * Returns an immutable person index set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Uuid> getSellingPersonIds() {
+        return Collections.unmodifiableSet(sellingPersonIds);
+    }
+
+    public void setBuyingPersonIds(Set<Uuid> buyingPersonIds) {
+        this.buyingPersonIds.clear();
+        this.buyingPersonIds.addAll(buyingPersonIds);
+    }
+
+    public void setSellingPersonIds(Set<Uuid> sellingPersonIds) {
+        this.sellingPersonIds.clear();
+        this.sellingPersonIds.addAll(sellingPersonIds);
     }
 
     /**
@@ -128,7 +149,7 @@ public class Property {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type,
-                owner, linkedPersonIds);
+                owner, buyingPersonIds, sellingPersonIds);
     }
 
     /*
@@ -157,7 +178,8 @@ public class Property {
                 && status.equals(otherProperty.status)
                 && type.equals(otherProperty.type)
                 && owner.equals(otherProperty.owner)
-                && linkedPersonIds.equals(otherProperty.linkedPersonIds);
+                && buyingPersonIds.equals(otherProperty.buyingPersonIds)
+                && sellingPersonIds.equals(otherProperty.sellingPersonIds);
     }
 
     @Override
@@ -174,7 +196,8 @@ public class Property {
                 .add("Status", status)
                 .add("Type", type)
                 .add("Owner", owner)
-                .add("Linked Person IDs", linkedPersonIds)
+                .add("Buying Person IDs", buyingPersonIds)
+                .add("Selling Person IDs", sellingPersonIds)
                 .toString();
     }
 }

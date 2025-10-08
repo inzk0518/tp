@@ -28,7 +28,8 @@ class PropertyTest {
         assertEquals(new Status("listed"), property.getStatus());
         assertEquals(new Type("HDB"), property.getType());
         assertEquals(new Owner("owner123"), property.getOwner());
-        assertEquals(new HashSet<>(), property.getLinkedPersonIds());
+        assertEquals(new HashSet<>(), property.getBuyingPersonIds());
+        assertEquals(new HashSet<>(), property.getSellingPersonIds());
         assertNotNull(property.getId());
     }
 
@@ -50,7 +51,7 @@ class PropertyTest {
         Property duplicateIdentity = new Property(new PropertyAddress("123 Main St 5"),
                 new Bathroom("1"), new Bedroom("4"),
                 new FloorArea("150"), new Listing("rent"), new Postal("123456"), new Price("600000"),
-                new Status("listed"), new Type("hdb"), new Owner("owner789"), new HashSet<>());
+                new Status("listed"), new Type("hdb"), new Owner("owner789"), new HashSet<>(), new HashSet<>());
         assertTrue(property.isSameProperty(duplicateIdentity));
     }
 
@@ -95,6 +96,7 @@ class PropertyTest {
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Property property = PROPERTY_ALPHA;
-        assertThrows(UnsupportedOperationException.class, () -> property.getLinkedPersonIds().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> property.getBuyingPersonIds().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> property.getSellingPersonIds().remove(0));
     }
 }

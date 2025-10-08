@@ -77,7 +77,7 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
         }
 
         Property property = new Property(address, bathroom, bedroom, floorArea, listing,
-                postal, price, status, type, owner, new HashSet<>());
+                postal, price, status, type, owner, new HashSet<>(), new HashSet<>());
 
         return new AddPropertyCommand(property);
     }

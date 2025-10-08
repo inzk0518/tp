@@ -26,6 +26,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -95,15 +96,16 @@ public class EditCommand extends Command {
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
 
+        Uuid updatedUuid = personToEdit.getUuid();
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-        Set<Index> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
-        Set<Index> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
+        Set<String> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
+        Set<String> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
+        return new Person(updatedUuid, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
                 updatedBuyingPropertyIds, updatedSellingPropertyIds);
     }
 

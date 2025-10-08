@@ -3,7 +3,7 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -32,7 +32,8 @@ public class PropertyBuilder {
     public static final String DEFAULT_STATUS = "listed";
     public static final String DEFAULT_TYPE = "landed";
     public static final String DEFAULT_OWNER = "owner123";
-    public static final Set<Index> DEFAULT_LINKED_PERSON_IDS = SampleDataUtil.getIndexSet();
+    public static final Set<Uuid> DEFAULT_BUYING_PERSON_IDS = new HashSet<>();
+    public static final Set<Uuid> DEFAULT_SELLING_PERSON_IDS = new HashSet<>();
 
     private PropertyAddress propertyAddress;
     private Bathroom bathroom;
@@ -44,7 +45,8 @@ public class PropertyBuilder {
     private Status status;
     private Type type;
     private Owner owner;
-    private Set<Index> linkedPersonIds;
+    private Set<Uuid> buyingPersonIds;
+    private Set<Uuid> sellingPersonIds;
 
     /**
      * Creates a {@code PropertyBuilder} with the default details.
@@ -60,7 +62,8 @@ public class PropertyBuilder {
         status = new Status(DEFAULT_STATUS);
         type = new Type(DEFAULT_TYPE);
         owner = new Owner(DEFAULT_OWNER);
-        linkedPersonIds = DEFAULT_LINKED_PERSON_IDS;
+        buyingPersonIds = DEFAULT_BUYING_PERSON_IDS;
+        sellingPersonIds = DEFAULT_SELLING_PERSON_IDS;
     }
 
     /**
@@ -77,7 +80,8 @@ public class PropertyBuilder {
         status = propertyToCopy.getStatus();
         type = propertyToCopy.getType();
         owner = propertyToCopy.getOwner();
-        linkedPersonIds = new HashSet<>(propertyToCopy.getLinkedPersonIds());
+        buyingPersonIds = new HashSet<>(propertyToCopy.getBuyingPersonIds());
+        sellingPersonIds = new HashSet<>(propertyToCopy.getSellingPersonIds());
     }
 
     /**
@@ -161,10 +165,17 @@ public class PropertyBuilder {
     }
 
     /**
-     * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
+     * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Person} that we are building.
      */
-    public PropertyBuilder withLinkedPersonIds(int ... ids) {
-        this.linkedPersonIds = SampleDataUtil.getIndexSet(ids);
+    public PropertyBuilder withBuyingPersonIds(int ... ids) {
+        this.buyingPersonIds = SampleDataUtil.getUuidSet(ids);
+        return this;
+    }
+    /**
+     * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Person} that we are building.
+     */
+    public PropertyBuilder withSellingPersonIds(int ... ids) {
+        this.sellingPersonIds = SampleDataUtil.getUuidSet(ids);
         return this;
     }
 
@@ -173,7 +184,7 @@ public class PropertyBuilder {
      */
     public Property build() {
         return new Property(propertyAddress, bathroom, bedroom, floorArea, listing, postal, price, status,
-                type, owner, linkedPersonIds);
+                type, owner, buyingPersonIds, sellingPersonIds);
     }
 
 }

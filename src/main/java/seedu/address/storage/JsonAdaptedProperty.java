@@ -168,7 +168,7 @@ class JsonAdaptedProperty {
         }
         final Owner modelOwner = new Owner(owner);
         return new Property(modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
-                modelPostal, modelPrice, modelStatus, modelType, modelOwner, new HashSet<>());
+                modelPostal, modelPrice, modelStatus, modelType, modelOwner, new HashSet<>(), new HashSet<>());
     }
 
 }

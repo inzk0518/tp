@@ -8,10 +8,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.stream.Stream;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.LinkCommand;
 import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Uuid;
 
 /**
  * Parses input arguments and creates a new LinkCommand object
@@ -42,8 +42,8 @@ public class LinkCommandParser implements Parser<LinkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE));
         }
 
-        Index personId = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_LINK_CLIENT_ID).get());
-        Index propertyId = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_LINK_PROPERTY_ID).get());
+        Uuid personId = ParserUtil.parseUuid(argMultimap.getValue(PREFIX_LINK_CLIENT_ID).get());
+        String propertyId = argMultimap.getValue(PREFIX_LINK_PROPERTY_ID).get();
 
         LinkDescriptor linkDescriptor = new LinkDescriptor();
 

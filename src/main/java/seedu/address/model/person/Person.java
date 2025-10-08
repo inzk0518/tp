@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -18,6 +17,7 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
+    private final Uuid uuid;
     private final Name name;
     private final Phone phone;
     private final Email email;
@@ -25,15 +25,16 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-    private final Set<Index> buyingPropertyIds = new HashSet<>();
-    private final Set<Index> sellingPropertyIds = new HashSet<>();
+    private final Set<String> buyingPropertyIds = new HashSet<>();
+    private final Set<String> sellingPropertyIds = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-            Set<Index> buyingPropertyIds, Set<Index> sellingPropertyIds) {
+    public Person(Uuid uuid, Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+            Set<String> buyingPropertyIds, Set<String> sellingPropertyIds) {
         requireAllNonNull(name, phone, email, address, tags);
+        this.uuid = uuid;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -41,6 +42,10 @@ public class Person {
         this.tags.addAll(tags);
         this.buyingPropertyIds.addAll(buyingPropertyIds);
         this.sellingPropertyIds.addAll(sellingPropertyIds);
+    }
+
+    public Uuid getUuid() {
+        return uuid;
     }
 
     public Name getName() {
@@ -71,7 +76,7 @@ public class Person {
      * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Index> getBuyingPropertyIds() {
+    public Set<String> getBuyingPropertyIds() {
         return Collections.unmodifiableSet(buyingPropertyIds);
     }
 
@@ -79,7 +84,7 @@ public class Person {
      * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Index> getSellingPropertyIds() {
+    public Set<String> getSellingPropertyIds() {
         return Collections.unmodifiableSet(sellingPropertyIds);
     }
 
