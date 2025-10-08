@@ -140,7 +140,6 @@ public class ParserUtil {
         }
         return tagSet;
     }
-  
     /**
      * Parses a {@code String budgetMin} into a {@code BudgetMin}.
      * Leading and trailing whitespaces will be trimmed.
@@ -208,7 +207,7 @@ public class ParserUtil {
             throw new ParseException(PersonStatus.MESSAGE_CONSTRAINTS);
         }
         return new PersonStatus(trimmedStatus);
-
+    }
     // ================ Property parsing methods ================
 
     /**

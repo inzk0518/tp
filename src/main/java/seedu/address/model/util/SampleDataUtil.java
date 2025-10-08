@@ -8,7 +8,6 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.BudgetMax;
 import seedu.address.model.person.BudgetMin;
 import seedu.address.model.person.Email;
