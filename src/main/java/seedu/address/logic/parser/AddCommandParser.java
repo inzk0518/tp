@@ -68,7 +68,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         BudgetMin budgetMin = ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).orElse(null));
         BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
-        PersonStatus status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
+        PersonStatus status = ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
 
         // use 1 for UUID first, correct UUID will be made in AddCommand
         Person person = new Person(new Uuid(1), name, phone, email, address, tagList,

@@ -183,12 +183,12 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String status} into a {@code Status}.
+     * Parses a {@code String status} into a {@code PersonStatus}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code status} is invalid (fails {@link PersonStatus#isValidStatus}).
      */
-    public static PersonStatus parseStatus(String status) throws ParseException {
+    public static PersonStatus parsePersonStatus(String status) throws ParseException {
         if (status == null) { //TODO abstract out null check?
             return new PersonStatus("");
         }
