@@ -23,8 +23,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
+import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Status;
 import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 
@@ -38,6 +38,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * and returns an AddCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
+    @Override
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                                                                   PREFIX_NAME,
@@ -68,7 +69,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         BudgetMin budgetMin = ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).orElse(null));
         BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
-        Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
+        PersonStatus status = ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
 
         // use 1 for UUID first, correct UUID will be made in AddCommand
         Person person = new Person(new Uuid(1), name, phone, email, address, tagList,

@@ -28,7 +28,7 @@ public class Person {
     private final BudgetMin budgetMin;
     private final BudgetMax budgetMax;
     private final Notes notes;
-    private final Status status;
+    private final PersonStatus status;
     /**
      * Every field must be present and not null.
      */
@@ -41,7 +41,7 @@ public class Person {
                   BudgetMin budgetMin,
                   BudgetMax budgetMax,
                   Notes notes,
-                  Status status) {
+                  PersonStatus status) {
         requireAllNonNull(name, phone);
         this.uuid = uuid;
         this.name = name;
@@ -71,7 +71,7 @@ public class Person {
         return notes;
     }
 
-    public Status getStatus() {
+    public PersonStatus getStatus() {
         return status;
     }
 

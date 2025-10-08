@@ -10,8 +10,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
+import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Status;
 import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -39,7 +39,7 @@ public class PersonBuilder {
     private BudgetMin budgetMin;
     private BudgetMax budgetMax;
     private Notes notes;
-    private Status status;
+    private PersonStatus status;
     private Uuid uuid;
 
     /**
@@ -55,7 +55,7 @@ public class PersonBuilder {
         budgetMin = new BudgetMin(DEFAULT_BUDGET_MIN);
         budgetMax = new BudgetMax(DEFAULT_BUDGET_MAX);
         notes = new Notes(DEFAULT_NOTES);
-        status = new Status(DEFAULT_STATUS);
+        status = new PersonStatus(DEFAULT_STATUS);
     }
 
     /**
@@ -149,7 +149,7 @@ public class PersonBuilder {
      * Sets the {@code Status} of the {@code Person}.
      */
     public PersonBuilder withStatus(String status) {
-        this.status = new Status(status);
+        this.status = new PersonStatus(status);
         return this;
     }
 

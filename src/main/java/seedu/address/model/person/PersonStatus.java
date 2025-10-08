@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Person's status in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidStatus(String)}
  */
-public class Status {
+public class PersonStatus {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Status should be one of the following: 'Active' or 'Inactive' or ''.";
@@ -24,7 +24,7 @@ public class Status {
      *
      * @param status A valid status string.
      */
-    public Status(String status) {
+    public PersonStatus(String status) {
         requireNonNull(status);
         checkArgument(isValidStatus(status), MESSAGE_CONSTRAINTS);
         value = status;
@@ -45,7 +45,7 @@ public class Status {
     @Override
     public boolean equals(Object other) {
         return other == this
-                || (other instanceof Status
-                && value.equals(((Status) other).value));
+                || (other instanceof PersonStatus
+                && value.equals(((PersonStatus) other).value));
     }
 }
