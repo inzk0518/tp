@@ -150,13 +150,15 @@ public class LinkCommand extends Command {
                 updatedBuyingPropertyIds.add(propertyId);
                 return new Person(personToEdit.getUuid(), personToEdit.getName(), personToEdit.getPhone(),
                         personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getTags(),
-                        updatedBuyingPropertyIds, personToEdit.getSellingPropertyIds());
+                        personToEdit.getBudgetMin(), personToEdit.getBudgetMax(), personToEdit.getNotes(),
+                        personToEdit.getStatus(), updatedBuyingPropertyIds, personToEdit.getSellingPropertyIds());
             case "seller":
                 Set<String> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
                 updatedSellingPropertyIds.add(propertyId);
                 return new Person(personToEdit.getUuid(), personToEdit.getName(), personToEdit.getPhone(),
                         personToEdit.getEmail(), personToEdit.getAddress(), personToEdit.getTags(),
-                        personToEdit.getBuyingPropertyIds(), updatedSellingPropertyIds);
+                        personToEdit.getBudgetMin(), personToEdit.getBudgetMax(), personToEdit.getNotes(),
+                        personToEdit.getStatus(), personToEdit.getBuyingPropertyIds(), updatedSellingPropertyIds);
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
             }

@@ -129,7 +129,6 @@ public class PersonBuilder {
     }
 
     /**
-
      * Sets the {@code BudgetMin} of the {@code Person}.
      */
     public PersonBuilder withBudgetMin(String min) {

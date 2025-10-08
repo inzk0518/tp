@@ -45,7 +45,7 @@ public class Person {
                   BudgetMax budgetMax,
                   Notes notes,
                   PersonStatus status,
-                  Set<String> buyingPropertyIds, 
+                  Set<String> buyingPropertyIds,
                   Set<String> sellingPropertyIds) {
         requireAllNonNull(name, phone);
         this.uuid = uuid;
