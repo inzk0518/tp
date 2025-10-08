@@ -60,8 +60,8 @@ public class LinkCommand extends Command {
         Person targetPerson = linkDescriptor.getPersonInList(lastShownPersonList);
         Property targetProperty = linkDescriptor.getPropertyInList(lastShownPropertyList);
 
-        Person updatedPerson = linkDescriptor.getUpdatedPerson(lastShownPersonList, lastShownPropertyList);
-        Property updatedProperty = linkDescriptor.getUpdatedProperty(lastShownPersonList, lastShownPropertyList);
+        Person updatedPerson = linkDescriptor.getUpdatedPerson(lastShownPersonList);
+        Property updatedProperty = linkDescriptor.getUpdatedProperty(lastShownPropertyList);
 
         model.setPerson(targetPerson, updatedPerson);
         model.setProperty(targetProperty, updatedProperty);
@@ -142,7 +142,7 @@ public class LinkCommand extends Command {
          *
          * @throws CommandException if the relationship is invalid.
          */
-        public Person getUpdatedPerson(List<Person> personList, List<Property> propertyList) throws CommandException {
+        public Person getUpdatedPerson(List<Person> personList) throws CommandException {
             Person personToEdit = getPersonInList(personList);
             switch (relationship) {
             case "buyer":
@@ -169,7 +169,7 @@ public class LinkCommand extends Command {
          *
          * @throws CommandException if the relationship is invalid.
          */
-        public Property getUpdatedProperty(List<Person> personList, List<Property> propertyList)
+        public Property getUpdatedProperty(List<Property> propertyList)
                 throws CommandException {
             Property propertyToEdit = getPropertyInList(propertyList);
             switch (relationship) {
@@ -209,8 +209,8 @@ public class LinkCommand extends Command {
         public String toString() {
             return new ToStringBuilder(this)
                     .add("personId", personId)
-                    .add("propertyId", propertyId)
                     .add("relationship", relationship)
+                    .add("propertyId", propertyId)
                     .toString();
         }
     }

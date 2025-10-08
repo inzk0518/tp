@@ -183,7 +183,7 @@ public class PersonBuilder {
      */
     public Person build() {
         return new Person(
-                new Uuid(1), // auto-generate UUID
+                uuid,
                 name,
                 phone,
                 email,
