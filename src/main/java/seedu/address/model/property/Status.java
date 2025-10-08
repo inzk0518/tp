@@ -41,6 +41,14 @@ public class Status {
         return test.matches(VALIDATION_REGEX);
     }
 
+    public boolean isSold() {
+        return value.equals("sold");
+    }
+
+    public boolean isRented() {
+        return value.equals("rented");
+    }
+
     @Override
     public String toString() {
         return value;

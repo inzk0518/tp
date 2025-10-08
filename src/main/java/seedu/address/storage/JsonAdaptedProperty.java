@@ -123,8 +123,15 @@ class JsonAdaptedProperty {
             throw new IllegalValueException(FloorArea.MESSAGE_CONSTRAINTS);
         }
         final FloorArea modelFloorArea = new FloorArea(floorArea);
-        // Listing can be null
-        final Listing modelListing = new Listing(listing);
+        if (listing == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Listing.class.getSimpleName()));
+        }
+        String trimmedListing = listing.trim();
+        if (!Listing.isValidListing(trimmedListing)) {
+            throw new IllegalValueException(Listing.MESSAGE_CONSTRAINTS);
+        }
+        final Listing modelListing = new Listing(trimmedListing);
         if (postal == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Postal.class.getSimpleName()));

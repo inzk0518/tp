@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_FLOOR_AREA;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_LISTING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_POSTAL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
@@ -33,7 +34,8 @@ public class AddPropertyCommand extends Command {
             + PREFIX_PROPERTY_BEDROOM + "BEDROOM "
             + PREFIX_PROPERTY_BATHROOM + "BATHROOM "
             + PREFIX_PROPERTY_FLOOR_AREA + "FLOOR_AREA "
-            + "[" + PREFIX_PROPERTY_LISTING + "LISTING]\n"
+            + PREFIX_PROPERTY_LISTING + "LISTING "
+            + PREFIX_PROPERTY_OWNER + "OWNER\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PROPERTY_ADDRESS + "123 Main St "
             + PREFIX_PROPERTY_POSTAL + "123456 "
@@ -42,10 +44,14 @@ public class AddPropertyCommand extends Command {
             + PREFIX_PROPERTY_STATUS + "Available "
             + PREFIX_PROPERTY_BEDROOM + "3 "
             + PREFIX_PROPERTY_BATHROOM + "2 "
-            + PREFIX_PROPERTY_FLOOR_AREA + "100";
+            + PREFIX_PROPERTY_FLOOR_AREA + "100 "
+            + PREFIX_PROPERTY_LISTING + "sale "
+            + PREFIX_PROPERTY_OWNER + "owner123";
 
     public static final String MESSAGE_SUCCESS = "New property added: %1$s";
     public static final String MESSAGE_DUPLICATE_PROPERTY = "This property already exists in the property list";
+    public static final String MESSAGE_CONFLICT_STATUS_LISTING =
+            "A property with status \"Sold\" cannot have a \"Rent\" listing type, and vice versa.";
 
     private final Property toAdd;
 
