@@ -9,8 +9,13 @@ import seedu.address.model.Model;
 import seedu.address.model.property.Property;
 
 /**
- * Marks one or more properties as unsold in the property book.
- * Command format: unsold p/property_id{1..}
+ * This command finds properties by their IDs and marks them as unsold.
+ * If a property with the given ID does not exist, the command throws a {@link CommandException}.
+ * <p>
+ *  Usage example:
+ *  <pre>
+ *  unsold p/7 p/33
+ *  </pre>
  */
 public class MarkUnsoldCommand extends Command {
 
@@ -26,11 +31,23 @@ public class MarkUnsoldCommand extends Command {
 
     private final List<String> propertyIds;
 
+    /**
+     * Constructs a {@code MarkUnsoldCommand} with the specified list of property IDs.
+     *
+     * @param propertyIds The IDs of the properties to mark as unsold. Must not be null.
+     */
     public MarkUnsoldCommand(List<String> propertyIds) {
         requireNonNull(propertyIds);
         this.propertyIds = propertyIds;
     }
 
+    /**
+     * Executes the command to mark the specified properties as unsold.
+     *
+     * @param model The model which contains the property book and data manipulation methods.
+     * @return A {@link CommandResult} indicating the outcome of the command.
+     * @throws CommandException If any of the property IDs do not exist in the model.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

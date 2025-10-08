@@ -14,6 +14,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.Status;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -205,7 +206,7 @@ public class ModelManager implements Model {
                 property.getListing(),
                 property.getPostal(),
                 property.getPrice(),
-                new seedu.address.model.property.Status("sold"),
+                new Status("sold"),
                 property.getType(),
                 property.getOwner()
         );
@@ -229,7 +230,7 @@ public class ModelManager implements Model {
                 property.getListing(),
                 property.getPostal(),
                 property.getPrice(),
-                new seedu.address.model.property.Status("unsold"),
+                new Status("unsold"),
                 property.getType(),
                 property.getOwner()
         );
