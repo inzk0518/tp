@@ -15,8 +15,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.PersonAddress;
+import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Status;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -186,16 +186,16 @@ public class ParserUtil {
      * Parses a {@code String status} into a {@code Status}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code status} is invalid (fails {@link Status#isValidStatus}).
+     * @throws ParseException if the given {@code status} is invalid (fails {@link PersonStatus#isValidStatus}).
      */
-    public static Status parseStatus(String status) throws ParseException {
+    public static PersonStatus parseStatus(String status) throws ParseException {
         if (status == null) { //TODO abstract out null check?
-            return new Status("");
+            return new PersonStatus("");
         }
         String trimmedStatus = status.trim();
-        if (!Status.isValidStatus(trimmedStatus)) {
-            throw new ParseException(Status.MESSAGE_CONSTRAINTS);
+        if (!PersonStatus.isValidStatus(trimmedStatus)) {
+            throw new ParseException(PersonStatus.MESSAGE_CONSTRAINTS);
         }
-        return new Status(trimmedStatus);
+        return new PersonStatus(trimmedStatus);
     }
 }

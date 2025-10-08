@@ -32,8 +32,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
+import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Status;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -114,7 +114,7 @@ public class EditCommand extends Command {
         BudgetMin updatedBudgetMin = editPersonDescriptor.getBudgetMin().orElse(personToEdit.getBudgetMin());
         BudgetMax updatedBudgetMax = editPersonDescriptor.getBudgetMax().orElse(personToEdit.getBudgetMax());
         Notes updatedNotes = editPersonDescriptor.getNotes().orElse(personToEdit.getNotes());
-        Status updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
+        PersonStatus updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         return new Person(personToEdit.getUuid(), updatedName, updatedPhone, updatedEmail, updatedAddress,
@@ -157,7 +157,7 @@ public class EditCommand extends Command {
         private BudgetMin budgetMin;
         private BudgetMax budgetMax;
         private Notes notes;
-        private Status status;
+        private PersonStatus status;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -241,11 +241,11 @@ public class EditCommand extends Command {
             return Optional.ofNullable(notes);
         }
 
-        public void setStatus(Status status) {
+        public void setStatus(PersonStatus status) {
             this.status = status;
         }
 
-        public Optional<Status> getStatus() {
+        public Optional<PersonStatus> getStatus() {
             return Optional.ofNullable(status);
         }
 

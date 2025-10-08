@@ -17,8 +17,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Notes;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
+import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Status;
 import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 
@@ -163,12 +163,12 @@ class JsonAdaptedPerson {
         final Notes modelNotes = new Notes(notes);
 
         if (status == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Status"));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "PersonStatus"));
         }
-        if (!Status.isValidStatus(status)) {
-            throw new IllegalValueException(Status.MESSAGE_CONSTRAINTS);
+        if (!PersonStatus.isValidStatus(status)) {
+            throw new IllegalValueException(PersonStatus.MESSAGE_CONSTRAINTS);
         }
-        final Status modelStatus = new Status(status);
+        final PersonStatus modelStatus = new PersonStatus(status);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelUuid, modelName, modelPhone, modelEmail, modelAddress,
