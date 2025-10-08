@@ -37,16 +37,16 @@ public class AddPropertyCommand extends Command {
             + PREFIX_PROPERTY_LISTING + "LISTING "
             + PREFIX_PROPERTY_OWNER + "OWNER\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_PROPERTY_ADDRESS + "123 Main St "
-            + PREFIX_PROPERTY_POSTAL + "123456 "
-            + PREFIX_PROPERTY_PRICE + "500000 "
-            + PREFIX_PROPERTY_TYPE + "HDB "
-            + PREFIX_PROPERTY_STATUS + "Available "
+            + PREFIX_PROPERTY_ADDRESS + "123 Orchard Rd "
+            + PREFIX_PROPERTY_POSTAL + "238888 "
+            + PREFIX_PROPERTY_TYPE + "condo "
             + PREFIX_PROPERTY_BEDROOM + "3 "
             + PREFIX_PROPERTY_BATHROOM + "2 "
-            + PREFIX_PROPERTY_FLOOR_AREA + "100 "
-            + PREFIX_PROPERTY_LISTING + "sale "
-            + PREFIX_PROPERTY_OWNER + "owner123";
+            + PREFIX_PROPERTY_FLOOR_AREA + "1023 "
+            + PREFIX_PROPERTY_PRICE + "1950000 "
+            + PREFIX_PROPERTY_STATUS + "sold "
+            + PREFIX_PROPERTY_OWNER + "1 "
+            + PREFIX_PROPERTY_LISTING + "sale";
 
     public static final String MESSAGE_SUCCESS = "New property added: %1$s";
     public static final String MESSAGE_DUPLICATE_PROPERTY = "This property already exists in the property list";
