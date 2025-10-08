@@ -23,29 +23,63 @@ public class Person {
     private final Email email;
 
     // Data fields
-    private final Address address;
+    private final PersonAddress address;
     private final Set<Tag> tags = new HashSet<>();
+    private final BudgetMin budgetMin;
+    private final BudgetMax budgetMax;
+    private final Notes notes;
+    private final PersonStatus status;
     private final Set<String> buyingPropertyIds = new HashSet<>();
     private final Set<String> sellingPropertyIds = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * At least name and phone must not be null.
      */
-    public Person(Uuid uuid, Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-            Set<String> buyingPropertyIds, Set<String> sellingPropertyIds) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Person(Uuid uuid,
+                  Name name,
+                  Phone phone,
+                  Email email,
+                  PersonAddress address,
+                  Set<Tag> tags,
+                  BudgetMin budgetMin,
+                  BudgetMax budgetMax,
+                  Notes notes,
+                  PersonStatus status,
+                  Set<String> buyingPropertyIds, 
+                  Set<String> sellingPropertyIds) {
+        requireAllNonNull(name, phone);
         this.uuid = uuid;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.budgetMin = budgetMin;
+        this.budgetMax = budgetMax;
+        this.notes = notes;
+        this.status = status;
         this.buyingPropertyIds.addAll(buyingPropertyIds);
         this.sellingPropertyIds.addAll(sellingPropertyIds);
     }
 
     public Uuid getUuid() {
         return uuid;
+    }
+
+    public BudgetMin getBudgetMin() {
+        return budgetMin;
+    }
+
+    public BudgetMax getBudgetMax() {
+        return budgetMax;
+    }
+
+    public Notes getNotes() {
+        return notes;
+    }
+
+    public PersonStatus getStatus() {
+        return status;
     }
 
     public Name getName() {
@@ -60,7 +94,7 @@ public class Person {
         return email;
     }
 
-    public Address getAddress() {
+    public PersonAddress getAddress() {
         return address;
     }
 
@@ -89,8 +123,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
-     * This defines a weaker notion of equality between two persons.
+     * Returns true if both persons have the same name & same phone number.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
@@ -98,15 +131,15 @@ public class Person {
         }
 
         return otherPerson != null
-                && otherPerson.getName().equals(getName());
+                && otherPerson.getName().equals(getName())
+                && otherPerson.getPhone().equals(getPhone());
     }
 
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two persons.
+     * Returns true if both persons have the same name & same phone number.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other) { //TODO merge equals with isSamePerson?
         if (other == this) {
             return true;
         }
@@ -117,29 +150,30 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags)
-                && buyingPropertyIds.equals(otherPerson.buyingPropertyIds)
-                && sellingPropertyIds.equals(otherPerson.sellingPropertyIds);
+        return Objects.equals(name, otherPerson.name)
+                && Objects.equals(phone, otherPerson.phone);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags, buyingPropertyIds, sellingPropertyIds);
+        return Objects.hash(uuid, name, phone, email, address, tags,
+                budgetMin, budgetMax, notes, status, buyingPropertyIds, sellingPropertyIds);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("uuid", uuid)
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("budgetMin", budgetMin)
+                .add("budgetMax", budgetMax)
+                .add("notes", notes)
+                .add("status", status)
                 .add("buyingPropertyIds", buyingPropertyIds)
                 .add("sellingPropertyIds", sellingPropertyIds)
                 .toString();
