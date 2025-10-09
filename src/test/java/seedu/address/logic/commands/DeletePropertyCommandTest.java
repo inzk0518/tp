@@ -65,8 +65,8 @@ class DeletePropertyCommandTest {
 
         PropertyBook expectedPropertyBook = new PropertyBook(model.getPropertyBook());
 
-        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID,
-                () -> deletePropertyCommand.execute(model));
+        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID, () ->
+            deletePropertyCommand.execute(model));
         assertEquals(expectedPropertyBook, model.getPropertyBook());
     }
 
