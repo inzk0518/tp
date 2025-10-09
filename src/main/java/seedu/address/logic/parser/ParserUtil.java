@@ -17,6 +17,7 @@ import seedu.address.model.person.Notes;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -358,5 +359,26 @@ public class ParserUtil {
             throw new ParseException(Owner.MESSAGE_CONSTRAINTS);
         }
         return new Owner(trimmedOwner);
+    }
+
+    /**
+     * Parses a {@code String uuid} into a {@code Uuid}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code uuid} is invalid.
+     */
+    public static Uuid parseUuid(String uuid) throws ParseException {
+        requireNonNull(uuid);
+        String trimmedUuid = uuid.trim();
+
+        try {
+            int uuidValue = Integer.parseInt(trimmedUuid);
+            if (!Uuid.isValidUuid(uuidValue)) {
+                throw new ParseException(Uuid.MESSAGE_CONSTRAINTS);
+            }
+            return new Uuid(uuidValue);
+        } catch (NumberFormatException e) {
+            throw new ParseException(Uuid.MESSAGE_CONSTRAINTS);
+        }
     }
 }
