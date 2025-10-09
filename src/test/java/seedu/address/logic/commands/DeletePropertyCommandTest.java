@@ -6,24 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyPropertyBook;
-import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.ModelManager;
+import seedu.address.model.PropertyBook;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -44,29 +35,39 @@ class DeletePropertyCommandTest {
     }
 
     @Test
-    void execute_propertyExists_successfulDeletion() throws Exception {
-        Property property = buildProperty("123 Main St");
-        ModelStubWithProperties modelStub = new ModelStubWithProperties(property);
-        DeletePropertyCommand command = new DeletePropertyCommand(property.getId());
+    void execute_validIdUnfilteredList_success() throws Exception {
+        Property propertyToDelete = buildProperty("123 Main St");
+        PropertyBook propertyBook = new PropertyBook();
+        propertyBook.addProperty(propertyToDelete);
+        Model model = new ModelManager(new AddressBook(), propertyBook, new UserPrefs());
+        DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(propertyToDelete.getId());
 
-        CommandResult result = command.execute(modelStub);
+        String expectedMessage = String.format(DeletePropertyCommand.MESSAGE_DELETE_PROPERTY_SUCCESS,
+                Messages.format(propertyToDelete));
 
-        assertEquals(String.format(DeletePropertyCommand.MESSAGE_DELETE_PROPERTY_SUCCESS, property.getId()),
-                result.getFeedbackToUser());
-        assertEquals(List.of(property), modelStub.deletedProperties);
-        assertTrue(modelStub.properties.isEmpty());
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new PropertyBook(model.getPropertyBook()),
+                new UserPrefs());
+        expectedModel.deleteProperty(propertyToDelete);
+
+        CommandResult result = deletePropertyCommand.execute(model);
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertEquals(expectedModel, model);
     }
 
     @Test
-    void execute_propertyMissing_throwsCommandException() {
+    void execute_invalidIdUnfilteredList_throwsCommandException() {
         Property property = buildProperty("123 Main St");
-        ModelStubWithProperties modelStub = new ModelStubWithProperties(property);
+        PropertyBook propertyBook = new PropertyBook();
+        propertyBook.addProperty(property);
+        Model model = new ModelManager(new AddressBook(), propertyBook, new UserPrefs());
         String absentId = deriveDifferentId(property.getId());
-        DeletePropertyCommand command = new DeletePropertyCommand(absentId);
+        DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(absentId);
 
-        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX,
-                () -> command.execute(modelStub));
-        assertEquals(List.of(property), modelStub.properties);
+        PropertyBook expectedPropertyBook = new PropertyBook(model.getPropertyBook());
+
+        assertThrows(CommandException.class, Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID,
+                () -> deletePropertyCommand.execute(model));
+        assertEquals(expectedPropertyBook, model.getPropertyBook());
     }
 
     @Test
@@ -96,147 +97,8 @@ class DeletePropertyCommandTest {
 
     private static String deriveDifferentId(String propertyId) {
         requireNonNull(propertyId);
-        char replacement = propertyId.charAt(0) == 'a' ? 'b' : 'a';
+        char candidate = propertyId.charAt(0);
+        char replacement = candidate == 'a' || candidate == 'A' ? 'b' : 'a';
         return replacement + propertyId.substring(1);
-    }
-
-    private static class ModelStub implements Model {
-        @Override
-        public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyUserPrefs getUserPrefs() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public GuiSettings getGuiSettings() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setGuiSettings(GuiSettings guiSettings) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Path getAddressBookFilePath() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setAddressBookFilePath(Path addressBookFilePath) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setAddressBook(ReadOnlyAddressBook newData) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePerson(Person target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setPerson(Person target, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Person> getFilteredPersonList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Path getPropertyBookFilePath() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setPropertyBookFilePath(Path propertyBookFilePath) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setPropertyBook(ReadOnlyPropertyBook propertyBook) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyPropertyBook getPropertyBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasProperty(Property property) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addProperty(Property property) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setProperty(Property target, Property editedProperty) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Property> getFilteredPropertyList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredPropertyList(Predicate<Property> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-    }
-
-    private static class ModelStubWithProperties extends ModelStub {
-        final ObservableList<Property> properties = FXCollections.observableArrayList();
-        final List<Property> deletedProperties = new ArrayList<>();
-
-        ModelStubWithProperties(Property... properties) {
-            this.properties.addAll(Arrays.asList(properties));
-        }
-
-        @Override
-        public ObservableList<Property> getFilteredPropertyList() {
-            return properties;
-        }
-
-        @Override
-        public void deleteProperty(Property target) {
-            requireNonNull(target);
-            if (!properties.remove(target)) {
-                throw new AssertionError("The target property should be present.");
-            }
-            deletedProperties.add(target);
-        }
     }
 }
