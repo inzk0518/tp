@@ -23,6 +23,10 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
     private final String status;    // equalsIgnoreCase to Status.toString()
     private final String owner;     // substring of Owner.toString()
 
+    /**
+     * Create a filter predicate which is able to check Property which matches all filter conditions
+     *
+     */
     public PropertyMatchesFilterPredicate(
             String address, String type, String bedroom, String bathroom,
             String price, String status, String owner) {
@@ -35,51 +39,71 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
         this.owner = norm(owner);
     }
 
+    /**
+     * Turn string into lower case
+     *
+     */
     private static String norm(String s) {
-        return s == null ? null : s.trim().toLowerCase(Locale.ROOT);
+        return s == null ? null : s.trim().toLowerCase();
     }
 
     @Override
     public boolean test(Property p) {
         // address substring
-        if (address != null && !p.getPropertyAddress().toString().toLowerCase().contains(address)) return false;
+        if (address != null && !p.getPropertyAddress().toString().toLowerCase().contains(address)) {
+            return false;
+        }
 
         // type equality (case-insensitive)
-        if (type != null && !p.getType().toString().equalsIgnoreCase(type)) return false;
+        if (type != null && !p.getType().toString().equalsIgnoreCase(type)) {
+            return false;
+        }
 
         // bedrooms equals
         if (bedroom != null) {
             String bedVal = p.getBedroom().value; // your wrapper stores string
-            if (!bedVal.equals(bedroom)) return false;
+            if (!bedVal.equals(bedroom)) {
+                return false;
+            }
         }
 
         // bathrooms equals
         if (bathroom != null) {
             String bathVal = p.getBathroom().value;
-            if (!bathVal.equals(bathroom)) return false;
+            if (!bathVal.equals(bathroom)) {
+                return false;
+            }
         }
 
         // price equals (integer string)
         if (price != null) {
             String priceVal = p.getPrice().value; // digits only
-            if (!priceVal.equals(price)) return false;
+            if (!priceVal.equals(price)) {
+                return false;
+            }
         }
 
         // status equality (case-insensitive)
-        if (status != null && !p.getStatus().toString().equalsIgnoreCase(status)) return false;
+        if (status != null && !p.getStatus().toString().equalsIgnoreCase(status)) {
+            return false;
+        }
 
         // owner substring (case-insensitive; owner is an id-like string)
-        if (owner != null && !p.getOwner().toString().toLowerCase(Locale.ROOT).contains(owner)) return false;
+        if (owner != null && !p.getOwner().toString().toLowerCase(Locale.ROOT).contains(owner)) {
+            return false;
+        }
 
         return true;
     }
 
-    //Builder
+    /**
+     * To build {@code PropertyMatchesFilterPredicate} object with detail given easily.
+     */
     public static class Builder {
         private String address, type, bedroom, bathroom, price, status, owner;
 
-        public Builder withAddress(String s)  { this.address = s; return this; }
-        public Builder withType(String s)     { this.type = s; return this; }
+        public Builder withAddress(String s)  { this.address = s; return this;}
+        public Builder withType(String s)     { this.type = s; return this;}
         public Builder withBedroom(String s)  { this.bedroom = s; return this; }
         public Builder withBathroom(String s) { this.bathroom = s; return this; }
         public Builder withPrice(String s)    { this.price = s; return this; }

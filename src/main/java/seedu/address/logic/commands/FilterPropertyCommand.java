@@ -30,6 +30,9 @@ public class FilterPropertyCommand extends Command {
     private final int limit;
     private final int offset;
 
+    /**
+     * Creates an FilterPropertyCommand to filter {@code Property} with given predicate.
+     */
     public FilterPropertyCommand(PropertyMatchesFilterPredicate predicate, int limit, int offset) {
         this.predicate = predicate;
         this.limit = limit;

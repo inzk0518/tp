@@ -20,6 +20,11 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
     private static final Prefix PREFIX_LIMIT = new Prefix("limit/");
     private static final Prefix PREFIX_OFFSET = new Prefix("offset/");
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the FilterPropertyCommand
+     * and returns an FilterPropertyCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
     @Override
     public FilterPropertyCommand parse(String args) throws ParseException {
         try {
@@ -94,8 +99,12 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
                     .map(Integer::parseInt)
                     .orElse(0);
 
-            if (limit < 1) throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_LIMIT);
-            if (offset < 0) throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_OFFSET);
+            if (limit < 1) {
+                throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_LIMIT);
+            }
+            if (offset < 0) {
+                throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_OFFSET);
+            }
 
             return new FilterPropertyCommand(builder.build(), limit, offset);
         } catch (RuntimeException e) {
