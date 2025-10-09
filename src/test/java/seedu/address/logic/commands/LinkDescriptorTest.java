@@ -1,16 +1,74 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
 import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_BOB_SELLER_PROPERTY_BETA;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.getTypicalProperties;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 import seedu.address.testutil.LinkDescriptorBuilder;
 
 public class LinkDescriptorTest {
+
+    @Test
+    public void getPeopleInList_duplicatePersonIds_throwsCommandException() {
+
+        List<Person> personList = new ArrayList<>(getTypicalPersons());
+        personList.add(ALICE);
+        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
+                .withPersonIds(Set.of(ALICE.getUuid())).build();
+
+        assertThrows(CommandException.class, () -> linkDescriptor.getPeopleInList(personList));
+    }
+
+    @Test
+    public void getPropertiesInList_duplicatePropertyIds_throwsCommandException() {
+
+        List<Property> personList = new ArrayList<>(getTypicalProperties());
+        personList.add(PROPERTY_ALPHA);
+        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId())).build();
+
+        assertThrows(CommandException.class, () -> linkDescriptor.getPropertiesInList(personList));
+    }
+
+    @Test
+    public void getUpdatedPeople_unknownRelationship_throwsCommandException() {
+
+        List<Person> personList = new ArrayList<>(getTypicalPersons());
+        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
+                .withPersonIds(Set.of(ALICE.getUuid()))
+                .withRelationship("owner")
+                .build();
+
+        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedPeople(personList));
+    }
+
+    @Test
+    public void getUpdatedProperties_unknownRelationship_throwsCommandException() {
+
+        List<Property> personList = new ArrayList<>(getTypicalProperties());
+        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId()))
+                .withRelationship("tenant")
+                .build();
+
+        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedProperties(personList));
+    }
 
     @Test
     public void equals() {

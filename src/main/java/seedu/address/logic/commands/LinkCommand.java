@@ -155,6 +155,7 @@ public class LinkCommand extends Command {
          * @throws CommandException if any person is not found in the list.
          */
         public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
+            assert (personList != null);
             List<Person> peopleList = personList.stream()
                     .filter(person -> personIds.contains(person.getUuid()))
                     .collect(Collectors.toList());
@@ -170,6 +171,7 @@ public class LinkCommand extends Command {
          * @throws CommandException if no such property exists in the list.
          */
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
+            assert (propertyList != null);
             List<Property> propertiesList = propertyList.stream()
                     .filter(property -> propertyIds.contains(property.getId()))
                     .collect(Collectors.toList());
@@ -185,6 +187,7 @@ public class LinkCommand extends Command {
          * @throws CommandException if the relationship is invalid.
          */
         public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
+            assert (relationship != null);
             List<Person> peopleToEdit = getPeopleInList(personList);
             switch (relationship) {
             case "buyer":
@@ -217,6 +220,7 @@ public class LinkCommand extends Command {
          */
         public List<Property> getUpdatedProperties(List<Property> propertyList)
                 throws CommandException {
+            assert (relationship != null);
             List<Property> propertiesToEdit = getPropertiesInList(propertyList);
             switch (relationship) {
             case "buyer":

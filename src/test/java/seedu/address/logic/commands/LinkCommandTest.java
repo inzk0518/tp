@@ -1,6 +1,11 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_RELATIONSHIP;
+import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
+import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_BOB_SELLER_PROPERTY_BETA;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -52,11 +57,11 @@ public class LinkCommandTest {
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property updatedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withBuyingPersonIds(ALICE.getUuid().value).build();
+                .withSellingPersonIds(ALICE.getUuid().value).build();
         expectedModel.setProperty(PROPERTY_ALPHA, updatedPropertyAlpha);
 
         Person updatedAlice = new PersonBuilderUtil(ALICE)
-                .withBuyingPropertyIds(updatedPropertyAlpha.getId()).build();
+                .withSellingPropertyIds(updatedPropertyAlpha.getId()).build();
         expectedModel.setPerson(ALICE, updatedAlice);
 
         assertCommandSuccess(linkCommand, model, expectedMessage, expectedModel);
@@ -96,6 +101,48 @@ public class LinkCommandTest {
         expectedModel.setPerson(BENSON, updatedBenson);
 
         assertCommandSuccess(linkCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidRelationshipInLinkDescriptor_success() {
+
+        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId()))
+                .withPersonIds(Set.of(ALICE.getUuid()))
+                .withRelationship("owner")
+                .build();
+
+        LinkCommand linkCommand = new LinkCommand(linkDescriptor);
+
+        String expectedMessage = MESSAGE_INVALID_RELATIONSHIP;
+
+        assertCommandFailure(linkCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void equals() {
+
+        LinkDescriptor linkDescriptor = new LinkDescriptor(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA);
+
+        // same value -> returns true
+        LinkCommand linkCommand = new LinkCommand(linkDescriptor);
+        LinkCommand identicalLinkCommand = new LinkCommand(linkDescriptor);
+        assertEquals(linkCommand, identicalLinkCommand);
+
+        // same object -> returns true
+        assertEquals(linkCommand, linkCommand);
+
+        // null -> returns false
+        assertNotEquals(linkCommand, null);
+
+        // different types -> returns false
+        assertNotEquals(linkCommand, new ClearCommand());
+
+        // different descriptor -> returns false
+        LinkDescriptor alternateLinkDescriptor = new LinkDescriptor(LINK_DESC_BOB_SELLER_PROPERTY_BETA);
+        LinkCommand alternateLinkCommand = new LinkCommand(alternateLinkDescriptor);
+        assertNotEquals(linkCommand, alternateLinkCommand);
+
     }
 
     @Test

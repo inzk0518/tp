@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.LinkCommand;
 import seedu.address.model.person.Uuid;
 import seedu.address.testutil.LinkDescriptorBuilder;
@@ -25,15 +27,15 @@ public class LinkCommandParserTest {
     @Test
     public void parse_missingParts_failure() {
         // no property id
-        String userInput = PREFIX_LINK_RELATIONSHIP + "buyer " + PREFIX_LINK_CLIENT_ID + "1";
+        String userInput = " " + PREFIX_LINK_RELATIONSHIP + "buyer " + PREFIX_LINK_CLIENT_ID + "1";
         assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
 
         // no relationship
-        userInput = PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_CLIENT_ID + "1";
+        userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_CLIENT_ID + "1";
         assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
 
         // no client id
-        userInput = PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_RELATIONSHIP + "buyer";
+        userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_RELATIONSHIP + "buyer";
         assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
 
         // all parts missing
@@ -42,9 +44,18 @@ public class LinkCommandParserTest {
 
     @Test
     public void parse_multipleRelationships_failure() {
-        String userInput = PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_RELATIONSHIP + "buyer "
+        String userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_RELATIONSHIP + "buyer "
                 + PREFIX_LINK_RELATIONSHIP + "seller " + PREFIX_LINK_CLIENT_ID + "1";
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
+        String expectedMessage = Messages.getErrorMessageForDuplicatePrefixes(PREFIX_LINK_RELATIONSHIP);
+        assertParseFailure(parser, userInput, expectedMessage);
+    }
+
+    @Test
+    public void parse_unknwonRelationships_failure() {
+        String userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_RELATIONSHIP + "owner "
+                + PREFIX_LINK_CLIENT_ID + "1";
+        String expectedMessage = String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, userInput, expectedMessage);
     }
 
     @Test
