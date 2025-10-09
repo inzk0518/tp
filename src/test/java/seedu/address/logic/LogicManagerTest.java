@@ -9,6 +9,7 @@ import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -31,22 +32,13 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.model.property.Bathroom;
-import seedu.address.model.property.Bedroom;
-import seedu.address.model.property.FloorArea;
-import seedu.address.model.property.Listing;
-import seedu.address.model.property.Owner;
-import seedu.address.model.property.Postal;
-import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
-import seedu.address.model.property.PropertyAddress;
-import seedu.address.model.property.Status;
-import seedu.address.model.property.Type;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonPropertyBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilderUtil;
+import seedu.address.testutil.PropertyBuilderUtil;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
@@ -241,8 +233,6 @@ public class LogicManagerTest {
     }
 
     private Property buildDefaultProperty() {
-        return new Property(new PropertyAddress("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
-                new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
-                new Status("listed"), new Type("HDB"), new Owner("owner123"));
+        return new PropertyBuilderUtil(PROPERTY_ALPHA).build();
     }
 }
