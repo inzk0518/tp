@@ -1,14 +1,16 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.List;
 
+import javafx.css.CssParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.property.Bathroom;
@@ -149,6 +151,22 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertEquals("2 properties matched (showing 2–2)", result.getFeedbackToUser());
+    }
+
+    @Test
+    public void equals() {
+        PropertyMatchesFilterPredicate firstPredicate =
+                new PropertyMatchesFilterPredicate.Builder().withType("condo").build();
+        PropertyMatchesFilterPredicate secondPredicate =
+                new PropertyMatchesFilterPredicate.Builder().withType("hdb").build();
+
+        FilterPropertyCommand firstCommand = new FilterPropertyCommand(firstPredicate, 20, 0);
+        FilterPropertyCommand secondCommand = new FilterPropertyCommand(secondPredicate, 20, 0);
+
+        assertEquals(firstCommand, new FilterPropertyCommand(firstPredicate, 20, 0));
+        assertNotEquals(firstCommand, secondCommand);
+        assertNotEquals(firstCommand, null);
+        assertNotEquals(firstCommand, "some string");
     }
 }
 
