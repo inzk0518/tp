@@ -15,13 +15,13 @@ import seedu.address.model.property.Property;
  */
 public class PropertyMatchesFilterPredicate implements Predicate<Property> {
 
-    private final String address;   // substring (case-insensitive)
-    private final String type;      // equalsIgnoreCase to Type.toString()
-    private final String bedroom;   // numeric string (0..20)
-    private final String bathroom;  // numeric string (0..20)
-    private final String price;     // integer string (no commas)
-    private final String status;    // equalsIgnoreCase to Status.toString()
-    private final String owner;     // substring of Owner.toString()
+    private final String address; // substring (case-insensitive)
+    private final String type; // equalsIgnoreCase to Type.toString()
+    private final String bedroom; // numeric string (0..20)
+    private final String bathroom; // numeric string (0..20)
+    private final String price; // integer string (no commas)
+    private final String status; // equalsIgnoreCase to Status.toString()
+    private final String owner; // substring of Owner.toString()
 
     /**
      * Create a filter predicate which checks if a Property matches all filter conditions.
