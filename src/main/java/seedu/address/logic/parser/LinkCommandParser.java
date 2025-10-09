@@ -43,7 +43,7 @@ public class LinkCommandParser implements Parser<LinkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE));
         }
 
-        Set<Uuid> personIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_LINK_CLIENT_ID));
+        Set<Uuid> personIds = ParserUtil.parsePersonIds(argMultimap.getAllValues(PREFIX_LINK_CLIENT_ID));
         Set<String> propertyIds = argMultimap.getAllValues(PREFIX_LINK_PROPERTY_ID)
                 .stream().collect(Collectors.toSet());
 

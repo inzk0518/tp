@@ -30,9 +30,9 @@ public class LinkCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links a property to a person. "
             + "Parameters: "
-            + PREFIX_LINK_PROPERTY_ID + "PROPERTY_INDEX "
+            + PREFIX_LINK_PROPERTY_ID + "PROPERTY_ID "
             + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller')"
-            + PREFIX_LINK_CLIENT_ID + "CLIENT_INDEX"
+            + PREFIX_LINK_CLIENT_ID + "CLIENT_ID"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_LINK_PROPERTY_ID + "2 "
             + PREFIX_LINK_RELATIONSHIP + "buyer "
@@ -124,10 +124,6 @@ public class LinkCommand extends Command {
             setPersonIds(toCopy.personIds);
             setPropertyIds(toCopy.propertyIds);
             setRelationship(toCopy.relationship);
-        }
-
-        public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(personIds, propertyIds, relationship);
         }
 
         public void setPersonIds(Set<Uuid> personIds) {

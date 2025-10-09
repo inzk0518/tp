@@ -56,7 +56,7 @@ public class ParserUtil {
      * trimmed.
      * @throws ParseException if the specified propertyId is invalid (not non-zero unsigned integer).
      */
-    public static Uuid parsePropertyId(String propertyId) throws ParseException {
+    public static Uuid parsePersonId(String propertyId) throws ParseException {
         requireNonNull(propertyId);
         String trimmedPropertyId = propertyId.trim();
         if (!StringUtil.isNonZeroUnsignedInteger(trimmedPropertyId)) {
@@ -68,11 +68,11 @@ public class ParserUtil {
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Uuid>} and returns it.
      */
-    public static Set<Uuid> parsePropertyIds(Collection<String> propertyIds) throws ParseException {
+    public static Set<Uuid> parsePersonIds(Collection<String> propertyIds) throws ParseException {
         requireNonNull(propertyIds);
         final Set<Uuid> propertyIdSet = new HashSet<>();
         for (String propertyId : propertyIds) {
-            propertyIdSet.add(parsePropertyId(propertyId));
+            propertyIdSet.add(parsePersonId(propertyId));
         }
         return propertyIdSet;
     }
