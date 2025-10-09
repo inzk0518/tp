@@ -3,9 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +11,18 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.property.*;
+import seedu.address.model.property.Bathroom;
+import seedu.address.model.property.Bedroom;
+import seedu.address.model.property.FloorArea;
+import seedu.address.model.property.Listing;
+import seedu.address.model.property.Owner;
+import seedu.address.model.property.Postal;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
+import seedu.address.model.property.Status;
+import seedu.address.model.property.Type;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
-import seedu.address.model.tag.Tag;
 
 /**
  * Tests for FilterPropertyCommand
@@ -51,9 +57,9 @@ public class FilterPropertyCommandTest {
                 new PropertyAddress(address),
                 new Bathroom(String.valueOf(bathroom)),
                 new Bedroom(String.valueOf(bedroom)),
-                new FloorArea("100"),       // default
+                new FloorArea("100"),
                 new Listing("sale"),
-                new Postal("123456"),       // default
+                new Postal("123456"),
                 new Price(price),
                 new Status(status),
                 new Type(type),
