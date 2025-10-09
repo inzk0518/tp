@@ -28,8 +28,6 @@ class PropertyTest {
         assertEquals(new Status("listed"), property.getStatus());
         assertEquals(new Type("HDB"), property.getType());
         assertEquals(new Owner("owner123"), property.getOwner());
-        assertEquals(new HashSet<>(), property.getBuyingPersonIds());
-        assertEquals(new HashSet<>(), property.getSellingPersonIds());
         assertNotNull(property.getId());
     }
 

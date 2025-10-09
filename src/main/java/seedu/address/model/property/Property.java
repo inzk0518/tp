@@ -182,9 +182,7 @@ public class Property {
                 && price.equals(otherProperty.price)
                 && status.equals(otherProperty.status)
                 && type.equals(otherProperty.type)
-                && owner.equals(otherProperty.owner)
-                && buyingPersonIds.equals(otherProperty.buyingPersonIds)
-                && sellingPersonIds.equals(otherProperty.sellingPersonIds);
+                && owner.equals(otherProperty.owner);
     }
 
     @Override
