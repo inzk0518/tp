@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddPropertyCommand;
@@ -74,8 +75,8 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
             throw new ParseException(AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING);
         }
 
-        Property property = new Property(address, bathroom, bedroom, floorArea, listing,
-                postal, price, status, type, owner);
+        Property property = new Property(null, address, bathroom, bedroom, floorArea, listing,
+                postal, price, status, type, owner, new HashSet<>(), new HashSet<>());
 
         return new AddPropertyCommand(property);
     }

@@ -36,6 +36,7 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_UUID = "UUID is not a valid format.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -48,6 +49,32 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Parses {@code propertyId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * @throws ParseException if the specified propertyId is invalid (not non-zero unsigned integer).
+     */
+    public static Uuid parsePersonId(String propertyId) throws ParseException {
+        requireNonNull(propertyId);
+        String trimmedPropertyId = propertyId.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedPropertyId)) {
+            throw new ParseException(MESSAGE_INVALID_UUID);
+        }
+        return new Uuid(Integer.parseInt(trimmedPropertyId));
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Uuid>} and returns it.
+     */
+    public static Set<Uuid> parsePersonIds(Collection<String> propertyIds) throws ParseException {
+        requireNonNull(propertyIds);
+        final Set<Uuid> propertyIdSet = new HashSet<>();
+        for (String propertyId : propertyIds) {
+            propertyIdSet.add(parsePersonId(propertyId));
+        }
+        return propertyIdSet;
     }
 
     /**
