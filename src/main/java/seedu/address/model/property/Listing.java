@@ -15,7 +15,7 @@ public class Listing {
      * The listing must be either "sale" or "rent".
      * Case-insensitive matching is supported.
      */
-    public static final String VALIDATION_REGEX = "^(?i)(sale|rent)$";
+    public static final String VALIDATION_REGEX = "(?i)(sale|rent)$";
 
     public final String value;
 
@@ -38,6 +38,14 @@ public class Listing {
      */
     public static boolean isValidListing(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    public boolean isRent() {
+        return value.equals("rent");
+    }
+
+    public boolean isSale() {
+        return value.equals("sale");
     }
 
     @Override

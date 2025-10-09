@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -27,8 +28,20 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Bathroom;
+import seedu.address.model.property.Bedroom;
+import seedu.address.model.property.FloorArea;
+import seedu.address.model.property.Listing;
+import seedu.address.model.property.Owner;
+import seedu.address.model.property.Postal;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyAddress;
+import seedu.address.model.property.Status;
+import seedu.address.model.property.Type;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonPropertyBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -38,6 +51,18 @@ import seedu.address.testutil.PersonBuilderUtil;
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
     private static final IOException DUMMY_AD_EXCEPTION = new AccessDeniedException("dummy access denied exception");
+    private static final String ADD_PROPERTY_COMMAND = String.join(" ",
+            AddPropertyCommand.COMMAND_WORD,
+            "address/123 Main St 5",
+            "postal/123456",
+            "price/500000",
+            "type/HDB",
+            "status/listed",
+            "bedroom/3",
+            "bathroom/2",
+            "floorarea/120",
+            "listing/sale",
+            "owner/owner123");
 
     @TempDir
     public Path temporaryFolder;
@@ -83,6 +108,18 @@ public class LogicManagerTest {
     @Test
     public void execute_storageThrowsAdException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
+                LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
+    }
+
+    @Test
+    public void execute_propertyStorageThrowsIoException_throwsCommandException() {
+        assertPropertyCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
+                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
+    }
+
+    @Test
+    public void execute_propertyStorageThrowsAdException_throwsCommandException() {
+        assertPropertyCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
     }
 
@@ -178,5 +215,34 @@ public class LogicManagerTest {
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
+    }
+
+    private void assertPropertyCommandFailureForExceptionFromStorage(IOException e, String expectedMessage) {
+        Path addressPath = temporaryFolder.resolve("PropertyCommandAddressBook.json");
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(addressPath);
+
+        Path propertyPath = temporaryFolder.resolve("PropertyCommandPropertyBook.json");
+        JsonPropertyBookStorage propertyBookStorage = new JsonPropertyBookStorage(propertyPath) {
+            @Override
+            public void savePropertyBook(ReadOnlyPropertyBook propertyBook, Path filePath) throws IOException {
+                throw e;
+            }
+        };
+
+        Path prefsPath = temporaryFolder.resolve("PropertyCommandUserPrefs.json");
+        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(prefsPath);
+        StorageManager storage = new StorageManager(addressBookStorage, propertyBookStorage, userPrefsStorage);
+
+        logic = new LogicManager(model, storage);
+
+        ModelManager expectedModel = new ModelManager();
+        expectedModel.addProperty(buildDefaultProperty());
+        assertCommandFailure(ADD_PROPERTY_COMMAND, CommandException.class, expectedMessage, expectedModel);
+    }
+
+    private Property buildDefaultProperty() {
+        return new Property(new PropertyAddress("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
+                new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
+                new Status("listed"), new Type("HDB"), new Owner("owner123"));
     }
 }

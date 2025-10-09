@@ -35,13 +35,12 @@ public class Property {
 
     /**
      * Constructs a {@code Property}.
-     * Every field must be present and not null except listing which can be null.
+     * Every field must be present and not null.
      */
     public Property(String id, PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea,
             Listing listing, Postal postal, Price price, Status status, Type type, Owner owner,
             Set<Uuid> buyingPersonIds, Set<Uuid> sellingPersonIds) {
-        // Listing can be null
-        requireAllNonNull(address, bathroom, bedroom, floorArea, postal, price, status, type, owner);
+        requireAllNonNull(address, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
         this.address = address;
         this.bathroom = bathroom;
         this.bedroom = bedroom;
@@ -176,8 +175,7 @@ public class Property {
                 && bathroom.equals(otherProperty.bathroom)
                 && bedroom.equals(otherProperty.bedroom)
                 && floorArea.equals(otherProperty.floorArea)
-                && ((listing == null && otherProperty.listing == null)
-                        || (listing != null && listing.equals(otherProperty.listing)))
+                && listing.equals(otherProperty.listing)
                 && postal.equals(otherProperty.postal)
                 && price.equals(otherProperty.price)
                 && status.equals(otherProperty.status)

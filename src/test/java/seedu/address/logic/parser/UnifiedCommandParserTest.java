@@ -24,12 +24,25 @@ class UnifiedCommandParserTest {
             "postal/654321",
             "price/750000",
             "type/Condo",
+            "status/rented",
+            "bedroom/4",
+            "bathroom/3",
+            "floorarea/150",
+            "listing/rent",
+            "owner/owner321");
+
+    private static final String CONFLICTING_ADD_PROPERTY_COMMAND = String.join(" ",
+            AddPropertyCommand.COMMAND_WORD,
+            "address/321 Market St 9",
+            "postal/654321",
+            "price/750000",
+            "type/Condo",
             "status/sold",
             "bedroom/4",
             "bathroom/3",
             "floorarea/150",
-            "owner/owner321",
-            "listing/rent");
+            "listing/rent",
+            "owner/owner321");
 
     private final UnifiedCommandParser parser = new UnifiedCommandParser(List.of(
             new AddressBookParser(),
@@ -39,6 +52,13 @@ class UnifiedCommandParserTest {
     @Test
     void parseCommand_addressBookCommand_success() throws ParseException {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
+    }
+
+    @Test
+    void parseCommand_propertyBookCommand_conflictThrowsParseException() {
+        assertThrows(ParseException.class,
+                AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING, () ->
+                    parser.parseCommand(CONFLICTING_ADD_PROPERTY_COMMAND));
     }
 
     @Test
