@@ -24,8 +24,7 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
     private final String owner;     // substring of Owner.toString()
 
     /**
-     * Create a filter predicate which is able to check Property which matches all filter conditions
-     *
+     * Create a filter predicate which checks if a Property matches all filter conditions.
      */
     public PropertyMatchesFilterPredicate(
             String address, String type, String bedroom, String bathroom,
@@ -47,6 +46,9 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
         return s == null ? null : s.trim().toLowerCase();
     }
 
+    /**
+     * Returns true if the property matches all given filters.
+     */
     @Override
     public boolean test(Property p) {
         // address substring
@@ -97,46 +99,78 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
     }
 
     /**
-     * To build {@code PropertyMatchesFilterPredicate} object with detail given easily.
+     * Builder for {@link PropertyMatchesFilterPredicate}.
+     * Use to set any subset of filters, then call {@link #build()}.
      */
     public static class Builder {
-        private String address, type, bedroom, bathroom, price, status, owner;
+        private String address;
+        private String type;
+        private String bedroom;
+        private String bathroom;
+        private String price;
+        private String status;
+        private String owner;
 
+        /**
+         * Sets the address substring filter (case-insensitive).
+         */
         public Builder withAddress(String s) {
             this.address = s;
             return this;
         }
 
+        /**
+         * Sets the type filter (e.g. HDB, Condo, Landed).
+         * Compared case-insensitively.
+         */
         public Builder withType(String s) {
             this.type = s;
             return this;
         }
 
+        /**
+         * Sets the bedroom filter.
+         */
         public Builder withBedroom(String s) {
             this.bedroom = s;
             return this;
         }
 
+        /**
+         * Sets the bathroom filter
+         */
         public Builder withBathroom(String s) {
             this.bathroom = s;
             return this;
         }
 
+        /**
+         * Sets the price filter.
+         */
         public Builder withPrice(String s) {
             this.price = s;
             return this;
         }
 
+        /**
+         * Sets the status filter.
+         */
         public Builder withStatus(String s) {
             this.status = s;
             return this;
         }
 
+        /**
+         * Sets the owner substring filter (case-insensitive).
+         */
         public Builder withOwner(String s) {
             this.owner = s;
             return this;
         }
 
+        /**
+         * Builds a predicate with the current filters.
+         */
         public PropertyMatchesFilterPredicate build() {
             return new PropertyMatchesFilterPredicate(address, type, bedroom, bathroom, price, status, owner);
         }
