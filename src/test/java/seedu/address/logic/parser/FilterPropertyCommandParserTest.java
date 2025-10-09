@@ -13,7 +13,7 @@ public class FilterPropertyCommandParserTest {
     private final FilterPropertyCommandParser parser = new FilterPropertyCommandParser();
 
     @Test
-    public void parse_validArgs_success() throws Exception {
+    public void parse_validArgs_success_first() throws Exception {
         String input = " type/condo bedroom/3 status/listed limit/5 offset/10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
@@ -22,6 +22,17 @@ public class FilterPropertyCommandParserTest {
                         5, 10);
         assertEquals(expected, parser.parse(input));
 
+    }
+
+    @Test
+    public void parse_validArgs_success_second() throws Exception {
+        String input = " owner/alice";
+        FilterPropertyCommand expected =
+                new FilterPropertyCommand(
+                        new PropertyMatchesFilterPredicate.Builder()
+                                .withOwner("alice").build(),
+                        20, 0); // defaults
+        assertEquals(expected, parser.parse(input));
     }
 
     @Test
