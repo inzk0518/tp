@@ -8,8 +8,4 @@ public class UnknownCommandParseException extends ParseException {
     public UnknownCommandParseException(String message) {
         super(message);
     }
-
-    public UnknownCommandParseException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
