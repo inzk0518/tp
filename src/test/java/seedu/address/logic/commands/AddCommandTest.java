@@ -86,7 +86,7 @@ public class AddCommandTest {
     }
 
     /**
-     * A default model stub that have all the methods failing.
+     * A default model stub that has all the methods failing.
      */
     private static class ModelStub implements Model {
         @Override
@@ -131,7 +131,7 @@ public class AddCommandTest {
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
-            throw new AssertionError("This method should not be called.");
+            return new AddressBook(); // return blank address book
         }
 
         @Override
