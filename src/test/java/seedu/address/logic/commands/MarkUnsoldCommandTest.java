@@ -56,7 +56,7 @@ public class MarkUnsoldCommandTest {
 
     @Test
     public void execute_invalidId_throwsCommandException() {
-        List<String> ids = Arrays.asList("NOT_FOUND");
+        List<String> ids = List.of("NOT_FOUND");
         MarkUnsoldCommand command = new MarkUnsoldCommand(ids);
 
         CommandException thrown = assertThrows(CommandException.class, () -> command.execute(modelStub));
