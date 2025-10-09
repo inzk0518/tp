@@ -11,9 +11,9 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.ShowPropertiesCommand;
 import seedu.address.logic.commands.MarkSoldCommand;
 import seedu.address.logic.commands.MarkUnsoldCommand;
+import seedu.address.logic.commands.ShowPropertiesCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.exceptions.UnknownCommandParseException;
 
