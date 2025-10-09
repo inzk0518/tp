@@ -144,8 +144,4 @@ public interface Model {
     void updateFilteredPropertyList(Predicate<Property> predicate);
 
     Property getPropertyById(String id);
-
-    void markPropertyAsSold(Property property);
-
-    void markPropertyAsUnsold(Property property);
 }

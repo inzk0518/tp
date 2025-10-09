@@ -7,6 +7,7 @@ import java.util.List;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.Status;
 
 /**
  * This command finds properties by their IDs and marks them as unsold.
@@ -51,17 +52,27 @@ public class MarkUnsoldCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
         int count = 0;
         for (String id : propertyIds) {
             Property property = model.getPropertyById(id);
             if (property == null) {
                 throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
             }
-            model.markPropertyAsUnsold(property);
+            Property updated = new Property(
+                    property.getPropertyAddress(),
+                    property.getBathroom(),
+                    property.getBedroom(),
+                    property.getFloorArea(),
+                    property.getListing(),
+                    property.getPostal(),
+                    property.getPrice(),
+                    new Status("unsold"),
+                    property.getType(),
+                    property.getOwner()
+            );
+            model.setProperty(property, updated);
             count++;
         }
-
         return new CommandResult(String.format(MESSAGE_MARK_UNSOLD_SUCCESS, count));
     }
 

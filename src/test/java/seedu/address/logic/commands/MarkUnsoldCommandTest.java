@@ -78,11 +78,21 @@ public class MarkUnsoldCommandTest {
         }
 
         @Override
-        public void markPropertyAsUnsold(Property property) {
-            Property updated = new PropertyBuilder(property)
-                    .withStatus("unsold")
-                    .build();
-            propertyMap.put(property.getId(), updated);
+        public void setProperty(Property target, Property editedProperty) {
+            String id = target.getId();
+            Property updatedWithSameId = new Property(
+                    editedProperty.getPropertyAddress(),
+                    editedProperty.getBathroom(),
+                    editedProperty.getBedroom(),
+                    editedProperty.getFloorArea(),
+                    editedProperty.getListing(),
+                    editedProperty.getPostal(),
+                    editedProperty.getPrice(),
+                    editedProperty.getStatus(),
+                    editedProperty.getType(),
+                    editedProperty.getOwner()
+            );
+            propertyMap.put(id, updatedWithSameId);
         }
 
         @Override
@@ -186,11 +196,6 @@ public class MarkUnsoldCommandTest {
         }
 
         @Override
-        public void setProperty(Property target, Property editedProperty) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public ObservableList<Property> getFilteredPropertyList() {
             throw new AssertionError("This method should not be called.");
         }
@@ -199,11 +204,5 @@ public class MarkUnsoldCommandTest {
         public void updateFilteredPropertyList(Predicate<Property> predicate) {
             throw new AssertionError("This method should not be called.");
         }
-
-        @Override
-        public void markPropertyAsSold(Property property) {
-            throw new AssertionError("This method should not be called.");
-        }
     }
-
 }

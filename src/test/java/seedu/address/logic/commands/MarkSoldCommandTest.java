@@ -75,7 +75,7 @@ public class MarkSoldCommandTest {
     /**
      * A default model stub that has all of its methods failing.
      */
-    private class ModelStub implements Model {
+    private static class ModelStub implements Model {
 
         private final Map<String, Property> propertyMap = new HashMap<>();
 
@@ -90,21 +90,26 @@ public class MarkSoldCommandTest {
         }
 
         @Override
-        public void markPropertyAsSold(Property property) {
-            Property updated = new PropertyBuilder(property)
-                    .withStatus("sold")
-                    .build();
-            propertyMap.put(property.getId(), updated);
-        }
-
-        @Override
-        public void markPropertyAsUnsold(Property property) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setProperty(Property target, Property editedProperty) {
+            String id = target.getId();
+            Property updatedWithSameId = new Property(
+                    editedProperty.getPropertyAddress(),
+                    editedProperty.getBathroom(),
+                    editedProperty.getBedroom(),
+                    editedProperty.getFloorArea(),
+                    editedProperty.getListing(),
+                    editedProperty.getPostal(),
+                    editedProperty.getPrice(),
+                    editedProperty.getStatus(),
+                    editedProperty.getType(),
+                    editedProperty.getOwner()
+            );
+            propertyMap.put(id, updatedWithSameId);
         }
 
         @Override
@@ -203,11 +208,6 @@ public class MarkSoldCommandTest {
         }
 
         @Override
-        public void setProperty(Property target, Property editedProperty) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public ObservableList<Property> getFilteredPropertyList() {
             throw new AssertionError("This method should not be called.");
         }
@@ -217,5 +217,4 @@ public class MarkSoldCommandTest {
             throw new AssertionError("This method should not be called.");
         }
     }
-
 }

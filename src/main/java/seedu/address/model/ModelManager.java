@@ -188,56 +188,6 @@ public class ModelManager implements Model {
         }
         return null;
     }
-
-    /**
-     * Marks the given {@code Property} as sold by creating a new {@code Property} instance
-     * with identical attributes but a {@code Status} of "sold".
-     *
-     * @param property The property to mark as sold. Must not be {@code null}.
-     */
-    @Override
-    public void markPropertyAsSold(Property property) {
-        requireNonNull(property);
-        Property updated = new Property(
-                property.getPropertyAddress(),
-                property.getBathroom(),
-                property.getBedroom(),
-                property.getFloorArea(),
-                property.getListing(),
-                property.getPostal(),
-                property.getPrice(),
-                new Status("sold"),
-                property.getType(),
-                property.getOwner()
-        );
-        propertyBook.setProperty(property, updated);
-    }
-
-    /**
-     * Marks the given {@code Property} as unsold by creating a new {@code Property} instance
-     * with identical attributes but a {@code Status} of "unsold".
-     *
-     * @param property The property to mark as unsold. Must not be {@code null}.
-     */
-    @Override
-    public void markPropertyAsUnsold(Property property) {
-        requireNonNull(property);
-        Property updated = new Property(
-                property.getPropertyAddress(),
-                property.getBathroom(),
-                property.getBedroom(),
-                property.getFloorArea(),
-                property.getListing(),
-                property.getPostal(),
-                property.getPrice(),
-                new Status("unsold"),
-                property.getType(),
-                property.getOwner()
-        );
-        propertyBook.setProperty(property, updated);
-    }
-
-
     // =========== Filtered List Accessors
     // =============================================================
 
