@@ -102,13 +102,40 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
     public static class Builder {
         private String address, type, bedroom, bathroom, price, status, owner;
 
-        public Builder withAddress(String s)  { this.address = s; return this;}
-        public Builder withType(String s)     { this.type = s; return this;}
-        public Builder withBedroom(String s)  { this.bedroom = s; return this; }
-        public Builder withBathroom(String s) { this.bathroom = s; return this; }
-        public Builder withPrice(String s)    { this.price = s; return this; }
-        public Builder withStatus(String s)   { this.status = s; return this; }
-        public Builder withOwner(String s)    { this.owner = s; return this; }
+        public Builder withAddress(String s) {
+            this.address = s;
+            return this;
+        }
+
+        public Builder withType(String s) {
+            this.type = s;
+            return this;
+        }
+
+        public Builder withBedroom(String s) {
+            this.bedroom = s;
+            return this;
+        }
+
+        public Builder withBathroom(String s) {
+            this.bathroom = s;
+            return this;
+        }
+
+        public Builder withPrice(String s) {
+            this.price = s;
+            return this;
+        }
+
+        public Builder withStatus(String s) {
+            this.status = s;
+            return this;
+        }
+
+        public Builder withOwner(String s) {
+            this.owner = s;
+            return this;
+        }
 
         public PropertyMatchesFilterPredicate build() {
             return new PropertyMatchesFilterPredicate(address, type, bedroom, bathroom, price, status, owner);
