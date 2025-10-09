@@ -86,6 +86,27 @@ public class LinkCommand extends Command {
         }
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof LinkCommand)) {
+            return false;
+        }
+
+        LinkCommand otherLinkCommand = (LinkCommand) other;
+        return linkDescriptor.equals(otherLinkCommand.linkDescriptor);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("linkDescriptor", linkDescriptor)
+                .toString();
+    }
+
     /**
      * Stores Ids and relationship to link a property to a person.
      */
@@ -243,19 +264,5 @@ public class LinkCommand extends Command {
                     .add("propertyIds", propertyIds)
                     .toString();
         }
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof LinkCommand)) {
-            return false;
-        }
-
-        LinkCommand otherLinkCommand = (LinkCommand) other;
-        return linkDescriptor.equals(otherLinkCommand.linkDescriptor);
     }
 }
