@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT;
 
 import java.util.stream.Stream;
 
@@ -12,9 +13,6 @@ import seedu.address.model.person.Uuid;
  * Parses input arguments and creates a new ShowPropertiesCommand object
  */
 public class ShowPropertiesCommandParser implements Parser<ShowPropertiesCommand> {
-
-    // Define the prefix for client UUID
-    public static final Prefix PREFIX_CLIENT = new Prefix("c/");
 
     /**
      * Parses the given {@code String} of arguments in the context of the ShowPropertiesCommand

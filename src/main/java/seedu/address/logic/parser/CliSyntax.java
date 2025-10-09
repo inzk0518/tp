@@ -28,4 +28,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_PROPERTY_OWNER = new Prefix("owner/");
     public static final Prefix PREFIX_PROPERTY_PRICE = new Prefix("price/");
     public static final Prefix PREFIX_PROPERTY_TYPE = new Prefix("type/");
+    public static final Prefix PREFIX_CLIENT = new Prefix("c/");
 }
