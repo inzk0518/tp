@@ -36,6 +36,19 @@ class PropertyBookParserTest {
             "owner/owner123",
             "listing/sale");
 
+    private static final String CONFLICTING_ADD_PROPERTY_COMMAND = String.join(" ",
+            AddPropertyCommand.COMMAND_WORD,
+            "address/123 Main St 5",
+            "postal/123456",
+            "price/500000",
+            "type/HDB",
+            "status/sold",
+            "bedroom/3",
+            "bathroom/2",
+            "floorarea/120",
+            "owner/owner123",
+            "listing/rent");
+
     private static final String VALID_DELETE_PROPERTY_COMMAND = String.join(" ",
             DeletePropertyCommand.COMMAND_WORD,
             "abc123");
@@ -69,5 +82,12 @@ class PropertyBookParserTest {
     void parseCommand_invalidArguments_throwsParseException() {
         assertThrows(ParseException.class, () -> parser.parseCommand(AddPropertyCommand.COMMAND_WORD));
         assertThrows(ParseException.class, () -> parser.parseCommand(DeletePropertyCommand.COMMAND_WORD));
+    }
+
+    @Test
+    void parseCommand_conflictingStatusListing_throwsParseException() {
+        assertThrows(ParseException.class,
+                AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING, () ->
+                        parser.parseCommand(CONFLICTING_ADD_PROPERTY_COMMAND));
     }
 }

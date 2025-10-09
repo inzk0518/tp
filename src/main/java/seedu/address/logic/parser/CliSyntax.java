@@ -15,6 +15,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_BUDGET_MAX = new Prefix("max/"); // budget max
     public static final Prefix PREFIX_NOTES = new Prefix("notes/"); // notes
     public static final Prefix PREFIX_STATUS = new Prefix("s/"); // status
+    public static final Prefix PREFIX_LIMIT = new Prefix("limit/"); // limit for filtering
+    public static final Prefix PREFIX_OFFSET = new Prefix("offset/"); // offset for filtering
 
 
     /* Prefix definitions for property */
