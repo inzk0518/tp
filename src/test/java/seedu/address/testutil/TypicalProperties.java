@@ -33,7 +33,7 @@ public class TypicalProperties {
     public static final Property PROPERTY_GAMMA = new PropertyBuilderUtil().withId("d")
             .withPropertyAddress("321 Market St 9").withBathroom("3").withBedroom("4")
             .withFloorArea("150").withListing("rent").withPostal("654321")
-            .withPrice("750000").withStatus("sold").withType("Condo")
+            .withPrice("750000").withStatus("rented").withType("Condo")
             .withOwner("owner321").withBuyingPersonIds().withSellingPersonIds().build();
 
     private TypicalProperties() {} // prevents instantiation
