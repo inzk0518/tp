@@ -89,6 +89,11 @@ public class AddCommandParser implements Parser<AddCommand> {
         Set<String> emptyBuyingPropertyIds = new HashSet<>();
         Set<String> emptySellingPropertyIds = new HashSet<>();
 
+        // Validate budget range
+        if (Long.parseLong(budgetMax.toString()) < Long.parseLong(budgetMin.toString())) {
+            throw new ParseException("Budget max cannot be less than budget min.");
+        }
+
         // use 1 for UUID first, correct UUID will be made in AddCommand
         Person person = new Person(new Uuid(1), name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
