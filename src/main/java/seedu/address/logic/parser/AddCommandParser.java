@@ -41,20 +41,35 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     @Override
     public AddCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                                                                  PREFIX_NAME,
-                                                                  PREFIX_PHONE,
-                                                                  PREFIX_EMAIL,
-                                                                  PREFIX_ADDRESS,
-                                                                  PREFIX_TAG,
-                                                                  PREFIX_BUDGET_MIN,
-                                                                  PREFIX_BUDGET_MAX,
-                                                                  PREFIX_NOTES,
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
+                                                                  PREFIX_EMAIL, PREFIX_ADDRESS,
+                                                                  PREFIX_TAG, PREFIX_BUDGET_MIN,
+                                                                  PREFIX_BUDGET_MAX, PREFIX_NOTES,
                                                                   PREFIX_STATUS);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
+        if (arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+
+        // Check for invalid first prefix
+        if (arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE)
+                || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+
+        // Check for any unrecognised prefixes inside values
+        for (Prefix prefix : argMultimap.getAllPrefixes()) {
+            // Skip checking for notes prefix, since '/' is valid in notes
+            if (prefix.equals(PREFIX_NOTES)) {
+                continue;
+            }
+            for (String value : argMultimap.getAllValues(prefix)) {
+                if (looksLikePrefix(value)) {
+                    throw new ParseException(String.format(
+                            MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+                }
+            }
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
@@ -87,7 +102,14 @@ public class AddCommandParser implements Parser<AddCommand> {
      * {@code ArgumentMultimap}.
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+        return !Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    /**
+     * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
+     */
+    private boolean looksLikePrefix(String s) {
+        return s.trim().contains("/");
     }
 
 }
