@@ -59,6 +59,7 @@ public class MarkUnsoldCommand extends Command {
                 throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
             }
             Property updated = new Property(
+                    property.getId(),
                     property.getPropertyAddress(),
                     property.getBathroom(),
                     property.getBedroom(),
@@ -68,7 +69,9 @@ public class MarkUnsoldCommand extends Command {
                     property.getPrice(),
                     new Status("unsold"),
                     property.getType(),
-                    property.getOwner()
+                    property.getOwner(),
+                    property.getBuyingPersonIds(),
+                    property.getSellingPersonIds()
             );
             model.setProperty(property, updated);
             count++;

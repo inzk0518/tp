@@ -23,7 +23,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.Status;
-import seedu.address.testutil.PropertyBuilder;
+import seedu.address.testutil.PropertyBuilderUtil;
 
 
 /**
@@ -37,12 +37,12 @@ public class MarkSoldCommandTest {
 
     @BeforeEach
     public void setUp() {
-        property1 = new PropertyBuilder()
-                .withAddress("Blk 123 Clementi Ave 3")
+        property1 = new PropertyBuilderUtil()
+                .withPropertyAddress("Blk 123 Clementi Ave 3")
                 .withStatus("unsold")
                 .build();
-        property2 = new PropertyBuilder()
-                .withAddress("Blk 456 Tampines St 21")
+        property2 = new PropertyBuilderUtil()
+                .withPropertyAddress("Blk 456 Tampines St 21")
                 .withStatus("unsold")
                 .build();
 
@@ -98,6 +98,7 @@ public class MarkSoldCommandTest {
         public void setProperty(Property target, Property editedProperty) {
             String id = target.getId();
             Property updatedWithSameId = new Property(
+                    id,
                     editedProperty.getPropertyAddress(),
                     editedProperty.getBathroom(),
                     editedProperty.getBedroom(),
@@ -107,7 +108,9 @@ public class MarkSoldCommandTest {
                     editedProperty.getPrice(),
                     editedProperty.getStatus(),
                     editedProperty.getType(),
-                    editedProperty.getOwner()
+                    editedProperty.getOwner(),
+                    editedProperty.getBuyingPersonIds(),
+                    editedProperty.getSellingPersonIds()
             );
             propertyMap.put(id, updatedWithSameId);
         }

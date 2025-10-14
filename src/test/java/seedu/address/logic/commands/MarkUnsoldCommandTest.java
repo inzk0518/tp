@@ -23,7 +23,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.Status;
-import seedu.address.testutil.PropertyBuilder;
+import seedu.address.testutil.PropertyBuilderUtil;
 
 /**
  * Unit tests for {@code MarkUnsoldCommand}.
@@ -35,8 +35,8 @@ public class MarkUnsoldCommandTest {
 
     @BeforeEach
     public void setUp() {
-        property1 = new PropertyBuilder()
-                .withAddress("Blk 999 Orchard Rd")
+        property1 = new PropertyBuilderUtil()
+                .withPropertyAddress("Blk 999 Orchard Rd")
                 .withStatus("sold")
                 .build();
         modelStub = new ModelStub();
@@ -81,6 +81,7 @@ public class MarkUnsoldCommandTest {
         public void setProperty(Property target, Property editedProperty) {
             String id = target.getId();
             Property updatedWithSameId = new Property(
+                    id,
                     editedProperty.getPropertyAddress(),
                     editedProperty.getBathroom(),
                     editedProperty.getBedroom(),
@@ -90,7 +91,9 @@ public class MarkUnsoldCommandTest {
                     editedProperty.getPrice(),
                     editedProperty.getStatus(),
                     editedProperty.getType(),
-                    editedProperty.getOwner()
+                    editedProperty.getOwner(),
+                    editedProperty.getBuyingPersonIds(),
+                    editedProperty.getSellingPersonIds()
             );
             propertyMap.put(id, updatedWithSameId);
         }

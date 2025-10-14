@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.PersonBuilderUtil;
 
 public class FilterContactPredicateTest {
 
@@ -60,7 +60,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withName("Alice Bob").build()));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withPhone("12345").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withPhone("12345").build()));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withEmail("email@example.com").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withEmail("email@example.com").build()));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withAddress("Main Street Apt 1").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withAddress("Main Street Apt 1").build()));
     }
 
     @Test
@@ -107,7 +107,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withTags("friend", "colleague").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withTags("friend", "colleague").build()));
     }
 
     @Test
@@ -118,7 +118,7 @@ public class FilterContactPredicateTest {
                 Optional.of(100), Optional.of(500),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withBudgetMin("100").withBudgetMax("500").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withBudgetMin("100").withBudgetMax("500").build()));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class FilterContactPredicateTest {
                 Optional.of(Collections.singletonList("important")),
                 Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilder().withNotes("This is important").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withNotes("This is important").build()));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(),
                 Optional.of(Collections.singletonList("active")));
 
-        assertTrue(predicate.test(new PersonBuilder().withStatus("Active").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withStatus("Active").build()));
     }
 
     @Test
@@ -154,7 +154,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertFalse(predicate.test(new PersonBuilder().withName("Alice").build()));
+        assertFalse(predicate.test(new PersonBuilderUtil().withName("Alice").build()));
     }
 
     @Test
