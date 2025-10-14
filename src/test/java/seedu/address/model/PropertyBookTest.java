@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA_VARIANT;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,34 +17,10 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.model.property.Bathroom;
-import seedu.address.model.property.Bedroom;
-import seedu.address.model.property.FloorArea;
-import seedu.address.model.property.Listing;
-import seedu.address.model.property.Owner;
-import seedu.address.model.property.Postal;
-import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
-import seedu.address.model.property.PropertyAddress;
-import seedu.address.model.property.Status;
-import seedu.address.model.property.Type;
 import seedu.address.model.property.exceptions.DuplicatePropertyException;
 
 public class PropertyBookTest {
-
-    private static final Property PROPERTY_ALPHA = new Property(new PropertyAddress("123 Main St 5"),
-            new Bathroom("2"),
-            new Bedroom("3"), new FloorArea("120"), new Listing("sale"), new Postal("123456"),
-            new Price("500000"), new Status("listed"), new Type("HDB"), new Owner("owner123"));
-
-    private static final Property PROPERTY_BETA = new Property(new PropertyAddress("456 Market Ave 9"),
-            new Bathroom("1"),
-            new Bedroom("2"), new FloorArea("80"), new Listing("rent"), new Postal("654321"),
-            new Price("3500"), new Status("listed"), new Type("apartment"), new Owner("owner456"));
-
-    private static final Property PROPERTY_ALPHA_VARIANT = new Property(new PropertyAddress("123 Main St 5"),
-            new Bathroom("2"), new Bedroom("3"), new FloorArea("120"), new Listing("rent"), new Postal("123456"),
-            new Price("510000"), new Status("listed"), new Type("HDB"), new Owner("owner789"));
 
     private final PropertyBook propertyBook = new PropertyBook();
 

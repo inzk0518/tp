@@ -3,7 +3,12 @@ package seedu.address.model.property;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
+
+import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +16,7 @@ class PropertyTest {
 
     @Test
     void constructor_fieldsAreAccessible() {
-        Property property = buildAlphaProperty();
+        Property property = PROPERTY_ALPHA;
 
         assertEquals(new PropertyAddress("123 Main St 5"), property.getPropertyAddress());
         assertEquals(new Bathroom("2"), property.getBathroom());
@@ -28,57 +33,57 @@ class PropertyTest {
 
     @Test
     void isSameProperty_sameInstance_returnsTrue() {
-        Property property = buildAlphaProperty();
+        Property property = PROPERTY_ALPHA;
         assertTrue(property.isSameProperty(property));
     }
 
     @Test
     void isSameProperty_nullReference_returnsFalse() {
-        Property property = buildAlphaProperty();
+        Property property = PROPERTY_ALPHA;
         assertFalse(property.isSameProperty(null));
     }
 
     @Test
     void isSameProperty_sameAddressAndPostal_returnsTrue() {
-        Property property = buildAlphaProperty();
-        Property duplicateIdentity = new Property(new PropertyAddress("123 Main St 5"),
+        Property property = PROPERTY_ALPHA;
+        Property duplicateIdentity = new Property(null, new PropertyAddress("123 Main St 5"),
                 new Bathroom("1"), new Bedroom("4"),
                 new FloorArea("150"), new Listing("rent"), new Postal("123456"), new Price("600000"),
-                new Status("listed"), new Type("hdb"), new Owner("owner789"));
+                new Status("listed"), new Type("hdb"), new Owner("owner789"), new HashSet<>(), new HashSet<>());
         assertTrue(property.isSameProperty(duplicateIdentity));
     }
 
     @Test
     void isSameProperty_differentIdentity_returnsFalse() {
-        Property property = buildAlphaProperty();
-        Property differentProperty = buildBetaProperty();
+        Property property = PROPERTY_ALPHA;
+        Property differentProperty = PROPERTY_BETA;
         assertFalse(property.isSameProperty(differentProperty));
     }
 
     @Test
     void equals_sameValues_returnsTrue() {
-        Property property = buildAlphaProperty();
-        Property copy = buildAlphaProperty();
+        Property property = PROPERTY_ALPHA;
+        Property copy = PROPERTY_ALPHA;
         assertTrue(property.equals(copy));
     }
 
     @Test
     void equals_differentValues_returnsFalse() {
-        Property property = buildAlphaProperty();
-        Property different = buildBetaProperty();
+        Property property = PROPERTY_ALPHA;
+        Property different = PROPERTY_BETA;
         assertFalse(property.equals(different));
     }
 
     @Test
     void hashCode_sameValues_match() {
-        Property property = buildAlphaProperty();
-        Property copy = buildAlphaProperty();
+        Property property = PROPERTY_ALPHA;
+        Property copy = PROPERTY_ALPHA;
         assertEquals(property.hashCode(), copy.hashCode());
     }
 
     @Test
     void toString_containsKeyDetails() {
-        Property property = buildAlphaProperty();
+        Property property = PROPERTY_ALPHA;
         String representation = property.toString();
         assertTrue(representation.contains("Id="));
         assertTrue(representation.contains("Address=123 Main St 5"));
@@ -86,15 +91,10 @@ class PropertyTest {
         assertTrue(representation.contains("Price=500000"));
     }
 
-    private static Property buildAlphaProperty() {
-        return new Property(new PropertyAddress("123 Main St 5"), new Bathroom("2"), new Bedroom("3"),
-                new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
-                new Status("listed"), new Type("HDB"), new Owner("owner123"));
-    }
-
-    private static Property buildBetaProperty() {
-        return new Property(new PropertyAddress("456 Market Ave 9"), new Bathroom("1"), new Bedroom("2"),
-                new FloorArea("80"), new Listing("rent"), new Postal("654321"), new Price("3500"),
-                new Status("listed"), new Type("apartment"), new Owner("owner456"));
+    @Test
+    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
+        Property property = PROPERTY_ALPHA;
+        assertThrows(UnsupportedOperationException.class, () -> property.getBuyingPersonIds().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> property.getSellingPersonIds().remove(0));
     }
 }

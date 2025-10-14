@@ -58,7 +58,8 @@ public class AddCommand extends Command {
         Person personWithUuid = new Person(uuid, toAdd.getName(), toAdd.getPhone(), toAdd.getEmail(),
                 toAdd.getAddress(), toAdd.getTags(),
                 toAdd.getBudgetMin(), toAdd.getBudgetMax(),
-                toAdd.getNotes(), toAdd.getStatus());
+                toAdd.getNotes(), toAdd.getStatus(),
+                toAdd.getBuyingPropertyIds(), toAdd.getSellingPropertyIds());
 
         if (model.hasPerson(personWithUuid)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);

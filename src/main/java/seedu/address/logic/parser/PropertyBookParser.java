@@ -12,6 +12,7 @@ import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeletePropertyCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ShowPropertiesCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.exceptions.UnknownCommandParseException;
 
@@ -53,6 +54,8 @@ public class PropertyBookParser implements CommandSetParser {
             return new AddPropertyCommandParser().parse(arguments);
         case DeletePropertyCommand.COMMAND_WORD:
             return new DeletePropertyCommandParser().parse(arguments);
+        case ShowPropertiesCommand.COMMAND_WORD:
+            return new ShowPropertiesCommandParser().parse(arguments);
         default:
             throw new UnknownCommandParseException(MESSAGE_UNKNOWN_COMMAND);
         }

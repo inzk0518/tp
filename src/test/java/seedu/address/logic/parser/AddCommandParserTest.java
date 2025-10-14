@@ -41,14 +41,14 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.PersonBuilderUtil;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
+        Person expectedPerson = new PersonBuilderUtil(BOB).withTags(VALID_TAG_FRIEND).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -56,7 +56,7 @@ public class AddCommandParserTest {
 
 
         // multiple tags - all accepted
-        Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+        Person expectedPersonMultipleTags = new PersonBuilderUtil(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
@@ -123,7 +123,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Person expectedPerson = new PersonBuilder(AMY)
+        Person expectedPerson = new PersonBuilderUtil(AMY)
                 .withEmail("")
                 .withAddress("")
                 .withTags()
@@ -150,7 +150,7 @@ public class AddCommandParserTest {
 
         // missing email prefix -> should succeed, so test for success instead
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB,
-                new AddCommand(new PersonBuilder()
+                new AddCommand(new PersonBuilderUtil()
                         .withName(VALID_NAME_BOB)
                         .withPhone(VALID_PHONE_BOB)
                         .withEmail("")
@@ -164,7 +164,7 @@ public class AddCommandParserTest {
 
         // missing address prefix -> should succeed, so test for success instead
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB,
-                new AddCommand(new PersonBuilder()
+                new AddCommand(new PersonBuilderUtil()
                         .withName(VALID_NAME_BOB)
                         .withPhone(VALID_PHONE_BOB)
                         .withEmail(VALID_EMAIL_BOB)
