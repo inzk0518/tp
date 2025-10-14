@@ -126,7 +126,7 @@ public class Person {
      * Returns true if both persons have the same name & same phone number.
      */
     @Override
-    public boolean equals(Object other) { //TODO merge equals with isSamePerson?
+    public boolean equals(Object other) {
         if (other == this) {
             return true;
         }

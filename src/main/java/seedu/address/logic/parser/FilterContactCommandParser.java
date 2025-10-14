@@ -66,9 +66,13 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
         }
 
         // Check inside all values for invalid prefixes
-        // for invalid prefixes -> filtercontact n/brian abc/
+        // Example invalid command: filtercontact n/brian abc/
         // the argMultimap will have key = "n/" and value = "brian abc/"
         for (Prefix prefix : argMultimap.getAllPrefixes()) {
+            // Skip checking for notes prefix, since '/' is valid in notes
+            if (prefix.equals(PREFIX_NOTES)) {
+                continue;
+            }
             for (String value : argMultimap.getAllValues(prefix)) {
                 if (looksLikePrefix(value)) {
                     throw new ParseException(String.format(
@@ -102,8 +106,7 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
      * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
      */
     private boolean looksLikePrefix(String s) {
-        s = s.trim();
-        return s.contains("/"); // naive checking TODO: could result in error if notes has /
+        return s.trim().contains("/");
     }
 
 
