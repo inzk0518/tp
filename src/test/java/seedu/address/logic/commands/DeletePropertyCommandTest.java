@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.HashSet;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
@@ -90,9 +92,9 @@ class DeletePropertyCommandTest {
     }
 
     private static Property buildProperty(String address) {
-        return new Property(new PropertyAddress(address), new Bathroom("2"), new Bedroom("3"),
+        return new Property("randomId", new PropertyAddress(address), new Bathroom("2"), new Bedroom("3"),
                 new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
-                new Status("listed"), new Type("HDB"), new Owner("owner123"));
+                new Status("listed"), new Type("HDB"), new Owner("owner123"), new HashSet<>(), new HashSet<>());
     }
 
     private static String deriveDifferentId(String propertyId) {
