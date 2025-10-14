@@ -86,9 +86,12 @@ public class FilterContactPredicate implements Predicate<Person> {
                 .orElse(true)
 
                 && status.map(list ->
-                        list.stream().anyMatch(k ->
-                                StringUtil.containsSubstringIgnoreCase(person.getStatus().value, k)))
-                .orElse(true);
+                    list.stream().anyMatch(k -> {
+                        String targetStatus = person.getStatus().value.trim().toLowerCase();
+                        String keyword = k.trim().toLowerCase();
+                        // exact match only (not substring) so that searching active, inactive is not returned
+                        return targetStatus.equals(keyword);
+                    })).orElse(true);
     }
 
     @Override
