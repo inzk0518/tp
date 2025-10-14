@@ -5,10 +5,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BUDGET_MAX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BUDGET_MIN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT; // TODO
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET; // TODO
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -77,6 +77,10 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
             }
         }
 
+        Optional<Integer> limit = parsePositiveInteger(argMultimap.getValue(PREFIX_LIMIT));
+        Optional<Integer> offset = parseNonNegativeInteger(argMultimap.getValue(PREFIX_OFFSET));
+
+
         FilterContactPredicate predicate = new FilterContactPredicate(
                 getKeywords(argMultimap.getValue(PREFIX_NAME)),
                 getKeywords(argMultimap.getValue(PREFIX_PHONE)),
@@ -86,7 +90,9 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
                 argMultimap.getValue(PREFIX_BUDGET_MIN).map(this::parseInteger),
                 argMultimap.getValue(PREFIX_BUDGET_MAX).map(this::parseInteger),
                 getKeywords(argMultimap.getValue(PREFIX_NOTES)),
-                getKeywords(argMultimap.getValue(PREFIX_STATUS))
+                getKeywords(argMultimap.getValue(PREFIX_STATUS)),
+                limit,
+                offset
         );
 
         return new FilterContactCommand(predicate);
@@ -123,5 +129,46 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
      */
     private Integer parseInteger(String value) throws NumberFormatException {
         return Integer.parseInt(value.trim());
+    }
+
+
+    /**
+     * Parses a positive integer value (limit must be > 0).
+     *
+     * @throws ParseException If the string is not a valid positive integer.
+     */
+    Optional<Integer> parsePositiveInteger(Optional<String> value) throws ParseException {
+        if (value.isEmpty()) {
+            return Optional.empty();
+        }
+        try {
+            int num = Integer.parseInt(value.get().trim());
+            if (num <= 0) {
+                throw new ParseException("Limit must be greater than 0.");
+            }
+            return Optional.of(num);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Invalid number for limit: " + value);
+        }
+    }
+
+    /**
+     * Parses a non-negative integer value (offset must be ≥ 0).
+     *
+     * @throws ParseException If the string is not a valid non-negative integer.
+     */
+    Optional<Integer> parseNonNegativeInteger(Optional<String> value) throws ParseException {
+        if (value.isEmpty()) {
+            return Optional.empty();
+        }
+        try {
+            int num = Integer.parseInt(value.get().trim());
+            if (num < 0) {
+                throw new ParseException("Offset cannot be negative.");
+            }
+            return Optional.of(num);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Invalid number for offset: " + value);
+        }
     }
 }

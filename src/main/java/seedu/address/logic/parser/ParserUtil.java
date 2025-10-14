@@ -108,17 +108,26 @@ public class ParserUtil {
     }
 
     /**
+     * Returns a non-null string value by replacing {@code null} inputs with {@code defaultValue}.
+     * <p>
+     * This method helps simplify null checks when parsing optional user inputs.
+     *
+     * @param value the input string, which may be {@code null}
+     * @param defaultValue the fallback string to use if {@code value} is {@code null}
+     * @return {@code value} if non-null, otherwise {@code defaultValue}
+     */
+    private static String sanitiseNull(String value, String defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
+    /**
      * Parses a {@code String address} into an {@code Address}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
     public static PersonAddress parseAddress(String address) throws ParseException {
-        if (address == null) { //TODO abstract out null check?
-            return new PersonAddress("");
-        }
-
-        String trimmedAddress = address.trim();
+        String trimmedAddress = sanitiseNull(address, "").trim();
         if (!PersonAddress.isValidAddress(trimmedAddress)) {
             throw new ParseException(PersonAddress.MESSAGE_CONSTRAINTS);
         }
@@ -132,10 +141,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code email} is invalid.
      */
     public static Email parseEmail(String email) throws ParseException {
-        if (email == null) { //TODO abstract out null check?
-            return new Email("");
-        }
-        String trimmedEmail = email.trim();
+        String trimmedEmail = sanitiseNull(email, "").trim();
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
@@ -175,11 +181,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code budgetMin} is not a valid integer or violates constraints.
      */
     public static BudgetMin parseBudgetMin(String budgetMin) throws ParseException {
-        if (budgetMin == null) { //TODO abstract out null check?
-            return new BudgetMin("0");
-        }
-
-        String trimmedBudgetMin = budgetMin.trim();
+        String trimmedBudgetMin = sanitiseNull(budgetMin, "0").trim();
 
         if (!BudgetMin.isValidBudgetMin(trimmedBudgetMin)) {
             throw new ParseException(BudgetMin.MESSAGE_CONSTRAINTS);
@@ -194,11 +196,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code budgetMax} is not a valid integer or violates constraints.
      */
     public static BudgetMax parseBudgetMax(String budgetMax) throws ParseException {
-        if (budgetMax == null) { //TODO abstract out null check?
-            return new BudgetMax(String.valueOf(200_000_000_000L));
-        }
-
-        String trimmedBudgetMax = budgetMax.trim();
+        String trimmedBudgetMax = sanitiseNull(budgetMax, String.valueOf(200_000_000_000L)).trim();
 
         if (!BudgetMax.isValidBudgetMax(trimmedBudgetMax)) {
             throw new ParseException(BudgetMax.MESSAGE_CONSTRAINTS);
@@ -213,10 +211,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code notes} is invalid (e.g., null).
      */
     public static Notes parseNotes(String notes) throws ParseException {
-        if (notes == null) { //TODO abstract out null check?
-            return new Notes("");
-        }
-        String trimmedNotes = notes.trim();
+        String trimmedNotes = sanitiseNull(notes, "").trim();
         return new Notes(trimmedNotes); //TODO add exception?
     }
 
@@ -227,10 +222,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code status} is invalid (fails {@link PersonStatus#isValidStatus}).
      */
     public static PersonStatus parsePersonStatus(String status) throws ParseException {
-        if (status == null) { //TODO abstract out null check?
-            return new PersonStatus("");
-        }
-        String trimmedStatus = status.trim();
+        String trimmedStatus = sanitiseNull(status, "").trim();
         if (!PersonStatus.isValidStatus(trimmedStatus)) {
             throw new ParseException(PersonStatus.MESSAGE_CONSTRAINTS);
         }

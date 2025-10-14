@@ -12,6 +12,9 @@ import seedu.address.commons.util.StringUtil;
  * Each field (name, phone, email, etc.) is optional. If a field is present, at least one
  * of its keywords must match the corresponding {@code Person} field (case-insensitive, substring match).
  * Budget range (min/max) is inclusive.
+ * <p>
+ * Also has optional parameters ({@code limit} and {@code offset}),
+ * which determine how many results should be shown and from which position.
  */
 public class FilterContactPredicate implements Predicate<Person> {
     private final Optional<List<String>> names;
@@ -23,10 +26,23 @@ public class FilterContactPredicate implements Predicate<Person> {
     private final Optional<Integer> budgetMax;
     private final Optional<List<String>> notes;
     private final Optional<List<String>> status;
+    private final Optional<Integer> limit;
+    private final Optional<Integer> offset;
 
     /**
      * Creates a {@code FilterContactPredicate} with optional filtering fields.
      * Any empty field means "no restriction" for that field.
+     * @param names Optional list of name keywords.
+     * @param phones Optional list of phone keywords.
+     * @param emails Optional list of email keywords.
+     * @param addresses Optional list of address keywords.
+     * @param tags Optional list of tag keywords.
+     * @param budgetMin Optional minimum budget.
+     * @param budgetMax Optional maximum budget.
+     * @param notes Optional list of note keywords.
+     * @param status Optional list of status keywords.
+     * @param limit Optional maximum number of results to return.
+     * @param offset Optional number of results to skip before showing.
      */
     public FilterContactPredicate(Optional<List<String>> names,
                                   Optional<List<String>> phones,
@@ -36,7 +52,9 @@ public class FilterContactPredicate implements Predicate<Person> {
                                   Optional<Integer> budgetMin,
                                   Optional<Integer> budgetMax,
                                   Optional<List<String>> notes,
-                                  Optional<List<String>> status) {
+                                  Optional<List<String>> status,
+                                  Optional<Integer> limit,
+                                  Optional<Integer> offset) {
         this.names = names;
         this.phones = phones;
         this.emails = emails;
@@ -46,6 +64,8 @@ public class FilterContactPredicate implements Predicate<Person> {
         this.budgetMax = budgetMax;
         this.notes = notes;
         this.status = status;
+        this.limit = limit;
+        this.offset = offset;
     }
 
     @Override
@@ -107,6 +127,14 @@ public class FilterContactPredicate implements Predicate<Person> {
                 && budgetMax.equals(((FilterContactPredicate) other).budgetMax)
                 && notes.equals(((FilterContactPredicate) other).notes)
                 && status.equals(((FilterContactPredicate) other).status));
+    }
+
+    public Optional<Integer> getLimit() {
+        return limit;
+    }
+
+    public Optional<Integer> getOffset() {
+        return offset;
     }
 
     @Override
