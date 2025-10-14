@@ -125,19 +125,6 @@ public class Person {
     /**
      * Returns true if both persons have the same name & same phone number.
      */
-    public boolean isSamePerson(Person otherPerson) {
-        if (otherPerson == this) {
-            return true;
-        }
-
-        return otherPerson != null
-                && otherPerson.getName().equals(getName())
-                && otherPerson.getPhone().equals(getPhone());
-    }
-
-    /**
-     * Returns true if both persons have the same name & same phone number.
-     */
     @Override
     public boolean equals(Object other) { //TODO merge equals with isSamePerson?
         if (other == this) {
