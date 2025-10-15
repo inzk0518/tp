@@ -21,35 +21,32 @@ import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
 
 /**
- * Links a property to a person.
+ * Links properties to people.
  */
 public class LinkCommand extends Command {
 
     public static final String COMMAND_WORD = "link";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links a property to a person. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to people. "
             + "Parameters: "
-            + PREFIX_LINK_PROPERTY_ID + "PROPERTY_ID "
+            + PREFIX_LINK_PROPERTY_ID + "PROPERTY_ID{1..} "
             + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller')"
-            + PREFIX_LINK_CLIENT_ID + "CLIENT_ID"
+            + PREFIX_LINK_CLIENT_ID + "CLIENT_ID{1..}"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_LINK_PROPERTY_ID + "2 "
             + PREFIX_LINK_RELATIONSHIP + "buyer "
-            + PREFIX_LINK_CLIENT_ID + "3";
+            + PREFIX_LINK_CLIENT_ID + "3"
+            + PREFIX_LINK_CLIENT_ID + "5";
 
     public static final String MESSAGE_LINK_BUYER_SUCCESS =
             "Linked Property IDs: %1$s with Person IDs: %2$s as buyer";
     public static final String MESSAGE_LINK_SELLER_SUCCESS =
             "Linked Property IDs: %1$s with Person IDs: %2$s as seller";
 
-    public static final String MESSAGE_PERSON_ALREADY_LINKED = "Person already linked to this property.";
-    public static final String MESSAGE_PROPERTY_ALREADY_LINKED = "Property already linked to this person.";
-
     private final LinkDescriptor linkDescriptor;
 
     /**
-     * Creates a LinkCommand to link the specified {@code Property} to the specified {@code Person}
-     * in the address book.
+     * Creates a LinkCommand to link the specified {@code Properties} to the specified {@code People}
      */
     public LinkCommand(LinkDescriptor linkDescriptor) {
         requireNonNull(linkDescriptor);
@@ -168,7 +165,7 @@ public class LinkCommand extends Command {
         /**
          * Returns the {@code Set<Property>} in the list with the matching propertyId.
          *
-         * @throws CommandException if no such property exists in the list.
+         * @throws CommandException if any property is not found in the list.
          */
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
             assert (propertyList != null);
