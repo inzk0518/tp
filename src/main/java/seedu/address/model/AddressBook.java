@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Wraps all data at the address-book level
@@ -74,7 +75,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Sets the next UUID to be used.
      */
     public Uuid generateNextUuid() {
-        return new Uuid(nextUuid++);
+        return new Uuid(nextUuid++, PERSON);
     }
 
     /**

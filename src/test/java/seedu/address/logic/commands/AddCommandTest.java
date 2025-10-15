@@ -246,11 +246,6 @@ public class AddCommandTest {
             requireNonNull(person);
             personsAdded.add(person);
         }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
-        }
     }
 
 }

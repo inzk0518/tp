@@ -7,13 +7,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.LinkCommand;
 import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new LinkCommand object
@@ -44,8 +43,7 @@ public class LinkCommandParser implements Parser<LinkCommand> {
         }
 
         Set<Uuid> personIds = ParserUtil.parsePersonIds(argMultimap.getAllValues(PREFIX_LINK_CLIENT_ID));
-        Set<String> propertyIds = argMultimap.getAllValues(PREFIX_LINK_PROPERTY_ID)
-                .stream().collect(Collectors.toSet());
+        Set<Uuid> propertyIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_LINK_PROPERTY_ID));
 
         LinkDescriptor linkDescriptor = new LinkDescriptor();
 

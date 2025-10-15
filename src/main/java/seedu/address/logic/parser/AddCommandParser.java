@@ -10,6 +10,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,8 +27,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -71,11 +72,11 @@ public class AddCommandParser implements Parser<AddCommand> {
         BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
         PersonStatus status = ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
-        Set<String> emptyBuyingPropertyIds = new HashSet<>();
-        Set<String> emptySellingPropertyIds = new HashSet<>();
+        Set<Uuid> emptyBuyingPropertyIds = new HashSet<>();
+        Set<Uuid> emptySellingPropertyIds = new HashSet<>();
 
         // use 1 for UUID first, correct UUID will be made in AddCommand
-        Person person = new Person(new Uuid(1), name, phone, email, address, tagList,
+        Person person = new Person(new Uuid(1, PERSON), name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 

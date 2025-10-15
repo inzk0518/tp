@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,7 +19,6 @@ import seedu.address.model.person.Notes;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -29,6 +30,7 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -52,29 +54,30 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code propertyId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
+     * Parses {@code personId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
      * trimmed.
-     * @throws ParseException if the specified propertyId is invalid (not non-zero unsigned integer).
+     * @throws ParseException if the specified personId is invalid (not non-zero unsigned integer).
      */
-    public static Uuid parsePersonId(String propertyId) throws ParseException {
-        requireNonNull(propertyId);
-        String trimmedPropertyId = propertyId.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedPropertyId)) {
+    public static Uuid parsePersonId(String personId) throws ParseException {
+        requireNonNull(personId);
+        String trimmedpersonId = personId.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedpersonId)) {
             throw new ParseException(MESSAGE_INVALID_UUID);
         }
-        return new Uuid(Integer.parseInt(trimmedPropertyId));
+        return new Uuid(Integer.parseInt(trimmedpersonId), PERSON);
     }
 
     /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Uuid>} and returns it.
+     * Parses {@code Collection<String> tags} into a {@code Set<Uuid>},
+     * both representing a collection of person ids, and returns it.
      */
-    public static Set<Uuid> parsePersonIds(Collection<String> propertyIds) throws ParseException {
-        requireNonNull(propertyIds);
-        final Set<Uuid> propertyIdSet = new HashSet<>();
-        for (String propertyId : propertyIds) {
-            propertyIdSet.add(parsePersonId(propertyId));
+    public static Set<Uuid> parsePersonIds(Collection<String> personIds) throws ParseException {
+        requireNonNull(personIds);
+        final Set<Uuid> personIdsSet = new HashSet<>();
+        for (String personId : personIds) {
+            personIdsSet.add(parsePersonId(personId));
         }
-        return propertyIdSet;
+        return personIdsSet;
     }
 
     /**
@@ -254,6 +257,33 @@ public class ParserUtil {
     }
 
     /**
+     * Parses {@code propertyId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * @throws ParseException if the specified propertyId is invalid (not non-zero unsigned integer).
+     */
+    public static Uuid parsePropertyId(String propertyId) throws ParseException {
+        requireNonNull(propertyId);
+        String trimmedpropertyId = propertyId.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedpropertyId)) {
+            throw new ParseException(MESSAGE_INVALID_UUID);
+        }
+        return new Uuid(Integer.parseInt(trimmedpropertyId), PROPERTY);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Uuid>},
+     * both representing a collection of property ids, and returns it.
+     */
+    public static Set<Uuid> parsePropertyIds(Collection<String> propertyIds) throws ParseException {
+        requireNonNull(propertyIds);
+        final Set<Uuid> propertyIdsSet = new HashSet<>();
+        for (String propertyId : propertyIds) {
+            propertyIdsSet.add(parsePropertyId(propertyId));
+        }
+        return propertyIdsSet;
+    }
+
+    /**
      * Parses a {@code String postal} into a {@code Postal}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -386,26 +416,5 @@ public class ParserUtil {
             throw new ParseException(Owner.MESSAGE_CONSTRAINTS);
         }
         return new Owner(trimmedOwner);
-    }
-
-    /**
-     * Parses a {@code String uuid} into a {@code Uuid}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code uuid} is invalid.
-     */
-    public static Uuid parseUuid(String uuid) throws ParseException {
-        requireNonNull(uuid);
-        String trimmedUuid = uuid.trim();
-
-        try {
-            int uuidValue = Integer.parseInt(trimmedUuid);
-            if (!Uuid.isValidUuid(uuidValue)) {
-                throw new ParseException(Uuid.MESSAGE_CONSTRAINTS);
-            }
-            return new Uuid(uuidValue);
-        } catch (NumberFormatException e) {
-            throw new ParseException(Uuid.MESSAGE_CONSTRAINTS);
-        }
     }
 }

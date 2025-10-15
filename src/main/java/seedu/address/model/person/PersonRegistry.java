@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import java.util.HashMap;
 import java.util.Map;
 
+import seedu.address.model.uuid.Uuid;
+
 /**
  * Maintains a registry of all {@link Person} objects in the address book.
  * <p>
@@ -20,7 +22,7 @@ public class PersonRegistry {
      * @param person The person to add. Must not be {@code null}.
      */
     public void addPerson(Person person) {
-        personMap.put(person.getUuid().value, person);
+        personMap.put(person.getUuid().getValue(), person);
     }
 
     /**

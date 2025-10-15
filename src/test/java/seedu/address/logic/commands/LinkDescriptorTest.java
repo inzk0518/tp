@@ -41,7 +41,7 @@ public class LinkDescriptorTest {
         List<Property> personList = new ArrayList<>(getTypicalProperties());
         personList.add(PROPERTY_ALPHA);
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId())).build();
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
 
         assertThrows(CommandException.class, () -> linkDescriptor.getPropertiesInList(personList));
     }
@@ -63,7 +63,7 @@ public class LinkDescriptorTest {
 
         List<Property> personList = new ArrayList<>(getTypicalProperties());
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
                 .withRelationship("tenant")
                 .build();
 

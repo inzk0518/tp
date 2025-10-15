@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.ShowPropertiesCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new ShowPropertiesCommand object
@@ -29,7 +29,7 @@ public class ShowPropertiesCommandParser implements Parser<ShowPropertiesCommand
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLIENT);
 
-        Uuid clientUuid = ParserUtil.parseUuid(argMultimap.getValue(PREFIX_CLIENT).get());
+        Uuid clientUuid = ParserUtil.parsePersonId(argMultimap.getValue(PREFIX_CLIENT).get());
 
         return new ShowPropertiesCommand(clientUuid);
     }

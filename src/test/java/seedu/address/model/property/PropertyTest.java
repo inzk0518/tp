@@ -2,15 +2,17 @@ package seedu.address.model.property;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.model.uuid.Uuid;
 
 class PropertyTest {
 
@@ -28,7 +30,7 @@ class PropertyTest {
         assertEquals(new Status("listed"), property.getStatus());
         assertEquals(new Type("HDB"), property.getType());
         assertEquals(new Owner("owner123"), property.getOwner());
-        assertNotNull(property.getId());
+        assertEquals(new Uuid(1, PROPERTY), property.getUuid());
     }
 
     @Test

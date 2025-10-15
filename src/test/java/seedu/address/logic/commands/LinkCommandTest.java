@@ -43,7 +43,7 @@ public class LinkCommandTest {
     public void execute_validLinkDescriptor_success() {
 
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
                 .withPersonIds(Set.of(ALICE.getUuid()))
                 .withRelationship("seller")
                 .build();
@@ -57,11 +57,11 @@ public class LinkCommandTest {
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property updatedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withSellingPersonIds(ALICE.getUuid().value).build();
+                .withSellingPersonIds(ALICE.getUuid().getValue()).build();
         expectedModel.setProperty(PROPERTY_ALPHA, updatedPropertyAlpha);
 
         Person updatedAlice = new PersonBuilderUtil(ALICE)
-                .withSellingPropertyIds(updatedPropertyAlpha.getId()).build();
+                .withSellingPropertyIds(updatedPropertyAlpha.getUuid()).build();
         expectedModel.setPerson(ALICE, updatedAlice);
 
         assertCommandSuccess(linkCommand, model, expectedMessage, expectedModel);
@@ -71,7 +71,7 @@ public class LinkCommandTest {
     public void execute_validLinkDescriptorWithMultiplePropertiesAndPersons_success() {
 
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId(), PROPERTY_BETA.getId()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid(), PROPERTY_BETA.getUuid()))
                 .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .withRelationship("buyer")
                 .build();
@@ -85,19 +85,19 @@ public class LinkCommandTest {
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property updatedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withBuyingPersonIds(ALICE.getUuid().value, BENSON.getUuid().value).build();
+                .withBuyingPersonIds(ALICE.getUuid().getValue(), BENSON.getUuid().getValue()).build();
         expectedModel.setProperty(PROPERTY_ALPHA, updatedPropertyAlpha);
 
         Property updatedPropertyBeta = new PropertyBuilderUtil(PROPERTY_BETA)
-                .withBuyingPersonIds(ALICE.getUuid().value, BENSON.getUuid().value).build();
+                .withBuyingPersonIds(ALICE.getUuid().getValue(), BENSON.getUuid().getValue()).build();
         expectedModel.setProperty(PROPERTY_BETA, updatedPropertyBeta);
 
         Person updatedAlice = new PersonBuilderUtil(ALICE)
-                .withBuyingPropertyIds(updatedPropertyAlpha.getId(), updatedPropertyBeta.getId()).build();
+                .withBuyingPropertyIds(updatedPropertyAlpha.getUuid(), updatedPropertyBeta.getUuid()).build();
         expectedModel.setPerson(ALICE, updatedAlice);
 
         Person updatedBenson = new PersonBuilderUtil(BENSON)
-                .withBuyingPropertyIds(updatedPropertyAlpha.getId(), updatedPropertyBeta.getId()).build();
+                .withBuyingPropertyIds(updatedPropertyAlpha.getUuid(), updatedPropertyBeta.getUuid()).build();
         expectedModel.setPerson(BENSON, updatedBenson);
 
         assertCommandSuccess(linkCommand, model, expectedMessage, expectedModel);
@@ -107,7 +107,7 @@ public class LinkCommandTest {
     public void execute_invalidRelationshipInLinkDescriptor_success() {
 
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
                 .withPersonIds(Set.of(ALICE.getUuid()))
                 .withRelationship("owner")
                 .build();
@@ -148,7 +148,7 @@ public class LinkCommandTest {
     @Test
     public void toStringMethod() {
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPropertyIds(Set.of(PROPERTY_ALPHA.getId(), PROPERTY_BETA.getId()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid(), PROPERTY_BETA.getUuid()))
                 .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .withRelationship("seller")
                 .build();

@@ -1,5 +1,8 @@
 package seedu.address.storage;
 
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,8 +22,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 
 /**
@@ -40,8 +43,8 @@ class JsonAdaptedPerson {
     private final String budgetMax;
     private final String notes;
     private final String status;
-    private final List<String> buyingPropertyIds = new ArrayList<>();
-    private final List<String> sellingPropertyIds = new ArrayList<>();
+    private final List<Integer> buyingPropertyIds = new ArrayList<>();
+    private final List<Integer> sellingPropertyIds = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -57,8 +60,8 @@ class JsonAdaptedPerson {
                              @JsonProperty("budgetMax") String budgetMax,
                              @JsonProperty("notes") String notes,
                              @JsonProperty("status") String status,
-                             @JsonProperty("buyingPropertyIds") List<String> buyingPropertyIds,
-                             @JsonProperty("sellingPropertyIds") List<String> sellingPropertyIds) {
+                             @JsonProperty("buyingPropertyIds") List<Integer> buyingPropertyIds,
+                             @JsonProperty("sellingPropertyIds") List<Integer> sellingPropertyIds) {
         this.uuid = uuid;
         this.name = name;
         this.phone = phone;
@@ -83,7 +86,7 @@ class JsonAdaptedPerson {
      * Converts a given {@code Person} into this class for Jackson use.
      */
     public JsonAdaptedPerson(Person source) {
-        uuid = source.getUuid().value;
+        uuid = source.getUuid().getValue();
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
@@ -96,8 +99,16 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        buyingPropertyIds.addAll(source.getBuyingPropertyIds());
-        sellingPropertyIds.addAll(source.getSellingPropertyIds());
+        buyingPropertyIds.addAll(source
+                .getBuyingPropertyIds()
+                .stream()
+                .map(id -> id.getValue())
+                .toList());
+        sellingPropertyIds.addAll(source
+                .getSellingPropertyIds()
+                .stream()
+                .map(id -> id.getValue())
+                .toList());
     }
 
     /**
@@ -114,7 +125,7 @@ class JsonAdaptedPerson {
         if (uuid == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Uuid"));
         }
-        final Uuid modelUuid = new Uuid(uuid);
+        final Uuid modelUuid = new Uuid(uuid, PERSON);
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -185,17 +196,17 @@ class JsonAdaptedPerson {
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
 
-        final List<String> tempBuyingPropertyIds = new ArrayList<>();
-        for (String id : this.buyingPropertyIds) {
-            tempBuyingPropertyIds.add(id);
+        final List<Uuid> tempBuyingPropertyIds = new ArrayList<>();
+        for (Integer id : this.buyingPropertyIds) {
+            tempBuyingPropertyIds.add(new Uuid(id, PROPERTY));
         }
-        final Set<String> modelBuyingPropertyIds = new HashSet<>(tempBuyingPropertyIds);
+        final Set<Uuid> modelBuyingPropertyIds = new HashSet<>(tempBuyingPropertyIds);
 
-        final List<String> tempSellingPropertyIds = new ArrayList<>();
-        for (String id : this.sellingPropertyIds) {
-            tempSellingPropertyIds.add(id);
+        final List<Uuid> tempSellingPropertyIds = new ArrayList<>();
+        for (Integer id : this.sellingPropertyIds) {
+            tempSellingPropertyIds.add(new Uuid(id, PROPERTY));
         }
-        final Set<String> modelSellingPropertyIds = new HashSet<>(tempSellingPropertyIds);
+        final Set<Uuid> modelSellingPropertyIds = new HashSet<>(tempSellingPropertyIds);
 
         return new Person(modelUuid, modelName, modelPhone, modelEmail, modelAddress,
                           modelTags, modelBudgetMin, modelBudgetMax, modelNotes, modelStatus,

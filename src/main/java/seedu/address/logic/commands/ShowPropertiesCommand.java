@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.property.OwnerMatchesPredicate;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Finds and lists all properties where the specified client is the owner.

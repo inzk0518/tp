@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * Container for user visible messages.
@@ -39,18 +40,53 @@ public class Messages {
     public static String format(Person person) {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
+                .append(person.getUuid())
                 .append("; Phone: ")
                 .append(person.getPhone())
                 .append("; Email: ")
                 .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
-                .append("; Tags: ");
+                .append("; Tags: [");
         person.getTags().forEach(builder::append);
-        builder.append("; Buying Property Ids: ");
+        builder.append("]; Buying Property Ids: [");
         person.getBuyingPropertyIds().forEach(builder::append);
-        builder.append("; Selling Property Ids: ");
+        builder.append("]; Selling Property Ids: [");
         person.getSellingPropertyIds().forEach(builder::append);
+        builder.append("]");
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code property} for display to the user.
+     */
+    public static String format(Property property) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(property.getPropertyAddress())
+                .append(property.getUuid())
+                .append("; Bathrooms: ")
+                .append(property.getBathroom())
+                .append("; Bedroom: ")
+                .append(property.getBedroom())
+                .append("; Floor Area: ")
+                .append(property.getFloorArea())
+                .append("; Listing: ")
+                .append(property.getListing())
+                .append("; Postal: ")
+                .append(property.getPostal())
+                .append("; Price: ")
+                .append(property.getPrice())
+                .append("; Status: ")
+                .append(property.getStatus())
+                .append("; Type: ")
+                .append(property.getType())
+                .append("; Owner: ")
+                .append(property.getOwner());
+        builder.append("; Buying Person Ids: [");
+        property.getBuyingPersonIds().forEach(builder::append);
+        builder.append("]; Selling Person Ids: [");
+        property.getSellingPersonIds().forEach(builder::append);
+        builder.append("]");
         return builder.toString();
     }
 

@@ -17,8 +17,8 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Links a property to a person.
@@ -111,7 +111,7 @@ public class LinkCommand extends Command {
      */
     public static class LinkDescriptor {
         private Set<Uuid> personIds;
-        private Set<String> propertyIds;
+        private Set<Uuid> propertyIds;
         private String relationship;
 
         public LinkDescriptor() {}
@@ -133,11 +133,11 @@ public class LinkCommand extends Command {
             return personIds;
         }
 
-        public void setPropertyIds(Set<String> propertyIds) {
+        public void setPropertyIds(Set<Uuid> propertyIds) {
             this.propertyIds = propertyIds;
         }
 
-        public Set<String> getPropertyIds() {
+        public Set<Uuid> getPropertyIds() {
             return propertyIds;
         }
 
@@ -173,7 +173,7 @@ public class LinkCommand extends Command {
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
             assert (propertyList != null);
             List<Property> propertiesList = propertyList.stream()
-                    .filter(property -> propertyIds.contains(property.getId()))
+                    .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
                 throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
@@ -191,22 +191,18 @@ public class LinkCommand extends Command {
             List<Person> peopleToEdit = getPeopleInList(personList);
             switch (relationship) {
             case "buyer":
-                return peopleToEdit.stream().map(personToEdit -> new Person(personToEdit.getUuid(),
-                        personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
-                        personToEdit.getAddress(), personToEdit.getTags(), personToEdit.getBudgetMin(),
-                        personToEdit.getBudgetMax(), personToEdit.getNotes(), personToEdit.getStatus(),
+                return peopleToEdit.stream()
+                        .map(personToEdit -> personToEdit
+                        .duplicateWithNewBuyingPropertyIds(
                         Stream.concat(personToEdit.getBuyingPropertyIds().stream(), propertyIds.stream())
-                                .collect(Collectors.toSet()),
-                        personToEdit.getSellingPropertyIds()))
+                        .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             case "seller":
-                return peopleToEdit.stream().map(personToEdit -> new Person(personToEdit.getUuid(),
-                        personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
-                        personToEdit.getAddress(), personToEdit.getTags(), personToEdit.getBudgetMin(),
-                        personToEdit.getBudgetMax(), personToEdit.getNotes(), personToEdit.getStatus(),
-                        personToEdit.getBuyingPropertyIds(),
+                return peopleToEdit.stream()
+                        .map(personToEdit -> personToEdit
+                        .duplicateWithNewSellingPropertyIds(
                         Stream.concat(personToEdit.getSellingPropertyIds().stream(), propertyIds.stream())
-                                .collect(Collectors.toSet())))
+                        .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
@@ -224,15 +220,19 @@ public class LinkCommand extends Command {
             List<Property> propertiesToEdit = getPropertiesInList(propertyList);
             switch (relationship) {
             case "buyer":
-                propertiesToEdit.stream().forEach(property -> property.setBuyingPersonIds(
-                        Stream.concat(property.getBuyingPersonIds().stream(), personIds.stream())
-                                .collect(Collectors.toSet())));
-                return propertiesToEdit;
+                return propertiesToEdit.stream()
+                        .map(propertyToEdit -> propertyToEdit
+                        .duplicateWithNewBuyingPersonIds(
+                        Stream.concat(propertyToEdit.getBuyingPersonIds().stream(), propertyIds.stream())
+                        .collect(Collectors.toSet())))
+                        .collect(Collectors.toList());
             case "seller":
-                propertiesToEdit.stream().forEach(property -> property.setSellingPersonIds(
-                        Stream.concat(property.getSellingPersonIds().stream(), personIds.stream())
-                                .collect(Collectors.toSet())));
-                return propertiesToEdit;
+                return propertiesToEdit.stream()
+                        .map(propertyToEdit -> propertyToEdit
+                        .duplicateWithNewSellingPersonIds(
+                        Stream.concat(propertyToEdit.getSellingPersonIds().stream(), propertyIds.stream())
+                        .collect(Collectors.toSet())))
+                        .collect(Collectors.toList());
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
             }

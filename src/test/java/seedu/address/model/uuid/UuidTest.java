@@ -1,10 +1,12 @@
-package seedu.address.model.person;
+package seedu.address.model.uuid;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -13,13 +15,20 @@ public class UuidTest {
 
     @Test
     public void constructor_invalidUuid_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new Uuid(0)); // zero not allowed
-        assertThrows(IllegalArgumentException.class, () -> new Uuid(-1)); // negative not allowed
+        assertThrows(IllegalArgumentException.class, () -> new Uuid(0, PERSON)); // zero not allowed
+        assertThrows(IllegalArgumentException.class, () -> new Uuid(-1, PROPERTY)); // negative not allowed
     }
 
     @Test
     public void constructor_validUuid_success() {
-        assertDoesNotThrow(() -> new Uuid(1));
+        assertDoesNotThrow(() -> new Uuid(1, PERSON));
+        assertDoesNotThrow(() -> new Uuid(1, PROPERTY));
+    }
+
+    @Test
+    public void constructduplicateUuid_validUuid_success() {
+        Uuid testUuid = new Uuid(1, PERSON);
+        assertDoesNotThrow(() -> new Uuid(testUuid));
     }
 
     @Test
@@ -32,10 +41,11 @@ public class UuidTest {
 
     @Test
     public void equals() {
-        Uuid uuid = new Uuid(5);
-        assertEquals(new Uuid(5), uuid);
+        Uuid uuid = new Uuid(5, PERSON);
+        assertEquals(new Uuid(5, PERSON), uuid);
         assertNotEquals(null, uuid);
         assertNotEquals("string", uuid);
-        assertNotEquals(new Uuid(10), uuid);
+        assertNotEquals(new Uuid(10, PERSON), uuid);
+        assertNotEquals(new Uuid(5, PROPERTY), uuid);
     }
 }

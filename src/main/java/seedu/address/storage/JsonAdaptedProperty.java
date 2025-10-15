@@ -1,5 +1,8 @@
 package seedu.address.storage;
 
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -21,6 +23,7 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Jackson-friendly version of {@link Property}.
@@ -29,7 +32,7 @@ class JsonAdaptedProperty {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Property's %s field is missing!";
 
-    private final String id;
+    private final Integer uuid;
     private final String address;
     private final String bathroom;
     private final String bedroom;
@@ -40,21 +43,27 @@ class JsonAdaptedProperty {
     private final String status;
     private final String type;
     private final String owner;
-    private final List<String> buyingPersonIds = new ArrayList<>();
-    private final List<String> sellingPersonIds = new ArrayList<>();
+    private final List<Integer> buyingPersonIds = new ArrayList<>();
+    private final List<Integer> sellingPersonIds = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedProperty} with the given property details.
      */
     @JsonCreator
-    public JsonAdaptedProperty(@JsonProperty("id") String id, @JsonProperty("address") String address,
-            @JsonProperty("bathroom") String bathroom, @JsonProperty("bedroom") String bedroom,
-            @JsonProperty("floorArea") String floorArea, @JsonProperty("listing") String listing,
-            @JsonProperty("postal") String postal, @JsonProperty("price") String price,
-            @JsonProperty("status") String status, @JsonProperty("type") String type,
-            @JsonProperty("owner") String owner, @JsonProperty("buyingPersonIds") List<String> buyingPersonIds,
-            @JsonProperty("sellingPersonIds") List<String> sellingPersonIds) {
-        this.id = id;
+    public JsonAdaptedProperty(@JsonProperty("id") Integer uuid,
+                               @JsonProperty("address") String address,
+                               @JsonProperty("bathroom") String bathroom,
+                               @JsonProperty("bedroom") String bedroom,
+                               @JsonProperty("floorArea") String floorArea,
+                               @JsonProperty("listing") String listing,
+                               @JsonProperty("postal") String postal,
+                               @JsonProperty("price") String price,
+                               @JsonProperty("status") String status,
+                               @JsonProperty("type") String type,
+                               @JsonProperty("owner") String owner,
+                               @JsonProperty("buyingPersonIds") List<Integer> buyingPersonIds,
+                               @JsonProperty("sellingPersonIds") List<Integer> sellingPersonIds) {
+        this.uuid = uuid;
         this.address = address;
         this.bathroom = bathroom;
         this.bedroom = bedroom;
@@ -77,7 +86,7 @@ class JsonAdaptedProperty {
      * Converts a given {@code Property} into this class for Jackson use.
      */
     public JsonAdaptedProperty(Property source) {
-        id = source.getId();
+        uuid = source.getUuid().getValue();
         address = source.getPropertyAddress().value;
         bathroom = source.getBathroom().value;
         bedroom = source.getBedroom().value;
@@ -91,14 +100,12 @@ class JsonAdaptedProperty {
         buyingPersonIds.addAll(source
                 .getBuyingPersonIds()
                 .stream()
-                .map(id -> id.value)
-                .map(i -> i.toString())
+                .map(id -> id.getValue())
                 .toList());
         sellingPersonIds.addAll(source
                 .getSellingPersonIds()
                 .stream()
-                .map(id -> id.value)
-                .map(i -> i.toString())
+                .map(id -> id.getValue())
                 .toList());
     }
 
@@ -110,11 +117,11 @@ class JsonAdaptedProperty {
      *                               the adapted person.
      */
     public Property toModelType() throws IllegalValueException {
-        if (id == null) {
+        if (uuid == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Property.class.getSimpleName()));
         }
-        // No validation for id as it is generated using UUID
+        final Uuid modelUuid = new Uuid(uuid, PROPERTY);
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     PropertyAddress.class.getSimpleName()));
@@ -201,18 +208,18 @@ class JsonAdaptedProperty {
         final Owner modelOwner = new Owner(owner);
 
         final List<Uuid> tempBuyingPersonIds = new ArrayList<>();
-        for (String id : this.buyingPersonIds) {
-            tempBuyingPersonIds.add(new Uuid(Integer.parseInt(id)));
+        for (Integer id : this.buyingPersonIds) {
+            tempBuyingPersonIds.add(new Uuid(id, PERSON));
         }
         final Set<Uuid> modelBuyingPersonIds = new HashSet<>(tempBuyingPersonIds);
 
         final List<Uuid> tempSellingPersonIds = new ArrayList<>();
-        for (String id : this.sellingPersonIds) {
-            tempSellingPersonIds.add(new Uuid(Integer.parseInt(id)));
+        for (Integer id : this.sellingPersonIds) {
+            tempSellingPersonIds.add(new Uuid(id, PERSON));
         }
         final Set<Uuid> modelSellingPersonIds = new HashSet<>(tempSellingPersonIds);
 
-        return new Property(id, modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
+        return new Property(modelUuid, modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
                 modelPostal, modelPrice, modelStatus, modelType, modelOwner,
                 modelBuyingPersonIds, modelSellingPersonIds);
     }
