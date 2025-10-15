@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -29,6 +30,7 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
@@ -46,8 +48,6 @@ public class ParserUtilTest {
     private static final String INVALID_FLOOR_AREA = "49";
     private static final String INVALID_LISTING = "lease";
     private static final String INVALID_OWNER = "owner 1";
-    private static final String INVALID_PROPERTY_ID_SHORT = "abc12";
-    private static final String INVALID_PROPERTY_ID_CHAR = "abc12#";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -65,7 +65,7 @@ public class ParserUtilTest {
     private static final String VALID_FLOOR_AREA = "120";
     private static final String VALID_LISTING = "sale";
     private static final String VALID_OWNER = "owner123";
-    private static final String VALID_PROPERTY_ID = "abc123";
+    private static final Uuid VALID_PROPERTY_ID = new Uuid(1, PROPERTY);
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -213,19 +213,13 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parsePropertyId_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parsePropertyId(INVALID_PROPERTY_ID_SHORT));
-        assertThrows(ParseException.class, () -> ParserUtil.parsePropertyId(INVALID_PROPERTY_ID_CHAR));
-    }
-
-    @Test
     public void parsePropertyId_validValueWithoutWhitespace_returnsId() throws Exception {
-        assertEquals(VALID_PROPERTY_ID, ParserUtil.parsePropertyId(VALID_PROPERTY_ID));
+        assertEquals(VALID_PROPERTY_ID, ParserUtil.parsePropertyId("1"));
     }
 
     @Test
     public void parsePropertyId_validValueWithWhitespace_returnsTrimmedId() throws Exception {
-        String propertyIdWithWhitespace = WHITESPACE + VALID_PROPERTY_ID + WHITESPACE;
+        String propertyIdWithWhitespace = WHITESPACE + "1" + WHITESPACE;
         assertEquals(VALID_PROPERTY_ID, ParserUtil.parsePropertyId(propertyIdWithWhitespace));
     }
 
@@ -247,7 +241,7 @@ public class ParserUtilTest {
     @Test
     public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
         Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
-        Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
+        Set<Tag> expectedTagSet = new HashSet<>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
     }

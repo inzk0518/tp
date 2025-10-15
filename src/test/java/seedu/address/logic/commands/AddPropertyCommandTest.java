@@ -26,6 +26,7 @@ import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 class AddPropertyCommandTest {
 
@@ -198,7 +199,7 @@ class AddPropertyCommandTest {
         }
 
         @Override
-        public Property getPropertyById(String id) {
+        public Property getPropertyById(Uuid id) {
             throw new AssertionError("This method should not be called.");
         }
     }
