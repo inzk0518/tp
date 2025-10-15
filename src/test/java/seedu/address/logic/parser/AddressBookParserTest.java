@@ -58,9 +58,12 @@ public class AddressBookParserTest {
     public void parseCommand_edit() throws Exception {
         Person person = new PersonBuilderUtil().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        EditContactCommand command = (EditContactCommand) parser.parseCommand(EditContactCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertEquals(new EditContactCommand(INDEX_FIRST_PERSON, descriptor), command);
+        Uuid targetUuid = person.getUuid();
+        String commandString = EditContactCommand.COMMAND_WORD + " "
+                + targetUuid.toString() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor);
+        EditContactCommand command = (EditContactCommand) parser.parseCommand(commandString);
+
+        assertEquals(new EditContactCommand(targetUuid, descriptor), command);
     }
 
     @Test

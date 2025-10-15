@@ -21,6 +21,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditContactCommand;
 import seedu.address.logic.commands.EditContactCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -48,10 +49,15 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
                 PREFIX_STATUS
         );
 
-        Index index;
+        String preamble = argMultimap.getPreamble().trim();
+        if (preamble.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditContactCommand.MESSAGE_USAGE));
+        }
+
+        Uuid targetUuid;
 
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            targetUuid = ParserUtil.parseUuid(preamble);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditContactCommand.MESSAGE_USAGE), pe);
         }
@@ -93,7 +99,7 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
             throw new ParseException(EditContactCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditContactCommand(index, editPersonDescriptor);
+        return new EditContactCommand(targetUuid, editPersonDescriptor);
     }
 
     /**

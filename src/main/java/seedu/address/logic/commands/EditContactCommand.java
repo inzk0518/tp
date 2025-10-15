@@ -45,9 +45,9 @@ public class EditContactCommand extends Command {
     public static final String COMMAND_WORD = "edit";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
+            + "by their UUID. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: UUID "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -57,26 +57,27 @@ public class EditContactCommand extends Command {
             + "[" + PREFIX_NOTES + "NOTES] "
             + "[" + PREFIX_STATUS + "STATUS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "Example: " + COMMAND_WORD + " 123 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with the given UUID.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
-    private final Index index;
+    private final Uuid targetUuid;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param targetUuid of the person to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditContactCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
-        requireNonNull(index);
+    public EditContactCommand(Uuid targetUuid, EditPersonDescriptor editPersonDescriptor) {
+        requireNonNull(targetUuid);
         requireNonNull(editPersonDescriptor);
 
-        this.index = index;
+        this.targetUuid = targetUuid;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
@@ -85,11 +86,11 @@ public class EditContactCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        }
+        Person personToEdit = lastShownList.stream()
+                .filter(p -> p.getUuid().equals(targetUuid))
+                .findFirst()
+                .orElseThrow(() -> new CommandException(MESSAGE_PERSON_NOT_FOUND));
 
-        Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
@@ -121,7 +122,7 @@ public class EditContactCommand extends Command {
         Set<String> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
         Set<String> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
 
-        return new Person(personToEdit.getUuid(), updatedName, updatedPhone, updatedEmail, updatedAddress,
+        return new Person(updatedUuid, updatedName, updatedPhone, updatedEmail, updatedAddress,
                           updatedTags, updatedBudgetMin, updatedBudgetMax, updatedNotes, updatedStatus,
                 updatedBuyingPropertyIds, updatedSellingPropertyIds);
     }
@@ -138,14 +139,14 @@ public class EditContactCommand extends Command {
         }
 
         EditContactCommand otherEditContactCommand = (EditContactCommand) other;
-        return index.equals(otherEditContactCommand.index)
+        return targetUuid.equals(otherEditContactCommand.targetUuid)
                 && editPersonDescriptor.equals(otherEditContactCommand.editPersonDescriptor);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
+                .add("targetUuid", targetUuid)
                 .add("editPersonDescriptor", editPersonDescriptor)
                 .toString();
     }
