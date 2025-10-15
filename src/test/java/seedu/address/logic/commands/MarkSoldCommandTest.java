@@ -72,6 +72,20 @@ public class MarkSoldCommandTest {
         assertEquals(String.format(MarkSoldCommand.MESSAGE_PROPERTY_NOT_FOUND, "INVALID_ID"), thrown.getMessage());
     }
 
+    @Test
+    public void execute_mixOfValidAndInvalidIds_throwsCommandException() {
+        List<String> ids = Arrays.asList(property1.getId(), "INVALID_ID");
+        MarkSoldCommand command = new MarkSoldCommand(ids);
+
+        CommandException thrown = assertThrows(CommandException.class, () -> command.execute(modelStub));
+
+        assertEquals(String.format(MarkSoldCommand.MESSAGE_PROPERTY_NOT_FOUND, "INVALID_ID"), thrown.getMessage());
+
+        // Verify that valid property remains unchanged (not partially executed)
+        assertEquals(new Status("unsold"), modelStub.getPropertyById(property1.getId()).getStatus());
+    }
+
+
     /**
      * A default model stub that has all of its methods failing.
      */

@@ -52,12 +52,17 @@ public class MarkUnsoldCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Validate all IDs first
+        for (String id : propertyIds) {
+            if (model.getPropertyById(id) == null) {
+                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
+            }
+        }
+
         int count = 0;
         for (String id : propertyIds) {
             Property property = model.getPropertyById(id);
-            if (property == null) {
-                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
-            }
             Property updated = new Property(
                     property.getId(),
                     property.getPropertyAddress(),
