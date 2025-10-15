@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -40,13 +42,13 @@ public class ModelManagerTest {
         modelManager.addProperty(PROPERTY_ALPHA);
         modelManager.addProperty(PROPERTY_BETA);
 
-        assertEquals(PROPERTY_ALPHA, modelManager.getPropertyById(PROPERTY_ALPHA.getId()));
-        assertEquals(PROPERTY_BETA, modelManager.getPropertyById(PROPERTY_BETA.getId()));
+        assertEquals(PROPERTY_ALPHA, modelManager.getPropertyById(PROPERTY_ALPHA.getUuid()));
+        assertEquals(PROPERTY_BETA, modelManager.getPropertyById(PROPERTY_BETA.getUuid()));
     }
 
     @Test
     public void getPropertyById_nonExistingId_returnsNull() {
-        assertNull(modelManager.getPropertyById("non-existent-id"));
+        assertNull(modelManager.getPropertyById(new Uuid(999999, PROPERTY)));
     }
 
     @Test

@@ -14,6 +14,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -178,10 +179,10 @@ public class ModelManager implements Model {
      * @return The {@code Property} object with the matching ID, or {@code null} if not found.
      */
     @Override
-    public Property getPropertyById(String id) {
+    public Property getPropertyById(Uuid id) {
         requireNonNull(id);
         for (Property property : propertyBook.getPropertyList()) {
-            if (property.getId().equals(id)) {
+            if (property.getUuid().equals(id)) {
                 return property;
             }
         }

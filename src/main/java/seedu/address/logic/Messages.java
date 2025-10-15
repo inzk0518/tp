@@ -40,6 +40,7 @@ public class Messages {
     public static String format(Person person) {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
+                .append("; ID: ")
                 .append(person.getUuid())
                 .append("; Phone: ")
                 .append(person.getPhone())
@@ -63,16 +64,21 @@ public class Messages {
     public static String format(Property property) {
         final StringBuilder builder = new StringBuilder();
         builder.append(property.getPropertyAddress())
+                .append("; ID: ")
                 .append(property.getUuid())
                 .append("; Bathrooms: ")
                 .append(property.getBathroom())
                 .append("; Bedroom: ")
                 .append(property.getBedroom())
                 .append("; Floor Area: ")
-                .append(property.getFloorArea())
-                .append("; Listing: ")
-                .append(property.getListing())
-                .append("; Postal: ")
+                .append(property.getFloorArea());
+
+        if (property.getListing() != null) {
+            builder.append("; Listing: ")
+                    .append(property.getListing());
+        }
+
+        builder.append("; Postal: ")
                 .append(property.getPostal())
                 .append("; Price: ")
                 .append(property.getPrice())
@@ -87,37 +93,6 @@ public class Messages {
         builder.append("]; Selling Person Ids: [");
         property.getSellingPersonIds().forEach(builder::append);
         builder.append("]");
-        return builder.toString();
-    }
-
-    /**
-     * Formats the {@code property} for display to the user.
-     */
-    public static String format(Property property) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(property.getPropertyAddress())
-                .append("; ID: ")
-                .append(property.getId())
-                .append("; Type: ")
-                .append(property.getType())
-                .append("; Price: ")
-                .append(property.getPrice())
-                .append("; Status: ")
-                .append(property.getStatus())
-                .append("; Bedrooms: ")
-                .append(property.getBedroom())
-                .append("; Bathrooms: ")
-                .append(property.getBathroom())
-                .append("; Floor Area: ")
-                .append(property.getFloorArea())
-                .append("; Owner: ")
-                .append(property.getOwner());
-
-        if (property.getListing() != null) {
-            builder.append("; Listing: ")
-                    .append(property.getListing());
-        }
-
         return builder.toString();
     }
 }

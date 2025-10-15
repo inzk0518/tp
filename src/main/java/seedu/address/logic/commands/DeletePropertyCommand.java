@@ -10,6 +10,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Deletes a property identified using its unique ID from the property list.
@@ -25,9 +26,9 @@ public class DeletePropertyCommand extends Command {
 
     public static final String MESSAGE_DELETE_PROPERTY_SUCCESS = "Deleted property: %1$s";
 
-    private final String targetPropertyId;
+    private final Uuid targetPropertyId;
 
-    public DeletePropertyCommand(String targetPropertyId) {
+    public DeletePropertyCommand(Uuid targetPropertyId) {
         this.targetPropertyId = requireNonNull(targetPropertyId);
     }
 
@@ -37,7 +38,7 @@ public class DeletePropertyCommand extends Command {
         List<Property> lastShownList = model.getFilteredPropertyList();
 
         Property propertyToDelete = lastShownList.stream()
-                .filter(property -> property.getId().equalsIgnoreCase(targetPropertyId))
+                .filter(property -> property.getUuid().equals(targetPropertyId))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID));
 
@@ -56,12 +57,12 @@ public class DeletePropertyCommand extends Command {
         }
 
         DeletePropertyCommand otherDeletePropertyCommand = (DeletePropertyCommand) other;
-        return targetPropertyId.equalsIgnoreCase(otherDeletePropertyCommand.targetPropertyId);
+        return targetPropertyId.equals(otherDeletePropertyCommand.targetPropertyId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(targetPropertyId.toLowerCase());
+        return Objects.hash(targetPropertyId);
     }
 
     @Override
