@@ -36,7 +36,7 @@ public class UnlinkCommand extends Command {
             + PREFIX_LINK_CLIENT_ID + "3";
 
     public static final String MESSAGE_UNLINK_SUCCESS =
-            "Uninked Property IDs: %1$s with Person IDs: %2$s";
+            "Unlinked Property IDs: %1$s with Person IDs: %2$s";
 
     private final UnlinkDescriptor unlinkDescriptor;
 
