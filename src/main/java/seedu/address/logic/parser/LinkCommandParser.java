@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.LinkCommand;
 import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
@@ -30,7 +29,7 @@ public class LinkCommandParser implements Parser<LinkCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP,
                 PREFIX_LINK_CLIENT_ID);
-        if (!arePrefixesPresent(argMultimap, PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP, PREFIX_LINK_CLIENT_ID)
+        if (!argMultimap.arePrefixesPresent(PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP, PREFIX_LINK_CLIENT_ID)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, LinkCommand.MESSAGE_USAGE));
         }
@@ -53,13 +52,4 @@ public class LinkCommandParser implements Parser<LinkCommand> {
 
         return new LinkCommand(linkDescriptor);
     }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
-
 }

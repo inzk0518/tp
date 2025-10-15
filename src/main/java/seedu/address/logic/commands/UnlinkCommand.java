@@ -1,11 +1,10 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-
-import jdk.jshell.spi.ExecutionControl;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.List;
 import java.util.Set;
@@ -13,11 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.commons.util.ToStringBuilder;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
-
-import seedu.address.logic.Messages;
-import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -95,8 +89,6 @@ public class UnlinkCommand extends Command {
                 .toString();
     }
 
-    
-
     /**
      * Stores Ids to unlink a property to a person.
      */
@@ -164,8 +156,6 @@ public class UnlinkCommand extends Command {
 
         /**
          * Returns an edited {@code Set<Person>} with the properties unlinked.
-         *
-         * @throws CommandException if the relationship is invalid.
          */
         public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
             List<Person> peopleToEdit = getPeopleInList(personList);
@@ -182,22 +172,18 @@ public class UnlinkCommand extends Command {
 
         /**
          * Returns an edited {@code Set<Property>} with the people unlinked.
-         *
-         * @throws CommandException if the relationship is invalid.
          */
-        public List<Property> getUpdatedProperties(List<Property> propertyList)
-                throws CommandException {
+        public List<Property> getUpdatedProperties(List<Property> propertyList) throws CommandException {
             List<Property> propertiesToEdit = getPropertiesInList(propertyList);
             return propertiesToEdit.stream()
                     .map(propertyToEdit -> propertyToEdit
                     .duplicateWithNewBuyingPersonIds(
-                    propertyToEdit.getBuyingPersonIds().stream().filter(id -> !propertyIds.contains(id))
+                    propertyToEdit.getBuyingPersonIds().stream().filter(id -> !personIds.contains(id))
                     .collect(Collectors.toSet()))
                     .duplicateWithNewSellingPersonIds(
-                    propertyToEdit.getSellingPersonIds().stream().filter(id -> !propertyIds.contains(id))
+                    propertyToEdit.getSellingPersonIds().stream().filter(id -> !personIds.contains(id))
                     .collect(Collectors.toSet())))
                     .collect(Collectors.toList());
-                
         }
 
         @Override

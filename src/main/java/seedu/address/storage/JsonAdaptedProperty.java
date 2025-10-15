@@ -50,7 +50,7 @@ class JsonAdaptedProperty {
      * Constructs a {@code JsonAdaptedProperty} with the given property details.
      */
     @JsonCreator
-    public JsonAdaptedProperty(@JsonProperty("id") Integer uuid,
+    public JsonAdaptedProperty(@JsonProperty("uuid") Integer uuid,
                                @JsonProperty("address") String address,
                                @JsonProperty("bathroom") String bathroom,
                                @JsonProperty("bedroom") String bedroom,

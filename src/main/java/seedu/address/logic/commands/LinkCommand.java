@@ -35,7 +35,7 @@ public class LinkCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_LINK_PROPERTY_ID + "2 "
             + PREFIX_LINK_RELATIONSHIP + "buyer "
-            + PREFIX_LINK_CLIENT_ID + "3"
+            + PREFIX_LINK_CLIENT_ID + "3 "
             + PREFIX_LINK_CLIENT_ID + "5";
 
     public static final String MESSAGE_LINK_BUYER_SUCCESS =
@@ -192,6 +192,7 @@ public class LinkCommand extends Command {
                         .map(personToEdit -> personToEdit
                         .duplicateWithNewBuyingPropertyIds(
                         Stream.concat(personToEdit.getBuyingPropertyIds().stream(), propertyIds.stream())
+                        .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             case "seller":
@@ -199,6 +200,7 @@ public class LinkCommand extends Command {
                         .map(personToEdit -> personToEdit
                         .duplicateWithNewSellingPropertyIds(
                         Stream.concat(personToEdit.getSellingPropertyIds().stream(), propertyIds.stream())
+                        .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             default:
@@ -221,6 +223,7 @@ public class LinkCommand extends Command {
                         .map(propertyToEdit -> propertyToEdit
                         .duplicateWithNewBuyingPersonIds(
                         Stream.concat(propertyToEdit.getBuyingPersonIds().stream(), propertyIds.stream())
+                        .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             case "seller":
@@ -228,6 +231,7 @@ public class LinkCommand extends Command {
                         .map(propertyToEdit -> propertyToEdit
                         .duplicateWithNewSellingPersonIds(
                         Stream.concat(propertyToEdit.getSellingPersonIds().stream(), propertyIds.stream())
+                        .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             default:
