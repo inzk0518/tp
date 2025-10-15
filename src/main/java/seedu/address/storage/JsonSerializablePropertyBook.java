@@ -22,13 +22,18 @@ class JsonSerializablePropertyBook {
     public static final String MESSAGE_DUPLICATE_PROPERTY = "Properties list contains duplicate property(s).";
 
     private final List<JsonAdaptedProperty> properties = new ArrayList<>();
+    @JsonProperty("nextUuid")
+    private final int nextUuid; // stored UUID counter
 
     /**
      * Constructs a {@code JsonSerializablePropertyBook} with the given properties.
      */
     @JsonCreator
-    public JsonSerializablePropertyBook(@JsonProperty("properties") List<JsonAdaptedProperty> properties) {
+    public JsonSerializablePropertyBook(
+            @JsonProperty("properties") List<JsonAdaptedProperty> properties,
+            @JsonProperty("nextUuid") int nextUuid) {
         this.properties.addAll(properties);
+        this.nextUuid = nextUuid;
     }
 
     /**
@@ -38,11 +43,19 @@ class JsonSerializablePropertyBook {
      */
     public JsonSerializablePropertyBook(ReadOnlyPropertyBook source) {
         properties.addAll(source.getPropertyList().stream().map(JsonAdaptedProperty::new).collect(Collectors.toList()));
+        nextUuid = source.getNextUuid();
+    }
+
+    /**
+     * Returns the stored UUID counter.
+     */
+    public int getNextUuid() {
+        return nextUuid;
     }
 
     /**
      * Converts this property book into the model's {@code PropertyBook} object.
-     *
+     * @return PropertyBook model with properties and nextUuid restored.
      * @throws IllegalValueException if there were any data constraints violated.
      */
     public PropertyBook toModelType() throws IllegalValueException {
@@ -54,6 +67,7 @@ class JsonSerializablePropertyBook {
             }
             propertyBook.addProperty(property);
         }
+        propertyBook.setNextUuid(this.nextUuid);
         return propertyBook;
     }
 
