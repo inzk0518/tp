@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -153,7 +154,7 @@ public class LinkCommand extends Command {
          */
         public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
             assert (personList != null);
-            List<Person> peopleList = List.copyOf(personList).stream()
+            List<Person> peopleList = new ArrayList<>(personList).stream()
                     .filter(person -> personIds.contains(person.getUuid()))
                     .collect(Collectors.toList());
             if (peopleList.size() != personIds.size()) {
@@ -169,7 +170,7 @@ public class LinkCommand extends Command {
          */
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
             assert (propertyList != null);
-            List<Property> propertiesList = List.copyOf(propertyList).stream()
+            List<Property> propertiesList = new ArrayList<>(propertyList).stream()
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
@@ -185,7 +186,7 @@ public class LinkCommand extends Command {
          */
         public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
             assert (relationship != null);
-            List<Person> peopleToEdit = List.copyOf(getPeopleInList(personList));
+            List<Person> peopleToEdit = new ArrayList<>(getPeopleInList(personList));
             switch (relationship) {
             case "buyer":
                 return peopleToEdit.stream()
@@ -216,13 +217,13 @@ public class LinkCommand extends Command {
         public List<Property> getUpdatedProperties(List<Property> propertyList)
                 throws CommandException {
             assert (relationship != null);
-            List<Property> propertiesToEdit = List.copyOf(getPropertiesInList(propertyList));
+            List<Property> propertiesToEdit = new ArrayList<>(getPropertiesInList(propertyList));
             switch (relationship) {
             case "buyer":
                 return propertiesToEdit.stream()
                         .map(propertyToEdit -> propertyToEdit
                         .duplicateWithNewBuyingPersonIds(
-                        Stream.concat(propertyToEdit.getBuyingPersonIds().stream(), propertyIds.stream())
+                        Stream.concat(propertyToEdit.getBuyingPersonIds().stream(), personIds.stream())
                         .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
@@ -230,7 +231,7 @@ public class LinkCommand extends Command {
                 return propertiesToEdit.stream()
                         .map(propertyToEdit -> propertyToEdit
                         .duplicateWithNewSellingPersonIds(
-                        Stream.concat(propertyToEdit.getSellingPersonIds().stream(), propertyIds.stream())
+                        Stream.concat(propertyToEdit.getSellingPersonIds().stream(), personIds.stream())
                         .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());

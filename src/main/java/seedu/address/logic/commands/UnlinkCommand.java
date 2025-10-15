@@ -6,6 +6,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_IN
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -129,7 +130,7 @@ public class UnlinkCommand extends Command {
          */
         public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
             assert (personList != null);
-            List<Person> peopleList = List.copyOf(personList).stream()
+            List<Person> peopleList = new ArrayList<>(personList).stream()
                     .filter(person -> personIds.contains(person.getUuid()))
                     .collect(Collectors.toList());
             if (peopleList.size() != personIds.size()) {
@@ -145,7 +146,7 @@ public class UnlinkCommand extends Command {
          */
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
             assert (propertyList != null);
-            List<Property> propertiesList = List.copyOf(propertyList).stream()
+            List<Property> propertiesList = new ArrayList<>(propertyList).stream()
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
@@ -159,7 +160,7 @@ public class UnlinkCommand extends Command {
          */
         public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
             List<Person> peopleToEdit = getPeopleInList(personList);
-            return List.copyOf(peopleToEdit).stream()
+            return new ArrayList<>(peopleToEdit).stream()
                     .map(personToEdit -> personToEdit
                     .duplicateWithNewBuyingPropertyIds(
                     personToEdit.getBuyingPropertyIds().stream().filter(id -> !propertyIds.contains(id))
@@ -175,14 +176,16 @@ public class UnlinkCommand extends Command {
          */
         public List<Property> getUpdatedProperties(List<Property> propertyList) throws CommandException {
             List<Property> propertiesToEdit = getPropertiesInList(propertyList);
-            return List.copyOf(propertiesToEdit).stream()
+            return new ArrayList<>(propertiesToEdit).stream()
                     .map(propertyToEdit -> propertyToEdit
                     .duplicateWithNewBuyingPersonIds(
                     propertyToEdit.getBuyingPersonIds().stream().filter(id -> !personIds.contains(id))
                     .collect(Collectors.toSet()))
+                    // Set.of())
                     .duplicateWithNewSellingPersonIds(
                     propertyToEdit.getSellingPersonIds().stream().filter(id -> !personIds.contains(id))
                     .collect(Collectors.toSet())))
+                    // Set.of()))
                     .collect(Collectors.toList());
         }
 
