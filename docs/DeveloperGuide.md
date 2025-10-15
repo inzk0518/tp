@@ -34,12 +34,27 @@ title: Developer Guide
 13. [Appendix G: Efforts](#appendix-g-efforts)
 
 ## 1. Setting up
-To be updated.
 
+### 1.1 Prerequisites
+
+- **JDK 17** or later with JavaFX support (the Gradle build pulls JavaFX modules automatically).
+- **IntelliJ IDEA** (Community or Ultimate) or an equivalent IDE with Gradle support.
+- **Git** for cloning and version control.
+
+### 1.2 Getting the project
+
+1. Fork https://github.com/AY2526S1-CS2103T-W10-2/tp and clone your fork.
+2. Open the project in your IDE by importing the Gradle build (`build.gradle`).
+3. Ensure the project SDK is set to Java 17.
+
+### 1.3 Verifying the setup
+
+1. Run the `./gradlew run` command (or the Gradle task in your IDE) to launch the application.
+2. Try sample commands such as `addcontact n/Alice p/98765432` and `delete 1` to verify command handling.
+3. Execute `./gradlew test` (or the Gradle task in your IDE) to run the automated tests.
 
 ## 2. Design
 To be updated.
-
 
 ## 3. Implementation
 
