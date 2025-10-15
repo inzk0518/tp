@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.DeletePropertyCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.MarkSoldCommand;
 import seedu.address.logic.commands.MarkUnsoldCommand;
@@ -53,6 +54,8 @@ public class PropertyBookParser implements CommandSetParser {
         switch (commandWord) {
         case AddPropertyCommand.COMMAND_WORD:
             return new AddPropertyCommandParser().parse(arguments);
+        case DeletePropertyCommand.COMMAND_WORD:
+            return new DeletePropertyCommandParser().parse(arguments);
         case ShowPropertiesCommand.COMMAND_WORD:
             return new ShowPropertiesCommandParser().parse(arguments);
         case MarkSoldCommand.COMMAND_WORD:
