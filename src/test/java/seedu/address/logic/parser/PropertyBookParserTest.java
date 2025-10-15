@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.DeletePropertyCommand;
+import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Property;
 
@@ -65,6 +67,13 @@ class PropertyBookParserTest {
     @Test
     void parseCommand_unknownCommand_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("random"));
+    }
+
+    @Test
+    void parseCommand_blankInput_throwsParseException() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE),
+                () -> parser.parseCommand("   "));
     }
 
     @Test
