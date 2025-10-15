@@ -27,6 +27,7 @@ import seedu.address.model.person.FilterContactPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.LinkDescriptorBuilder;
+import seedu.address.testutil.UnlinkDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -69,6 +70,9 @@ public class CommandTestUtil {
     public static final LinkCommand.LinkDescriptor LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
     public static final LinkCommand.LinkDescriptor LINK_DESC_BOB_SELLER_PROPERTY_BETA;
 
+    public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_AMY_PROPERTY_ALPHA;
+    public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_BOB_PROPERTY_BETA;
+
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
@@ -81,6 +85,11 @@ public class CommandTestUtil {
                 .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
         LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withPersonIds(Set.of(BOB.getUuid()))
                 .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
+
+        UNLINK_DESC_AMY_PROPERTY_ALPHA = new UnlinkDescriptorBuilder().withPersonIds(Set.of(AMY.getUuid()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
+        UNLINK_DESC_BOB_PROPERTY_BETA = new UnlinkDescriptorBuilder().withPersonIds(Set.of(BOB.getUuid()))
+                .withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
     }
 
     /**

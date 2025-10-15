@@ -129,7 +129,7 @@ public class UnlinkCommand extends Command {
          */
         public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
             assert (personList != null);
-            List<Person> peopleList = personList.stream()
+            List<Person> peopleList = List.copyOf(personList).stream()
                     .filter(person -> personIds.contains(person.getUuid()))
                     .collect(Collectors.toList());
             if (peopleList.size() != personIds.size()) {
@@ -139,13 +139,13 @@ public class UnlinkCommand extends Command {
         }
 
         /**
-         * Returns the {@code Set<Property>} in the list with the matching propertyId.
+         * Returns the {@code List<Property>} in the list with the matching propertyId.
          *
          * @throws CommandException if any property is not found in the list.
          */
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
             assert (propertyList != null);
-            List<Property> propertiesList = propertyList.stream()
+            List<Property> propertiesList = List.copyOf(propertyList).stream()
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
@@ -155,11 +155,11 @@ public class UnlinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code Set<Person>} with the properties unlinked.
+         * Returns an edited {@code List<Person>} with the properties unlinked.
          */
         public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
             List<Person> peopleToEdit = getPeopleInList(personList);
-            return peopleToEdit.stream()
+            return List.copyOf(peopleToEdit).stream()
                     .map(personToEdit -> personToEdit
                     .duplicateWithNewBuyingPropertyIds(
                     personToEdit.getBuyingPropertyIds().stream().filter(id -> !propertyIds.contains(id))
@@ -171,11 +171,11 @@ public class UnlinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code Set<Property>} with the people unlinked.
+         * Returns an edited {@code List<Property>} with the people unlinked.
          */
         public List<Property> getUpdatedProperties(List<Property> propertyList) throws CommandException {
             List<Property> propertiesToEdit = getPropertiesInList(propertyList);
-            return propertiesToEdit.stream()
+            return List.copyOf(propertiesToEdit).stream()
                     .map(propertyToEdit -> propertyToEdit
                     .duplicateWithNewBuyingPersonIds(
                     propertyToEdit.getBuyingPersonIds().stream().filter(id -> !personIds.contains(id))

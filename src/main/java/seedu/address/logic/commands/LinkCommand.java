@@ -153,7 +153,7 @@ public class LinkCommand extends Command {
          */
         public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
             assert (personList != null);
-            List<Person> peopleList = personList.stream()
+            List<Person> peopleList = List.copyOf(personList).stream()
                     .filter(person -> personIds.contains(person.getUuid()))
                     .collect(Collectors.toList());
             if (peopleList.size() != personIds.size()) {
@@ -163,13 +163,13 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns the {@code Set<Property>} in the list with the matching propertyId.
+         * Returns the {@code List<Property>} in the list with the matching propertyId.
          *
          * @throws CommandException if any property is not found in the list.
          */
         public List<Property> getPropertiesInList(List<Property> propertyList) throws CommandException {
             assert (propertyList != null);
-            List<Property> propertiesList = propertyList.stream()
+            List<Property> propertiesList = List.copyOf(propertyList).stream()
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
@@ -179,13 +179,13 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code Set<Person>} with the properties linked.
+         * Returns an edited {@code List<Person>} with the properties linked.
          *
          * @throws CommandException if the relationship is invalid.
          */
         public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
             assert (relationship != null);
-            List<Person> peopleToEdit = getPeopleInList(personList);
+            List<Person> peopleToEdit = List.copyOf(getPeopleInList(personList));
             switch (relationship) {
             case "buyer":
                 return peopleToEdit.stream()
@@ -209,14 +209,14 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code Set<Property>} with the people linked.
+         * Returns an edited {@code List<Property>} with the people linked.
          *
          * @throws CommandException if the relationship is invalid.
          */
         public List<Property> getUpdatedProperties(List<Property> propertyList)
                 throws CommandException {
             assert (relationship != null);
-            List<Property> propertiesToEdit = getPropertiesInList(propertyList);
+            List<Property> propertiesToEdit = List.copyOf(getPropertiesInList(propertyList));
             switch (relationship) {
             case "buyer":
                 return propertiesToEdit.stream()

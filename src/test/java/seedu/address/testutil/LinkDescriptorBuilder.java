@@ -10,7 +10,7 @@ import seedu.address.model.uuid.Uuid;
  */
 public class LinkDescriptorBuilder {
 
-    private LinkDescriptor descriptor;
+    private final LinkDescriptor descriptor;
 
     public LinkDescriptorBuilder() {
         descriptor = new LinkDescriptor();

@@ -71,7 +71,7 @@ class JsonAdaptedPropertyTest {
         JsonAdaptedProperty property = new JsonAdaptedProperty(null, VALID_ADDRESS, VALID_BATHROOM, VALID_BEDROOM,
                 VALID_FLOOR_AREA, VALID_LISTING, VALID_POSTAL, VALID_PRICE, VALID_STATUS, VALID_TYPE, VALID_OWNER,
                 VALID_BUYING_PERSON_IDS, VALID_SELLING_PERSON_IDS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Property.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, "Uuid");
         assertThrows(IllegalValueException.class, expectedMessage, property::toModelType);
     }
 

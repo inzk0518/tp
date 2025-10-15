@@ -41,6 +41,7 @@ public class Property {
             Listing listing, Postal postal, Price price, Status status, Type type, Owner owner,
             Set<Uuid> buyingPersonIds, Set<Uuid> sellingPersonIds) {
         requireAllNonNull(address, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
+        this.uuid = uuid;
         this.address = address;
         this.bathroom = bathroom;
         this.bedroom = bedroom;
@@ -53,7 +54,6 @@ public class Property {
         this.owner = owner;
         this.buyingPersonIds.addAll(buyingPersonIds);
         this.sellingPersonIds.addAll(sellingPersonIds);
-        this.uuid = uuid;
     }
 
     /**
