@@ -21,8 +21,8 @@ public class DeletePropertyCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the property identified by its ID.\n"
-            + "Parameters: PROPERTY_ID (6 alphanumeric characters)\n"
-            + "Example: " + COMMAND_WORD + " abc123";
+            + "Parameters: PROPERTY_ID\n"
+            + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_PROPERTY_SUCCESS = "Deleted property: %1$s";
 
