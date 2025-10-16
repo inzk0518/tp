@@ -5,14 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.MarkSoldCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Contains unit tests for {@code MarkSoldCommandParser}.
@@ -24,7 +25,7 @@ public class MarkSoldCommandParserTest {
     @Test
     public void parse_validSingleId_success() {
         String userInput = " p/123";
-        List<String> expectedIds = List.of("123");
+        Set<Uuid> expectedIds = Set.of(new Uuid(123, PROPERTY));
         MarkSoldCommand expectedCommand = new MarkSoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -32,7 +33,7 @@ public class MarkSoldCommandParserTest {
     @Test
     public void parse_validMultipleIds_success() {
         String userInput = " p/10 p/20 p/30";
-        List<String> expectedIds = Arrays.asList("10", "20", "30");
+        Set<Uuid> expectedIds = Set.of(new Uuid(10, PROPERTY), new Uuid(20, PROPERTY), new Uuid(30, PROPERTY));
         MarkSoldCommand expectedCommand = new MarkSoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -61,7 +62,7 @@ public class MarkSoldCommandParserTest {
     @Test
     public void parse_withExtraSpaces_success() {
         String userInput = "   p/5    p/42   ";
-        List<String> expectedIds = Arrays.asList("5", "42");
+        Set<Uuid> expectedIds = Set.of(new Uuid(5, PROPERTY), new Uuid(42, PROPERTY));
         MarkSoldCommand expectedCommand = new MarkSoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
