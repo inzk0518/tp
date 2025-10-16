@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,9 +43,9 @@ public class FilterPropertyCommandTest {
     public void setUp() {
         model = new ModelManager();
 
-        p1 = createProperty("123 Orchard Rd", "Condo", 3, 2, "1000000", "listed", "alice");
+        p1 = createProperty("123 Orchard Rd", "Condo", 3, 2, "1000000", "unsold", "alice");
         p2 = createProperty("456 Bedok Ave", "HDB", 4, 3, "750000", "sold", "bob");
-        p3 = createProperty("789 Clementi St", "Landed", 5, 4, "2000000", "listed", "carol");
+        p3 = createProperty("789 Clementi St", "Landed", 5, 4, "2000000", "unsold", "carol");
 
         model.addProperty(p1);
         model.addProperty(p2);
@@ -57,7 +58,7 @@ public class FilterPropertyCommandTest {
     private Property createProperty(String address, String type, int bedroom,
                                     int bathroom, String price, String status, String ownerName) {
         return new Property(
-                "random id",
+                UUID.randomUUID().toString(),
                 new PropertyAddress(address),
                 new Bathroom(String.valueOf(bathroom)),
                 new Bedroom(String.valueOf(bedroom)),
@@ -90,7 +91,7 @@ public class FilterPropertyCommandTest {
     @Test
     public void execute_filterByStatus_success() throws CommandException {
         PropertyMatchesFilterPredicate predicate =
-                new PropertyMatchesFilterPredicate.Builder().withStatus("listed").build();
+                new PropertyMatchesFilterPredicate.Builder().withStatus("unsold").build();
 
         FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
         CommandResult result = command.execute(model);
@@ -147,7 +148,7 @@ public class FilterPropertyCommandTest {
     @Test
     public void execute_filterWithLimitAndOffset_success() throws CommandException {
         PropertyMatchesFilterPredicate predicate =
-                new PropertyMatchesFilterPredicate.Builder().withStatus("listed").build();
+                new PropertyMatchesFilterPredicate.Builder().withStatus("unsold").build();
 
         FilterPropertyCommand command = new FilterPropertyCommand(predicate, 1, 1);
         CommandResult result = command.execute(model);

@@ -34,7 +34,7 @@ public class PropertyMatchesFilterPredicateTest {
             new Listing("sale"),
             new Postal("123456"),
             new Price("800000"),
-            new Status("listed"),
+            new Status("unsold"),
             new Type("condo"),
             new Owner("JohnTan"),
             new HashSet<>(),
@@ -72,7 +72,7 @@ public class PropertyMatchesFilterPredicateTest {
 
     @Test
     public void testMatchesStatusSuccess() {
-        var predicate = new PropertyMatchesFilterPredicate.Builder().withStatus("listed").build();
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withStatus("unsold").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
@@ -109,7 +109,7 @@ public class PropertyMatchesFilterPredicateTest {
     public void testMatchesMultipleCriteriaSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder()
                 .withType("condo")
-                .withStatus("listed")
+                .withStatus("unsold")
                 .withOwner("john")
                 .build();
         assertTrue(predicate.test(condoProperty));
