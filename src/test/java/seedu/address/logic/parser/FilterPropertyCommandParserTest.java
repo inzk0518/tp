@@ -15,11 +15,11 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessFirst() throws Exception {
-        String input = " type/condo bedroom/3 status/listed limit/5 offset/10";
+        String input = " type/condo bedroom/3 status/unsold limit/5 offset/10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
-                                .withType("condo").withBedroom("3").withStatus("listed").build(),
+                                .withType("condo").withBedroom("3").withStatus("unsold").build(),
                         5, 10);
         assertEquals(expected, parser.parse(input));
 
@@ -54,6 +54,26 @@ public class FilterPropertyCommandParserTest {
     @Test
     public void parseDuplicateTagThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" type/condo type/hdb"));
+    }
+
+    @Test
+    public void parseInvalidBedroomThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" bedroom/22"));
+    }
+
+    @Test
+    public void parseInvalidBathroomThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" bathroom/23"));
+    }
+
+    @Test
+    public void parseInvalidPriceThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" price/5000dollar"));
+    }
+
+    @Test
+    public void parseInvalidStatusThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" status/listed"));
     }
 }
 

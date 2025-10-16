@@ -83,7 +83,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         Optional<String> maybeStatus = argMultimap.getValue(PREFIX_PROPERTY_STATUS);
         if (maybeStatus.isPresent()) {
             String t = maybeStatus.get().trim().toLowerCase();
-            if (!(t.equals("listed") || t.equals("sold") || t.equals("rented") || t.equals("off-market"))) {
+            if (!(t.equals("unsold") || t.equals("sold") || t.equals("rented") || t.equals("off-market"))) {
                 throw new ParseException("Error: Invalid status");
             }
             builder.withStatus(t);
