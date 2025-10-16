@@ -1,9 +1,7 @@
 package seedu.address.model.property.predicates;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.HashSet;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.property.Bathroom;
@@ -18,7 +16,8 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
-import java.util.HashSet;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link PropertyMatchesFilterPredicate}.
@@ -57,56 +56,56 @@ public class PropertyMatchesFilterPredicateTest {
     );
 
     @Test
-    public void test_matchesType_success() {
+    public void testMatchesTypeSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withType("condo").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
 
     @Test
-    public void test_matchesOwner_success() {
+    public void testMatchesOwnerSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withOwner("mary").build();
         assertTrue(predicate.test(hdbProperty));
         assertFalse(predicate.test(condoProperty));
     }
 
     @Test
-    public void test_matchesStatus_success() {
+    public void testMatchesStatusSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withStatus("listed").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
 
     @Test
-    public void test_matchesBedroom_success() {
+    public void testMatchesBedroomSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withBedroom("3").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
 
     @Test
-    public void test_matchesBathroom_success() {
+    public void testMatchesBathroomSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withBathroom("1").build();
         assertTrue(predicate.test(hdbProperty));
         assertFalse(predicate.test(condoProperty));
     }
 
     @Test
-    public void test_matchesPrice_success() {
+    public void testMatchesPriceSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withPrice("800000").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
 
     @Test
-    public void test_matchesAddress_success() {
+    public void testMatchesAddressSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withAddress("orchard").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
 
     @Test
-    public void test_matchesMultipleCriteria_success() {
+    public void testMatchesMultipleCriteriaSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder()
                 .withType("condo")
                 .withStatus("listed")
@@ -117,7 +116,7 @@ public class PropertyMatchesFilterPredicateTest {
     }
 
     @Test
-    public void test_emptyPredicate_matchesAll() {
+    public void testEmptyPredicateMatchesAll() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().build();
         assertTrue(predicate.test(condoProperty));
         assertTrue(predicate.test(hdbProperty));

@@ -12,7 +12,7 @@ public class FilterPropertyCommandParserTest {
     private final FilterPropertyCommandParser parser = new FilterPropertyCommandParser();
 
     @Test
-    public void parse_validArgs_success_first() throws Exception {
+    public void parseValidArgsSuccessFirst() throws Exception {
         String input = " type/condo bedroom/3 status/listed limit/5 offset/10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
@@ -24,7 +24,7 @@ public class FilterPropertyCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_success_second() throws Exception {
+    public void parseValidArgsSuccessSecond() throws Exception {
         String input = " owner/alice";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
@@ -35,12 +35,12 @@ public class FilterPropertyCommandParserTest {
     }
 
     @Test
-    public void parse_invalidTag_throwsParseException() {
+    public void parseInvalidTagThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" owner/"));
     }
 
     @Test
-    public void parse_duplicateTag_throwsParseException() {
+    public void parseDuplicateTagThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" type/condo type/hdb"));
     }
 }
