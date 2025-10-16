@@ -72,8 +72,8 @@ class PropertyBookParserTest {
     @Test
     void parseCommand_blankInput_throwsParseException() {
         assertThrows(ParseException.class,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE),
-                () -> parser.parseCommand("   "));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), () ->
+                    parser.parseCommand("   "));
     }
 
     @Test
