@@ -8,11 +8,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import java.util.Optional;
+
 import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
-
-import java.util.Optional;
 
 /**
  * Parses input arguments and creates a new FilterPropertyCommand object.
@@ -89,9 +89,9 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
             builder.withStatus(t);
         }
 
-        Optional<String> maybeOWNER = argMultimap.getValue(PREFIX_PROPERTY_OWNER);
-        if (maybeOWNER.isPresent()) {
-            String t = maybeOWNER.get().trim();
+        Optional<String> maybeOwner = argMultimap.getValue(PREFIX_PROPERTY_OWNER);
+        if (maybeOwner.isPresent()) {
+            String t = maybeOwner.get().trim();
             if (t.isEmpty() || t.length() > 50) {
                 throw new ParseException("Error: owner value too long");
             }
@@ -117,5 +117,3 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         return new FilterPropertyCommand(builder.build(), limit, offset);
     }
 }
-
-
