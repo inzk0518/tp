@@ -1,5 +1,9 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 
@@ -22,9 +26,6 @@ import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for FilterPropertyCommand

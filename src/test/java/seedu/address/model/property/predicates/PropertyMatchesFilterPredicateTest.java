@@ -1,5 +1,8 @@
 package seedu.address.model.property.predicates;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
@@ -16,8 +19,6 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link PropertyMatchesFilterPredicate}.

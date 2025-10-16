@@ -1,12 +1,14 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 public class FilterPropertyCommandParserTest {
     private final FilterPropertyCommandParser parser = new FilterPropertyCommandParser();
