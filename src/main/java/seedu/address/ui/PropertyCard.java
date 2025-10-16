@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * A UI component that displays information of a {@code Property}.
@@ -29,6 +30,10 @@ public class PropertyCard extends UiPart<Region> {
     private Label price;
     @FXML
     private Label owner;
+    @FXML
+    private Label buyingIds;
+    @FXML
+    private Label sellingIds;
 
     /**
      * Creates a {@code PropertyCard} with the given {@code Property} and index to display.
@@ -38,7 +43,7 @@ public class PropertyCard extends UiPart<Region> {
         this.property = property;
         id.setText(displayedIndex + ". ");
         address.setText(property.getPropertyAddress().value);
-        uuid.setText("id: " + property.getUuid());
+        uuid.setText("id: " + property.getUuid().getValue());
 
         // Format: "type • beds beds • baths baths • sqft sqft"
         details.setText(String.format("%s • %s beds • %s baths • %s sqft",
@@ -55,5 +60,8 @@ public class PropertyCard extends UiPart<Region> {
         price.setText(formattedPrice);
 
         owner.setText("Owner: " + property.getOwner().value);
+
+        buyingIds.setText("Buyer Ids: " + Uuid.getGuiSetDisplayAsString(property.getBuyingPersonIds()));
+        sellingIds.setText("Seller Ids: " + Uuid.getGuiSetDisplayAsString(property.getSellingPersonIds()));
     }
 }

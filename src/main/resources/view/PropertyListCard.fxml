@@ -17,7 +17,7 @@
             <padding>
                 <Insets top="5" right="5" bottom="5" left="15" />
             </padding>
-            <HBox spacing="5" alignment="CENTER_LEFT">
+            <HBox spacing="0.5" alignment="CENTER_LEFT">
                 <Label fx:id="id" styleClass="cell_big_label">
                     <minWidth>
                         <Region fx:constant="USE_PREF_SIZE" />
@@ -29,6 +29,8 @@
             <Label fx:id="details" styleClass="cell_small_label" text="\$details" />
             <Label fx:id="price" styleClass="cell_small_label" text="\$price" />
             <Label fx:id="owner" styleClass="cell_small_label" text="\$owner" />
+            <Label fx:id="buyingIds" styleClass="cell_small_label" text="\$buyingIds" />
+            <Label fx:id="sellingIds" styleClass="cell_small_label" text="\$sellingIds" />
         </VBox>
     </GridPane>
 </HBox>
