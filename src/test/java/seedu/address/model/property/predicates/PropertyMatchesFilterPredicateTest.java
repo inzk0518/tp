@@ -2,6 +2,7 @@ package seedu.address.model.property.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.HashSet;
 
@@ -18,6 +19,7 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
+import seedu.address.model.uuid.Uuid;
 
 
 /**
@@ -26,7 +28,7 @@ import seedu.address.model.property.Type;
 public class PropertyMatchesFilterPredicateTest {
 
     private Property condoProperty = new Property(
-            "Random id",
+            new Uuid(1, PROPERTY),
             new PropertyAddress("123 Orchard Road"),
             new Bathroom("2"),
             new Bedroom("3"),
@@ -41,7 +43,7 @@ public class PropertyMatchesFilterPredicateTest {
             new HashSet<>()
     );
     private Property hdbProperty = new Property(
-            "randomId",
+            new Uuid(2, PROPERTY),
             new PropertyAddress("456 Bukit Timah"),
             new Bathroom("1"),
             new Bedroom("2"),
