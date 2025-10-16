@@ -7,6 +7,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
+import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
@@ -56,5 +57,10 @@ class PropertyBookParserTest {
     @Test
     void parseCommand_invalidArguments_throwsParseException() {
         assertThrows(ParseException.class, () -> parser.parseCommand(AddPropertyCommand.COMMAND_WORD));
+    }
+
+    @Test
+    public void parseCommand_filterProperty() throws Exception {
+        assertTrue(parser.parseCommand("filterproperty type/hdb") instanceof FilterPropertyCommand);
     }
 }

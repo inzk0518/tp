@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
@@ -8,9 +9,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
+
+import java.util.Optional;
 
 /**
  * Parses input arguments and creates a new FilterPropertyCommand object.
@@ -40,55 +44,61 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
 
         PropertyMatchesFilterPredicate.Builder builder = new PropertyMatchesFilterPredicate.Builder();
 
-        argMultimap.getValue(PREFIX_PROPERTY_ADDRESS).ifPresent(s -> {
-            String t = s.trim();
+        Optional<String> maybeAddress = argMultimap.getValue(PREFIX_PROPERTY_ADDRESS);
+        if (maybeAddress.isPresent()) {
+            String t = maybeAddress.get().trim();
             if (t.isEmpty() || t.length() > 50) {
-                throw new IllegalArgumentException("Error: address too long (max 50 chars)");
+                throw new ParseException("Error: address too long (max 50 chars)");
             }
             builder.withAddress(t);
-        });
+        }
 
         argMultimap.getValue(PREFIX_PROPERTY_TYPE).ifPresent(s -> builder.withType(s.trim()));
 
-        argMultimap.getValue(PREFIX_PROPERTY_BEDROOM).ifPresent(s -> {
-            String t = s.trim();
+        Optional<String> maybeBedroom = argMultimap.getValue(PREFIX_PROPERTY_BEDROOM);
+        if (maybeBedroom.isPresent()) {
+            String t = maybeBedroom.get().trim();
             if (!t.matches("^(?:[0-9]|1[0-9]|20)$")) {
-                throw new IllegalArgumentException("Error: Invalid bedroom (0–20)");
+                throw new ParseException("Error: Invalid bedroom (0–20)");
             }
             builder.withBedroom(t);
-        });
+        }
 
-        argMultimap.getValue(PREFIX_PROPERTY_BATHROOM).ifPresent(s -> {
-            String t = s.trim();
+        Optional<String> maybeBathroom = argMultimap.getValue(PREFIX_PROPERTY_BATHROOM);
+        if (maybeBathroom.isPresent()) {
+            String t = maybeBathroom.get().trim();
             if (!t.matches("^(?:[0-9]|1[0-9]|20)$")) {
-                throw new IllegalArgumentException("Error: Invalid bathroom (0–20)");
+                throw new ParseException("Error: Invalid bathroom (0–20)");
             }
             builder.withBathroom(t);
-        });
+        }
 
-        argMultimap.getValue(PREFIX_PROPERTY_PRICE).ifPresent(s -> {
-            String t = s.replace(",", "").trim();
+        Optional<String> maybePrice = argMultimap.getValue(PREFIX_PROPERTY_PRICE);
+        if (maybePrice.isPresent()) {
+            String t = maybePrice.get().replace(",", "").trim();
             if (!t.matches("^\\d+$")) {
-                throw new IllegalArgumentException("Error: Invalid price (digits only)");
+                throw new ParseException("Error: Invalid price (digits only)");
             }
             builder.withPrice(t);
-        });
+        }
 
-        argMultimap.getValue(PREFIX_PROPERTY_STATUS).ifPresent(s -> {
-            String t = s.trim().toLowerCase();
+        Optional<String> maybeStatus = argMultimap.getValue(PREFIX_PROPERTY_STATUS);
+        if (maybeStatus.isPresent()) {
+            String t = maybeStatus.get().trim().toLowerCase();
             if (!(t.equals("listed") || t.equals("sold") || t.equals("rented") || t.equals("off-market"))) {
-                throw new IllegalArgumentException("Error: Invalid status");
+                throw new ParseException("Error: Invalid status");
             }
             builder.withStatus(t);
-        });
+        }
 
-        argMultimap.getValue(PREFIX_PROPERTY_OWNER).ifPresent(s -> {
-            String t = s.trim();
+        Optional<String> maybeOWNER = argMultimap.getValue(PREFIX_PROPERTY_OWNER);
+        if (maybeOWNER.isPresent()) {
+            String t = maybeOWNER.get().trim();
             if (t.isEmpty() || t.length() > 50) {
-                throw new IllegalArgumentException("Error: owner value too long");
+                throw new ParseException("Error: owner value too long");
             }
             builder.withOwner(t);
-        });
+        }
 
         int limit = argMultimap.getValue(PREFIX_LIMIT)
                 .map(String::trim)

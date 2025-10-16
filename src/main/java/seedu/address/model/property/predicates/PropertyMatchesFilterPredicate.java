@@ -3,6 +3,7 @@ package seedu.address.model.property.predicates;
 import java.util.Locale;
 import java.util.function.Predicate;
 
+import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.model.property.Property;
 
 /**
@@ -96,6 +97,36 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
         }
 
         return true;
+    }
+
+    /*@Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof PropertyMatchesFilterPredicate
+                && this.address == ((PropertyMatchesFilterPredicate) other).address
+                && this.type == ((PropertyMatchesFilterPredicate) other).type
+                && this.bedroom == ((PropertyMatchesFilterPredicate) other).bedroom
+                && this.bathroom == ((PropertyMatchesFilterPredicate) other).bathroom
+                && this.price == ((PropertyMatchesFilterPredicate) other).price
+                && this.status == ((PropertyMatchesFilterPredicate) other).status
+                && this.owner == ((PropertyMatchesFilterPredicate) other).owner);
+    }*/
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof PropertyMatchesFilterPredicate)) {
+            return false;
+        }
+        PropertyMatchesFilterPredicate o = (PropertyMatchesFilterPredicate) other;
+        return java.util.Objects.equals(address, o.address)
+                && java.util.Objects.equals(type, o.type)
+                && java.util.Objects.equals(bedroom, o.bedroom)
+                && java.util.Objects.equals(bathroom, o.bathroom)
+                && java.util.Objects.equals(price, o.price)
+                && java.util.Objects.equals(status, o.status)
+                && java.util.Objects.equals(owner, o.owner);
     }
 
     /**
