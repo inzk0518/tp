@@ -36,7 +36,6 @@ public class Person {
     /**
      * At least name and phone must not be null.
      */
-
     public Person(Uuid uuid, Name name, Phone phone, Email email,
                   PersonAddress address, Set<Tag> tags, BudgetMin budgetMin,
                   BudgetMax budgetMax, Notes notes, PersonStatus status,

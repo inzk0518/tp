@@ -94,7 +94,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException("Budget max cannot be less than budget min.");
         }
 
-        // correct UUID will be made in AddCommand
+        // Correct UUID will be made in AddCommand
         Person person = new Person(name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
