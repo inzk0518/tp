@@ -10,11 +10,8 @@ import java.util.regex.Pattern;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.Command;
-<<<<<<< HEAD
-import seedu.address.logic.commands.FilterPropertyCommand;
-=======
 import seedu.address.logic.commands.DeletePropertyCommand;
->>>>>>> master
+import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.MarkSoldCommand;
 import seedu.address.logic.commands.MarkUnsoldCommand;
