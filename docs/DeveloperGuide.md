@@ -35,23 +35,7 @@ title: Developer Guide
 
 ## 1. Setting up
 
-### 1.1 Prerequisites
-
-- **JDK 17** or later with JavaFX support (the Gradle build pulls JavaFX modules automatically).
-- **IntelliJ IDEA** (Community or Ultimate) or an equivalent IDE with Gradle support.
-- **Git** for cloning and version control.
-
-### 1.2 Getting the project
-
-1. Fork https://github.com/AY2526S1-CS2103T-W10-2/tp and clone your fork.
-2. Open the project in your IDE by importing the Gradle build (`build.gradle`).
-3. Ensure the project SDK is set to Java 17.
-
-### 1.3 Verifying the setup
-
-1. Run the `./gradlew run` command (or the Gradle task in your IDE) to launch the application.
-2. Try sample commands such as `addcontact n/Alice p/98765432` and `delete 1` to verify command handling.
-3. Execute `./gradlew test` (or the Gradle task in your IDE) to run the automated tests.
+Refer to the [Setting up guide](SettingUp.md) for prerequisites, project import instructions, and verification steps.
 
 ## 2. Design
 To be updated.
@@ -84,11 +68,13 @@ To be updated.
 
 
 ## 4. Documentation
-To be updated.
+
+Refer to the [Documentation guide](Documentation.md) for instructions on maintaining the project website and authoring content.
 
 
 ## 5. Testing
-To be updated.
+
+Refer to the [Testing guide](Testing.md) for details on running automated tests and the available test suites.
 
 
 ## 6. Dev Ops
