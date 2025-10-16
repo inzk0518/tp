@@ -10,7 +10,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,20 +40,29 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     @Override
     public AddCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                                                                  PREFIX_NAME,
-                                                                  PREFIX_PHONE,
-                                                                  PREFIX_EMAIL,
-                                                                  PREFIX_ADDRESS,
-                                                                  PREFIX_TAG,
-                                                                  PREFIX_BUDGET_MIN,
-                                                                  PREFIX_BUDGET_MAX,
-                                                                  PREFIX_NOTES,
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
+                                                                  PREFIX_EMAIL, PREFIX_ADDRESS,
+                                                                  PREFIX_TAG, PREFIX_BUDGET_MIN,
+                                                                  PREFIX_BUDGET_MAX, PREFIX_NOTES,
                                                                   PREFIX_STATUS);
 
         if (!argMultimap.arePrefixesPresent(PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+
+        // Check for any unrecognised prefixes inside values
+        for (Prefix prefix : argMultimap.getAllPrefixes()) {
+            // Skip checking for notes prefix, since '/' is valid in notes
+            if (prefix.equals(PREFIX_NOTES)) {
+                continue;
+            }
+            for (String value : argMultimap.getAllValues(prefix)) {
+                if (looksLikePrefix(value)) {
+                    throw new ParseException(String.format(
+                            MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+                }
+            }
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
@@ -74,11 +82,23 @@ public class AddCommandParser implements Parser<AddCommand> {
         Set<Uuid> emptyBuyingPropertyIds = new HashSet<>();
         Set<Uuid> emptySellingPropertyIds = new HashSet<>();
 
-        // use 1 for UUID first, correct UUID will be made in AddCommand
-        Person person = new Person(new Uuid(1, PERSON), name, phone, email, address, tagList,
+        // Validate budget range
+        if (Long.parseLong(budgetMax.toString()) < Long.parseLong(budgetMin.toString())) {
+            throw new ParseException("Budget max cannot be less than budget min.");
+        }
+
+        // Correct UUID will be made in AddCommand
+        Person person = new Person(name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 
         return new AddCommand(person);
+    }
+
+    /**
+     * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
+     */
+    private boolean looksLikePrefix(String s) {
+        return s.trim().contains("/");
     }
 }

@@ -20,6 +20,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
         FilterContactPredicate secondPredicate = new FilterContactPredicate(
@@ -27,8 +28,8 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
-
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
@@ -38,7 +39,9 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
+
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -58,6 +61,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
         assertTrue(predicate.test(new PersonBuilderUtil().withName("Alice Bob").build()));
@@ -70,6 +74,7 @@ public class FilterContactPredicateTest {
                 Optional.of(Collections.singletonList("12345")),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
         assertTrue(predicate.test(new PersonBuilderUtil().withPhone("12345").build()));
@@ -80,6 +85,7 @@ public class FilterContactPredicateTest {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(),
                 Optional.of(Collections.singletonList("email@example.com")),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
@@ -94,6 +100,7 @@ public class FilterContactPredicateTest {
                 Optional.of(Collections.singletonList("Main Street")),
                 Optional.empty(),
                 Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
         assertTrue(predicate.test(new PersonBuilderUtil().withAddress("Main Street Apt 1").build()));
@@ -104,6 +111,7 @@ public class FilterContactPredicateTest {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.of(Collections.singletonList("friend")),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
@@ -116,6 +124,7 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.of(100), Optional.of(500),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
         assertTrue(predicate.test(new PersonBuilderUtil().withBudgetMin("100").withBudgetMax("500").build()));
@@ -128,7 +137,8 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.of(Collections.singletonList("important")),
-                Optional.empty());
+                Optional.empty(),
+                Optional.empty(), Optional.empty());
 
         assertTrue(predicate.test(new PersonBuilderUtil().withNotes("This is important").build()));
     }
@@ -140,7 +150,8 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(),
-                Optional.of(Collections.singletonList("active")));
+                Optional.of(Collections.singletonList("active")),
+                Optional.empty(), Optional.empty());
 
         assertTrue(predicate.test(new PersonBuilderUtil().withStatus("Active").build()));
     }
@@ -149,6 +160,7 @@ public class FilterContactPredicateTest {
     public void test_noMatches_returnsFalse() {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.of(Collections.singletonList("Carol")),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
@@ -168,7 +180,8 @@ public class FilterContactPredicateTest {
                 Optional.of(100),
                 Optional.of(500),
                 Optional.of(Arrays.asList("note1")),
-                Optional.of(Arrays.asList("active"))
+                Optional.of(Arrays.asList("active")),
+                Optional.empty(), Optional.empty()
         );
 
         String result = predicate.toString();
@@ -187,7 +200,8 @@ public class FilterContactPredicateTest {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.empty(), Optional.empty()
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty()
         );
 
         String result = predicate.toString();
