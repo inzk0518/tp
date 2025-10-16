@@ -27,10 +27,10 @@ public class PersonTest {
     @Test
     public void isSamePerson() {
         // same object -> returns true
-        assertTrue(ALICE.isSamePerson(ALICE));
+        assertTrue(ALICE.equals(ALICE));
 
         // null -> returns false
-        assertFalse(ALICE.isSamePerson(null));
+        assertFalse(ALICE.equals(null));
 
         // same name, all other attributes different -> returns true
         Person editedAlice = new PersonBuilderUtil(ALICE)
@@ -38,24 +38,24 @@ public class PersonTest {
                 .withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND)
                 .build();
-        assertTrue(ALICE.isSamePerson(editedAlice));
+        assertTrue(ALICE.equals(editedAlice));
 
         // same name, different phone -> returns false
         editedAlice = new PersonBuilderUtil(ALICE).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
+        assertFalse(ALICE.equals(editedAlice));
 
         // different name, same phone -> returns false
         editedAlice = new PersonBuilderUtil(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
+        assertFalse(ALICE.equals(editedAlice));
 
         // name differs in case but phone same -> returns false (case-sensitive check)
         Person editedBob = new PersonBuilderUtil(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertFalse(BOB.equals(editedBob));
 
         // name has trailing spaces but phone same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new PersonBuilderUtil(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertFalse(BOB.equals(editedBob));
     }
 
     @Test

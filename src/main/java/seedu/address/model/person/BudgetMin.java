@@ -34,7 +34,7 @@ public class BudgetMin {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value;
     }
 
     @Override

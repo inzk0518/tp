@@ -36,20 +36,34 @@ public class Person {
     /**
      * At least name and phone must not be null.
      */
-    public Person(Uuid uuid,
-                  Name name,
-                  Phone phone,
-                  Email email,
-                  PersonAddress address,
-                  Set<Tag> tags,
-                  BudgetMin budgetMin,
-                  BudgetMax budgetMax,
-                  Notes notes,
-                  PersonStatus status,
-                  Set<Uuid> buyingPropertyIds,
-                  Set<Uuid> sellingPropertyIds) {
+    public Person(Uuid uuid, Name name, Phone phone, Email email,
+                  PersonAddress address, Set<Tag> tags, BudgetMin budgetMin,
+                  BudgetMax budgetMax, Notes notes, PersonStatus status,
+                  Set<String> buyingPropertyIds, Set<String> sellingPropertyIds) {
         requireAllNonNull(name, phone);
         this.uuid = uuid;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.budgetMin = budgetMin;
+        this.budgetMax = budgetMax;
+        this.notes = notes;
+        this.status = status;
+        this.buyingPropertyIds.addAll(buyingPropertyIds);
+        this.sellingPropertyIds.addAll(sellingPropertyIds);
+    }
+
+    /**
+     * Overloaded constructor for missing UUID as UUID will be made in AddCommand
+     */
+    public Person(Name name, Phone phone, Email email,
+                  PersonAddress address, Set<Tag> tags, BudgetMin budgetMin,
+                  BudgetMax budgetMax, Notes notes, PersonStatus status,
+                  Set<String> buyingPropertyIds, Set<String> sellingPropertyIds) {
+        requireAllNonNull(name, phone);
+        this.uuid = null;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -153,21 +167,8 @@ public class Person {
     /**
      * Returns true if both persons have the same name & same phone number.
      */
-    public boolean isSamePerson(Person otherPerson) {
-        if (otherPerson == this) {
-            return true;
-        }
-
-        return otherPerson != null
-                && otherPerson.getName().equals(getName())
-                && otherPerson.getPhone().equals(getPhone());
-    }
-
-    /**
-     * Returns true if both persons have the same name & same phone number.
-     */
     @Override
-    public boolean equals(Object other) { //TODO merge equals with isSamePerson?
+    public boolean equals(Object other) {
         if (other == this) {
             return true;
         }

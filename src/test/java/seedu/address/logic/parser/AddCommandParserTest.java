@@ -203,4 +203,13 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_budgetMaxLessThanBudgetMin_failure() {
+        String input = NAME_DESC_BOB + PHONE_DESC_BOB
+                + " min/5000"
+                + " max/1000"; // max < min
+        System.out.println(input);
+        assertParseFailure(parser, input, "Budget max cannot be less than budget min.");
+    }
 }
