@@ -15,6 +15,14 @@ public class Uuid {
     private final StoredItem itemType;
 
     /**
+     * Enum class for tracking which type of item the uuid is attached to.
+     */
+    public static enum StoredItem {
+        PROPERTY,
+        PERSON;
+    }
+
+    /**
      * Constructs a {@code Uuid}.
      *
      * @param uuid A valid UUID integer.
@@ -68,13 +76,5 @@ public class Uuid {
     @Override
     public int hashCode() {
         return Integer.hashCode(value);
-    }
-
-    /**
-     * Enum class for tracking which type of item the uuid is attached to.
-     */
-    public static enum StoredItem {
-        PROPERTY,
-        PERSON;
     }
 }
