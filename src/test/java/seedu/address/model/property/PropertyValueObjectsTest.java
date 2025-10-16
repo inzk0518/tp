@@ -2,6 +2,7 @@ package seedu.address.model.property;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -22,10 +23,10 @@ class PropertyValueObjectsTest {
     @Test
     void address_equals() {
         PropertyAddress address = new PropertyAddress("123 Main St 5");
-        assertTrue(address.equals(new PropertyAddress("123 Main St 5")));
-        assertTrue(address.equals(address));
-        assertFalse(address.equals(null));
-        assertFalse(address.equals(new PropertyAddress("456 Market Ave 9")));
+        assertEquals(new PropertyAddress("123 Main St 5"), address);
+        assertEquals(address, address);
+        assertNotEquals(null, address);
+        assertNotEquals(new PropertyAddress("456 Market Ave 9"), address);
     }
 
     @Test
@@ -41,10 +42,10 @@ class PropertyValueObjectsTest {
     @Test
     void bathroom_equals() {
         Bathroom bathroom = new Bathroom("2");
-        assertTrue(bathroom.equals(new Bathroom("2")));
-        assertTrue(bathroom.equals(bathroom));
-        assertFalse(bathroom.equals(null));
-        assertFalse(bathroom.equals(new Bathroom("1")));
+        assertEquals(new Bathroom("2"), bathroom);
+        assertEquals(bathroom, bathroom);
+        assertNotEquals(null, bathroom);
+        assertNotEquals(new Bathroom("1"), bathroom);
     }
 
     @Test
@@ -60,10 +61,10 @@ class PropertyValueObjectsTest {
     @Test
     void bedroom_equals() {
         Bedroom bedroom = new Bedroom("3");
-        assertTrue(bedroom.equals(new Bedroom("3")));
-        assertTrue(bedroom.equals(bedroom));
-        assertFalse(bedroom.equals(null));
-        assertFalse(bedroom.equals(new Bedroom("2")));
+        assertEquals(new Bedroom("3"), bedroom);
+        assertEquals(bedroom, bedroom);
+        assertNotEquals(null, bedroom);
+        assertNotEquals(new Bedroom("2"), bedroom);
     }
 
     @Test
@@ -149,19 +150,19 @@ class PropertyValueObjectsTest {
         assertThrows(NullPointerException.class, () -> new Status(null));
         assertThrows(IllegalArgumentException.class, () -> new Status("pending"));
         assertThrows(NullPointerException.class, () -> Status.isValidStatus(null));
-        assertTrue(Status.isValidStatus("listed"));
+        assertTrue(Status.isValidStatus("unsold"));
         assertTrue(Status.isValidStatus("sold"));
-        assertEquals("rented", new Status("RENTED").toString());
+        assertEquals("sold", new Status("sold").toString());
     }
 
     @Test
     void status_equals() {
-        Status status = new Status("listed");
-        assertTrue(status.equals(new Status("listed")));
-        assertTrue(status.equals(new Status("LISTED")));
+        Status status = new Status("sold");
+        assertTrue(status.equals(new Status("sold")));
+        assertTrue(status.equals(new Status("SOLD")));
         assertTrue(status.equals(status));
         assertFalse(status.equals(null));
-        assertFalse(status.equals(new Status("sold")));
+        assertFalse(status.equals(new Status("UNsold")));
     }
 
     @Test

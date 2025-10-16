@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddPropertyCommand;
@@ -49,7 +50,7 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
         if (!arePrefixesPresent(argMultimap, PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL,
                 PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_STATUS,
                 PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA,
-                PREFIX_PROPERTY_OWNER)
+                PREFIX_PROPERTY_LISTING, PREFIX_PROPERTY_OWNER)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPropertyCommand.MESSAGE_USAGE));
         }
@@ -67,16 +68,15 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
         Bedroom bedroom = ParserUtil.parseBedroom(argMultimap.getValue(PREFIX_PROPERTY_BEDROOM).get());
         Bathroom bathroom = ParserUtil.parseBathroom(argMultimap.getValue(PREFIX_PROPERTY_BATHROOM).get());
         FloorArea floorArea = ParserUtil.parseFloorArea(argMultimap.getValue(PREFIX_PROPERTY_FLOOR_AREA).get());
+        Listing listing = ParserUtil.parseListing(argMultimap.getValue(PREFIX_PROPERTY_LISTING).get());
         Owner owner = ParserUtil.parseOwner(argMultimap.getValue(PREFIX_PROPERTY_OWNER).get());
 
-        // Listing is optional
-        Listing listing = null;
-        if (argMultimap.getValue(PREFIX_PROPERTY_LISTING).isPresent()) {
-            listing = ParserUtil.parseListing(argMultimap.getValue(PREFIX_PROPERTY_LISTING).get());
+        if ((status.isSold() && listing.isRent()) || (status.isRented() && listing.isSale())) {
+            throw new ParseException(AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING);
         }
 
-        Property property = new Property(address, bathroom, bedroom, floorArea, listing,
-                postal, price, status, type, owner);
+        Property property = new Property(null, address, bathroom, bedroom, floorArea, listing,
+                postal, price, status, type, owner, new HashSet<>(), new HashSet<>());
 
         return new AddPropertyCommand(property);
     }
@@ -88,5 +88,4 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
-
 }

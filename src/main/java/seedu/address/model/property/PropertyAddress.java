@@ -6,7 +6,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 /**
  * Represents a Person's address in the address book.
  * Guarantees: immutable; is valid as declared in
- * {@link #isValidAddress(String)}
+ * {@link #isValidPropertyAddress(String)}
  */
 public class PropertyAddress {
 

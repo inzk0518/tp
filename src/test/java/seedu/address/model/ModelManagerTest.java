@@ -2,44 +2,28 @@ package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.property.Bathroom;
-import seedu.address.model.property.Bedroom;
-import seedu.address.model.property.FloorArea;
-import seedu.address.model.property.Listing;
-import seedu.address.model.property.Owner;
-import seedu.address.model.property.Postal;
-import seedu.address.model.property.Price;
-import seedu.address.model.property.Property;
-import seedu.address.model.property.PropertyAddress;
-import seedu.address.model.property.Status;
-import seedu.address.model.property.Type;
+import seedu.address.model.person.FilterContactPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
-
-    private static final Property PROPERTY_ALPHA = new Property(new PropertyAddress("123 Main St 5"),
-            new Bathroom("2"),
-            new Bedroom("3"), new FloorArea("120"), new Listing("sale"), new Postal("123456"),
-            new Price("500000"), new Status("listed"), new Type("HDB"), new Owner("owner123"));
-    private static final Property PROPERTY_BETA = new Property(new PropertyAddress("456 Market Ave 9"),
-            new Bathroom("1"),
-            new Bedroom("2"), new FloorArea("80"), new Listing("rent"), new Postal("654321"), new Price("3500"),
-            new Status("listed"), new Type("apartment"), new Owner("owner456"));
 
     private ModelManager modelManager = new ModelManager();
 
@@ -49,6 +33,20 @@ public class ModelManagerTest {
         assertEquals(new GuiSettings(), modelManager.getGuiSettings());
         assertEquals(new AddressBook(), new AddressBook(modelManager.getAddressBook()));
         assertEquals(new PropertyBook(), new PropertyBook(modelManager.getPropertyBook()));
+    }
+
+    @Test
+    public void getPropertyById_existingId_returnsProperty() {
+        modelManager.addProperty(PROPERTY_ALPHA);
+        modelManager.addProperty(PROPERTY_BETA);
+
+        assertEquals(PROPERTY_ALPHA, modelManager.getPropertyById(PROPERTY_ALPHA.getId()));
+        assertEquals(PROPERTY_BETA, modelManager.getPropertyById(PROPERTY_BETA.getId()));
+    }
+
+    @Test
+    public void getPropertyById_nonExistingId_returnsNull() {
+        assertNull(modelManager.getPropertyById("non-existent-id"));
     }
 
     @Test
@@ -177,7 +175,12 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        modelManager.updateFilteredPersonList(new FilterContactPredicate(
+                Optional.of(Arrays.asList(keywords)),
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty()
+        ));
         assertFalse(modelManager.equals(new ModelManager(addressBook, propertyBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests

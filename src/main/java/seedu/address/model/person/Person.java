@@ -29,8 +29,11 @@ public class Person {
     private final BudgetMax budgetMax;
     private final Notes notes;
     private final PersonStatus status;
+    private final Set<String> buyingPropertyIds = new HashSet<>();
+    private final Set<String> sellingPropertyIds = new HashSet<>();
+
     /**
-     * Every field must be present and not null.
+     * At least name and phone must not be null.
      */
     public Person(Uuid uuid,
                   Name name,
@@ -41,7 +44,9 @@ public class Person {
                   BudgetMin budgetMin,
                   BudgetMax budgetMax,
                   Notes notes,
-                  PersonStatus status) {
+                  PersonStatus status,
+                  Set<String> buyingPropertyIds,
+                  Set<String> sellingPropertyIds) {
         requireAllNonNull(name, phone);
         this.uuid = uuid;
         this.name = name;
@@ -53,6 +58,8 @@ public class Person {
         this.budgetMax = budgetMax;
         this.notes = notes;
         this.status = status;
+        this.buyingPropertyIds.addAll(buyingPropertyIds);
+        this.sellingPropertyIds.addAll(sellingPropertyIds);
     }
 
     public Uuid getUuid() {
@@ -100,6 +107,22 @@ public class Person {
     }
 
     /**
+     * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<String> getBuyingPropertyIds() {
+        return Collections.unmodifiableSet(buyingPropertyIds);
+    }
+
+    /**
+     * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<String> getSellingPropertyIds() {
+        return Collections.unmodifiableSet(sellingPropertyIds);
+    }
+
+    /**
      * Returns true if both persons have the same name & same phone number.
      */
     public boolean isSamePerson(Person otherPerson) {
@@ -129,14 +152,13 @@ public class Person {
         Person otherPerson = (Person) other;
         return Objects.equals(name, otherPerson.name)
                 && Objects.equals(phone, otherPerson.phone);
-
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(uuid, name, phone, email, address, tags,
-                            budgetMin, budgetMax, notes, status);
+                budgetMin, budgetMax, notes, status, buyingPropertyIds, sellingPropertyIds);
     }
 
     @Override
@@ -152,6 +174,8 @@ public class Person {
                 .add("budgetMax", budgetMax)
                 .add("notes", notes)
                 .add("status", status)
+                .add("buyingPropertyIds", buyingPropertyIds)
+                .add("sellingPropertyIds", sellingPropertyIds)
                 .toString();
     }
 
