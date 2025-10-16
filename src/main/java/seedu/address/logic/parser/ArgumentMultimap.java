@@ -88,4 +88,12 @@ public class ArgumentMultimap {
     public java.util.Set<Prefix> getAllPrefixes() {
         return new java.util.HashSet<>(argMultimap.keySet());
     }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the
+     * {@code ArgumentMultimap}.
+     */
+    public boolean arePrefixesPresent(Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> this.getValue(prefix).isPresent());
+    }
 }

@@ -50,7 +50,7 @@ class JsonAdaptedProperty {
      * Constructs a {@code JsonAdaptedProperty} with the given property details.
      */
     @JsonCreator
-    public JsonAdaptedProperty(@JsonProperty("id") Integer uuid,
+    public JsonAdaptedProperty(@JsonProperty("uuid") Integer uuid,
                                @JsonProperty("address") String address,
                                @JsonProperty("bathroom") String bathroom,
                                @JsonProperty("bedroom") String bedroom,
@@ -111,17 +111,17 @@ class JsonAdaptedProperty {
 
     /**
      * Converts this Jackson-friendly adapted person object into the model's
-     * {@code Person} object.
+     * {@code Property} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in
-     *                               the adapted person.
+     *                               the adapted property.
      */
     public Property toModelType() throws IllegalValueException {
         if (uuid == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    Property.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Uuid"));
         }
         final Uuid modelUuid = new Uuid(uuid, PROPERTY);
+
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     PropertyAddress.class.getSimpleName()));

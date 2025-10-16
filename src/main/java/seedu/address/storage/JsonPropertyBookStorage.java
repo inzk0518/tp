@@ -47,7 +47,7 @@ public class JsonPropertyBookStorage implements PropertyBookStorage {
 
         Optional<JsonSerializablePropertyBook> jsonPropertyBook = JsonUtil.readJsonFile(
                 filePath, JsonSerializablePropertyBook.class);
-        if (!jsonPropertyBook.isPresent()) {
+        if (jsonPropertyBook.isEmpty()) {
             return Optional.empty();
         }
 

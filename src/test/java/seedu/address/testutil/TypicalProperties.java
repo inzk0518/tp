@@ -50,6 +50,8 @@ public class TypicalProperties {
     }
 
     public static List<Property> getTypicalProperties() {
-        return new ArrayList<>(Arrays.asList(PROPERTY_ALPHA, PROPERTY_BETA, PROPERTY_GAMMA));
+        return new ArrayList<>(Arrays.asList(new PropertyBuilderUtil(PROPERTY_ALPHA).build(),
+                new PropertyBuilderUtil(PROPERTY_BETA).build(),
+                new PropertyBuilderUtil(PROPERTY_GAMMA).build()));
     }
 }
