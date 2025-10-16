@@ -18,7 +18,9 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label propertyId;
+    private Label id;
+    @FXML
+    private Label uuid;
     @FXML
     private Label address;
     @FXML
@@ -34,8 +36,9 @@ public class PropertyCard extends UiPart<Region> {
     public PropertyCard(Property property, int displayedIndex) {
         super(FXML);
         this.property = property;
-        propertyId.setText(displayedIndex + ". Property " + property.getUuid().toString().substring(0, 6));
+        id.setText(displayedIndex + ". ");
         address.setText(property.getPropertyAddress().value);
+        uuid.setText("id: " + property.getUuid());
 
         // Format: "type • beds beds • baths baths • sqft sqft"
         details.setText(String.format("%s • %s beds • %s baths • %s sqft",
