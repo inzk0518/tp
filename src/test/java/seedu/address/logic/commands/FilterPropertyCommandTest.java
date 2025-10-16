@@ -58,7 +58,7 @@ public class FilterPropertyCommandTest {
     private Property createProperty(String address, String type, int bedroom,
                                     int bathroom, String price, String status, String ownerName) {
         return new Property(
-                UUID.randomUUID().toString(),
+                null,
                 new PropertyAddress(address),
                 new Bathroom(String.valueOf(bathroom)),
                 new Bedroom(String.valueOf(bedroom)),
