@@ -3,7 +3,6 @@ package seedu.address.model.property.predicates;
 import java.util.Locale;
 import java.util.function.Predicate;
 
-import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.model.property.Property;
 
 /**
