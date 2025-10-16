@@ -32,6 +32,16 @@ public class FilterPropertyCommandParserTest {
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
                                 .withOwner("alice").build(),
+                        20, 0);
+        assertEquals(expected, parser.parse(input));
+    }
+    @Test
+    public void parseValidArgsSuccessThird() throws Exception {
+        String input = " address/Geylang 18 bathroom/3 price/5000";
+        FilterPropertyCommand expected =
+                new FilterPropertyCommand(
+                        new PropertyMatchesFilterPredicate.Builder()
+                                .withAddress("Geylang 18").withBathroom("3").withPrice("5000").build(),
                         20, 0); // defaults
         assertEquals(expected, parser.parse(input));
     }
