@@ -167,6 +167,12 @@ public class TypicalPersons {
     }
 
     public static List<Person> getTypicalPersons() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        return new ArrayList<>(Arrays.asList(new PersonBuilderUtil(ALICE).build(),
+                new PersonBuilderUtil(BENSON).build(),
+                new PersonBuilderUtil(CARL).build(),
+                new PersonBuilderUtil(DANIEL).build(),
+                new PersonBuilderUtil(ELLE).build(),
+                new PersonBuilderUtil(FIONA).build(),
+                new PersonBuilderUtil(GEORGE).build()));
     }
 }

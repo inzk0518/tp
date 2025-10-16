@@ -13,9 +13,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Adds a property to the property list.
@@ -67,12 +69,16 @@ public class AddPropertyCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasProperty(toAdd)) {
+        // Updating UUID of property
+        Uuid uuid = model.getPropertyBook().generateNextUuid();
+        Property propertyWithUuid = toAdd.duplicateWithNewUuid(uuid);
+
+        if (model.hasProperty(propertyWithUuid)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
 
-        model.addProperty(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.toString()));
+        model.addProperty(propertyWithUuid);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(propertyWithUuid)));
     }
 
     @Override

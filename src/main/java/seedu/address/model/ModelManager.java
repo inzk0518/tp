@@ -14,6 +14,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -168,6 +169,25 @@ public class ModelManager implements Model {
         propertyBook.setProperty(target, editedProperty);
     }
 
+    // =========== Property ID-based operations =================================================
+
+    /**
+     * Returns the {@code Property} with the specified {@code id} from the current filtered property list.
+     * Returns {@code null} if no such property exists.
+     *
+     * @param id The unique ID of the property to retrieve.
+     * @return The {@code Property} object with the matching ID, or {@code null} if not found.
+     */
+    @Override
+    public Property getPropertyById(Uuid id) {
+        requireNonNull(id);
+        for (Property property : propertyBook.getPropertyList()) {
+            if (property.getUuid().equals(id)) {
+                return property;
+            }
+        }
+        return null;
+    }
     // =========== Filtered List Accessors
     // =============================================================
 

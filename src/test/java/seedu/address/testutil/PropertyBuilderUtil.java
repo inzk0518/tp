@@ -1,9 +1,11 @@
 package seedu.address.testutil;
 
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.person.Uuid;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -16,27 +18,27 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.util.SampleDataUtil;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * A utility class to help with building Property objects.
  */
 public class PropertyBuilderUtil {
 
-    public static final String DEFAULT_ID = null;
+    public static final Uuid DEFAULT_ID = new Uuid(1, PROPERTY);
     public static final String DEFAULT_PROPERTY_ADDRESS = "123 Kent Ridge Road";
     public static final String DEFAULT_BATHROOM = "1";
     public static final String DEFAULT_BEDROOM = "2";
     public static final String DEFAULT_FLOORAREA = "2000";
-    public static final String DEFAULT_LISTING = "rent";
+    public static final String DEFAULT_LISTING = "sale";
     public static final String DEFAULT_POSTAL = "886231";
     public static final String DEFAULT_PRICE = "210000";
-    public static final String DEFAULT_STATUS = "listed";
+    public static final String DEFAULT_STATUS = "sold";
     public static final String DEFAULT_TYPE = "landed";
     public static final String DEFAULT_OWNER = "owner123";
     public static final Set<Uuid> DEFAULT_BUYING_PERSON_IDS = new HashSet<>();
     public static final Set<Uuid> DEFAULT_SELLING_PERSON_IDS = new HashSet<>();
 
-    private String id;
     private PropertyAddress propertyAddress;
     private Bathroom bathroom;
     private Bedroom bedroom;
@@ -47,14 +49,15 @@ public class PropertyBuilderUtil {
     private Status status;
     private Type type;
     private Owner owner;
+    private Uuid uuid;
     private Set<Uuid> buyingPersonIds;
     private Set<Uuid> sellingPersonIds;
 
     /**
-     * Creates a {@code PropertyBuilder} with the default details.
+     * Creates a {@code PropertyBuilderUtil} with the default details.
      */
     public PropertyBuilderUtil() {
-        id = DEFAULT_ID;
+        uuid = DEFAULT_ID;
         propertyAddress = new PropertyAddress(DEFAULT_PROPERTY_ADDRESS);
         bathroom = new Bathroom(DEFAULT_BATHROOM);
         bedroom = new Bedroom(DEFAULT_BEDROOM);
@@ -70,10 +73,10 @@ public class PropertyBuilderUtil {
     }
 
     /**
-     * Initializes the PropertyBuilder with the data of {@code propertyToCopy}.
+     * Initializes the PropertyBuilderUtil with the data of {@code propertyToCopy}.
      */
     public PropertyBuilderUtil(Property propertyToCopy) {
-        id = propertyToCopy.getId();
+        uuid = propertyToCopy.getUuid();
         propertyAddress = new PropertyAddress(propertyToCopy.getPropertyAddress().value);
         bathroom = new Bathroom(propertyToCopy.getBathroom().value);
         bedroom = new Bedroom(propertyToCopy.getBedroom().value);
@@ -100,8 +103,8 @@ public class PropertyBuilderUtil {
     /**
      * Sets the {@code id} of the {@code Property} that we are building.
      */
-    public PropertyBuilderUtil withId(String id) {
-        this.id = id;
+    public PropertyBuilderUtil withUuid(int uuid) {
+        this.uuid = new Uuid(uuid, PROPERTY);
         return this;
     }
 
@@ -190,7 +193,7 @@ public class PropertyBuilderUtil {
      * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Person} that we are building.
      */
     public PropertyBuilderUtil withBuyingPersonIds(int ... ids) {
-        this.buyingPersonIds = SampleDataUtil.getUuidSet(ids);
+        this.buyingPersonIds = SampleDataUtil.getUuidSet(PERSON, ids);
         return this;
     }
 
@@ -215,7 +218,7 @@ public class PropertyBuilderUtil {
      * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Person} that we are building.
      */
     public PropertyBuilderUtil withSellingPersonIds(int ... ids) {
-        this.sellingPersonIds = SampleDataUtil.getUuidSet(ids);
+        this.sellingPersonIds = SampleDataUtil.getUuidSet(PERSON, ids);
         return this;
     }
 
@@ -231,7 +234,7 @@ public class PropertyBuilderUtil {
      * Builds the {@code Property} that we are building.
      */
     public Property build() {
-        return new Property(id, propertyAddress, bathroom, bedroom, floorArea, listing, postal, price, status,
+        return new Property(uuid, propertyAddress, bathroom, bedroom, floorArea, listing, postal, price, status,
                 type, owner, buyingPersonIds, sellingPersonIds);
     }
 

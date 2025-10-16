@@ -3,7 +3,7 @@ package seedu.address.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.getTypicalPropertyBook;
 
 import java.nio.file.Path;
 
@@ -75,8 +75,7 @@ public class StorageManagerTest {
          * Note: This integration test verifies the StorageManager is wired to {@link JsonPropertyBookStorage}.
          * More extensive persistence checks live in {@link JsonPropertyBookStorageTest} (when available).
          */
-        PropertyBook original = new PropertyBook();
-        original.addProperty(PROPERTY_ALPHA);
+        PropertyBook original = getTypicalPropertyBook();
         storageManager.savePropertyBook(original);
         ReadOnlyPropertyBook retrieved = storageManager.readPropertyBook().get();
         assertEquals(original, new PropertyBook(retrieved));

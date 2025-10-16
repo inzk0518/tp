@@ -13,7 +13,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
 import java.util.HashSet;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -47,7 +46,7 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
                         PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA,
                         PREFIX_PROPERTY_LISTING, PREFIX_PROPERTY_OWNER);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL,
+        if (!argMultimap.arePrefixesPresent(PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL,
                 PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_STATUS,
                 PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA,
                 PREFIX_PROPERTY_LISTING, PREFIX_PROPERTY_OWNER)
@@ -79,13 +78,5 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
                 postal, price, status, type, owner, new HashSet<>(), new HashSet<>());
 
         return new AddPropertyCommand(property);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

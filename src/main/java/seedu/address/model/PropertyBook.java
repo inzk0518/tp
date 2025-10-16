@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.UniquePropertyList;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Wraps all data at the property-book level
@@ -16,6 +18,7 @@ import seedu.address.model.property.UniquePropertyList;
 public class PropertyBook implements ReadOnlyPropertyBook {
 
     private final UniquePropertyList properties;
+    private int nextUuid = 1;
 
     /*
      * The 'unusual' code block below is a non-static initialization block,
@@ -57,8 +60,8 @@ public class PropertyBook implements ReadOnlyPropertyBook {
      */
     public void resetData(ReadOnlyPropertyBook newData) {
         requireNonNull(newData);
-
         setProperties(newData.getPropertyList());
+        setNextUuid(newData.getNextUuid());
     }
 
     //// property-level operations
@@ -70,6 +73,27 @@ public class PropertyBook implements ReadOnlyPropertyBook {
     public boolean hasProperty(Property property) {
         requireNonNull(property);
         return properties.contains(property);
+    }
+
+    /**
+     * Sets the next UUID to be used.
+     */
+    public Uuid generateNextUuid() {
+        return new Uuid(nextUuid++, PROPERTY);
+    }
+
+    /**
+     * Returns current UUID that can be used.
+     */
+    public int getNextUuid() {
+        return nextUuid;
+    }
+
+    /**
+     * Updates the UUID in this class to be the one stored in the property book.
+     */
+    public void setNextUuid(int nextUuid) {
+        this.nextUuid = nextUuid;
     }
 
     /**
@@ -111,6 +135,11 @@ public class PropertyBook implements ReadOnlyPropertyBook {
                 .toString();
     }
 
+    /**
+     * Returns an unmodifiable view of the list of properties in this {@code PropertyBook}.
+     *
+     * @return The observable list of {@code Property} objects.
+     */
     @Override
     public ObservableList<Property> getPropertyList() {
         return properties.asUnmodifiableObservableList();

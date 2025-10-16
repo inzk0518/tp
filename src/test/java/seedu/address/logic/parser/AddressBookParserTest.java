@@ -77,7 +77,8 @@ public class AddressBookParserTest {
         FilterContactPredicate expectedPredicate = new FilterContactPredicate(
                 Optional.of(keywords), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.empty(), Optional.empty());
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty());
 
         assertEquals(new FilterContactCommand(expectedPredicate), command);
     }

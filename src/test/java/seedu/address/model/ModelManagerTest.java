@@ -2,9 +2,11 @@ package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -32,6 +35,20 @@ public class ModelManagerTest {
         assertEquals(new GuiSettings(), modelManager.getGuiSettings());
         assertEquals(new AddressBook(), new AddressBook(modelManager.getAddressBook()));
         assertEquals(new PropertyBook(), new PropertyBook(modelManager.getPropertyBook()));
+    }
+
+    @Test
+    public void getPropertyById_existingId_returnsProperty() {
+        modelManager.addProperty(PROPERTY_ALPHA);
+        modelManager.addProperty(PROPERTY_BETA);
+
+        assertEquals(PROPERTY_ALPHA, modelManager.getPropertyById(PROPERTY_ALPHA.getUuid()));
+        assertEquals(PROPERTY_BETA, modelManager.getPropertyById(PROPERTY_BETA.getUuid()));
+    }
+
+    @Test
+    public void getPropertyById_nonExistingId_returnsNull() {
+        assertNull(modelManager.getPropertyById(new Uuid(999999, PROPERTY)));
     }
 
     @Test
@@ -164,6 +181,7 @@ public class ModelManagerTest {
                 Optional.of(Arrays.asList(keywords)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty()
         ));
         assertFalse(modelManager.equals(new ModelManager(addressBook, propertyBook, userPrefs)));

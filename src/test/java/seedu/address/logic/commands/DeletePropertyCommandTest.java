@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
+import seedu.address.model.uuid.Uuid;
 
 class DeletePropertyCommandTest {
 
@@ -42,7 +44,7 @@ class DeletePropertyCommandTest {
         PropertyBook propertyBook = new PropertyBook();
         propertyBook.addProperty(propertyToDelete);
         Model model = new ModelManager(new AddressBook(), propertyBook, new UserPrefs());
-        DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(propertyToDelete.getId());
+        DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(propertyToDelete.getUuid());
 
         String expectedMessage = String.format(DeletePropertyCommand.MESSAGE_DELETE_PROPERTY_SUCCESS,
                 Messages.format(propertyToDelete));
@@ -62,7 +64,7 @@ class DeletePropertyCommandTest {
         PropertyBook propertyBook = new PropertyBook();
         propertyBook.addProperty(property);
         Model model = new ModelManager(new AddressBook(), propertyBook, new UserPrefs());
-        String absentId = deriveDifferentId(property.getId());
+        Uuid absentId = deriveDifferentId(property.getUuid());
         DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(absentId);
 
         PropertyBook expectedPropertyBook = new PropertyBook(model.getPropertyBook());
@@ -74,33 +76,32 @@ class DeletePropertyCommandTest {
 
     @Test
     void equals() {
-        DeletePropertyCommand deleteAlpha = new DeletePropertyCommand("abc123");
-        DeletePropertyCommand deleteAlphaUpper = new DeletePropertyCommand("ABC123");
-        DeletePropertyCommand deleteBeta = new DeletePropertyCommand("def456");
+        DeletePropertyCommand deleteAlpha = new DeletePropertyCommand(new Uuid(1, PROPERTY));
+        DeletePropertyCommand deleteBeta = new DeletePropertyCommand(new Uuid(2, PROPERTY));
 
         assertTrue(deleteAlpha.equals(deleteAlpha));
-        assertTrue(deleteAlpha.equals(deleteAlphaUpper));
         assertFalse(deleteAlpha.equals(1));
         assertFalse(deleteAlpha.equals(deleteBeta));
     }
 
     @Test
     void toStringMethod() {
-        DeletePropertyCommand command = new DeletePropertyCommand("abc123");
-        String expected = DeletePropertyCommand.class.getCanonicalName() + "{targetPropertyId=abc123}";
+        Uuid id = new Uuid(1, PROPERTY);
+        DeletePropertyCommand command = new DeletePropertyCommand(id);
+        String expected = DeletePropertyCommand.class.getCanonicalName() + "{targetPropertyId=" + id + "}";
         assertEquals(expected, command.toString());
     }
 
     private static Property buildProperty(String address) {
-        return new Property("randomId", new PropertyAddress(address), new Bathroom("2"), new Bedroom("3"),
+        return new Property(new Uuid(1, PROPERTY), new PropertyAddress(address), new Bathroom("2"), new Bedroom("3"),
                 new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
-                new Status("listed"), new Type("HDB"), new Owner("owner123"), new HashSet<>(), new HashSet<>());
+                new Status("sold"), new Type("HDB"), new Owner("owner123"), new HashSet<>(), new HashSet<>());
     }
 
-    private static String deriveDifferentId(String propertyId) {
+    private static Uuid deriveDifferentId(Uuid propertyId) {
         requireNonNull(propertyId);
-        char candidate = propertyId.charAt(0);
-        char replacement = candidate == 'a' || candidate == 'A' ? 'b' : 'a';
-        return replacement + propertyId.substring(1);
+        int candidate = propertyId.getValue();
+        int replacement = candidate + 1;
+        return new Uuid(replacement, PROPERTY);
     }
 }

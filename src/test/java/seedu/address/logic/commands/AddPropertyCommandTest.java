@@ -17,14 +17,16 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.PropertyBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 class AddPropertyCommandTest {
 
@@ -39,8 +41,7 @@ class AddPropertyCommandTest {
         Property validProperty = PROPERTY_ALPHA;
 
         CommandResult commandResult = new AddPropertyCommand(validProperty).execute(modelStub);
-
-        assertEquals(String.format(AddPropertyCommand.MESSAGE_SUCCESS, validProperty),
+        assertEquals(String.format(AddPropertyCommand.MESSAGE_SUCCESS, Messages.format(validProperty)),
                 commandResult.getFeedbackToUser());
         assertEquals(List.of(validProperty), modelStub.propertiesAdded);
     }
@@ -164,7 +165,7 @@ class AddPropertyCommandTest {
 
         @Override
         public ReadOnlyPropertyBook getPropertyBook() {
-            throw new AssertionError("This method should not be called.");
+            return new PropertyBook(); // return empty property book
         }
 
         @Override
@@ -194,6 +195,11 @@ class AddPropertyCommandTest {
 
         @Override
         public void updateFilteredPropertyList(Predicate<Property> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Property getPropertyById(Uuid id) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -226,11 +232,6 @@ class AddPropertyCommandTest {
         public void addProperty(Property property) {
             requireNonNull(property);
             propertiesAdded.add(property);
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
         }
     }
 }

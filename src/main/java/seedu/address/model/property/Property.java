@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Represents a Property in the property book.
@@ -17,7 +17,7 @@ import seedu.address.model.person.Uuid;
 public class Property {
 
     // Identity fields
-    private final String id;
+    private final Uuid uuid;
 
     // Data fields
     private final PropertyAddress address;
@@ -37,10 +37,11 @@ public class Property {
      * Constructs a {@code Property}.
      * Every field must be present and not null.
      */
-    public Property(String id, PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea,
+    public Property(Uuid uuid, PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea,
             Listing listing, Postal postal, Price price, Status status, Type type, Owner owner,
             Set<Uuid> buyingPersonIds, Set<Uuid> sellingPersonIds) {
         requireAllNonNull(address, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
+        this.uuid = uuid;
         this.address = address;
         this.bathroom = bathroom;
         this.bedroom = bedroom;
@@ -53,12 +54,15 @@ public class Property {
         this.owner = owner;
         this.buyingPersonIds.addAll(buyingPersonIds);
         this.sellingPersonIds.addAll(sellingPersonIds);
+    }
 
-        if (id == null) {
-            this.id = java.util.UUID.randomUUID().toString().substring(0, 6);
-        } else {
-            this.id = id;
-        }
+    /**
+     * Duplicates Property with the new Uuid.
+     * Used for updating Property when adding to propertybook.
+     */
+    public Property duplicateWithNewUuid(Uuid uuid) {
+        return new Property(uuid, address, bathroom, bedroom, floorArea, listing, postal,
+                price, status, type, owner, buyingPersonIds, sellingPersonIds);
     }
 
     // Getter methods
@@ -98,8 +102,8 @@ public class Property {
         return type;
     }
 
-    public String getId() {
-        return id;
+    public Uuid getUuid() {
+        return uuid;
     }
 
     public Owner getOwner() {
@@ -122,14 +126,22 @@ public class Property {
         return Collections.unmodifiableSet(sellingPersonIds);
     }
 
-    public void setBuyingPersonIds(Set<Uuid> buyingPersonIds) {
-        this.buyingPersonIds.clear();
-        this.buyingPersonIds.addAll(buyingPersonIds);
+    /**
+     * Duplicates Property with the new BuyingPersonIds.
+     * Used for updating Property when linking or unlinking.
+     */
+    public Property duplicateWithNewBuyingPersonIds(Set<Uuid> buyingPersonIds) {
+        return new Property(uuid, address, bathroom, bedroom, floorArea, listing, postal,
+                price, status, type, owner, buyingPersonIds, sellingPersonIds);
     }
 
-    public void setSellingPersonIds(Set<Uuid> sellingPersonIds) {
-        this.sellingPersonIds.clear();
-        this.sellingPersonIds.addAll(sellingPersonIds);
+    /**
+     * Duplicates Property with the new SellingPersonIds.
+     * Used for updating Property when linking or unlinking.
+     */
+    public Property duplicateWithNewSellingPersonIds(Set<Uuid> sellingPersonIds) {
+        return new Property(uuid, address, bathroom, bedroom, floorArea, listing, postal,
+                price, status, type, owner, buyingPersonIds, sellingPersonIds);
     }
 
     /**
@@ -141,12 +153,9 @@ public class Property {
             return true;
         }
 
-        boolean sameId = otherProperty != null && otherProperty.getId().equals(getId());
-        boolean sameAddress = otherProperty != null
+        return otherProperty != null
                 && otherProperty.getPropertyAddress().equals(getPropertyAddress())
                 && otherProperty.getPostal().equals(getPostal());
-
-        return sameId || sameAddress;
     }
 
     @Override
@@ -186,7 +195,7 @@ public class Property {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("Id", id)
+                .add("Id", uuid)
                 .add("Address", address)
                 .add("Bathroom", bathroom)
                 .add("Bedroom", bedroom)

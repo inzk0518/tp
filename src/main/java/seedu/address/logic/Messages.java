@@ -16,7 +16,7 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "A person index provided is invalid";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
+    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%d persons listed! (showing %d–%d)";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX = "A property index provided is invalid";
@@ -40,18 +40,21 @@ public class Messages {
     public static String format(Person person) {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
+                .append("; Id: ")
+                .append(person.getUuid())
                 .append("; Phone: ")
                 .append(person.getPhone())
                 .append("; Email: ")
                 .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
-                .append("; Tags: ");
+                .append("; Tags: [");
         person.getTags().forEach(builder::append);
-        builder.append("; Buying Property Ids: ");
+        builder.append("]; Buying Property Ids: [");
         person.getBuyingPropertyIds().forEach(builder::append);
-        builder.append("; Selling Property Ids: ");
+        builder.append("]; Selling Property Ids: [");
         person.getSellingPropertyIds().forEach(builder::append);
+        builder.append("]");
         return builder.toString();
     }
 
@@ -61,28 +64,35 @@ public class Messages {
     public static String format(Property property) {
         final StringBuilder builder = new StringBuilder();
         builder.append(property.getPropertyAddress())
-                .append("; ID: ")
-                .append(property.getId())
-                .append("; Type: ")
-                .append(property.getType())
-                .append("; Price: ")
-                .append(property.getPrice())
-                .append("; Status: ")
-                .append(property.getStatus())
-                .append("; Bedrooms: ")
-                .append(property.getBedroom())
+                .append("; Id: ")
+                .append(property.getUuid())
                 .append("; Bathrooms: ")
                 .append(property.getBathroom())
+                .append("; Bedroom: ")
+                .append(property.getBedroom())
                 .append("; Floor Area: ")
-                .append(property.getFloorArea())
-                .append("; Owner: ")
-                .append(property.getOwner());
+                .append(property.getFloorArea());
 
         if (property.getListing() != null) {
             builder.append("; Listing: ")
                     .append(property.getListing());
         }
 
+        builder.append("; Postal: ")
+                .append(property.getPostal())
+                .append("; Price: ")
+                .append(property.getPrice())
+                .append("; Status: ")
+                .append(property.getStatus())
+                .append("; Type: ")
+                .append(property.getType())
+                .append("; Owner: ")
+                .append(property.getOwner());
+        builder.append("; Buying Person Ids: [");
+        property.getBuyingPersonIds().forEach(builder::append);
+        builder.append("]; Selling Person Ids: [");
+        property.getSellingPersonIds().forEach(builder::append);
+        builder.append("]");
         return builder.toString();
     }
 }

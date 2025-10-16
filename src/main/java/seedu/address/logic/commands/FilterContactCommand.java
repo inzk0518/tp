@@ -1,11 +1,14 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
+
+import java.util.List;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.person.Person;
 
 /**
  * Filters and lists all persons in the address book that match the given {@link FilterContactPredicate}.
@@ -27,8 +30,10 @@ public class FilterContactCommand extends Command {
             + "[min/MIN_BUDGET] "
             + "[max/MAX_BUDGET] "
             + "[notes/NOTES_KEYWORDS] "
-            + "[s/STATUS_KEYWORDS]\n"
-            + "Example: " + COMMAND_WORD + " n/Alice e/alice@example.com";
+            + "[s/STATUS_KEYWORDS] "
+            + "[limit/LIMIT] "
+            + "[offset/OFFSET]\n"
+            + "Example: " + COMMAND_WORD + " n/Alice e/alice@example.com limit/10 offset/20";
 
     private final FilterContactPredicate predicate;
 
@@ -52,9 +57,28 @@ public class FilterContactCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        // filter all matches normally
+        List<Person> allMatches = model.getFilteredPersonList().stream()
+                .filter(predicate)
+                .toList();
+        // Set offset and limit
+        int total = allMatches.size();
+        int offset = predicate.getOffset().orElse(0);
+        int limit = predicate.getLimit().orElse(total);
+        int start = Math.min(offset, total);
+        int endExclusive = Math.min(offset + limit, total);
+
+        // Update filtered list to display only this page
+        List<Person> page = allMatches.subList(start, endExclusive);
+        model.updateFilteredPersonList(page::contains);
+
+        // Build output message (e.g., “12 properties matched (showing 6–10)”)
+        int from = total == 0 ? 0 : start + 1;
+        int to = total == 0 ? 0 : endExclusive;
+        String msg = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, Math.min(limit, total - offset),
+                                                                    from, to);
+
+        return new CommandResult(msg);
     }
 
     /**
