@@ -44,9 +44,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
     @FXML
-    private Label buyingIds;
-    @FXML
-    private Label sellingIds;
+    private Label linkedIds;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -63,7 +61,10 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        buyingIds.setText("Buying Ids: " + Uuid.getGuiSetDisplayAsString(person.getBuyingPropertyIds()));
-        sellingIds.setText("Selling Ids: " + Uuid.getGuiSetDisplayAsString(person.getSellingPropertyIds()));
+
+        String formattedLinkedIds = String.format("Buying Ids: %s • Selling Ids: %s",
+                Uuid.getGuiSetDisplayAsString(person.getBuyingPropertyIds()),
+                Uuid.getGuiSetDisplayAsString(person.getSellingPropertyIds()));
+        linkedIds.setText(formattedLinkedIds);
     }
 }

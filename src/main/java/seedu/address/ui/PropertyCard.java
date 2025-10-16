@@ -31,9 +31,7 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private Label owner;
     @FXML
-    private Label buyingIds;
-    @FXML
-    private Label sellingIds;
+    private Label linkedIds;
 
     /**
      * Creates a {@code PropertyCard} with the given {@code Property} and index to display.
@@ -61,7 +59,9 @@ public class PropertyCard extends UiPart<Region> {
 
         owner.setText("Owner: " + property.getOwner().value);
 
-        buyingIds.setText("Buyer Ids: " + Uuid.getGuiSetDisplayAsString(property.getBuyingPersonIds()));
-        sellingIds.setText("Seller Ids: " + Uuid.getGuiSetDisplayAsString(property.getSellingPersonIds()));
+        String formattedLinkedIds = String.format("Buyer Ids: %s • Seller Ids: %s",
+                Uuid.getGuiSetDisplayAsString(property.getBuyingPersonIds()),
+                Uuid.getGuiSetDisplayAsString(property.getSellingPersonIds()));
+        linkedIds.setText(formattedLinkedIds);
     }
 }
