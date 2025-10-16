@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.DeletePropertyCommand;
+import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Property;
 
@@ -78,5 +79,10 @@ class PropertyBookParserTest {
         assertThrows(ParseException.class,
                 AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING, () ->
                         parser.parseCommand(CONFLICTING_ADD_PROPERTY_COMMAND));
+    }
+
+    @Test
+    public void parseCommand_filterProperty() throws Exception {
+        assertTrue(parser.parseCommand("filterproperty type/hdb") instanceof FilterPropertyCommand);
     }
 }
