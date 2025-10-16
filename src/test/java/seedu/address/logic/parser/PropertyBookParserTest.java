@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.DeletePropertyCommand;
-import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.FilterPropertyCommand;
+import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
