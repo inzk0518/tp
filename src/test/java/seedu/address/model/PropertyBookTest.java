@@ -3,10 +3,11 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA_VARIANT;
-import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
+import static seedu.address.testutil.TypicalProperties.getTypicalPropertyBook;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.exceptions.DuplicatePropertyException;
+import seedu.address.model.uuid.Uuid;
 
 public class PropertyBookTest {
 
@@ -36,9 +38,7 @@ public class PropertyBookTest {
 
     @Test
     public void resetData_withValidReadOnlyPropertyBook_replacesData() {
-        PropertyBook newData = new PropertyBook();
-        newData.addProperty(PROPERTY_ALPHA);
-        newData.addProperty(PROPERTY_BETA);
+        PropertyBook newData = getTypicalPropertyBook();
         propertyBook.resetData(newData);
         assertEquals(newData, propertyBook);
     }
@@ -97,6 +97,16 @@ public class PropertyBookTest {
         @Override
         public ObservableList<Property> getPropertyList() {
             return properties;
+        }
+
+        @Override
+        public Uuid generateNextUuid() {
+            return new Uuid(1, PROPERTY);
+        }
+
+        @Override
+        public int getNextUuid() {
+            return 1;
         }
     }
 }

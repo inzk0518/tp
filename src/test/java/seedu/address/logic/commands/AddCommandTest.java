@@ -24,6 +24,7 @@ import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.PersonBuilderUtil;
 
 public class AddCommandTest {
@@ -210,7 +211,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public Property getPropertyById(String id) {
+        public Property getPropertyById(Uuid id) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -249,11 +250,6 @@ public class AddCommandTest {
         public void addPerson(Person person) {
             requireNonNull(person);
             personsAdded.add(person);
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
         }
     }
 

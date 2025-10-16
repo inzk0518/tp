@@ -9,6 +9,7 @@ import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Represents a Person in the address book.
@@ -29,8 +30,8 @@ public class Person {
     private final BudgetMax budgetMax;
     private final Notes notes;
     private final PersonStatus status;
-    private final Set<String> buyingPropertyIds = new HashSet<>();
-    private final Set<String> sellingPropertyIds = new HashSet<>();
+    private final Set<Uuid> buyingPropertyIds = new HashSet<>();
+    private final Set<Uuid> sellingPropertyIds = new HashSet<>();
 
     /**
      * At least name and phone must not be null.
@@ -38,7 +39,7 @@ public class Person {
     public Person(Uuid uuid, Name name, Phone phone, Email email,
                   PersonAddress address, Set<Tag> tags, BudgetMin budgetMin,
                   BudgetMax budgetMax, Notes notes, PersonStatus status,
-                  Set<String> buyingPropertyIds, Set<String> sellingPropertyIds) {
+                  Set<Uuid> buyingPropertyIds, Set<Uuid> sellingPropertyIds) {
         requireAllNonNull(name, phone);
         this.uuid = uuid;
         this.name = name;
@@ -60,7 +61,7 @@ public class Person {
     public Person(Name name, Phone phone, Email email,
                   PersonAddress address, Set<Tag> tags, BudgetMin budgetMin,
                   BudgetMax budgetMax, Notes notes, PersonStatus status,
-                  Set<String> buyingPropertyIds, Set<String> sellingPropertyIds) {
+                  Set<Uuid> buyingPropertyIds, Set<Uuid> sellingPropertyIds) {
         requireAllNonNull(name, phone);
         this.uuid = null;
         this.name = name;
@@ -78,6 +79,15 @@ public class Person {
 
     public Uuid getUuid() {
         return uuid;
+    }
+
+    /**
+     * Duplicates Person with the new Uuid.
+     * Used for updating Person when adding to addressbook.
+     */
+    public Person duplicateWithNewUuid(Uuid uuid) {
+        return new Person(uuid, name, phone, email, address, tags, budgetMin,
+                budgetMax, notes, status, buyingPropertyIds, sellingPropertyIds);
     }
 
     public BudgetMin getBudgetMin() {
@@ -124,7 +134,7 @@ public class Person {
      * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<String> getBuyingPropertyIds() {
+    public Set<Uuid> getBuyingPropertyIds() {
         return Collections.unmodifiableSet(buyingPropertyIds);
     }
 
@@ -132,8 +142,26 @@ public class Person {
      * Returns an immutable property index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<String> getSellingPropertyIds() {
+    public Set<Uuid> getSellingPropertyIds() {
         return Collections.unmodifiableSet(sellingPropertyIds);
+    }
+
+    /**
+     * Duplicates Person with the new BuyingPropertyIds.
+     * Used for updating Person when linking or unlinking.
+     */
+    public Person duplicateWithNewBuyingPropertyIds(Set<Uuid> buyingPropertyIds) {
+        return new Person(uuid, name, phone, email, address, tags, budgetMin,
+                budgetMax, notes, status, buyingPropertyIds, sellingPropertyIds);
+    }
+
+    /**
+     * Duplicates Person with the new SellingPropertyIds.
+     * Used for updating Person when linking or unlinking.
+     */
+    public Person duplicateWithNewSellingPropertyIds(Set<Uuid> sellingPropertyIds) {
+        return new Person(uuid, name, phone, email, address, tags, budgetMin,
+                budgetMax, notes, status, buyingPropertyIds, sellingPropertyIds);
     }
 
     /**

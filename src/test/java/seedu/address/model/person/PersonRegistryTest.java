@@ -32,22 +32,23 @@ public class PersonRegistryTest {
     @Test
     public void addPerson_newPerson_success() {
         personRegistry.addPerson(alice);
-        assertTrue(personRegistry.containsId(alice.getUuid().value));
-        assertEquals(alice, personRegistry.getPerson(alice.getUuid().value));
+        assertTrue(personRegistry.containsId(alice.getUuid().getValue()));
+        assertEquals(alice, personRegistry.getPerson(alice.getUuid().getValue()));
     }
 
     @Test
     public void addPerson_duplicateUuid_replacesOldPerson() {
         personRegistry.addPerson(alice);
-        Person newAlice = new PersonBuilderUtil().withUuid(alice.getUuid().value).withName("Alice New").build();
+        Person newAlice = new PersonBuilderUtil().withUuid(alice.getUuid().getValue())
+                .withName("Alice New").build();
         personRegistry.addPerson(newAlice);
-        assertEquals(newAlice, personRegistry.getPerson(alice.getUuid().value));
+        assertEquals(newAlice, personRegistry.getPerson(alice.getUuid().getValue()));
     }
 
     @Test
     public void getPerson_existingId_returnsPerson() {
         personRegistry.addPerson(bob);
-        assertEquals(bob, personRegistry.getPerson(bob.getUuid().value));
+        assertEquals(bob, personRegistry.getPerson(bob.getUuid().getValue()));
     }
 
     @Test
@@ -58,7 +59,7 @@ public class PersonRegistryTest {
     @Test
     public void containsId_existingId_returnsTrue() {
         personRegistry.addPerson(alice);
-        assertTrue(personRegistry.containsId(alice.getUuid().value));
+        assertTrue(personRegistry.containsId(alice.getUuid().getValue()));
     }
 
     @Test
@@ -69,8 +70,8 @@ public class PersonRegistryTest {
     @Test
     public void removePerson_existingId_removesPerson() {
         personRegistry.addPerson(alice);
-        personRegistry.removePerson(alice.getUuid().value);
-        assertFalse(personRegistry.containsId(alice.getUuid().value));
+        personRegistry.removePerson(alice.getUuid().getValue());
+        assertFalse(personRegistry.containsId(alice.getUuid().getValue()));
     }
 
     @Test

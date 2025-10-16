@@ -27,6 +27,7 @@ import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -85,8 +86,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
         PersonStatus status = ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
-        Set<String> emptyBuyingPropertyIds = new HashSet<>();
-        Set<String> emptySellingPropertyIds = new HashSet<>();
+        Set<Uuid> emptyBuyingPropertyIds = new HashSet<>();
+        Set<Uuid> emptySellingPropertyIds = new HashSet<>();
 
         // Validate budget range
         if (Long.parseLong(budgetMax.toString()) < Long.parseLong(budgetMin.toString())) {

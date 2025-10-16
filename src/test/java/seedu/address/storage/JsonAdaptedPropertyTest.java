@@ -21,12 +21,13 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
+import seedu.address.model.uuid.Uuid;
 
 class JsonAdaptedPropertyTest {
 
     private static final Property VALID_PROPERTY = PROPERTY_ALPHA;
 
-    private static final String VALID_ID = VALID_PROPERTY.getId();
+    private static final Integer VALID_ID = VALID_PROPERTY.getUuid().getValue();
     private static final String VALID_ADDRESS = VALID_PROPERTY.getPropertyAddress().value;
     private static final String VALID_BATHROOM = VALID_PROPERTY.getBathroom().value;
     private static final String VALID_BEDROOM = VALID_PROPERTY.getBedroom().value;
@@ -37,17 +38,15 @@ class JsonAdaptedPropertyTest {
     private static final String VALID_STATUS = VALID_PROPERTY.getStatus().value;
     private static final String VALID_TYPE = VALID_PROPERTY.getType().value;
     private static final String VALID_OWNER = VALID_PROPERTY.getOwner().value;
-    private static final List<String> VALID_BUYING_PERSON_IDS =
+    private static final List<Integer> VALID_BUYING_PERSON_IDS =
             VALID_PROPERTY.getBuyingPersonIds()
                           .stream()
-                          .map(id -> id.value)
-                          .map(i -> i.toString())
+                          .map(Uuid::getValue)
                           .toList();
-    private static final List<String> VALID_SELLING_PERSON_IDS =
+    private static final List<Integer> VALID_SELLING_PERSON_IDS =
             VALID_PROPERTY.getSellingPersonIds()
                           .stream()
-                          .map(id -> id.value)
-                          .map(i -> i.toString())
+                          .map(Uuid::getValue)
                           .toList();
 
     private static final String INVALID_ADDRESS = "Main Street"; // Missing digit

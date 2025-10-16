@@ -78,9 +78,9 @@ public class CommandTestUtil {
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
         LINK_DESC_AMY_BUYER_PROPERTY_ALPHA = new LinkDescriptorBuilder().withPersonIds(Set.of(AMY.getUuid()))
-                .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getId())).build();
+                .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
         LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withPersonIds(Set.of(BOB.getUuid()))
-                .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getId())).build();
+                .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
     }
 
     /**

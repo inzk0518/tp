@@ -9,6 +9,7 @@ import java.util.Set;
 
 import seedu.address.logic.commands.MarkSoldCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new {@code MarkSoldCommand}.
@@ -44,6 +45,8 @@ public class MarkSoldCommandParser implements Parser<MarkSoldCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkSoldCommand.MESSAGE_USAGE));
         }
 
-        return new MarkSoldCommand(ids);
+        Set<Uuid> uuids = Set.copyOf((ParserUtil.parsePropertyIds(ids)));
+
+        return new MarkSoldCommand(uuids);
     }
 }
