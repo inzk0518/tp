@@ -18,12 +18,15 @@ import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 
+import java.util.HashSet;
+
 /**
  * Unit tests for {@link PropertyMatchesFilterPredicate}.
  */
 public class PropertyMatchesFilterPredicateTest {
 
     private Property condoProperty = new Property(
+            "Random id",
             new PropertyAddress("123 Orchard Road"),
             new Bathroom("2"),
             new Bedroom("3"),
@@ -33,9 +36,12 @@ public class PropertyMatchesFilterPredicateTest {
             new Price("800000"),
             new Status("listed"),
             new Type("condo"),
-            new Owner("JohnTan")
+            new Owner("JohnTan"),
+            new HashSet<>(),
+            new HashSet<>()
     );
     private Property hdbProperty = new Property(
+            "randomId",
             new PropertyAddress("456 Bukit Timah"),
             new Bathroom("1"),
             new Bedroom("2"),
@@ -45,7 +51,9 @@ public class PropertyMatchesFilterPredicateTest {
             new Price("400000"),
             new Status("sold"),
             new Type("hdb"),
-            new Owner("MaryLim")
+            new Owner("MaryLim"),
+            new HashSet<>(),
+            new HashSet<>()
     );
 
     @Test

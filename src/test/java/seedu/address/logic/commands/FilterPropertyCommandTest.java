@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.*;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.HashSet;
 import java.util.List;
 
 import javafx.css.CssParser;
@@ -56,6 +57,7 @@ public class FilterPropertyCommandTest {
     private Property createProperty(String address, String type, int bedroom,
                                     int bathroom, String price, String status, String ownerName) {
         return new Property(
+                "random id",
                 new PropertyAddress(address),
                 new Bathroom(String.valueOf(bathroom)),
                 new Bedroom(String.valueOf(bedroom)),
@@ -65,7 +67,9 @@ public class FilterPropertyCommandTest {
                 new Price(price),
                 new Status(status),
                 new Type(type),
-                new Owner(ownerName)
+                new Owner(ownerName),
+                new HashSet<>(),
+                new HashSet<>()
         );
     }
 
