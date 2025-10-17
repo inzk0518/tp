@@ -85,11 +85,6 @@ public class UniquePropertyList implements Iterable<Property> {
         }
     }
 
-    public void setProperties(UniquePropertyList replacement) {
-        requireNonNull(replacement);
-        internalList.setAll(replacement.internalList);
-    }
-
     /**
      * Replaces the contents of this list with {@code properties}.
      * {@code properties} must not contain duplicate properties.

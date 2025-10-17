@@ -77,6 +77,12 @@ class PropertyTest {
     }
 
     @Test
+    void equals_differentType_returnsFalse() {
+        Property property = PROPERTY_ALPHA;
+        assertFalse(property.equals("not a property"));
+    }
+
+    @Test
     void hashCode_sameValues_match() {
         Property property = PROPERTY_ALPHA;
         Property copy = PROPERTY_ALPHA;
