@@ -157,6 +157,31 @@ public class FilterContactPredicateTest {
     }
 
     @Test
+    public void test_statusActiveDoesNotMatchInactive() {
+        FilterContactPredicate predicate = new FilterContactPredicate(
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(),
+                Optional.of(Collections.singletonList("active")),
+                Optional.empty(), Optional.empty()
+        );
+
+        // Person with status "Active" should match
+        assertTrue(predicate.test(new PersonBuilderUtil().withStatus("Active").build()));
+
+        // Person with status "inactive" should NOT match
+        assertFalse(predicate.test(new PersonBuilderUtil().withStatus("inactive").build()));
+
+        // Person with status "active" should match (case-insensitive)
+        assertTrue(predicate.test(new PersonBuilderUtil().withStatus("active").build()));
+
+        // Person with status null or empty string (empty status) should NOT match
+        assertFalse(predicate.test(new PersonBuilderUtil().withStatus("").build()));
+    }
+
+
+
+    @Test
     public void test_noMatches_returnsFalse() {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.of(Collections.singletonList("Carol")),

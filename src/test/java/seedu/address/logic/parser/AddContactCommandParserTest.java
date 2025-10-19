@@ -26,6 +26,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_TENANT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -211,5 +212,46 @@ public class AddContactCommandParserTest {
                 + " max/1000"; // max < min
         System.out.println(input);
         assertParseFailure(parser, input, "Budget max cannot be less than budget min.");
+    }
+
+    @Test
+    public void parse_valuesContainingPrefixLikeStrings_failure() {
+        String prefixLikeValue = "abc/like";
+
+        // Name containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB.replace(VALID_NAME_BOB, prefixLikeValue) + PHONE_DESC_BOB,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+
+        // Phone containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB.replace(VALID_PHONE_BOB, prefixLikeValue),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+
+        // Email containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB.replace(VALID_EMAIL_BOB, prefixLikeValue),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+
+        // Address containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB.replace(VALID_ADDRESS_BOB, prefixLikeValue),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+
+        // Tag containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + " t/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_notesContainingPrefixLikeStrings_success() throws Exception {
+        // Notes can contain slashes, no exception expected
+        String notesWithPrefixLike = "some/note/with/slashes";
+        Person expectedPerson = new PersonBuilderUtil(BOB).withNotes("some/note/with/slashes").build();
+
+        assertParseSuccess(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " " + PREFIX_NOTES + notesWithPrefixLike,
+                new AddContactCommand(expectedPerson));
     }
 }

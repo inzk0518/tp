@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
@@ -35,7 +36,6 @@ import seedu.address.model.uuid.Uuid;
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_PROPERTY_ADDRESS = "Main Street";
@@ -474,5 +474,13 @@ public class ParserUtilTest {
         String withWhitespace = WHITESPACE + VALID_OWNER + WHITESPACE;
         Owner expectedOwner = new Owner(VALID_OWNER);
         assertEquals(expectedOwner, ParserUtil.parseOwner(withWhitespace));
+    }
+    @Test
+    public void looksLikePrefix_variedInputs() {
+        assertTrue(ParserUtil.looksLikePrefix("x/abc"));
+        assertTrue(ParserUtil.looksLikePrefix("/"));
+        assertFalse(ParserUtil.looksLikePrefix("abc"));
+        assertFalse(ParserUtil.looksLikePrefix(""));
+        assertFalse(ParserUtil.looksLikePrefix("   "));
     }
 }
