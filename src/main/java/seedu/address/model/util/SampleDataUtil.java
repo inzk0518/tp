@@ -21,7 +21,7 @@ import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
 import seedu.address.model.property.Property;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Tag;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.model.uuid.Uuid.StoredItem;
 

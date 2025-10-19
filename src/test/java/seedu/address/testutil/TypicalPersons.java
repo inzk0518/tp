@@ -8,8 +8,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_TENANT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class TypicalPersons {
             .withBudgetMax("1000")
             .withNotes("No notes")
             .withStatus("Active")
-            .withTags("friends")
+            .withTags("buyer")
             .build();
 
     public static final Person BENSON = new PersonBuilderUtil().withName("Benson Meier")
@@ -44,7 +44,7 @@ public class TypicalPersons {
             .withBudgetMax("2000")
             .withNotes("Owes money")
             .withStatus("Active")
-            .withTags("owesMoney", "friends")
+            .withTags("buyer", "seller")
             .build();
 
     public static final Person CARL = new PersonBuilderUtil().withName("Carl Kurz")
@@ -67,7 +67,7 @@ public class TypicalPersons {
             .withBudgetMax("3000")
             .withNotes("Friend from work")
             .withStatus("Active")
-            .withTags("friends")
+            .withTags("tenant")
             .build();
 
     public static final Person ELLE = new PersonBuilderUtil().withName("Elle Meyer")
@@ -136,7 +136,7 @@ public class TypicalPersons {
             .withBudgetMax("1000")
             .withNotes("Friend from school")
             .withStatus("Active")
-            .withTags(VALID_TAG_FRIEND)
+            .withTags(VALID_TAG_BUYER)
             .build();
 
     public static final Person BOB = new PersonBuilderUtil().withName(VALID_NAME_BOB)
@@ -148,10 +148,8 @@ public class TypicalPersons {
             .withBudgetMax("2000")
             .withNotes("Brother")
             .withStatus("Inactive")
-            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+            .withTags(VALID_TAG_BUYER, VALID_TAG_TENANT)
             .build();
-
-    public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
     private TypicalPersons() {} // prevents instantiation
 

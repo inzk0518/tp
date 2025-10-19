@@ -29,7 +29,7 @@ import seedu.address.model.property.Price;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Tag;
 import seedu.address.model.uuid.Uuid;
 
 public class ParserUtilTest {
@@ -53,8 +53,8 @@ public class ParserUtilTest {
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
-    private static final String VALID_TAG_1 = "friend";
-    private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_TAG_1 = "buyer";
+    private static final String VALID_TAG_2 = "seller";
     private static final String VALID_PROPERTY_ADDRESS = "123 Main St 5";
     private static final String VALID_POSTAL = "123456";
     private static final String VALID_PRICE = "500000";

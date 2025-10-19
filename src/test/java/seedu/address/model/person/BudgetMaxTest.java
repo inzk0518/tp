@@ -25,9 +25,9 @@ public class BudgetMaxTest {
     @Test
     public void isValidBudgetMax() {
         assertFalse(BudgetMax.isValidBudgetMax(null));
-        assertFalse(BudgetMax.isValidBudgetMax("-1"));
-        assertFalse(BudgetMax.isValidBudgetMax("abc"));
-        assertTrue(BudgetMax.isValidBudgetMax("0"));
+        assertFalse(BudgetMax.isValidBudgetMax("-1")); // negative budget
+        assertFalse(BudgetMax.isValidBudgetMax("abc")); // alphabet
+        assertTrue(BudgetMax.isValidBudgetMax("0")); // zero is valid
         assertTrue(BudgetMax.isValidBudgetMax("7890"));
     }
 

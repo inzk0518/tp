@@ -1,4 +1,4 @@
-package seedu.address.model.tag;
+package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS = "Tags can only be: buyer, seller, tenant, landlord";
-    public static final String VALIDATION_REGEX = "(?i)^(buyer|seller|tenant|landlord)$\n";
+    public static final String VALIDATION_REGEX = "^(?i)(buyer|seller|tenant|landlord)$";
 
     public final String tagName;
 

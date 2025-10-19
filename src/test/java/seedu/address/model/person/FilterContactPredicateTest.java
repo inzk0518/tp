@@ -110,12 +110,12 @@ public class FilterContactPredicateTest {
     public void test_tagMatches_returnsTrue() {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.of(Collections.singletonList("friend")),
+                Optional.empty(), Optional.of(Collections.singletonList("buyer")),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new PersonBuilderUtil().withTags("friend", "colleague").build()));
+        assertTrue(predicate.test(new PersonBuilderUtil().withTags("buyer").build()));
     }
 
     @Test
