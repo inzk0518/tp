@@ -42,8 +42,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.uuid.Uuid;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 public class EditContactCommandParserTest {
@@ -148,27 +148,32 @@ public class EditContactCommandParserTest {
         // name
         String userInput = uuid + NAME_DESC_AMY;
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
+        assertParseSuccess(parser, userInput,
+                new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // phone
         userInput = uuid + PHONE_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
+        assertParseSuccess(parser, userInput,
+                new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // email
         userInput = uuid + EMAIL_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
+        assertParseSuccess(parser, userInput,
+                new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // address
         userInput = uuid + ADDRESS_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
+        assertParseSuccess(parser, userInput,
+                new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // tags
         userInput = uuid + TAG_DESC_FRIEND;
         descriptor = new EditPersonDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
+        assertParseSuccess(parser, userInput,
+                new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
     }
 
     @Test

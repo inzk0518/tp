@@ -20,8 +20,8 @@ import java.util.Set;
 import seedu.address.logic.commands.EditContactCommand;
 import seedu.address.logic.commands.EditContactCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.uuid.Uuid;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new EditContactCommand object
