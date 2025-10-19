@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,34 +18,30 @@ public class MarkUnsoldCommandParser implements Parser<MarkUnsoldCommand> {
 
     @Override
     public MarkUnsoldCommand parse(String args) throws ParseException {
-        String[] tokens = args.trim().split("\\s+");
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ID);
+        List<String> idList = argMultimap.getAllValues(PREFIX_PROPERTY_ID);
 
-        if (tokens.length == 0 || !tokens[0].startsWith("p/")) {
+        if (idList.isEmpty() || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkUnsoldCommand.MESSAGE_USAGE));
         }
 
-        List<String> ids = new ArrayList<>();
-        for (String token : tokens) {
-            if (token.startsWith("p/")) {
-                String id = token.substring(2).trim();
-                if (!id.isEmpty()) {
-                    ids.add(id);
-                }
+        // Check for empty UUID value e.g. command: unsold p/
+        for (String id : idList) {
+            if (id.trim().isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                                                        MarkUnsoldCommand.MESSAGE_USAGE));
             }
         }
 
+        // Check for duplicates explicitly and throw custom error on the first found
         Set<String> seen = new HashSet<>();
-        for (String id : ids) {
+        for (String id : idList) {
             if (!seen.add(id)) {
                 throw new ParseException("Duplicate property ID detected: " + id);
             }
         }
 
-        if (ids.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkUnsoldCommand.MESSAGE_USAGE));
-        }
-
-        Set<Uuid> uuids = Set.copyOf(ParserUtil.parsePropertyIds(ids));
+        Set<Uuid> uuids = Set.copyOf((ParserUtil.parsePropertyIds(idList)));
 
         return new MarkUnsoldCommand(uuids);
     }

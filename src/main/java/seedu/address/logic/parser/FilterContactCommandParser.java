@@ -66,8 +66,8 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
         }
 
         // Check inside all values for invalid prefixes
-        // Example invalid command: filtercontact n/brian abc/
-        // the argMultimap will have key = "n/" and value = "brian abc/"
+        // Example invalid command: filtercontact n/bob abc/
+        // the argMultimap will have key = "n/" and value = "bob abc/"
         for (Prefix prefix : argMultimap.getAllPrefixes()) {
             // Skip checking for notes prefix, since '/' is valid in notes
             if (prefix.equals(PREFIX_NOTES)) {
