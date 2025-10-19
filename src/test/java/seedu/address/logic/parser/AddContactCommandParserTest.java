@@ -235,7 +235,8 @@ public class AddContactCommandParserTest {
 
         // Address containing prefix-like value
         assertParseFailure(parser,
-                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB.replace(VALID_ADDRESS_BOB, prefixLikeValue),
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                        + ADDRESS_DESC_BOB.replace(VALID_ADDRESS_BOB, prefixLikeValue),
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
 
         // Tag containing prefix-like value
