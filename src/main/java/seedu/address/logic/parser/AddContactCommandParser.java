@@ -14,7 +14,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.BudgetMax;
 import seedu.address.model.person.BudgetMin;
@@ -29,17 +29,17 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
 
 /**
- * Parses input arguments and creates a new AddCommand object
+ * Parses input arguments and creates a new AddContactCommand object
  */
-public class AddCommandParser implements Parser<AddCommand> {
+public class AddContactCommandParser implements Parser<AddContactCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the AddContactCommand
+     * and returns an AddContactCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     @Override
-    public AddCommand parse(String args) throws ParseException {
+    public AddContactCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
                                                                   PREFIX_EMAIL, PREFIX_ADDRESS,
                                                                   PREFIX_TAG, PREFIX_BUDGET_MIN,
@@ -48,7 +48,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (!argMultimap.arePrefixesPresent(PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
         }
 
         // Check for any unrecognised prefixes inside values
@@ -60,7 +60,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             for (String value : argMultimap.getAllValues(prefix)) {
                 if (looksLikePrefix(value)) {
                     throw new ParseException(String.format(
-                            MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+                            MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
                 }
             }
         }
@@ -87,12 +87,12 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException("Budget max cannot be less than budget min.");
         }
 
-        // Correct UUID will be made in AddCommand
+        // Correct UUID will be made in AddContactCommand
         Person person = new Person(name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 
-        return new AddCommand(person);
+        return new AddContactCommand(person);
     }
 
     /**
