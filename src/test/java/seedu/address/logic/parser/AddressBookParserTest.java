@@ -24,7 +24,7 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.FilterContactPredicate;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilderUtil;
 import seedu.address.testutil.PersonUtil;
@@ -50,7 +50,7 @@ public class AddressBookParserTest {
     public void parseCommand_delete() throws Exception {
         DeleteContactCommand command = (DeleteContactCommand) parser.parseCommand(
                 DeleteContactCommand.COMMAND_WORD + " c/1");
-        assertEquals(new DeleteContactCommand(new Uuid(1)), command);
+        assertEquals(new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.PERSON)), command);
     }
 
     @Test
@@ -59,7 +59,9 @@ public class AddressBookParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         Uuid targetUuid = person.getUuid();
         String commandString = EditContactCommand.COMMAND_WORD + " "
-                + targetUuid.toString() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor);
+                + targetUuid.toString().replace(" (PERSON)", "") + " "
+                + PersonUtil.getEditPersonDescriptorDetails(descriptor);
+        System.out.println(commandString);
         EditContactCommand command = (EditContactCommand) parser.parseCommand(commandString);
 
         assertEquals(new EditContactCommand(targetUuid, descriptor), command);
@@ -80,7 +82,8 @@ public class AddressBookParserTest {
         FilterContactPredicate expectedPredicate = new FilterContactPredicate(
                 Optional.of(keywords), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.empty(), Optional.empty());
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty());
 
         assertEquals(new FilterContactCommand(expectedPredicate), command);
     }

@@ -26,8 +26,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new AddContactCommand object
@@ -41,20 +41,29 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
      */
     @Override
     public AddContactCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                                                                  PREFIX_NAME,
-                                                                  PREFIX_PHONE,
-                                                                  PREFIX_EMAIL,
-                                                                  PREFIX_ADDRESS,
-                                                                  PREFIX_TAG,
-                                                                  PREFIX_BUDGET_MIN,
-                                                                  PREFIX_BUDGET_MAX,
-                                                                  PREFIX_NOTES,
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
+                                                                  PREFIX_EMAIL, PREFIX_ADDRESS,
+                                                                  PREFIX_TAG, PREFIX_BUDGET_MIN,
+                                                                  PREFIX_BUDGET_MAX, PREFIX_NOTES,
                                                                   PREFIX_STATUS);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
+        if (!argMultimap.arePrefixesPresent(PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+        }
+
+        // Check for any unrecognised prefixes inside values
+        for (Prefix prefix : argMultimap.getAllPrefixes()) {
+            // Skip checking for notes prefix, since '/' is valid in notes
+            if (prefix.equals(PREFIX_NOTES)) {
+                continue;
+            }
+            for (String value : argMultimap.getAllValues(prefix)) {
+                if (looksLikePrefix(value)) {
+                    throw new ParseException(String.format(
+                            MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+                }
+            }
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
@@ -71,11 +80,16 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
         BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
         PersonStatus status = ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
-        Set<String> emptyBuyingPropertyIds = new HashSet<>();
-        Set<String> emptySellingPropertyIds = new HashSet<>();
+        Set<Uuid> emptyBuyingPropertyIds = new HashSet<>();
+        Set<Uuid> emptySellingPropertyIds = new HashSet<>();
 
-        // use 1 for UUID first, correct UUID will be made in AddContactCommand
-        Person person = new Person(new Uuid(1), name, phone, email, address, tagList,
+        // Validate budget range
+        if (Long.parseLong(budgetMax.toString()) < Long.parseLong(budgetMin.toString())) {
+            throw new ParseException("Budget max cannot be less than budget min.");
+        }
+
+        // Correct UUID will be made in AddContactCommand
+        Person person = new Person(name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 
@@ -83,11 +97,9 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
     }
 
     /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
+     * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
      */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    private boolean looksLikePrefix(String s) {
+        return s.trim().contains("/");
     }
-
 }

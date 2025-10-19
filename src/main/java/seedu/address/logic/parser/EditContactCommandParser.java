@@ -20,7 +20,7 @@ import java.util.Set;
 import seedu.address.logic.commands.EditContactCommand;
 import seedu.address.logic.commands.EditContactCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -56,7 +56,7 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
         Uuid targetUuid;
 
         try {
-            targetUuid = ParserUtil.parseUuid(preamble);
+            targetUuid = ParserUtil.parsePersonId(preamble);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     EditContactCommand.MESSAGE_USAGE), pe);

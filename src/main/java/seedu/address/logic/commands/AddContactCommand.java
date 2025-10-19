@@ -12,7 +12,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Adds a person to the address book.
@@ -25,8 +25,8 @@ public class AddContactCommand extends Command {
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -53,20 +53,16 @@ public class AddContactCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Generating of UUID for the person
+        // Updating UUID of person
         Uuid uuid = model.getAddressBook().generateNextUuid();
-        Person personWithUuid = new Person(uuid, toAdd.getName(), toAdd.getPhone(), toAdd.getEmail(),
-                toAdd.getAddress(), toAdd.getTags(),
-                toAdd.getBudgetMin(), toAdd.getBudgetMax(),
-                toAdd.getNotes(), toAdd.getStatus(),
-                toAdd.getBuyingPropertyIds(), toAdd.getSellingPropertyIds());
+        Person personWithUuid = toAdd.duplicateWithNewUuid(uuid);
 
         if (model.hasPerson(personWithUuid)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
         model.addPerson(personWithUuid);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(personWithUuid)));
     }
 
     @Override

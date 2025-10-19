@@ -1,5 +1,7 @@
 package seedu.address.testutil;
 
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,16 +14,16 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * A utility class to help with building Person objects.
  */
 public class PersonBuilderUtil {
 
-    public static final Integer DEFAULT_UUID = 1;
+    public static final Uuid DEFAULT_UUID = new Uuid(1, PERSON);
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
@@ -41,14 +43,14 @@ public class PersonBuilderUtil {
     private Notes notes;
     private PersonStatus status;
     private Uuid uuid;
-    private Set<String> buyingPropertyIds;
-    private Set<String> sellingPropertyIds;
+    private Set<Uuid> buyingPropertyIds;
+    private Set<Uuid> sellingPropertyIds;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilderUtil() {
-        uuid = new Uuid(DEFAULT_UUID);
+        uuid = DEFAULT_UUID;
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -66,7 +68,7 @@ public class PersonBuilderUtil {
      * Initializes the PersonBuilder with the data of {@code personToCopy}.
      */
     public PersonBuilderUtil(Person personToCopy) {
-        uuid = new Uuid(personToCopy.getUuid().value);
+        uuid = new Uuid(personToCopy.getUuid());
         name = new Name(personToCopy.getName().fullName);
         phone = new Phone(personToCopy.getPhone().value);
         email = new Email(personToCopy.getEmail().value);
@@ -84,7 +86,7 @@ public class PersonBuilderUtil {
      * Sets the {@code uuid} of the {@code Person} that we are building.
      */
     public PersonBuilderUtil withUuid(int uuid) {
-        this.uuid = new Uuid(uuid);
+        this.uuid = new Uuid(uuid, PERSON);
         return this;
     }
 
@@ -163,7 +165,7 @@ public class PersonBuilderUtil {
     /**
      * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilderUtil withBuyingPropertyIds(String ... ids) {
+    public PersonBuilderUtil withBuyingPropertyIds(Uuid ... ids) {
         this.buyingPropertyIds = Set.of(ids);
         return this;
     }
@@ -171,7 +173,7 @@ public class PersonBuilderUtil {
     /**
      * Parses the {@code ids} into a {@code Set<Index>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilderUtil withSellingPropertyIds(String ... ids) {
+    public PersonBuilderUtil withSellingPropertyIds(Uuid ... ids) {
         this.sellingPropertyIds = Set.of(ids);
         return this;
     }

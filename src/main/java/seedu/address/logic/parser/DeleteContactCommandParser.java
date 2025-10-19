@@ -4,7 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.logic.commands.DeleteContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new DeleteContactCommand object
@@ -39,6 +39,6 @@ public class DeleteContactCommandParser implements Parser<DeleteContactCommand> 
             throw new ParseException(Uuid.MESSAGE_CONSTRAINTS);
         }
 
-        return new DeleteContactCommand(new Uuid(id));
+        return new DeleteContactCommand(new Uuid(id, Uuid.StoredItem.PERSON));
     }
 }

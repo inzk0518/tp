@@ -7,6 +7,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.Set;
 
@@ -14,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.LinkCommand;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.LinkDescriptorBuilder;
 
 public class LinkCommandParserTest {
@@ -51,7 +53,7 @@ public class LinkCommandParserTest {
     }
 
     @Test
-    public void parse_unknwonRelationships_failure() {
+    public void parse_unknownRelationships_failure() {
         String userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_RELATIONSHIP + "owner "
                 + PREFIX_LINK_CLIENT_ID + "1";
         String expectedMessage = String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE);
@@ -65,9 +67,9 @@ public class LinkCommandParserTest {
                 + PREFIX_LINK_CLIENT_ID + "5";
         assertParseSuccess(parser, userInput, new LinkCommand(
                 new LinkDescriptorBuilder()
-                        .withPropertyIds(Set.of("1"))
+                        .withPropertyIds(Set.of(new Uuid(1, PROPERTY)))
                         .withRelationship("buyer")
-                        .withPersonIds(Set.of(new Uuid(5)))
+                        .withPersonIds(Set.of(new Uuid(5, PERSON)))
                         .build()));
 
         // valid input with extra spaces
@@ -75,9 +77,9 @@ public class LinkCommandParserTest {
                 + PREFIX_LINK_CLIENT_ID + "3  ";
         assertParseSuccess(parser, userInput, new LinkCommand(
                 new LinkDescriptorBuilder()
-                        .withPropertyIds(Set.of("2"))
+                        .withPropertyIds(Set.of(new Uuid(2, PROPERTY)))
                         .withRelationship("seller")
-                        .withPersonIds(Set.of(new Uuid(3)))
+                        .withPersonIds(Set.of(new Uuid(3, PERSON)))
                         .build()));
 
         // valid input with multiple property ids and client ids
@@ -86,9 +88,9 @@ public class LinkCommandParserTest {
                 + PREFIX_LINK_CLIENT_ID + "3 " + PREFIX_LINK_CLIENT_ID + "4";
         assertParseSuccess(parser, userInput, new LinkCommand(
                 new LinkDescriptorBuilder()
-                        .withPropertyIds(Set.of("2", "3"))
+                        .withPropertyIds(Set.of(new Uuid(2, PROPERTY), new Uuid(3, PROPERTY)))
                         .withRelationship("seller")
-                        .withPersonIds(Set.of(new Uuid(3), new Uuid(4)))
+                        .withPersonIds(Set.of(new Uuid(3, PERSON), new Uuid(4, PERSON)))
                         .build()));
     }
 

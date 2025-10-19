@@ -15,7 +15,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -43,11 +43,11 @@ public class DeleteContactCommandTest {
 
     @Test
     public void execute_invalidUuidUnfilteredList_throwsCommandException() {
-        Uuid invalidUuid = new Uuid(999999); // Non-existent UUID
+        Uuid invalidUuid = new Uuid(999999, Uuid.StoredItem.PERSON); // Non-existent UUID
         DeleteContactCommand deleteContactCommand = new DeleteContactCommand(invalidUuid);
 
         assertCommandFailure(deleteContactCommand, model,
-                String.format(MESSAGE_PERSON_NOT_FOUND, invalidUuid.value));
+                String.format(MESSAGE_PERSON_NOT_FOUND, invalidUuid.getValue()));
     }
 
     @Test

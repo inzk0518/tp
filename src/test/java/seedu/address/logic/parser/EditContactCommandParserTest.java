@@ -42,7 +42,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
@@ -63,7 +63,8 @@ public class EditContactCommandParserTest {
 
         // no field specified
         Person firstPerson = model.getFilteredPersonList().get(0);
-        assertParseFailure(parser, firstPerson.getUuid().toString(), EditContactCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, firstPerson.getUuid().toString().replace(" (PERSON)", ""),
+                           EditContactCommand.MESSAGE_NOT_EDITED);
 
         // no UUID and no fields
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
@@ -84,7 +85,7 @@ public class EditContactCommandParserTest {
     @Test
     public void parse_invalidValue_failure() {
         Person firstPerson = model.getFilteredPersonList().get(0);
-        String uuid = firstPerson.getUuid().toString();
+        String uuid = firstPerson.getUuid().toString().replace(" (PERSON)", "");
 
         assertParseFailure(parser, uuid + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, uuid + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS);
@@ -106,7 +107,7 @@ public class EditContactCommandParserTest {
     @Test
     public void parse_allFieldsSpecified_success() {
         Person targetPerson = model.getFilteredPersonList().get(0);
-        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString());
+        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString().replace(" (PERSON)", ""));
 
         String userInput = uuid + PHONE_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
@@ -119,14 +120,14 @@ public class EditContactCommandParserTest {
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
                 .build();
 
-        EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid), descriptor);
+        EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_someFieldsSpecified_success() {
         Person targetPerson = model.getFilteredPersonList().get(0);
-        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString());
+        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString().replace(" (PERSON)", ""));
 
         String userInput = uuid + PHONE_DESC_BOB + EMAIL_DESC_AMY;
 
@@ -135,39 +136,39 @@ public class EditContactCommandParserTest {
                 .withEmail(VALID_EMAIL_AMY)
                 .build();
 
-        EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid), descriptor);
+        EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_oneFieldSpecified_success() {
         Person targetPerson = model.getFilteredPersonList().get(0);
-        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString());
+        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString().replace(" (PERSON)", ""));
 
         // name
         String userInput = uuid + NAME_DESC_AMY;
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid), descriptor));
+        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // phone
         userInput = uuid + PHONE_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid), descriptor));
+        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // email
         userInput = uuid + EMAIL_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid), descriptor));
+        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // address
         userInput = uuid + ADDRESS_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid), descriptor));
+        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // tags
         userInput = uuid + TAG_DESC_FRIEND;
         descriptor = new EditPersonDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid), descriptor));
+        assertParseSuccess(parser, userInput, new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
     }
 
     @Test
@@ -175,7 +176,7 @@ public class EditContactCommandParserTest {
         // More extensive testing of duplicate parameter detections is done in
         // AddContactCommandParserTest#parse_repeatedNonTagValue_failure()
         Person targetPerson = model.getFilteredPersonList().get(0);
-        String uuid = targetPerson.getUuid().toString();
+        String uuid = targetPerson.getUuid().toString().replace(" (PERSON)", "");
 
         // valid followed by invalid
         String userInput = uuid + INVALID_PHONE_DESC + PHONE_DESC_BOB;
@@ -205,11 +206,11 @@ public class EditContactCommandParserTest {
     @Test
     public void parse_resetTags_success() {
         Person targetPerson = model.getFilteredPersonList().get(0);
-        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString());
+        Integer uuid = Integer.parseInt(targetPerson.getUuid().toString().replace(" (PERSON)", ""));
 
         String userInput = uuid + TAG_EMPTY;
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withTags().build();
-        EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid), descriptor);
+        EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.logic.commands.DeletePropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Parses input arguments and creates a new DeletePropertyCommand object
@@ -17,7 +18,7 @@ public class DeletePropertyCommandParser implements Parser<DeletePropertyCommand
      */
     public DeletePropertyCommand parse(String args) throws ParseException {
         try {
-            String id = ParserUtil.parsePropertyId(args);
+            Uuid id = ParserUtil.parsePropertyId(args);
             return new DeletePropertyCommand(id);
         } catch (ParseException pe) {
             throw new ParseException(

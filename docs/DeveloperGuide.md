@@ -2,31 +2,60 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-{:toc}
+# TheRealDeal v1.0 - Developer Guide
 
---------------------------------------------------------------------------------------------------------------------
+## Table of Contents
 
-## **Acknowledgements**
+1. [Setting up](#1-setting-up)
+2. [Design](#2-design)
+   1. [Architecture](#21-architecture)
+   2. [UI component](#22-ui-component)
+   3. [Logic component](#23-logic-component)
+   4. [Model component](#24-model-component)
+   5. [Storage component](#25-storage-component)
+   6. [Common classes](#26-common-classes)
+3. [Implementation](#3-implementation)
+   1. [Contact management](#31-contact-management)
+   2. [Property management](#32-property-management)
+   3. [Client–property linking](#33-clientproperty-linking)
+   4. [Contact filtering](#34-contact-filtering)
+   5. [Logging](#35-logging)
+   6. [Configuration](#36-configuration)
+   7. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
+   8. [Proposed data archiving](#38-proposed-data-archiving)
+4. [Documentation](#4-documentation)
+5. [Testing](#5-testing)
+6. [Dev Ops](#6-dev-ops)
+7. [Appendix A: Product Scope](#appendix-a-product-scope)
+8. [Appendix B: User Stories](#appendix-b-user-stories)
+9. [Appendix C: Use Cases](#appendix-c-use-cases)
+10. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
+11. [Appendix E: Glossary](#appendix-e-glossary)
+12. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
+13. [Appendix G: Efforts](#appendix-g-efforts)
+
+---------------------------------------------------------------------------------------------------------------------
+
+## Acknowledgements
 
 * {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
---------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
 
-## **Setting up, getting started**
+## 1. Setting up
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
---------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
 
-## **Design**
+## 2. Design
 
 <div markdown="span" class="alert alert-primary">
 
 :bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
 </div>
 
-### Architecture
+### 2.1. Architecture
 
 <img src="images/ArchitectureDiagram.png" width="280" />
 
@@ -42,12 +71,12 @@ Given below is a quick overview of main components and how they interact with ea
 
 The bulk of the app's work is done by the following four components:
 
-* [**`UI`**](#ui-component): The UI of the App.
-* [**`Logic`**](#logic-component): The command executor.
-* [**`Model`**](#model-component): Holds the data of the App in memory.
-* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+* [**`UI`**](#22-ui-component): The UI of the App.
+* [**`Logic`**](#23-logic-component): The command executor.
+* [**`Model`**](#24-model-component): Holds the data of the App in memory.
+* [**`Storage`**](#25-storage-component): Reads data from, and writes data to, the hard disk.
 
-[**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
+[**`Commons`**](#26-common-classes) represents a collection of classes used by multiple other components.
 
 **How the architecture components interact with each other**
 
@@ -66,7 +95,7 @@ For example, the `Logic` component defines its API in the `Logic.java` interface
 
 The sections below give more details of each component.
 
-### UI component
+### 2.2. UI component
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
@@ -83,7 +112,7 @@ The `UI` component,
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
-### Logic component
+### 2.3. Logic component
 
 **API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
@@ -114,7 +143,7 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
-### Model component
+### 2.4. Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" />
@@ -134,7 +163,7 @@ The `Model` component,
 </div>
 
 
-### Storage component
+### 2.5. Storage component
 
 **API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
@@ -145,120 +174,91 @@ The `Storage` component,
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
-### Common classes
+### 2.6. Common classes
 
 Classes used by multiple components are in the `seedu.address.commons` package.
+---------------------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------------------------------------------------
-
-## **Implementation**
+## 3. Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### 3.1. Contact management
 
-#### Proposed Implementation
+The following subsections enumerate the currently implemented commands for managing contacts and core application behaviour. Detailed write-ups will be added as each feature stabilises.
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+#### `AddCommand` (`addcontact`)
+Documentation pending.
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+#### `DeleteCommand` (`delete`)
+Documentation pending.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+#### `EditCommand` (`edit`)
+Documentation pending.
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+#### `ListCommand` (`list`)
+Documentation pending.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+#### `ClearCommand` (`clear`)
+Documentation pending.
 
-![UndoRedoState0](images/UndoRedoState0.png)
+#### `HelpCommand` (`help`)
+Documentation pending.
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+#### `ExitCommand` (`exit`)
+Documentation pending.
 
-![UndoRedoState1](images/UndoRedoState1.png)
+### 3.2. Property management
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+#### `AddPropertyCommand` (`addproperty`)
+`AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
 
-![UndoRedoState2](images/UndoRedoState2.png)
+#### `DeletePropertyCommand` (`deleteproperty`)
+`DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+#### `ShowPropertiesCommand` (`showproperties`)
+Documentation pending.
 
-</div>
+### 3.3. Client–property linking
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+#### `LinkCommand` (`link`)
+Documentation pending.
 
-![UndoRedoState3](images/UndoRedoState3.png)
+#### `UnlinkCommand` (`unlink`)
+Documentation pending.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+#### `ShowClientsCommand` (`showclients`)
+Currently returns a placeholder message while property–client association storage is being developed.
 
-</div>
+### 3.4. Contact filtering
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+#### `FilterContactCommand` (`filtercontact`)
+Documentation pending.
 
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
+### 3.5. Logging
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+Refer to the [Logging guide](Logging.md) for instrumentation and diagnostic practices, including logger configuration and log file expectations.
 
-</div>
+### 3.6. Configuration
 
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
-
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</div>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-![UndoRedoState4](images/UndoRedoState4.png)
-
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-![UndoRedoState5](images/UndoRedoState5.png)
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<img src="images/CommitActivityDiagram.png" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
+Refer to the [Configuration guide](Configuration.md) for configuration file structure, editing workflow, and supported keys.
 
 
---------------------------------------------------------------------------------------------------------------------
-
-## **Documentation, logging, testing, configuration, dev-ops**
+## 4. Documentation
 
 * [Documentation guide](Documentation.md)
+
+## 5. Testing
+
 * [Testing guide](Testing.md)
+
+## 6. Dev Ops
+
 * [Logging guide](Logging.md)
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
 
---------------------------------------------------------------------------------------------------------------------
-
-## **Appendix: Requirements**
-
-### Product scope
+## Appendix A: Product Scope
 
 **Target user profile**:
 
@@ -272,8 +272,7 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Value proposition**: manage clients faster than a typical mouse/GUI driven app
 
-
-### User stories
+## Appendix B: User Stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -305,7 +304,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
 | `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
 
-### Use cases
+## Appendix C: Use Cases
 
 (For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
 
@@ -605,8 +604,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 4a1. System displays "No properties found" message
 
       Use case ends
+---------------------------------------------------------------------------------------------------------------------
 
-### Non-Functional Requirements
+## Appendix D: Non-Functional Requirements
 
 #### Business Rules
 
@@ -656,6 +656,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
+---------------------------------------------------------------------------------------------------------------------
+
+## Appendix E: Glossary
 
 ### Glossary
 
@@ -671,10 +674,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Budget Range**: The minimum and maximum price range a buyer is willing to spend
 * **Type**: Category of property such as HDB, condo or landed
 * **Floor Area**: The size of a property measured in square feet
+---------------------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------------------------------------------------
-
-## **Appendix: Instructions for manual testing**
+## Appendix F: Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
 
@@ -724,3 +726,8 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+---------------------------------------------------------------------------------------------------------------------
+
+## Appendix G: Efforts
+
+To be updated.

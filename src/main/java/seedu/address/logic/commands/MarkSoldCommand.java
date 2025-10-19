@@ -2,12 +2,13 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
+import java.util.Set;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.Status;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * This command finds properties by their IDs and marks them as sold.
@@ -28,16 +29,16 @@ public class MarkSoldCommand extends Command {
             + "Example: " + COMMAND_WORD + " p/14 p/27";
 
     public static final String MESSAGE_MARK_SOLD_SUCCESS = "Marked %d property(ies) as sold.";
-    public static final String MESSAGE_PROPERTY_NOT_FOUND = "Property with ID %s not found.";
+    public static final String MESSAGE_PROPERTY_NOT_FOUND = "%s not found.";
 
-    private final List<String> propertyIds;
+    private final Set<Uuid> propertyIds;
 
     /**
      * Constructs a {@code MarkSoldCommand} with the specified list of property IDs.
      *
      * @param propertyIds The IDs of the properties to mark as sold. Must not be null.
      */
-    public MarkSoldCommand(List<String> propertyIds) {
+    public MarkSoldCommand(Set<Uuid> propertyIds) {
         requireNonNull(propertyIds);
         this.propertyIds = propertyIds;
     }
@@ -54,17 +55,17 @@ public class MarkSoldCommand extends Command {
         requireNonNull(model);
 
         // Validate all IDs first
-        for (String id : propertyIds) {
+        for (Uuid id : propertyIds) {
             if (model.getPropertyById(id) == null) {
                 throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
             }
         }
 
         int count = 0;
-        for (String id : propertyIds) {
+        for (Uuid id : propertyIds) {
             Property property = model.getPropertyById(id);
             Property updated = new Property(
-                    property.getId(),
+                    property.getUuid(),
                     property.getPropertyAddress(),
                     property.getBathroom(),
                     property.getBedroom(),

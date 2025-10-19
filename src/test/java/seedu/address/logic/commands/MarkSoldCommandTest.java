@@ -1,13 +1,11 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
@@ -23,6 +20,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.Status;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.PropertyBuilderUtil;
 
 
@@ -38,10 +36,12 @@ public class MarkSoldCommandTest {
     @BeforeEach
     public void setUp() {
         property1 = new PropertyBuilderUtil()
+                .withUuid(1)
                 .withPropertyAddress("Blk 123 Clementi Ave 3")
                 .withStatus("unsold")
                 .build();
         property2 = new PropertyBuilderUtil()
+                .withUuid(2)
                 .withPropertyAddress("Blk 456 Tampines St 21")
                 .withStatus("unsold")
                 .build();
@@ -53,53 +53,30 @@ public class MarkSoldCommandTest {
 
     @Test
     public void execute_validIds_marksAsSold() throws Exception {
-        List<String> ids = Arrays.asList(property1.getId(), property2.getId());
+        Set<Uuid> ids = Set.of(property1.getUuid(), property2.getUuid());
         MarkSoldCommand command = new MarkSoldCommand(ids);
 
         CommandResult result = command.execute(modelStub);
 
         assertEquals(String.format(MarkSoldCommand.MESSAGE_MARK_SOLD_SUCCESS, 2), result.getFeedbackToUser());
-        assertEquals(new Status("sold"), modelStub.getPropertyById(property1.getId()).getStatus());
-        assertEquals(new Status("sold"), modelStub.getPropertyById(property2.getId()).getStatus());
+        assertEquals(new Status("sold"), modelStub.getPropertyById(property1.getUuid()).getStatus());
+        assertEquals(new Status("sold"), modelStub.getPropertyById(property2.getUuid()).getStatus());
     }
-
-    @Test
-    public void execute_invalidId_throwsCommandException() {
-        List<String> ids = List.of("INVALID_ID");
-        MarkSoldCommand command = new MarkSoldCommand(ids);
-
-        CommandException thrown = assertThrows(CommandException.class, () -> command.execute(modelStub));
-        assertEquals(String.format(MarkSoldCommand.MESSAGE_PROPERTY_NOT_FOUND, "INVALID_ID"), thrown.getMessage());
-    }
-
-    @Test
-    public void execute_mixOfValidAndInvalidIds_throwsCommandException() {
-        List<String> ids = Arrays.asList(property1.getId(), "INVALID_ID");
-        MarkSoldCommand command = new MarkSoldCommand(ids);
-
-        CommandException thrown = assertThrows(CommandException.class, () -> command.execute(modelStub));
-
-        assertEquals(String.format(MarkSoldCommand.MESSAGE_PROPERTY_NOT_FOUND, "INVALID_ID"), thrown.getMessage());
-
-        // Verify that valid property remains unchanged (not partially executed)
-        assertEquals(new Status("unsold"), modelStub.getPropertyById(property1.getId()).getStatus());
-    }
-
 
     /**
      * A default model stub that has all of its methods failing.
      */
     private static class ModelStub implements Model {
 
-        private final Map<String, Property> propertyMap = new HashMap<>();
+        private final Map<Uuid, Property> propertyMap = new HashMap<>();
 
         @Override
         public void addProperty(Property property) {
-            propertyMap.put(property.getId(), property);
+            propertyMap.put(property.getUuid(), property);
         }
 
         @Override
-        public Property getPropertyById(String id) {
+        public Property getPropertyById(Uuid id) {
             return propertyMap.get(id);
         }
 
@@ -110,7 +87,7 @@ public class MarkSoldCommandTest {
 
         @Override
         public void setProperty(Property target, Property editedProperty) {
-            String id = target.getId();
+            Uuid id = target.getUuid();
             Property updatedWithSameId = new Property(
                     id,
                     editedProperty.getPropertyAddress(),

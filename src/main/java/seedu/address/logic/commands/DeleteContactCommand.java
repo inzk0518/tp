@@ -9,7 +9,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Deletes a person identified by their unique ID from the address book.
@@ -48,7 +48,7 @@ public class DeleteContactCommand extends Command {
                 .findFirst();
 
         if (personToDelete.isEmpty()) {
-            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetUuid.value));
+            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetUuid.getValue()));
         }
 
         model.deletePerson(personToDelete.get());

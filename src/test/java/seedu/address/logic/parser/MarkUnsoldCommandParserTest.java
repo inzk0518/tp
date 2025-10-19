@@ -5,14 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.MarkUnsoldCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Contains unit tests for {@code MarkUnsoldCommandParser}.
@@ -24,7 +25,7 @@ public class MarkUnsoldCommandParserTest {
     @Test
     public void parse_validSingleId_success() {
         String userInput = " p/1";
-        List<String> expectedIds = List.of("1");
+        Set<Uuid> expectedIds = Set.of(new Uuid(1, PROPERTY));
         MarkUnsoldCommand expectedCommand = new MarkUnsoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -32,7 +33,7 @@ public class MarkUnsoldCommandParserTest {
     @Test
     public void parse_validMultipleIds_success() {
         String userInput = " p/100 p/200";
-        List<String> expectedIds = Arrays.asList("100", "200");
+        Set<Uuid> expectedIds = Set.of(new Uuid(100, PROPERTY), new Uuid(200, PROPERTY));
         MarkUnsoldCommand expectedCommand = new MarkUnsoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -61,7 +62,7 @@ public class MarkUnsoldCommandParserTest {
     @Test
     public void parse_withExtraSpaces_success() {
         String userInput = "   p/55   p/77   ";
-        List<String> expectedIds = Arrays.asList("55", "77");
+        Set<Uuid> expectedIds = Set.of(new Uuid(55, PROPERTY), new Uuid(77, PROPERTY));
         MarkUnsoldCommand expectedCommand = new MarkUnsoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
     }

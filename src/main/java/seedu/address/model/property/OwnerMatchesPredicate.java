@@ -3,7 +3,7 @@ package seedu.address.model.property;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Test that a {@code Property}'s {@code Owner} matches the given client UUID.
@@ -19,7 +19,7 @@ public class OwnerMatchesPredicate implements Predicate<Property> {
     public boolean test(Property property) {
         // Compare the property's owner UUID string with the target client UUID
         // Owner.value is a String, Uuid is an int, so compare string representations
-        return property.getOwner().value.equals(String.valueOf(clientUuid.value));
+        return property.getOwner().value.equals(String.valueOf(clientUuid.getValue()));
     }
 
     @Override

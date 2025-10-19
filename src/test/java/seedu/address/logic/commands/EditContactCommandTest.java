@@ -21,7 +21,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilderUtil;
 
@@ -102,7 +102,7 @@ public class EditContactCommandTest {
 
     @Test
     public void execute_invalidUuid_failure() {
-        Uuid invalidUuid = new Uuid(999);
+        Uuid invalidUuid = new Uuid(999, Uuid.StoredItem.PERSON);
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditContactCommand command = new EditContactCommand(invalidUuid, descriptor);
 

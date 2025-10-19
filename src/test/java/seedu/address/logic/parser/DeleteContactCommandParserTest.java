@@ -7,7 +7,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.DeleteContactCommand;
-import seedu.address.model.person.Uuid;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * White-box tests for {@code DeleteContactCommandParser}.
@@ -18,8 +18,8 @@ public class DeleteContactCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteCommand() {
-        assertParseSuccess(parser, "c/1", new DeleteContactCommand(new Uuid(1)));
-        assertParseSuccess(parser, "c/42", new DeleteContactCommand(new Uuid(42)));
+        assertParseSuccess(parser, "c/1", new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.PERSON)));
+        assertParseSuccess(parser, "c/42", new DeleteContactCommand(new Uuid(42, Uuid.StoredItem.PERSON)));
     }
 
     @Test

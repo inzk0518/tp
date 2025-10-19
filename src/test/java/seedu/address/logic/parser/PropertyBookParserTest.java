@@ -1,7 +1,9 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 
@@ -9,8 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.DeletePropertyCommand;
+import seedu.address.logic.commands.FilterPropertyCommand;
+import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 class PropertyBookParserTest {
 
@@ -42,7 +47,7 @@ class PropertyBookParserTest {
 
     private static final String VALID_DELETE_PROPERTY_COMMAND = String.join(" ",
             DeletePropertyCommand.COMMAND_WORD,
-            "abc123");
+            "123");
 
     private final PropertyBookParser parser = new PropertyBookParser();
 
@@ -57,7 +62,7 @@ class PropertyBookParserTest {
 
     @Test
     void parseCommand_deleteProperty() throws Exception {
-        DeletePropertyCommand expectedCommand = new DeletePropertyCommand("abc123");
+        DeletePropertyCommand expectedCommand = new DeletePropertyCommand(new Uuid(123, PROPERTY));
         DeletePropertyCommand command = (DeletePropertyCommand) parser.parseCommand(VALID_DELETE_PROPERTY_COMMAND);
         assertTrue(command.equals(expectedCommand));
     }
@@ -65,6 +70,13 @@ class PropertyBookParserTest {
     @Test
     void parseCommand_unknownCommand_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("random"));
+    }
+
+    @Test
+    void parseCommand_blankInput_throwsParseException() {
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), () ->
+                    parser.parseCommand("   "));
     }
 
     @Test
@@ -78,5 +90,10 @@ class PropertyBookParserTest {
         assertThrows(ParseException.class,
                 AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING, () ->
                         parser.parseCommand(CONFLICTING_ADD_PROPERTY_COMMAND));
+    }
+
+    @Test
+    public void parseCommand_filterProperty() throws Exception {
+        assertTrue(parser.parseCommand("filterproperty type/hdb") instanceof FilterPropertyCommand);
     }
 }

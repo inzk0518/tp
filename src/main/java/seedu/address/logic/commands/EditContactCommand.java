@@ -33,8 +33,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Uuid;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -92,7 +92,7 @@ public class EditContactCommand extends Command {
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+        if (!personToEdit.equals(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
@@ -118,8 +118,8 @@ public class EditContactCommand extends Command {
         Notes updatedNotes = editPersonDescriptor.getNotes().orElse(personToEdit.getNotes());
         PersonStatus updatedStatus = editPersonDescriptor.getStatus().orElse(personToEdit.getStatus());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-        Set<String> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
-        Set<String> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
+        Set<Uuid> updatedBuyingPropertyIds = personToEdit.getBuyingPropertyIds();
+        Set<Uuid> updatedSellingPropertyIds = personToEdit.getSellingPropertyIds();
 
         return new Person(updatedUuid, updatedName, updatedPhone, updatedEmail, updatedAddress,
                           updatedTags, updatedBudgetMin, updatedBudgetMax, updatedNotes, updatedStatus,
