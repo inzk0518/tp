@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+TheRealDeal is a **desktop app for real estate agents, optimized for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
 
 * Table of Contents
 {:toc}
@@ -13,17 +13,20 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
+   **Windows users:** Tutorial to download [here](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
+   **Linux users:** Tutorial to download [here](https://se-education.org/guides/tutorials/javaInstallationLinux.html)
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for TheRealDeal.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TheRealDeal.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
+   *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -36,7 +39,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -52,8 +55,8 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-* Items with `…` after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+* Items with `…`​ after them can be used multiple times. Items can be used zero times if they are also wrapped in square brackets.<br>
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -77,7 +80,7 @@ _~~Shows a list of all persons in the address book.~~_
 Format: `list`
 
 
-### Adding a contact
+### Adding a contact : `addcontact`
 
 Adds a new contact to the system, with details of the contact.
 
@@ -91,7 +94,7 @@ Examples:
 * `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer s/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
 
-### Editing a contact
+### Editing a contact : `editcontact`
 
 Edits an existing contact in the address book.
 
@@ -106,7 +109,7 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` 
 *  `edit 2 n/Betsy Crower t/`
 
-### Filtering contact
+### Filtering contact : `filtercontact`
 
 Filters the contacts based on the fields given
 
@@ -120,7 +123,29 @@ Examples:
 * `filtercontact a/yishun`
 * `filtercontact n/Tan s/active`
 
-### Deleting a contact
+
+### Linking people and properties : `link`
+
+Links people to properties as buyers or sellers by their UUIDs.
+
+Format: `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
+
+* `RELATIONSHIP` **must be either `buyer` or `seller`**
+* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `link` can link any number of properties and people at once (excluding none).
+
+
+### Unlinking people and properties : `unlink`
+
+Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
+
+Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
+
+* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `unlink` can unlink any number of properties and people at once (excluding none).
+
+
+### Deleting a person : `delete`
 
 Deletes the specified person from the address book.
 
@@ -131,11 +156,13 @@ Format: `delete c/UUID`
 Examples:
 * `delete c/1`
 
+
 ### Clearing all entries : `clear`
 
 _~~Clears all entries from the address book.~~_
 
 Format: `clear`
+
 
 ### Exiting the program : `exit`
 
@@ -143,22 +170,20 @@ _~~Exits the program.~~_
 
 Format: `exit`
 
+
 ### Saving the data
 
-~~_AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually._~~
+TheRealDeal data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TheRealDeal data is saved automatically as two JSON files `[JAR file location]/data/addressbook.json` & `[JAR file location]/data/propertybook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the TheRealDeal to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -185,5 +210,13 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
+**Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
 **Help** | `help`
+
+## Basic Command Terminal Navigation
+1. Determine the address of the folder where TheRealDeal is installed.
+2. Open "Powershell" on Windows or "Terminal" on MacOS and Linux.
+3. Type `cd ADDRESS`, where `ADDRESS` is the address where TheRealDeal is installed, and hit enter.
+4. Type `java -jar TheRealDeal.jar`, and hit enter, to run the application.
