@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+**TheRealDeal** is a **desktop app for real estate agents, optimized for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster **TheRealDeal** can help you find what you need.
 
 * Table of Contents
 {:toc}
