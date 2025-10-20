@@ -12,15 +12,15 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_BUYER;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_TENANT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_TENANT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -42,7 +42,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Tag;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
@@ -96,8 +96,8 @@ public class EditContactCommandParserTest {
         assertParseFailure(parser, uuid + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
         // invalid + valid tag combinations
-        assertParseFailure(parser, uuid + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, uuid + TAG_EMPTY + TAG_DESC_FRIEND, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, uuid + TAG_DESC_BUYER + TAG_DESC_TENANT + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, uuid + TAG_EMPTY + TAG_DESC_BUYER, Tag.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values — first error message expected
         assertParseFailure(parser, uuid + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
@@ -109,15 +109,15 @@ public class EditContactCommandParserTest {
         Person targetPerson = model.getFilteredPersonList().get(0);
         Integer uuid = Integer.parseInt(targetPerson.getUuid().toString().replace(" (PERSON)", ""));
 
-        String userInput = uuid + PHONE_DESC_BOB + TAG_DESC_HUSBAND
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        String userInput = uuid + PHONE_DESC_BOB + TAG_DESC_TENANT
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_BUYER;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
                 .withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_AMY)
                 .withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+                .withTags(VALID_TAG_BUYER, VALID_TAG_TENANT)
                 .build();
 
         EditContactCommand expectedCommand = new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor);
@@ -170,8 +170,8 @@ public class EditContactCommandParserTest {
                 new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
 
         // tags
-        userInput = uuid + TAG_DESC_FRIEND;
-        descriptor = new EditPersonDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        userInput = uuid + TAG_DESC_BUYER;
+        descriptor = new EditPersonDescriptorBuilder().withTags(VALID_TAG_BUYER).build();
         assertParseSuccess(parser, userInput,
                 new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.PERSON), descriptor));
     }
@@ -193,8 +193,8 @@ public class EditContactCommandParserTest {
 
         // multiple valid fields repeated
         userInput = uuid + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
-                + TAG_DESC_FRIEND + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
-                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB + TAG_DESC_HUSBAND;
+                + TAG_DESC_BUYER + PHONE_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_BUYER
+                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB + TAG_DESC_TENANT;
 
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));

@@ -25,10 +25,10 @@ public class BudgetMinTest {
     @Test
     public void isValidBudgetMin() {
         assertFalse(BudgetMin.isValidBudgetMin(null));
-        assertFalse(BudgetMin.isValidBudgetMin("-1"));
-        assertFalse(BudgetMin.isValidBudgetMin("abc"));
-        assertTrue(BudgetMin.isValidBudgetMin("0"));
-        assertTrue(BudgetMin.isValidBudgetMin("123"));
+        assertFalse(BudgetMin.isValidBudgetMin("-1")); // negative budget
+        assertFalse(BudgetMin.isValidBudgetMin("abc")); // alphabet budget
+        assertTrue(BudgetMin.isValidBudgetMin("0")); // zero is valid
+        assertTrue(BudgetMin.isValidBudgetMin("123")); // valid budget
     }
 
     @Test

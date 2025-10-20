@@ -25,7 +25,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Tag;
 import seedu.address.model.uuid.Uuid;
 
 /**
@@ -58,7 +58,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
                 continue;
             }
             for (String value : argMultimap.getAllValues(prefix)) {
-                if (looksLikePrefix(value)) {
+                if (ParserUtil.looksLikePrefix(value)) {
                     throw new ParseException(String.format(
                             MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
                 }
@@ -93,12 +93,5 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 
         return new AddContactCommand(person);
-    }
-
-    /**
-     * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
-     */
-    private boolean looksLikePrefix(String s) {
-        return s.trim().contains("/");
     }
 }

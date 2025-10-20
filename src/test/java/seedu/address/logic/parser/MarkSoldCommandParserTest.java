@@ -69,7 +69,7 @@ public class MarkSoldCommandParserTest {
 
     @Test
     public void parse_duplicateIds_failure() {
-        String input = "p/111 p/222 p/111"; // duplicate 111
+        String input = " p/111 p/222 p/111"; // duplicate 111
         ParseException exception = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals("Duplicate property ID detected: 111", exception.getMessage());
     }
