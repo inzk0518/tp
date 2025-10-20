@@ -229,7 +229,7 @@ Action | Format, Examples
 **Help** | `help`
 
 ## Basic Command Terminal Navigation
-   1. Determine the address of the folder where TheRealDeal is installed.
-   2. Open "Powershell" on Windows or "Terminal" on MacOS and Linux.
-   3. Type `cd ADDRESS`, where `ADDRESS` is the address where TheRealDeal is installed, and hit enter.
-   4. Type `java -jar TheRealDeal.jar`, and hit enter, to run the application.
+1. Determine the address of the folder where TheRealDeal is installed.
+2. Open "Powershell" on Windows or "Terminal" on MacOS and Linux.
+3. Type `cd ADDRESS`, where `ADDRESS` is the address where TheRealDeal is installed, and hit enter.
+4. Type `java -jar TheRealDeal.jar`, and hit enter, to run the application.
