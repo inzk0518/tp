@@ -228,6 +228,8 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
+**Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
 **Help** | `help`
 
