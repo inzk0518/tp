@@ -49,7 +49,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteContactCommand command = (DeleteContactCommand) parser.parseCommand(
-                DeleteContactCommand.COMMAND_WORD + " c/1");
+                DeleteContactCommand.COMMAND_WORD + " 1");
         assertEquals(new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.PERSON)), command);
     }
 

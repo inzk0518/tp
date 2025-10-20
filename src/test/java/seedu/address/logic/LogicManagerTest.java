@@ -81,7 +81,7 @@ public class LogicManagerTest {
 
     @Test
     public void execute_commandExecutionError_throwsParseException() {
-        String deleteCommand = "delete c/9";
+        String deleteCommand = "deletecontact 9";
         assertCommandException(deleteCommand, String.format(MESSAGE_PERSON_NOT_FOUND, 9));
     }
 

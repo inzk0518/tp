@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.Optional;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -16,12 +17,12 @@ import seedu.address.model.uuid.Uuid;
  */
 public class DeleteContactCommand extends Command {
 
-    public static final String COMMAND_WORD = "delete";
+    public static final String COMMAND_WORD = "deletecontact";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the person identified by their unique UUID.\n"
-            + "Parameters: c/UUID (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " c/12";
+            + "Parameters: UUID (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 12";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
     public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with UUID: %s";
@@ -41,9 +42,9 @@ public class DeleteContactCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Person> lastShownList = model.getFilteredPersonList();
 
-        // Find person by UUID
-        Optional<Person> personToDelete = model.getFilteredPersonList().stream()
+        Optional<Person> personToDelete = lastShownList.stream()
                 .filter(p -> p.getUuid().equals(targetUuid))
                 .findFirst();
 
