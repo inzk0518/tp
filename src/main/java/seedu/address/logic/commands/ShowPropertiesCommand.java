@@ -7,6 +7,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.OwnerMatchesPredicate;
 import seedu.address.model.uuid.Uuid;
+import seedu.address.ui.MainWindow;
 
 /**
  * Finds and lists all properties where the specified client is the owner.
@@ -52,6 +53,9 @@ public class ShowPropertiesCommand extends Command {
         // Filter properties where owner matches the client UUID
         OwnerMatchesPredicate predicate = new OwnerMatchesPredicate(clientUuid);
         model.updateFilteredPropertyList(predicate);
+
+        //Toggle from clients list to property list
+        MainWindow.getInstance().showPropertiesView();
 
         int numPropertiesFound = model.getFilteredPropertyList().size();
 

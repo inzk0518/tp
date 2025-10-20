@@ -34,7 +34,7 @@ public class PropertyCard extends UiPart<Region> {
     public PropertyCard(Property property, int displayedIndex) {
         super(FXML);
         this.property = property;
-        propertyId.setText(displayedIndex + ". Property " + property.getUuid().toString().substring(0, 6));
+        propertyId.setText(displayedIndex + ". Property " + property.getUuid().getValue());
         address.setText(property.getPropertyAddress().value);
 
         // Format: "type • beds beds • baths baths • sqft sqft"
