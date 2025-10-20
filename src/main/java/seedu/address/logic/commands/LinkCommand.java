@@ -3,9 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +30,14 @@ public class LinkCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to people. "
             + "Parameters: "
-            + PREFIX_LINK_PROPERTY_ID + "PROPERTY_ID{1..} "
+            + PREFIX_PROPERTY_ID + "PROPERTY_ID{1..} "
             + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller')"
-            + PREFIX_LINK_CLIENT_ID + "CLIENT_ID{1..}"
+            + PREFIX_CLIENT_ID + "CLIENT_ID{1..}"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_LINK_PROPERTY_ID + "2 "
+            + PREFIX_PROPERTY_ID + "2 "
             + PREFIX_LINK_RELATIONSHIP + "buyer "
-            + PREFIX_LINK_CLIENT_ID + "3 "
-            + PREFIX_LINK_CLIENT_ID + "5";
+            + PREFIX_CLIENT_ID + "3 "
+            + PREFIX_CLIENT_ID + "5";
 
     public static final String MESSAGE_LINK_BUYER_SUCCESS =
             "Linked Property IDs: %1$s with Person IDs: %2$s as buyer";

@@ -24,12 +24,10 @@ public class NotesTest {
 
     @Test
     public void isValidNotes() {
-        assertTrue(Notes.isValidNotes(""));
+        assertTrue(Notes.isValidNotes("")); // empty notes
         assertTrue(Notes.isValidNotes("any notes here"));
-        String maxLength = "a".repeat(500);
-        assertTrue(Notes.isValidNotes(maxLength));
-        String tooLong = "a".repeat(501);
-        assertFalse(Notes.isValidNotes(tooLong));
+        assertTrue(Notes.isValidNotes("a".repeat(500))); // exactly 500 characters
+        assertFalse(Notes.isValidNotes("a".repeat(501))); // exactly 501 characters
     }
 
     @Test

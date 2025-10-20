@@ -19,6 +19,7 @@ import seedu.address.model.person.Notes;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Tag;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -29,7 +30,6 @@ import seedu.address.model.property.Price;
 import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
 
 /**
@@ -39,7 +39,13 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_UUID = "UUID is not a valid format.";
-    public static final String MESSAGE_INVALID_PROPERTY_ID = "Property ID must be 6 alphanumeric characters.";
+
+    /**
+     * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
+     */
+    public static boolean looksLikePrefix(String s) {
+        return s.trim().contains("/");
+    }
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be

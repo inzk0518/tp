@@ -1,13 +1,12 @@
 package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
@@ -27,74 +26,74 @@ public class PersonTest {
     @Test
     public void isSamePerson() {
         // same object -> returns true
-        assertTrue(ALICE.equals(ALICE));
+        assertEquals(ALICE, ALICE);
 
         // null -> returns false
-        assertFalse(ALICE.equals(null));
+        assertNotEquals(null, ALICE);
 
         // same name, all other attributes different -> returns true
         Person editedAlice = new PersonBuilderUtil(ALICE)
                 .withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND)
+                .withTags(VALID_TAG_BUYER)
                 .build();
-        assertTrue(ALICE.equals(editedAlice));
+        assertEquals(ALICE, editedAlice);
 
         // same name, different phone -> returns false
         editedAlice = new PersonBuilderUtil(ALICE).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different name, same phone -> returns false
         editedAlice = new PersonBuilderUtil(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
-        // name differs in case but phone same -> returns false (case-sensitive check)
+        // name differs in case but phone same -> returns true (case-insensitive check of duplicates)
         Person editedBob = new PersonBuilderUtil(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.equals(editedBob));
+        assertEquals(BOB, editedBob);
 
-        // name has trailing spaces but phone same -> returns false
+        // name has trailing spaces but phone same -> returns true (because trailing spaces are trimmed)
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new PersonBuilderUtil(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.equals(editedBob));
+        assertEquals(BOB, editedBob);
     }
 
     @Test
     public void equals() { // only when same phone and name
         // same values -> returns true
         Person aliceCopy = new PersonBuilderUtil(ALICE).build();
-        assertTrue(ALICE.equals(aliceCopy));
+        assertEquals(ALICE, aliceCopy);
 
         // same object -> returns true
-        assertTrue(ALICE.equals(ALICE));
+        assertEquals(ALICE, ALICE);
 
         // null -> returns false
-        assertFalse(ALICE.equals(null));
+        assertNotEquals(null, ALICE);
 
         // different type -> returns false
-        assertFalse(ALICE.equals(5));
+        assertNotEquals(5, ALICE);
 
         // different person -> returns false
-        assertFalse(ALICE.equals(BOB));
+        assertNotEquals(ALICE, BOB);
 
         // different name -> returns false
         Person editedAlice = new PersonBuilderUtil(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different phone -> returns false
         editedAlice = new PersonBuilderUtil(ALICE).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different email -> returns true
         editedAlice = new PersonBuilderUtil(ALICE).withEmail(VALID_EMAIL_BOB).build();
-        assertTrue(ALICE.equals(editedAlice));
+        assertEquals(ALICE, editedAlice);
 
         // different address -> returns true
         editedAlice = new PersonBuilderUtil(ALICE).withAddress(VALID_ADDRESS_BOB).build();
-        assertTrue(ALICE.equals(editedAlice));
+        assertEquals(ALICE, editedAlice);
 
         // different tags -> returns true
-        editedAlice = new PersonBuilderUtil(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.equals(editedAlice));
+        editedAlice = new PersonBuilderUtil(ALICE).withTags(VALID_TAG_BUYER).build();
+        assertEquals(ALICE, editedAlice);
     }
 
     @Test
