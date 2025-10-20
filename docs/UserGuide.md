@@ -142,6 +142,34 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Viewing properties linked to a client
+
+Shows all properties associated with a specific client
+
+Format: `showproperties c/UUID`
+
+* Displays all properties linked to the client (whether as buyer, seller, or owner).
+* The UUID refers to the ID number shown in the displayed person list.
+
+Examples:
+* `showproperties c/7`
+
+**Note:** If the client has no associated properties, an empty list will be displayed.
+
+### Viewing clients associated to a property
+
+Shows all clients associated with a specific property
+
+Format: `showclients p/UUID`
+
+* Displays the owner, buyers, and sellers linked to the property.
+* The UUID refers to the unique identifier shown in the displayed property list.
+* Each client is shown with their name and unique ID.
+
+Examples:
+* `showclients p/15` 
+
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
