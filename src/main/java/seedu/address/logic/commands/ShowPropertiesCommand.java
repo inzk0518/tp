@@ -55,7 +55,9 @@ public class ShowPropertiesCommand extends Command {
         model.updateFilteredPropertyList(predicate);
 
         //Toggle from clients list to property list
-        MainWindow.getInstance().showPropertiesView();
+        if (MainWindow.getInstance() != null) {
+            MainWindow.getInstance().showPropertiesView();
+        }
 
         int numPropertiesFound = model.getFilteredPropertyList().size();
 

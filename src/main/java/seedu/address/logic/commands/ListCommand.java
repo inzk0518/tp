@@ -20,7 +20,11 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        MainWindow.getInstance().showClientsView();
+
+        if (MainWindow.getInstance() != null) {
+            MainWindow.getInstance().showClientsView();
+        }
+
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
