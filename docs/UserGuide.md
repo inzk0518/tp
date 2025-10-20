@@ -52,7 +52,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
+* Items with `…`​ after them can be used multiple times. Items can be used zero times if they are also wrapped in square brackets.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
 * Parameters can be in any order.<br>
@@ -127,6 +127,25 @@ Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
+
+### Linking people and properties : `link`
+
+Links people to properties as buyers or sellers by their UUIDs.
+
+Format: `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
+
+* `RELATIONSHIP` **must be either `buyer` or `seller`**
+* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `link` can link any number of properties and people at once (excluding none).
+
+### Unlinking people and properties : `unlink`
+
+Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
+
+Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
+
+* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `unlink` can unlink any number of properties and people at once (excluding none).
 
 ### Deleting a person : `delete`
 
