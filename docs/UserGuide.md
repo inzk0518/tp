@@ -4,6 +4,7 @@ title: User Guide
 ---
 
 TheRealDeal is a **desktop app for real estate agents, optimized for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
+TheRealDeal is a **desktop app for real estate agents, optimized for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
 
 * Table of Contents
 {:toc}
@@ -97,9 +98,24 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
-### Editing a person : `edit`
 
-Edits an existing person in the address book.
+### Adding a contact : `addcontact`
+
+Adds a new contact to the system, with details of the contact.
+
+Format: `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
+
+<div markdown="span" class="alert alert-primary">:information_source:
+TEXT for notes has a maximum length of 500 characters <br>
+</div>
+
+Examples:
+* `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer s/active`
+* `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
+
+### Editing a contact : `editcontact`
+
+Edits an existing contact in the address book.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
@@ -136,6 +152,7 @@ Examples:
 * `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
 * `addproperty address/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bedroom/4 bathroom/2 floorarea/1050 listing/rent owner/5`
 
+
 ### Deleting a property: `deleteproperty`
 
 Deletes a property identified by its UUID.
@@ -149,7 +166,24 @@ Examples:
 * `deleteproperty 12`
 * `deleteproperty 3`
 
-### Locating persons by name: `find`
+
+### Filtering contact : `filterproperty`
+
+Filters the properties based on the fields given
+
+Format: `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`
+
+* The order of the filter field does not matter
+* The search is case-insensitive. e.g `clementi` will match `Clementi`
+* Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
+* Property matching all the filter will be returned
+
+Examples:
+* `filterproperty address/yishun`
+* `filterproperty bedroom/2 floorarea/100`
+
+
+### Filtering contact : `filtercontact`
 
 Finds persons whose names contain any of the given keywords.
 
@@ -163,9 +197,8 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `filtercontact a/yishun`
+* `filtercontact n/Tan s/active`
 
 
 ### Linking people and properties : `link`
@@ -200,8 +233,7 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `delete c/1`
 
 
 ### Clearing all entries : `clear`
@@ -257,6 +289,9 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
+**Delete Property** | `deleteproperty PROPERTY_ID`<br> e.g., `deleteproperty 12`
+**Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> e.g., `filterproperty bedroom/2 price/2000`
 **Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
 **Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
