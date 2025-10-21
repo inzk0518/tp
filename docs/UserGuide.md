@@ -75,13 +75,17 @@ Format: `help`
 
 ![help message](images/helpMessage.png)
 
-### Listing all persons : `list`
-Pending documentation
+### Listing all contacts and properties: `list`
 
-Shows a list of all contacts in the address book.
+Displays all contacts and properties in the address book.
+ It resets any active filters and shows the complete list.
+
+Both contact and property cards display an ID field which represents the `UUID` of that contact/property.
+This `UUID` will be used for other commands.
 
 Format: `list`
 
+![list result](images/listResult.png)
 
 ### Adding a contact : `addcontact`
 
