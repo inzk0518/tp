@@ -148,7 +148,8 @@ public class EditContactCommandParserTest {
 
         // name
         String userInput = uuid + NAME_DESC_AMY;
-        EditContactCommand.EditContactDescriptor descriptor = new EditContactDescriptorBuilder().withName(VALID_NAME_AMY).build();
+        EditContactCommand.EditContactDescriptor descriptor =
+                new EditContactDescriptorBuilder().withName(VALID_NAME_AMY).build();
         assertParseSuccess(parser, userInput,
                 new EditContactCommand(new Uuid(uuid, Uuid.StoredItem.CONTACT), descriptor));
 

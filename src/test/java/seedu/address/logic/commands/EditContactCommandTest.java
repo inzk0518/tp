@@ -103,7 +103,8 @@ public class EditContactCommandTest {
     @Test
     public void execute_invalidUuid_failure() {
         Uuid invalidUuid = new Uuid(999, Uuid.StoredItem.CONTACT);
-        EditContactCommand.EditContactDescriptor descriptor = new EditContactDescriptorBuilder().withName(VALID_NAME_BOB).build();
+        EditContactCommand.EditContactDescriptor descriptor =
+                new EditContactDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditContactCommand command = new EditContactCommand(invalidUuid, descriptor);
 
         assertCommandFailure(command, model, EditContactCommand.MESSAGE_CONTACT_NOT_FOUND);

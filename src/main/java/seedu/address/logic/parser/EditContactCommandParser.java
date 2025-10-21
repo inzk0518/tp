@@ -82,10 +82,12 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
             editContactDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         if (argMultimap.getValue(PREFIX_BUDGET_MIN).isPresent()) {
-            editContactDescriptor.setBudgetMin(ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).get()));
+            editContactDescriptor.setBudgetMin(ParserUtil.parseBudgetMin(
+                                        argMultimap.getValue(PREFIX_BUDGET_MIN).get()));
         }
         if (argMultimap.getValue(PREFIX_BUDGET_MAX).isPresent()) {
-            editContactDescriptor.setBudgetMax(ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).get()));
+            editContactDescriptor.setBudgetMax(ParserUtil.parseBudgetMax(
+                                        argMultimap.getValue(PREFIX_BUDGET_MAX).get()));
         }
         if (argMultimap.getValue(PREFIX_NOTES).isPresent()) {
             editContactDescriptor.setNotes(ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).get()));

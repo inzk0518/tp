@@ -26,8 +26,8 @@ import seedu.address.model.contact.Contact;
 import seedu.address.model.contact.FilterContactPredicate;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.ContactBuilderUtil;
-import seedu.address.testutil.EditContactDescriptorBuilder;
 import seedu.address.testutil.ContactUtil;
+import seedu.address.testutil.EditContactDescriptorBuilder;
 
 public class AddressBookParserTest {
 

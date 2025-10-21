@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.ArrayList;
 import java.util.List;

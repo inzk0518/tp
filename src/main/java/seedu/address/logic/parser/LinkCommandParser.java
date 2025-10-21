@@ -3,8 +3,8 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.Set;
 
