@@ -38,11 +38,11 @@ public class FilterPropertyCommandParserTest {
     }
     @Test
     public void parseValidArgsSuccessThird() throws Exception {
-        String input = " address/Geylang 18 bathroom/3 price/5000 listing/rent";
+        String input = " address/Geylang 18 postal/123000 bathroom/3 price/5000 listing/rent";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
-                                .withAddress("Geylang 18").withBathroom("3")
+                                .withAddress("Geylang 18").withPostal("123000").withBathroom("3")
                                 .withPrice("5000").withListing("rent").build(),
                         20, 0); // defaults
         assertEquals(expected, parser.parse(input));
