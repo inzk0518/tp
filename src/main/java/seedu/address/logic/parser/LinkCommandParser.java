@@ -2,9 +2,9 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RELATIONSHIP;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.Set;
 
@@ -27,9 +27,9 @@ public class LinkCommandParser implements Parser<LinkCommand> {
     public LinkCommand parse(String args) throws ParseException {
 
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP,
-                PREFIX_LINK_CLIENT_ID);
-        if (!argMultimap.arePrefixesPresent(PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP, PREFIX_LINK_CLIENT_ID)
+                ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP,
+                        PREFIX_CLIENT_ID);
+        if (!argMultimap.arePrefixesPresent(PREFIX_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP, PREFIX_CLIENT_ID)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, LinkCommand.MESSAGE_USAGE));
         }
@@ -41,8 +41,8 @@ public class LinkCommandParser implements Parser<LinkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE));
         }
 
-        Set<Uuid> personIds = ParserUtil.parsePersonIds(argMultimap.getAllValues(PREFIX_LINK_CLIENT_ID));
-        Set<Uuid> propertyIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_LINK_PROPERTY_ID));
+        Set<Uuid> personIds = ParserUtil.parsePersonIds(argMultimap.getAllValues(PREFIX_CLIENT_ID));
+        Set<Uuid> propertyIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_PROPERTY_ID));
 
         LinkDescriptor linkDescriptor = new LinkDescriptor();
 

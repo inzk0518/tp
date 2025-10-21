@@ -20,8 +20,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Tag;
 import seedu.address.model.property.Property;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.model.uuid.Uuid.StoredItem;
 
@@ -81,6 +81,7 @@ public class SampleDataUtil {
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
         }
+        sampleAb.setNextUuid(getSamplePersons().length + 1);
         return sampleAb;
     }
 
@@ -89,6 +90,7 @@ public class SampleDataUtil {
         for (Property sampleProperty : getSampleProperties()) {
             samplePb.addProperty(sampleProperty);
         }
+        samplePb.setNextUuid(getSampleProperties().length + 1);
         return samplePb;
     }
 

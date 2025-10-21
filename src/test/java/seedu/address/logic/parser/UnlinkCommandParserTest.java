@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
@@ -26,11 +26,11 @@ public class UnlinkCommandParserTest {
     @Test
     public void parse_missingParts_failure() {
         // no property id
-        String userInput = " " + PREFIX_LINK_CLIENT_ID + "1";
+        String userInput = " " + PREFIX_CLIENT_ID + "1";
         assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
 
         // no client id
-        userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 ";
+        userInput = " " + PREFIX_PROPERTY_ID + "1 ";
         assertParseFailure(parser, userInput, MESSAGE_INVALID_FORMAT);
 
         // all parts missing
@@ -40,7 +40,7 @@ public class UnlinkCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() throws Exception {
         // valid input
-        String userInput = " " + PREFIX_LINK_PROPERTY_ID + "1 " + PREFIX_LINK_CLIENT_ID + "5";
+        String userInput = " " + PREFIX_PROPERTY_ID + "1 " + PREFIX_CLIENT_ID + "5";
         assertParseSuccess(parser, userInput, new UnlinkCommand(
                 new UnlinkDescriptorBuilder()
                         .withPropertyIds(Set.of(new Uuid(1, PROPERTY)))
@@ -48,7 +48,7 @@ public class UnlinkCommandParserTest {
                         .build()));
 
         // valid input with extra spaces
-        userInput = " " + PREFIX_LINK_PROPERTY_ID + "2  " + PREFIX_LINK_CLIENT_ID + "3  ";
+        userInput = " " + PREFIX_PROPERTY_ID + "2  " + PREFIX_CLIENT_ID + "3  ";
         assertParseSuccess(parser, userInput, new UnlinkCommand(
                 new UnlinkDescriptorBuilder()
                         .withPropertyIds(Set.of(new Uuid(2, PROPERTY)))
@@ -56,8 +56,8 @@ public class UnlinkCommandParserTest {
                         .build()));
 
         // valid input with multiple property ids and client ids
-        userInput = " " + PREFIX_LINK_PROPERTY_ID + "2 " + PREFIX_LINK_PROPERTY_ID + "3 "
-                + PREFIX_LINK_CLIENT_ID + "3 " + PREFIX_LINK_CLIENT_ID + "4";
+        userInput = " " + PREFIX_PROPERTY_ID + "2 " + PREFIX_PROPERTY_ID + "3 "
+                + PREFIX_CLIENT_ID + "3 " + PREFIX_CLIENT_ID + "4";
         assertParseSuccess(parser, userInput, new UnlinkCommand(
                 new UnlinkDescriptorBuilder()
                         .withPropertyIds(Set.of(new Uuid(2, PROPERTY), new Uuid(3, PROPERTY)))

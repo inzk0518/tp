@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * A UI component that displays information of a {@code Property}.
