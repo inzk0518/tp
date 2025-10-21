@@ -23,10 +23,20 @@ TheRealDeal is a **desktop app for real estate agents, optimized for use via a C
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TheRealDeal.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
-   *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
+   
+*Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+### GUI Overview
+
+TheRealDeal GUI is organised into **four** key components:
+![GUI Overview](images/GUI-UI.png)
+
+* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
+* `Command Box`: The main area where users can enter commands to interact with the app.
+* `Result Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command. Situated below the `Command Box`.
+* `List Card`: Displays key information about clients or listings, depending on the user's command. Situated below the `Result Display`.
+
+Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -39,7 +49,7 @@ TheRealDeal is a **desktop app for real estate agents, optimized for use via a C
 
    * `exit` : Exits the app.
 
-6. Refer to the [Features](#features) below for details of each command.
+Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -130,17 +140,6 @@ Examples:
 * `filtercontact a/yishun`
 * `filtercontact n/Tan s/active`
 
-
-### Linking people and properties : `link`
-
-Links people to properties as buyers or sellers by their UUIDs.
-
-Format: `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
-
-* `RELATIONSHIP` **must be either `buyer` or `seller`**
-* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
-* `link` can link any number of properties and people at once (excluding none).
-
 ### Deleting a contact : `delete`
 
 Deletes the specified contact from the address book.
@@ -154,6 +153,66 @@ Format: `delete INDEX`
 Examples:
 * `delete 1`
 
+### Adding a property: `addproperty`
+
+Adds a property to the property list. All fields are required.
+
+Format: `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`
+
+* `address/ADDRESS` must be 5-200 characters long and contain at least one letter and one digit.
+* `postal/POSTAL` must be a 6-digit Singapore postal code.
+* `price/PRICE` must be a positive integer up to 1,000,000,000,000.
+* `type/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
+* `status/STATUS` accepts `unsold` or `sold` (case-insensitive).
+* `bedroom/BEDROOM` and `bathroom/BATHROOM` accept integers from 0 to 20.
+* `floorarea/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
+* `listing/LISTING` accepts `sale` or `rent` (case-insensitive). A property marked as `sold` cannot be listed for `rent`.
+* `owner/OWNER_ID` should be the UUID of an existing client (the number shown in the client list).
+* The command rejects properties that share both the same address and postal code as an existing property.
+* Each new property is assigned the next available UUID automatically; you do not provide an ID when adding it.
+
+Examples:
+* `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
+* `addproperty address/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bedroom/4 bathroom/2 floorarea/1050 listing/rent owner/5`
+
+### Filtering contact : `filterproperty`
+
+Filters the properties based on the fields given
+
+Format: `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`
+
+* The order of the filter field does not matter
+* The search is case-insensitive. e.g `clementi` will match `Clementi`
+* Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
+* Property matching all the filter will be returned
+
+Examples:
+* `filterproperty address/yishun`
+* `filterproperty bedroom/2 floorarea/100`
+
+### Deleting a property: `deleteproperty`
+
+Deletes a property identified by its UUID.
+
+Format: `deleteproperty PROPERTY_ID`
+
+* `PROPERTY_ID` is the positive integer shown with each property card in the property list panel.
+* The command only works on properties currently visible in the property list panel. Filter the list first if needed.
+
+Examples:
+* `deleteproperty 12`
+* `deleteproperty 3`
+
+### Linking people and properties : `link`
+
+Links people to properties as buyers or sellers by their UUIDs.
+
+Format: `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
+
+* `RELATIONSHIP` **must be either `buyer` or `seller`**
+* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `link` can link any number of properties and people at once (excluding none).
+
 ### Unlinking people and properties : `unlink`
 
 Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
@@ -165,13 +224,13 @@ Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
 
 ### Clearing all entries : `clear`
 
-_~~Clears all entries from the address book.~~_
+Clears all entries from the address book.
 
 Format: `clear`
 
 ### Exiting the program : `exit`
 
-_~~Exits the program.~~_
+Exits the program.
 
 Format: `exit`
 
@@ -214,6 +273,9 @@ Action | Format, Examples
 **Edit Contact** | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`
 **Filter Contact** | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`
 **Delete Contact** | `delete INDEX`<br> <br> e.g., `delete 3`
+**Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
+**Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> e.g., `filterproperty bedroom/2 price/2000`
+**Delete Property** | `deleteproperty PROPERTY_ID`<br> e.g., `deleteproperty 12`
 **Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
 **Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
