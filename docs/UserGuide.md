@@ -148,12 +148,6 @@ Clears all entries from the address book.
 
 Format: `clear`
 
-### Filtering the properties : `filterproperty`
-
-Filters the property list with given filter details
-
-Format: `filterproperty `
-
 ### Exiting the program : `exit`
 
 Exits the program.
