@@ -18,7 +18,11 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label propertyId;
+    private Label propertyUuid;
+    @FXML
+    private Label propertyIndex;
+    @FXML
+    private Label propertyAddress;
     @FXML
     private Label address;
     @FXML
@@ -26,16 +30,16 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private Label price;
     @FXML
-    private Label owner;
-
+    private Label role;
     /**
      * Creates a {@code PropertyCard} with the given {@code Property} and index to display.
      */
     public PropertyCard(Property property, int displayedIndex) {
         super(FXML);
         this.property = property;
-        propertyId.setText(displayedIndex + ". Property " + property.getUuid().getValue());
-        address.setText(property.getPropertyAddress().value);
+        propertyIndex.setText(displayedIndex + ".");
+        propertyAddress.setText(property.getPropertyAddress().value);
+        propertyUuid.setText("id: " + property.getUuid().getValue());
 
         // Format: "type • beds beds • baths baths • sqft sqft"
         details.setText(String.format("%s • %s beds • %s baths • %s sqft",
@@ -51,6 +55,7 @@ public class PropertyCard extends UiPart<Region> {
                 property.getListing().value);
         price.setText(formattedPrice);
 
-        owner.setText("Owner: " + property.getOwner().value);
+        //placeholder for now (bug to resolve)
+        role.setText("Role: ");
     }
 }

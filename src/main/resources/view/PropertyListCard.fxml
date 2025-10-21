@@ -18,16 +18,13 @@
                 <Insets top="5" right="5" bottom="5" left="15" />
             </padding>
             <HBox spacing="5" alignment="CENTER_LEFT">
-                <Label fx:id="propertyId" styleClass="cell_big_label">
-                    <minWidth>
-                        <Region fx:constant="USE_PREF_SIZE" />
-                    </minWidth>
-                </Label>
+                <Label fx:id="propertyIndex" styleClass="cell_index_label" text="\$index" />
+                <Label fx:id="propertyAddress" styleClass="cell_property_address" text="\$address" />
             </HBox>
-            <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
+            <Label fx:id="propertyUuid" styleClass="cell_small_label" text="\$uuid" />
             <Label fx:id="details" styleClass="cell_small_label" text="\$details" />
             <Label fx:id="price" styleClass="cell_small_label" text="\$price" />
-            <Label fx:id="owner" styleClass="cell_small_label" text="\$owner" />
+            <Label fx:id="role" styleClass="cell_small_label" text="\$role" />
         </VBox>
     </GridPane>
 </HBox>
