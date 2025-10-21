@@ -141,17 +141,6 @@ Format: `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
 * `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `link` can link any number of properties and people at once (excluding none).
 
-
-### Unlinking people and properties : `unlink`
-
-Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
-
-Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
-
-* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
-* `unlink` can unlink any number of properties and people at once (excluding none).
-
-
 ### Deleting a contact : `delete`
 
 Deletes the specified contact from the address book.
@@ -164,6 +153,15 @@ Format: `delete INDEX`
 
 Examples:
 * `delete 1`
+
+### Unlinking people and properties : `unlink`
+
+Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
+
+Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
+
+* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `unlink` can unlink any number of properties and people at once (excluding none).
 
 ### Clearing all entries : `clear`
 
@@ -212,14 +210,14 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Add Contact** | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`
+**Edit Contact** | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`
+**Filter Contact** | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`
+**Delete Contact** | `delete INDEX`<br> <br> e.g., `delete 3`
 **Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
 **Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
+**Clear** | `clear`
 **Help** | `help`
 
 ## Basic Command Terminal Navigation
