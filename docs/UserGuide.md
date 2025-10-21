@@ -23,6 +23,16 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
+### GUI Overview
+
+TheRealDeal GUI is organised into **four** key components:
+![GUI Overview](images/GUI-UI.png)
+
+* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
+* `Command Box`: The main area where users can enter commands to interact with the app.
+* `Result Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command. Situated below the `Command Box`.
+* `List Card`: Displays key information about clients or listings, depending on the user's command. Situated below the `Result Display`.
+
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
