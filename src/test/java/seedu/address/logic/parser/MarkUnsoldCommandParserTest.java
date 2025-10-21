@@ -69,7 +69,7 @@ public class MarkUnsoldCommandParserTest {
 
     @Test
     public void parse_duplicateIds_failure() {
-        String input = "p/aaa p/bbb p/aaa"; // duplicate aaa
+        String input = " p/aaa p/bbb p/aaa"; // duplicate aaa
         ParseException exception = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals("Duplicate property ID detected: aaa", exception.getMessage());
     }

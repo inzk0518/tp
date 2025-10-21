@@ -6,7 +6,7 @@
     "phone" : "94351253",
     "email" : "alice@example.com",
     "address" : "123, Jurong West Ave 6, #08-111",
-    "tags" : [ "friends" ],
+    "tags" : [ "buyer" ],
     "budgetMin" : "0",
     "budgetMax" : "1000",
     "notes" : "",

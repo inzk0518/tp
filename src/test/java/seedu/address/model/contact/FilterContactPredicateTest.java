@@ -110,12 +110,12 @@ public class FilterContactPredicateTest {
     public void test_tagMatches_returnsTrue() {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(), Optional.empty(),
-                Optional.empty(), Optional.of(Collections.singletonList("friend")),
+                Optional.empty(), Optional.of(Collections.singletonList("buyer")),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
-        assertTrue(predicate.test(new ContactBuilderUtil().withTags("friend", "colleague").build()));
+        assertTrue(predicate.test(new ContactBuilderUtil().withTags("buyer").build()));
     }
 
     @Test
@@ -155,6 +155,31 @@ public class FilterContactPredicateTest {
 
         assertTrue(predicate.test(new ContactBuilderUtil().withStatus("Active").build()));
     }
+
+    @Test
+    public void test_statusActiveDoesNotMatchInactive() {
+        FilterContactPredicate predicate = new FilterContactPredicate(
+                Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
+                Optional.empty(),
+                Optional.of(Collections.singletonList("active")),
+                Optional.empty(), Optional.empty()
+        );
+
+        // Person with status "Active" should match
+        assertTrue(predicate.test(new ContactBuilderUtil().withStatus("Active").build()));
+
+        // Person with status "inactive" should NOT match
+        assertFalse(predicate.test(new ContactBuilderUtil().withStatus("inactive").build()));
+
+        // Person with status "active" should match (case-insensitive)
+        assertTrue(predicate.test(new ContactBuilderUtil().withStatus("active").build()));
+
+        // Person with status null or empty string (empty status) should NOT match
+        assertFalse(predicate.test(new ContactBuilderUtil().withStatus("").build()));
+    }
+
+
 
     @Test
     public void test_noMatches_returnsFalse() {

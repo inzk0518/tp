@@ -20,8 +20,8 @@ import seedu.address.model.contact.Email;
 import seedu.address.model.contact.Name;
 import seedu.address.model.contact.Notes;
 import seedu.address.model.contact.Phone;
+import seedu.address.model.contact.Tag;
 import seedu.address.model.property.Property;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.model.uuid.Uuid.StoredItem;
 
@@ -81,6 +81,7 @@ public class SampleDataUtil {
         for (Contact sampleContact : getSampleContacts()) {
             sampleAb.addContact(sampleContact);
         }
+        sampleAb.setNextUuid(getSampleContacts().length + 1);
         return sampleAb;
     }
 
@@ -89,6 +90,7 @@ public class SampleDataUtil {
         for (Property sampleProperty : getSampleProperties()) {
             samplePb.addProperty(sampleProperty);
         }
+        samplePb.setNextUuid(getSampleProperties().length + 1);
         return samplePb;
     }
 

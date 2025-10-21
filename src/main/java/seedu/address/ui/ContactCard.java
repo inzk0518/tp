@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.contact.Contact;
+import seedu.address.model.uuid.Uuid;
 
 /**
  * An UI component that displays information of a {@code Contact}.
@@ -42,6 +43,8 @@ public class ContactCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label linkedIds;
 
     /**
      * Creates a {@code ContactCard} with the given {@code Contact} and index to display.
@@ -49,7 +52,7 @@ public class ContactCard extends UiPart<Region> {
     public ContactCard(Contact contact, int displayedIndex) {
         super(FXML);
         this.contact = contact;
-        uuid.setText("id: " + contact.getUuid());
+        uuid.setText("id: " + contact.getUuid().getValue());
         id.setText(displayedIndex + ". ");
         name.setText(contact.getName().fullName);
         phone.setText(contact.getPhone().value);
@@ -58,5 +61,10 @@ public class ContactCard extends UiPart<Region> {
         contact.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        String formattedLinkedIds = String.format("Buying Ids: %s • Selling Ids: %s",
+                Uuid.getGuiSetDisplayAsString(contact.getBuyingPropertyIds()),
+                Uuid.getGuiSetDisplayAsString(contact.getSellingPropertyIds()));
+        linkedIds.setText(formattedLinkedIds);
     }
 }

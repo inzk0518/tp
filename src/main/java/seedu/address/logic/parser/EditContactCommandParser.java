@@ -20,7 +20,7 @@ import java.util.Set;
 import seedu.address.logic.commands.EditContactCommand;
 import seedu.address.logic.commands.EditContactCommand.EditContactDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.contact.Tag;
 import seedu.address.model.uuid.Uuid;
 
 /**

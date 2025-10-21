@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
 
 /**
@@ -179,7 +178,7 @@ public class Contact {
         }
 
         Contact otherContact = (Contact) other;
-        return Objects.equals(name, otherContact.name)
+        return Objects.equals(name.toString().toLowerCase(), otherContact.name.toString().toLowerCase())
                 && Objects.equals(phone, otherContact.phone);
     }
 

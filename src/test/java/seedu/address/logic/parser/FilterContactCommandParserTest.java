@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -140,6 +141,58 @@ public class FilterContactCommandParserTest {
         // invalid offset
         assertParseFailure(parser, " offset/-5", "Offset cannot be negative.");
         assertParseFailure(parser, " offset/xyz", "Invalid number for offset: Optional[xyz]");
+    }
+
+    @Test
+    public void parse_valuesContainingPrefixLikeStrings_failure() {
+        String prefixLikeValue = "abc/like";
+
+        // Name containing prefix-like value
+        assertParseFailure(parser,
+                " n/" + prefixLikeValue + " p/12345678",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+
+        // Phone containing prefix-like value
+        assertParseFailure(parser,
+                " n/Alice p/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+
+        // Email containing prefix-like value
+        assertParseFailure(parser,
+                " n/Alice p/12345678 e/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+
+        // Address containing prefix-like value
+        assertParseFailure(parser,
+                " n/Alice a/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+
+        // Tag containing prefix-like value
+        assertParseFailure(parser,
+                " n/Alice t/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_notesContainingPrefixLikeStrings_success() throws Exception {
+        String input = " n/Alice p/12345678 " + PREFIX_NOTES + " some/note/with/slashes";
+
+        FilterContactPredicate predicate = new FilterContactPredicate(
+                Optional.of(Arrays.asList("Alice")),
+                Optional.of(Arrays.asList("12345678")),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(Arrays.asList("some/note/with/slashes")),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty()
+        );
+        FilterContactCommand expectedCommand = new FilterContactCommand(predicate);
+
+        assertParseSuccess(parser, input, expectedCommand);
     }
 
 }
