@@ -124,6 +124,43 @@ Examples:
 * `filtercontact n/Tan s/active`
 
 
+### Adding a property: `addproperty`
+
+Adds a property to the property list. All fields are required.
+
+Format: `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`
+
+* `address/ADDRESS` must be 5-200 characters long and contain at least one letter and one digit.
+* `postal/POSTAL` must be a 6-digit Singapore postal code.
+* `price/PRICE` must be a positive integer up to 1,000,000,000,000.
+* `type/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
+* `status/STATUS` accepts `unsold` or `sold` (case-insensitive).
+* `bedroom/BEDROOM` and `bathroom/BATHROOM` accept integers from 0 to 20.
+* `floorarea/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
+* `listing/LISTING` accepts `sale` or `rent` (case-insensitive). A property marked as `sold` cannot be listed for `rent`.
+* `owner/OWNER_ID` should be the UUID of an existing client (the number shown in the client list).
+* The command rejects properties that share both the same address and postal code as an existing property.
+* Each new property is assigned the next available UUID automatically; you do not provide an ID when adding it.
+
+Examples:
+* `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
+* `addproperty address/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bedroom/4 bathroom/2 floorarea/1050 listing/rent owner/5`
+
+
+### Deleting a property: `deleteproperty`
+
+Deletes a property identified by its UUID.
+
+Format: `deleteproperty PROPERTY_ID`
+
+* `PROPERTY_ID` is the positive integer shown with each property card in the property list panel.
+* The command only works on properties currently visible in the property list panel. Filter the list first if needed.
+
+Examples:
+* `deleteproperty 12`
+* `deleteproperty 3`
+
+
 ### Filtering contact : `filterproperty`
 
 Filters the properties based on the fields given
@@ -226,6 +263,8 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
+**Delete Property** | `deleteproperty PROPERTY_ID`<br> e.g., `deleteproperty 12`
 **Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> e.g., `filterproperty bedroom/2 price/2000`
 **Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
 **Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
