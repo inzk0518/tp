@@ -14,7 +14,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonAddress;
 import seedu.address.model.person.PersonStatus;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Tag;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.model.uuid.Uuid;
 
@@ -94,7 +94,7 @@ public class PersonBuilderUtil {
      * Sets the {@code Name} of the {@code Person} that we are building.
      */
     public PersonBuilderUtil withName(String name) {
-        this.name = new Name(name);
+        this.name = new Name(name.trim());
         return this;
     }
 

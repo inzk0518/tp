@@ -187,14 +187,78 @@ This section describes some noteworthy details on how certain features are imple
 
 The following subsections enumerate the currently implemented commands for managing contacts and core application behaviour. Detailed write-ups will be added as each feature stabilises.
 
-#### `AddCommand` (`addcontact`)
+#### Add Command (`addcontact`)
+The `addcontact` command is designed to add a new contact to the address book. 
+
+Compulsory fields:
+- Name 
+- Phone Number
+
+Optional Fields:
+- Address
+- Email
+- Minimum Budget
+- Maximum Budget
+- Tag
+- Notes
+- Status
+
+##### Parsing and Validating User Input
+The `AddContactCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
+
+The parser constructs a new `Person` object that is wrapped inside a `AddContactCommand`.
+
+Validation done:
+- Ensures compulsory fields are present
+- Ensures no duplicate fields are provided
+- Ensures Maximum Budget is not less than Minimum Budget
+- Unknown fields provided will throw a `ParseException`
+
+##### Execution
+The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
+
+#### Delete Command (`delete`)
+The `delete` command is designed to delete an existing contact from the address book, identified by their UUID.
+
+Compulsory fields:
+- UUID
+
+##### Parsing and Validating User Input
+The `DeleteContactCommandParser` class is responsible for parsing the command input.
 Documentation pending.
 
-#### `DeleteCommand` (`delete`)
-Documentation pending.
+#### Edit Command (`edit`)
+The `edit` command is designed to edit a contact in the address book, identified by their UUID.
 
-#### `EditCommand` (`edit`)
-Documentation pending.
+Compulsory fields:
+- UUID
+
+Optional Fields:
+- Name
+- Phone Number
+- Address
+- Email
+- Minimum Budget
+- Maximum Budget
+- Tag
+- Notes
+- Status
+
+##### Parsing and Validating User Input
+The `EditContactCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
+The UUID is also validated and parsed.
+
+The parser creates an `EditPersonDescriptor` object that stores the newly edited fields.
+
+Validation done:
+- At least one field must be edited
+- New person must not already be in the address book
+
+##### Execution
+The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
+
 
 #### `ListCommand` (`list`)
 Documentation pending.
