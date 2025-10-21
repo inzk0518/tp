@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.property.Property;
-import seedu.address.model.uuid.Uuid;
 
 /**
  * A UI component that displays information of a {@code Property}.
@@ -25,13 +24,14 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private Label propertyAddress;
     @FXML
-    private Label address;
-    @FXML
     private Label details;
     @FXML
     private Label price;
     @FXML
-    private Label role;
+    private Label linkedIds;
+    @FXML
+    private Label owner;
+
     /**
      * Creates a {@code PropertyCard} with the given {@code Property} and index to display.
      */
@@ -56,7 +56,11 @@ public class PropertyCard extends UiPart<Region> {
                 property.getListing().value);
         price.setText(formattedPrice);
 
-        //placeholder for now (bug to resolve)
-        role.setText("Role: ");
+        owner.setText("Owner: " + property.getOwner().value);
+
+        String formattedLinkedIds = String.format("Buyer Ids: %s • Seller Ids: %s",
+                property.getBuyingPersonIds().toString(),
+                property.getSellingPersonIds().toString());
+        linkedIds.setText(formattedLinkedIds);
     }
 }
