@@ -8,8 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalContacts.AMY;
+import static seedu.address.testutil.TypicalContacts.BOB;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 
@@ -23,9 +23,9 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.person.FilterContactPredicate;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
+import seedu.address.model.contact.Contact;
+import seedu.address.model.contact.FilterContactPredicate;
+import seedu.address.testutil.EditContactDescriptorBuilder;
 import seedu.address.testutil.LinkDescriptorBuilder;
 import seedu.address.testutil.UnlinkDescriptorBuilder;
 
@@ -64,8 +64,8 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditContactCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditContactCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditContactCommand.EditContactDescriptor DESC_AMY;
+    public static final EditContactCommand.EditContactDescriptor DESC_BOB;
 
     public static final LinkCommand.LinkDescriptor LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
     public static final LinkCommand.LinkDescriptor LINK_DESC_BOB_SELLER_PROPERTY_BETA;
@@ -74,21 +74,21 @@ public class CommandTestUtil {
     public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_BOB_PROPERTY_BETA;
 
     static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
+        DESC_AMY = new EditContactDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
+        DESC_BOB = new EditContactDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
-        LINK_DESC_AMY_BUYER_PROPERTY_ALPHA = new LinkDescriptorBuilder().withPersonIds(Set.of(AMY.getUuid()))
+        LINK_DESC_AMY_BUYER_PROPERTY_ALPHA = new LinkDescriptorBuilder().withContactIds(Set.of(AMY.getUuid()))
                 .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
-        LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withPersonIds(Set.of(BOB.getUuid()))
+        LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withContactIds(Set.of(BOB.getUuid()))
                 .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
 
-        UNLINK_DESC_AMY_PROPERTY_ALPHA = new UnlinkDescriptorBuilder().withPersonIds(Set.of(AMY.getUuid()))
+        UNLINK_DESC_AMY_PROPERTY_ALPHA = new UnlinkDescriptorBuilder().withContactIds(Set.of(AMY.getUuid()))
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
-        UNLINK_DESC_BOB_PROPERTY_BETA = new UnlinkDescriptorBuilder().withPersonIds(Set.of(BOB.getUuid()))
+        UNLINK_DESC_BOB_PROPERTY_BETA = new UnlinkDescriptorBuilder().withContactIds(Set.of(BOB.getUuid()))
                 .withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
     }
 
@@ -122,27 +122,27 @@ public class CommandTestUtil {
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
      * - the CommandException message matches {@code expectedMessage} <br>
-     * - the address book, filtered person list and selected person in {@code actualModel} remain unchanged
+     * - the address book, filtered contact list and selected contact in {@code actualModel} remain unchanged
      */
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
-        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
+        List<Contact> expectedFilteredList = new ArrayList<>(actualModel.getFilteredContactList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
+        assertEquals(expectedFilteredList, actualModel.getFilteredContactList());
     }
     /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
+     * Updates {@code model}'s filtered list to show only the contact at the given {@code targetIndex} in the
      * {@code model}'s address book.
      */
-    public static void showPersonAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
+    public static void showContactAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredContactList().size());
 
-        Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
-        final String[] splitName = person.getName().fullName.split("\\s+");
+        Contact contact = model.getFilteredContactList().get(targetIndex.getZeroBased());
+        final String[] splitName = contact.getName().fullName.split("\\s+");
 
         // Create a FilterContactPredicate that filters by name keyword
         FilterContactPredicate predicate = new FilterContactPredicate(
@@ -151,8 +151,8 @@ public class CommandTestUtil {
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()
         );
-        model.updateFilteredPersonList(predicate);
-        assertEquals(1, model.getFilteredPersonList().size());
+        model.updateFilteredContactList(predicate);
+        assertEquals(1, model.getFilteredContactList().size());
     }
 
 }

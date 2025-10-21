@@ -24,10 +24,10 @@ public class LinkDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code personId} of the {@code LinkDescriptor} that we are building.
+     * Sets the {@code contactIds} of the {@code LinkDescriptor} that we are building.
      */
-    public LinkDescriptorBuilder withPersonIds(Set<Uuid> personIds) {
-        descriptor.setPersonIds(personIds);
+    public LinkDescriptorBuilder withContactIds(Set<Uuid> contactIds) {
+        descriptor.setContactIds(contactIds);
         return this;
     }
 

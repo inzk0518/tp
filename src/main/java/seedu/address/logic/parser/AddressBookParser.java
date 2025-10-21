@@ -18,7 +18,7 @@ import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.LinkCommand;
 import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.ShowClientsCommand;
+import seedu.address.logic.commands.ShowContactsCommand;
 import seedu.address.logic.commands.UnlinkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.exceptions.UnknownCommandParseException;
@@ -88,8 +88,8 @@ public class AddressBookParser implements CommandSetParser {
         case UnlinkCommand.COMMAND_WORD:
             return new UnlinkCommandParser().parse(arguments);
 
-        case ShowClientsCommand.COMMAND_WORD:
-            return new ShowClientsCommandParser().parse(arguments);
+        case ShowContactsCommand.COMMAND_WORD:
+            return new ShowContactsCommandParser().parse(arguments);
 
         default:
             throw new UnknownCommandParseException(MESSAGE_UNKNOWN_COMMAND);

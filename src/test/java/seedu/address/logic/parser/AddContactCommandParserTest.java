@@ -29,93 +29,93 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalContacts.AMY;
+import static seedu.address.testutil.TypicalContacts.BOB;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddContactCommand;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
+import seedu.address.model.contact.Contact;
+import seedu.address.model.contact.Email;
+import seedu.address.model.contact.Name;
+import seedu.address.model.contact.Phone;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PersonBuilderUtil;
+import seedu.address.testutil.ContactBuilderUtil;
 
 public class AddContactCommandParserTest {
     private AddContactCommandParser parser = new AddContactCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Person expectedPerson = new PersonBuilderUtil(BOB).withTags(VALID_TAG_FRIEND).build();
+        Contact expectedContact = new ContactBuilderUtil(BOB).withTags(VALID_TAG_FRIEND).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddContactCommand(expectedPerson));
+                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddContactCommand(expectedContact));
 
 
         // multiple tags - all accepted
-        Person expectedPersonMultipleTags = new PersonBuilderUtil(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+        Contact expectedContactMultipleTags = new ContactBuilderUtil(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                new AddContactCommand(expectedPersonMultipleTags));
+                new AddContactCommand(expectedContactMultipleTags));
     }
 
     @Test
     public void parse_repeatedNonTagValue_failure() {
-        String validExpectedPersonString = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        String validExpectedContactString = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND;
 
         // multiple names
-        assertParseFailure(parser, NAME_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, NAME_DESC_AMY + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
 
         // multiple phones
-        assertParseFailure(parser, PHONE_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, PHONE_DESC_AMY + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
         // multiple emails
-        assertParseFailure(parser, EMAIL_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, EMAIL_DESC_AMY + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
         // multiple addresses
-        assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedPersonString,
+        assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
         // multiple fields repeated
         assertParseFailure(parser,
-                validExpectedPersonString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY
-                        + validExpectedPersonString,
+                validExpectedContactString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY
+                        + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS, PREFIX_EMAIL, PREFIX_PHONE));
 
         // invalid value followed by valid value
 
         // invalid name
-        assertParseFailure(parser, INVALID_NAME_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_NAME_DESC + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
 
         // invalid email
-        assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
         // invalid phone
-        assertParseFailure(parser, INVALID_PHONE_DESC + validExpectedPersonString,
+        assertParseFailure(parser, INVALID_PHONE_DESC + validExpectedContactString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
         // valid value followed by invalid value
 
         // invalid name
-        assertParseFailure(parser, validExpectedPersonString + INVALID_NAME_DESC,
+        assertParseFailure(parser, validExpectedContactString + INVALID_NAME_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
 
         // invalid email
-        assertParseFailure(parser, validExpectedPersonString + INVALID_EMAIL_DESC,
+        assertParseFailure(parser, validExpectedContactString + INVALID_EMAIL_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
 
         // invalid phone
-        assertParseFailure(parser, validExpectedPersonString + INVALID_PHONE_DESC,
+        assertParseFailure(parser, validExpectedContactString + INVALID_PHONE_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
     }
@@ -123,7 +123,7 @@ public class AddContactCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Person expectedPerson = new PersonBuilderUtil(AMY)
+        Contact expectedContact = new ContactBuilderUtil(AMY)
                 .withEmail("")
                 .withAddress("")
                 .withTags()
@@ -133,7 +133,7 @@ public class AddContactCommandParserTest {
                 .withStatus("Active")
                 .build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY,
-                new AddContactCommand(expectedPerson));
+                new AddContactCommand(expectedContact));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class AddContactCommandParserTest {
 
         // missing email prefix -> should succeed, so test for success instead
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB,
-                new AddContactCommand(new PersonBuilderUtil()
+                new AddContactCommand(new ContactBuilderUtil()
                         .withName(VALID_NAME_BOB)
                         .withPhone(VALID_PHONE_BOB)
                         .withEmail("")
@@ -164,7 +164,7 @@ public class AddContactCommandParserTest {
 
         // missing address prefix -> should succeed, so test for success instead
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB,
-                new AddContactCommand(new PersonBuilderUtil()
+                new AddContactCommand(new ContactBuilderUtil()
                         .withName(VALID_NAME_BOB)
                         .withPhone(VALID_PHONE_BOB)
                         .withEmail(VALID_EMAIL_BOB)

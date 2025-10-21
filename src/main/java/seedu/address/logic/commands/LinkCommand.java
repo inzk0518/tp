@@ -1,10 +1,10 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 
 import java.util.ArrayList;
@@ -17,37 +17,37 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
 
 /**
- * Links properties to people.
+ * Links properties to contacts.
  */
 public class LinkCommand extends Command {
 
     public static final String COMMAND_WORD = "link";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to people. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to contacts. "
             + "Parameters: "
-            + PREFIX_LINK_PROPERTY_ID + "PROPERTY_ID{1..} "
+            + PREFIX_PROPERTY_ID + "PROPERTY_ID{1..} "
             + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller')"
-            + PREFIX_LINK_CLIENT_ID + "CLIENT_ID{1..}"
+            + PREFIX_CONTACT_ID + "CONTACT_ID{1..}"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_LINK_PROPERTY_ID + "2 "
+            + PREFIX_PROPERTY_ID + "2 "
             + PREFIX_LINK_RELATIONSHIP + "buyer "
-            + PREFIX_LINK_CLIENT_ID + "3 "
-            + PREFIX_LINK_CLIENT_ID + "5";
+            + PREFIX_CONTACT_ID + "3 "
+            + PREFIX_CONTACT_ID + "5";
 
     public static final String MESSAGE_LINK_BUYER_SUCCESS =
-            "Linked Property IDs: %1$s with Person IDs: %2$s as buyer";
+            "Linked Property IDs: %1$s with Contact IDs: %2$s as buyer";
     public static final String MESSAGE_LINK_SELLER_SUCCESS =
-            "Linked Property IDs: %1$s with Person IDs: %2$s as seller";
+            "Linked Property IDs: %1$s with Contact IDs: %2$s as seller";
 
     private final LinkDescriptor linkDescriptor;
 
     /**
-     * Creates a LinkCommand to link the specified {@code Properties} to the specified {@code People}
+     * Creates a LinkCommand to link the specified {@code Property} to the specified {@code Contact}
      */
     public LinkCommand(LinkDescriptor linkDescriptor) {
         requireNonNull(linkDescriptor);
@@ -57,27 +57,27 @@ public class LinkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownPersonList = model.getFilteredPersonList();
+        List<Contact> lastShownContactList = model.getFilteredContactList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
 
-        List<Person> targetPeople = linkDescriptor.getPeopleInList(lastShownPersonList);
+        List<Contact> targetContacts = linkDescriptor.getContactsInList(lastShownContactList);
         List<Property> targetProperties = linkDescriptor.getPropertiesInList(lastShownPropertyList);
 
-        List<Person> updatedPeople = linkDescriptor.getUpdatedPeople(lastShownPersonList);
+        List<Contact> updatedContacts = linkDescriptor.getUpdatedContacts(lastShownContactList);
         List<Property> updatedProperties = linkDescriptor.getUpdatedProperties(lastShownPropertyList);
 
-        Stream.iterate(0, x -> x < targetPeople.size(), x -> x + 1)
-                .forEach(i -> model.setPerson(targetPeople.get(i), updatedPeople.get(i)));
+        Stream.iterate(0, x -> x < targetContacts.size(), x -> x + 1)
+                .forEach(i -> model.setContact(targetContacts.get(i), updatedContacts.get(i)));
         Stream.iterate(0, x -> x < targetProperties.size(), x -> x + 1)
                 .forEach(i -> model.setProperty(targetProperties.get(i), updatedProperties.get(i)));
 
         switch (linkDescriptor.getRelationship()) {
         case "buyer":
             return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS, linkDescriptor.getPropertyIds(),
-                    linkDescriptor.getPersonIds()));
+                    linkDescriptor.getContactIds()));
         case "seller":
             return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS, linkDescriptor.getPropertyIds(),
-                    linkDescriptor.getPersonIds()));
+                    linkDescriptor.getContactIds()));
         default:
             throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
         }
@@ -105,10 +105,10 @@ public class LinkCommand extends Command {
     }
 
     /**
-     * Stores Ids and relationship to link a property to a person.
+     * Stores Ids and relationship to link a property to a contact.
      */
     public static class LinkDescriptor {
-        private Set<Uuid> personIds;
+        private Set<Uuid> contactIds;
         private Set<Uuid> propertyIds;
         private String relationship;
 
@@ -118,17 +118,17 @@ public class LinkCommand extends Command {
          * Copy constructor.
          */
         public LinkDescriptor(LinkDescriptor toCopy) {
-            setPersonIds(toCopy.personIds);
+            setContactIds(toCopy.contactIds);
             setPropertyIds(toCopy.propertyIds);
             setRelationship(toCopy.relationship);
         }
 
-        public void setPersonIds(Set<Uuid> personIds) {
-            this.personIds = personIds;
+        public void setContactIds(Set<Uuid> contactIds) {
+            this.contactIds = contactIds;
         }
 
-        public Set<Uuid> getPersonIds() {
-            return personIds;
+        public Set<Uuid> getContactIds() {
+            return contactIds;
         }
 
         public void setPropertyIds(Set<Uuid> propertyIds) {
@@ -148,19 +148,19 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns the {@code List<Person>} in the list with all matching personIds.
+         * Returns the {@code List<Contact>} in the list with all matching contactIds.
          *
-         * @throws CommandException if any person is not found in the list.
+         * @throws CommandException if any contact is not found in the list.
          */
-        public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
-            assert (personList != null);
-            List<Person> peopleList = new ArrayList<>(personList).stream()
-                    .filter(person -> personIds.contains(person.getUuid()))
+        public List<Contact> getContactsInList(List<Contact> contactList) throws CommandException {
+            assert (contactList != null);
+            List<Contact> contactsList = new ArrayList<>(contactList).stream()
+                    .filter(contact -> contactIds.contains(contact.getUuid()))
                     .collect(Collectors.toList());
-            if (peopleList.size() != personIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            if (contactsList.size() != contactIds.size()) {
+                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX);
             }
-            return peopleList;
+            return contactsList;
         }
 
         /**
@@ -180,27 +180,27 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code List<Person>} with the properties linked.
+         * Returns an edited {@code List<Contact>} with the properties linked.
          *
          * @throws CommandException if the relationship is invalid.
          */
-        public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
+        public List<Contact> getUpdatedContacts(List<Contact> contactList) throws CommandException {
             assert (relationship != null);
-            List<Person> peopleToEdit = new ArrayList<>(getPeopleInList(personList));
+            List<Contact> contactsToEdit = new ArrayList<>(getContactsInList(contactList));
             switch (relationship) {
             case "buyer":
-                return peopleToEdit.stream()
-                        .map(personToEdit -> personToEdit
+                return contactsToEdit.stream()
+                        .map(contactToEdit -> contactToEdit
                         .duplicateWithNewBuyingPropertyIds(
-                        Stream.concat(personToEdit.getBuyingPropertyIds().stream(), propertyIds.stream())
+                        Stream.concat(contactToEdit.getBuyingPropertyIds().stream(), propertyIds.stream())
                         .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             case "seller":
-                return peopleToEdit.stream()
-                        .map(personToEdit -> personToEdit
+                return contactsToEdit.stream()
+                        .map(contactToEdit -> contactToEdit
                         .duplicateWithNewSellingPropertyIds(
-                        Stream.concat(personToEdit.getSellingPropertyIds().stream(), propertyIds.stream())
+                        Stream.concat(contactToEdit.getSellingPropertyIds().stream(), propertyIds.stream())
                         .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
@@ -210,7 +210,7 @@ public class LinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code List<Property>} with the people linked.
+         * Returns an edited {@code List<Property>} with the contacts linked.
          *
          * @throws CommandException if the relationship is invalid.
          */
@@ -222,16 +222,16 @@ public class LinkCommand extends Command {
             case "buyer":
                 return propertiesToEdit.stream()
                         .map(propertyToEdit -> propertyToEdit
-                        .duplicateWithNewBuyingPersonIds(
-                        Stream.concat(propertyToEdit.getBuyingPersonIds().stream(), personIds.stream())
+                        .duplicateWithNewBuyingContactIds(
+                        Stream.concat(propertyToEdit.getBuyingContactIds().stream(), contactIds.stream())
                         .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
             case "seller":
                 return propertiesToEdit.stream()
                         .map(propertyToEdit -> propertyToEdit
-                        .duplicateWithNewSellingPersonIds(
-                        Stream.concat(propertyToEdit.getSellingPersonIds().stream(), personIds.stream())
+                        .duplicateWithNewSellingContactIds(
+                        Stream.concat(propertyToEdit.getSellingContactIds().stream(), contactIds.stream())
                         .distinct()
                         .collect(Collectors.toSet())))
                         .collect(Collectors.toList());
@@ -252,7 +252,7 @@ public class LinkCommand extends Command {
 
             LinkDescriptor otherLinkDescriptor = (LinkDescriptor) other;
 
-            return personIds.equals(otherLinkDescriptor.personIds)
+            return contactIds.equals(otherLinkDescriptor.contactIds)
                     && propertyIds.equals(otherLinkDescriptor.propertyIds)
                     && relationship.equals(otherLinkDescriptor.relationship);
         }
@@ -260,7 +260,7 @@ public class LinkCommand extends Command {
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .add("personIds", personIds)
+                    .add("contactIds", contactIds)
                     .add("relationship", relationship)
                     .add("propertyIds", propertyIds)
                     .toString();

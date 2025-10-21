@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_CLIENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_PROPERTY_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.Set;
 
@@ -24,18 +24,18 @@ public class UnlinkCommandParser implements Parser<UnlinkCommand> {
     @Override
     public UnlinkCommand parse(String args) throws ParseException {
 
-        var argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_CLIENT_ID);
-        if (!argMultimap.arePrefixesPresent(PREFIX_LINK_PROPERTY_ID, PREFIX_LINK_CLIENT_ID)
+        var argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ID, PREFIX_CONTACT_ID);
+        if (!argMultimap.arePrefixesPresent(PREFIX_PROPERTY_ID, PREFIX_CONTACT_ID)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnlinkCommand.MESSAGE_USAGE));
         }
 
-        Set<Uuid> personIds = ParserUtil.parsePersonIds(argMultimap.getAllValues(PREFIX_LINK_CLIENT_ID));
-        Set<Uuid> propertyIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_LINK_PROPERTY_ID));
+        Set<Uuid> contactIds = ParserUtil.parseContactIds(argMultimap.getAllValues(PREFIX_CONTACT_ID));
+        Set<Uuid> propertyIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_PROPERTY_ID));
 
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptor();
 
-        unlinkDescriptor.setPersonIds(personIds);
+        unlinkDescriptor.setContactIds(contactIds);
         unlinkDescriptor.setPropertyIds(propertyIds);
 
         return new UnlinkCommand(unlinkDescriptor);

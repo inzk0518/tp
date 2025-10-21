@@ -18,8 +18,8 @@ public class DeleteContactCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1", new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.PERSON)));
-        assertParseSuccess(parser, "42", new DeleteContactCommand(new Uuid(42, Uuid.StoredItem.PERSON)));
+        assertParseSuccess(parser, "1", new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.CONTACT)));
+        assertParseSuccess(parser, "42", new DeleteContactCommand(new Uuid(42, Uuid.StoredItem.CONTACT)));
     }
 
     @Test

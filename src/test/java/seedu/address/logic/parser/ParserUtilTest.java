@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CONTACT;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,10 +15,10 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.PersonAddress;
-import seedu.address.model.person.Phone;
+import seedu.address.model.contact.ContactAddress;
+import seedu.address.model.contact.Email;
+import seedu.address.model.contact.Name;
+import seedu.address.model.contact.Phone;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -35,7 +35,6 @@ import seedu.address.model.uuid.Uuid;
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_PROPERTY_ADDRESS = "Main Street";
@@ -59,7 +58,7 @@ public class ParserUtilTest {
     private static final String VALID_POSTAL = "123456";
     private static final String VALID_PRICE = "500000";
     private static final String VALID_TYPE = "HDB";
-    private static final String VALID_STATUS = "sold";
+    private static final String VALID_STATUS = "unavailable";
     private static final String VALID_BEDROOM = "3";
     private static final String VALID_BATHROOM = "2";
     private static final String VALID_FLOOR_AREA = "120";
@@ -83,10 +82,10 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_validInput_success() throws Exception {
         // No whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("1"));
+        assertEquals(INDEX_FIRST_CONTACT, ParserUtil.parseIndex("1"));
 
         // Leading and trailing whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+        assertEquals(INDEX_FIRST_CONTACT, ParserUtil.parseIndex("  1  "));
     }
 
     @Test
@@ -137,26 +136,26 @@ public class ParserUtilTest {
 
     @Test
     public void parseAddress_null_returnsEmptyAddress() throws Exception {
-        PersonAddress emptyAddress = ParserUtil.parseAddress(null);
-        assertEquals(new PersonAddress(""), emptyAddress);
+        ContactAddress emptyAddress = ParserUtil.parseAddress(null);
+        assertEquals(new ContactAddress(""), emptyAddress);
     }
 
     @Test
     public void parseAddress_blankValue_returnsEmptyAddress() throws Exception {
-        PersonAddress emptyAddress = ParserUtil.parseAddress(" ");
-        assertEquals(new PersonAddress(""), emptyAddress);
+        ContactAddress emptyAddress = ParserUtil.parseAddress(" ");
+        assertEquals(new ContactAddress(""), emptyAddress);
     }
 
     @Test
     public void parseAddress_validValueWithoutWhitespace_returnsAddress() throws Exception {
-        PersonAddress expectedAddress = new PersonAddress(VALID_ADDRESS);
+        ContactAddress expectedAddress = new ContactAddress(VALID_ADDRESS);
         assertEquals(expectedAddress, ParserUtil.parseAddress(VALID_ADDRESS));
     }
 
     @Test
     public void parseAddress_validValueWithWhitespace_returnsTrimmedAddress() throws Exception {
         String addressWithWhitespace = WHITESPACE + VALID_ADDRESS + WHITESPACE;
-        PersonAddress expectedAddress = new PersonAddress(VALID_ADDRESS);
+        ContactAddress expectedAddress = new ContactAddress(VALID_ADDRESS);
         assertEquals(expectedAddress, ParserUtil.parseAddress(addressWithWhitespace));
     }
 

@@ -21,7 +21,7 @@ import java.util.Set;
 
 import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.contact.FilterContactPredicate;
 
 /**
  * Parses input arguments and creates a new {@link FilterContactCommand}.

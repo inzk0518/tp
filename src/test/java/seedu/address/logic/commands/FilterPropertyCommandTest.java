@@ -42,9 +42,9 @@ public class FilterPropertyCommandTest {
     public void setUp() {
         model = new ModelManager();
 
-        p1 = createProperty("123 Orchard Rd", "Condo", 3, 2, "1000000", "unsold", "alice");
-        p2 = createProperty("456 Bedok Ave", "HDB", 4, 3, "750000", "sold", "bob");
-        p3 = createProperty("789 Clementi St", "Landed", 5, 4, "2000000", "unsold", "carol");
+        p1 = createProperty("123 Orchard Rd", "Condo", 3, 2, "1000000", "available", "alice");
+        p2 = createProperty("456 Bedok Ave", "HDB", 4, 3, "750000", "unavailable", "bob");
+        p3 = createProperty("789 Clementi St", "Landed", 5, 4, "2000000", "available", "carol");
 
         model.addProperty(p1);
         model.addProperty(p2);
@@ -90,7 +90,7 @@ public class FilterPropertyCommandTest {
     @Test
     public void execute_filterByStatus_success() throws CommandException {
         PropertyMatchesFilterPredicate predicate =
-                new PropertyMatchesFilterPredicate.Builder().withStatus("unsold").build();
+                new PropertyMatchesFilterPredicate.Builder().withStatus("available").build();
 
         FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
         CommandResult result = command.execute(model);
@@ -147,7 +147,7 @@ public class FilterPropertyCommandTest {
     @Test
     public void execute_filterWithLimitAndOffset_success() throws CommandException {
         PropertyMatchesFilterPredicate predicate =
-                new PropertyMatchesFilterPredicate.Builder().withStatus("unsold").build();
+                new PropertyMatchesFilterPredicate.Builder().withStatus("available").build();
 
         FilterPropertyCommand command = new FilterPropertyCommand(predicate, 1, 1);
         CommandResult result = command.execute(model);

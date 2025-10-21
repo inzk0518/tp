@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.contact.FilterContactPredicate;
 
 public class FilterContactCommandParserTest {
 

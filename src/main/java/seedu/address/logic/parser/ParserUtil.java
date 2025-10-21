@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.Collection;
@@ -11,14 +11,14 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.BudgetMax;
-import seedu.address.model.person.BudgetMin;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Notes;
-import seedu.address.model.person.PersonAddress;
-import seedu.address.model.person.PersonStatus;
-import seedu.address.model.person.Phone;
+import seedu.address.model.contact.BudgetMax;
+import seedu.address.model.contact.BudgetMin;
+import seedu.address.model.contact.ContactAddress;
+import seedu.address.model.contact.ContactStatus;
+import seedu.address.model.contact.Email;
+import seedu.address.model.contact.Name;
+import seedu.address.model.contact.Notes;
+import seedu.address.model.contact.Phone;
 import seedu.address.model.property.Bathroom;
 import seedu.address.model.property.Bedroom;
 import seedu.address.model.property.FloorArea;
@@ -55,30 +55,30 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code personId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
+     * Parses {@code contactId} into a {@code Uuid} and returns it. Leading and trailing whitespaces will be
      * trimmed.
-     * @throws ParseException if the specified personId is invalid (not non-zero unsigned integer).
+     * @throws ParseException if the specified contactId is invalid (not non-zero unsigned integer).
      */
-    public static Uuid parsePersonId(String personId) throws ParseException {
-        requireNonNull(personId);
-        String trimmedpersonId = personId.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedpersonId)) {
+    public static Uuid parseContactId(String contactId) throws ParseException {
+        requireNonNull(contactId);
+        String trimmedContactId = contactId.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedContactId)) {
             throw new ParseException(MESSAGE_INVALID_UUID);
         }
-        return new Uuid(Integer.parseInt(trimmedpersonId), PERSON);
+        return new Uuid(Integer.parseInt(trimmedContactId), CONTACT);
     }
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Uuid>},
-     * both representing a collection of person ids, and returns it.
+     * both representing a collection of contact ids, and returns it.
      */
-    public static Set<Uuid> parsePersonIds(Collection<String> personIds) throws ParseException {
-        requireNonNull(personIds);
-        final Set<Uuid> personIdsSet = new HashSet<>();
-        for (String personId : personIds) {
-            personIdsSet.add(parsePersonId(personId));
+    public static Set<Uuid> parseContactIds(Collection<String> contactIds) throws ParseException {
+        requireNonNull(contactIds);
+        final Set<Uuid> contactIdsSet = new HashSet<>();
+        for (String contactId : contactIds) {
+            contactIdsSet.add(parseContactId(contactId));
         }
-        return personIdsSet;
+        return contactIdsSet;
     }
 
     /**
@@ -130,12 +130,12 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
-    public static PersonAddress parseAddress(String address) throws ParseException {
+    public static ContactAddress parseAddress(String address) throws ParseException {
         String trimmedAddress = sanitiseNull(address, "").trim();
-        if (!PersonAddress.isValidAddress(trimmedAddress)) {
-            throw new ParseException(PersonAddress.MESSAGE_CONSTRAINTS);
+        if (!ContactAddress.isValidAddress(trimmedAddress)) {
+            throw new ParseException(ContactAddress.MESSAGE_CONSTRAINTS);
         }
-        return new PersonAddress(trimmedAddress);
+        return new ContactAddress(trimmedAddress);
     }
 
     /**
@@ -220,17 +220,17 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String status} into a {@code PersonStatus}.
+     * Parses a {@code String status} into a {@code ContactStatus}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code status} is invalid (fails {@link PersonStatus#isValidStatus}).
+     * @throws ParseException if the given {@code status} is invalid (fails {@link ContactStatus#isValidStatus}).
      */
-    public static PersonStatus parsePersonStatus(String status) throws ParseException {
+    public static ContactStatus parseContactStatus(String status) throws ParseException {
         String trimmedStatus = sanitiseNull(status, "").trim();
-        if (!PersonStatus.isValidStatus(trimmedStatus)) {
-            throw new ParseException(PersonStatus.MESSAGE_CONSTRAINTS);
+        if (!ContactStatus.isValidStatus(trimmedStatus)) {
+            throw new ParseException(ContactStatus.MESSAGE_CONSTRAINTS);
         }
-        return new PersonStatus(trimmedStatus);
+        return new ContactStatus(trimmedStatus);
     }
     // ================ Property parsing methods ================
 

@@ -24,10 +24,10 @@ public class UnlinkDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code personId} of the {@code UnlinkDescriptor} that we are building.
+     * Sets the {@code contactIds} of the {@code UnlinkDescriptor} that we are building.
      */
-    public UnlinkDescriptorBuilder withPersonIds(Set<Uuid> personIds) {
-        descriptor.setPersonIds(personIds);
+    public UnlinkDescriptorBuilder withContactIds(Set<Uuid> contactIds) {
+        descriptor.setContactIds(contactIds);
         return this;
     }
 

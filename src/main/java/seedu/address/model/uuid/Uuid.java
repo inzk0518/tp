@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Person or Properties's unique identifier in the address or property book.
+ * Represents a Contact or Properties's unique identifier in the address or property book.
  * Guarantees: immutable; is valid as declared in {@link #isValidUuid(int)}.
  */
 public class Uuid {
@@ -19,7 +19,7 @@ public class Uuid {
      */
     public static enum StoredItem {
         PROPERTY,
-        PERSON;
+        CONTACT;
     }
 
     /**

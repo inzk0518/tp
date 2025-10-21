@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.logic.commands.EditContactCommand;
-import seedu.address.logic.commands.EditContactCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.EditContactCommand.EditContactDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
@@ -56,7 +56,7 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
         Uuid targetUuid;
 
         try {
-            targetUuid = ParserUtil.parsePersonId(preamble);
+            targetUuid = ParserUtil.parseContactId(preamble);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     EditContactCommand.MESSAGE_USAGE), pe);
@@ -67,39 +67,39 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
                 PREFIX_BUDGET_MIN, PREFIX_BUDGET_MAX, PREFIX_NOTES, PREFIX_STATUS
         );
 
-        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+        EditContactCommand.EditContactDescriptor editContactDescriptor = new EditContactDescriptor();
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+            editContactDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
+            editContactDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+            editContactDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+            editContactDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         if (argMultimap.getValue(PREFIX_BUDGET_MIN).isPresent()) {
-            editPersonDescriptor.setBudgetMin(ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).get()));
+            editContactDescriptor.setBudgetMin(ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).get()));
         }
         if (argMultimap.getValue(PREFIX_BUDGET_MAX).isPresent()) {
-            editPersonDescriptor.setBudgetMax(ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).get()));
+            editContactDescriptor.setBudgetMax(ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).get()));
         }
         if (argMultimap.getValue(PREFIX_NOTES).isPresent()) {
-            editPersonDescriptor.setNotes(ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).get()));
+            editContactDescriptor.setNotes(ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).get()));
         }
         if (argMultimap.getValue(PREFIX_STATUS).isPresent()) {
-            editPersonDescriptor.setStatus(ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).get()));
+            editContactDescriptor.setStatus(ParserUtil.parseContactStatus(argMultimap.getValue(PREFIX_STATUS).get()));
         }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editContactDescriptor::setTags);
 
-        if (!editPersonDescriptor.isAnyFieldEdited()) {
+        if (!editContactDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditContactCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditContactCommand(targetUuid, editPersonDescriptor);
+        return new EditContactCommand(targetUuid, editContactDescriptor);
     }
 
     /**

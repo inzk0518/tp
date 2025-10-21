@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,8 @@ public class ShowPropertiesCommandTest {
 
     @Test
     public void equals() {
-        Uuid firstUuid = new Uuid(123, PERSON);
-        Uuid secondUuid = new Uuid(456, PERSON);
+        Uuid firstUuid = new Uuid(123, CONTACT);
+        Uuid secondUuid = new Uuid(456, CONTACT);
 
         ShowPropertiesCommand showFirstCommand = new ShowPropertiesCommand(firstUuid);
         ShowPropertiesCommand showSecondCommand = new ShowPropertiesCommand(secondUuid);
@@ -38,10 +38,10 @@ public class ShowPropertiesCommandTest {
 
     @Test
     public void toStringMethod() {
-        Uuid uuid = new Uuid(123, PERSON);
+        Uuid uuid = new Uuid(123, CONTACT);
         ShowPropertiesCommand command = new ShowPropertiesCommand(uuid);
         String expected = ShowPropertiesCommand.class.getCanonicalName()
-                + "{clientUuid=" + uuid + "}";
+                + "{contactId=" + uuid + "}";
         assertEquals(expected, command.toString());
     }
 }

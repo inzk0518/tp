@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.logic.commands.DeleteContactCommand;
-import seedu.address.logic.commands.DeletePropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.uuid.Uuid;
 
@@ -21,7 +20,7 @@ public class DeleteContactCommandParser implements Parser<DeleteContactCommand> 
     @Override
     public DeleteContactCommand parse(String args) throws ParseException {
         try {
-            Uuid id = ParserUtil.parsePersonId(args);
+            Uuid id = ParserUtil.parseContactId(args);
             return new DeleteContactCommand(id);
         } catch (ParseException pe) {
             throw new ParseException(

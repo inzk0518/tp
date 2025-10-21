@@ -16,15 +16,15 @@ import java.util.Set;
 
 import seedu.address.logic.commands.AddContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.BudgetMax;
-import seedu.address.model.person.BudgetMin;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Notes;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.PersonAddress;
-import seedu.address.model.person.PersonStatus;
-import seedu.address.model.person.Phone;
+import seedu.address.model.contact.BudgetMax;
+import seedu.address.model.contact.BudgetMin;
+import seedu.address.model.contact.Contact;
+import seedu.address.model.contact.ContactAddress;
+import seedu.address.model.contact.ContactStatus;
+import seedu.address.model.contact.Email;
+import seedu.address.model.contact.Name;
+import seedu.address.model.contact.Notes;
+import seedu.address.model.contact.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.uuid.Uuid;
 
@@ -73,12 +73,12 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).orElse(null));
-        PersonAddress address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).orElse(null));
+        ContactAddress address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).orElse(null));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         BudgetMin budgetMin = ParserUtil.parseBudgetMin(argMultimap.getValue(PREFIX_BUDGET_MIN).orElse(null));
         BudgetMax budgetMax = ParserUtil.parseBudgetMax(argMultimap.getValue(PREFIX_BUDGET_MAX).orElse(null));
         Notes notes = ParserUtil.parseNotes(argMultimap.getValue(PREFIX_NOTES).orElse(null));
-        PersonStatus status = ParserUtil.parsePersonStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
+        ContactStatus status = ParserUtil.parseContactStatus(argMultimap.getValue(PREFIX_STATUS).orElse(null));
         Set<Uuid> emptyBuyingPropertyIds = new HashSet<>();
         Set<Uuid> emptySellingPropertyIds = new HashSet<>();
 
@@ -88,11 +88,11 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
         }
 
         // Correct UUID will be made in AddContactCommand
-        Person person = new Person(name, phone, email, address, tagList,
+        Contact contact = new Contact(name, phone, email, address, tagList,
                                    budgetMin, budgetMax, notes, status,
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 
-        return new AddContactCommand(person);
+        return new AddContactCommand(contact);
     }
 
     /**
