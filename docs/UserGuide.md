@@ -69,9 +69,11 @@ TheRealDeal is a **desktop app for real estate agents, optimized for use via a C
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page_
+Shows a message explaining how to access the help page
 
 Format: `help`
+
+![help message](images/helpMessage.png)
 
 ### Listing all persons : `list`
 Pending documentation
