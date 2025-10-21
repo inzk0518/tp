@@ -3,7 +3,10 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_FLOOR_AREA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_LISTING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_POSTAL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
@@ -31,13 +34,14 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
     @Override
     public FilterPropertyCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM,
-                PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS, PREFIX_PROPERTY_OWNER,
-                PREFIX_LIMIT, PREFIX_OFFSET);
+                PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
+                PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA, PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS,
+                PREFIX_PROPERTY_OWNER, PREFIX_PROPERTY_LISTING, PREFIX_LIMIT, PREFIX_OFFSET);
 
         argMultimap.verifyNoDuplicatePrefixesFor(
-                PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM, PREFIX_PROPERTY_BATHROOM,
-                PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS, PREFIX_PROPERTY_OWNER, PREFIX_LIMIT, PREFIX_OFFSET
+                PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
+                PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA, PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS,
+                PREFIX_PROPERTY_OWNER, PREFIX_PROPERTY_LISTING, PREFIX_LIMIT, PREFIX_OFFSET
         );
 
         PropertyMatchesFilterPredicate.Builder builder = new PropertyMatchesFilterPredicate.Builder();
@@ -49,6 +53,15 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
                 throw new ParseException("Error: address too long (max 50 chars)");
             }
             builder.withAddress(t);
+        }
+
+        Optional<String> maybePostal = argMultimap.getValue(PREFIX_PROPERTY_POSTAL);
+        if (maybePostal.isPresent()) {
+            String t = maybePostal.get().trim();
+            if (t.length() != 6) {
+                throw new ParseException("Error: Invalid postal code (Use a 6-digit postal code)");
+            }
+            builder.withPostal(t);
         }
 
         argMultimap.getValue(PREFIX_PROPERTY_TYPE).ifPresent(s -> builder.withType(s.trim()));
@@ -71,6 +84,15 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
             builder.withBathroom(t);
         }
 
+        Optional<String> maybeFloorArea = argMultimap.getValue(PREFIX_PROPERTY_FLOOR_AREA);
+        if (maybeFloorArea.isPresent()) {
+            String t = maybeFloorArea.get().replace(",", "").trim();
+            if (!t.matches("^\\d+$")) {
+                throw new ParseException("Error: Invalid floor area (digits only)");
+            }
+            builder.withFloorArea(t);
+        }
+
         Optional<String> maybePrice = argMultimap.getValue(PREFIX_PROPERTY_PRICE);
         if (maybePrice.isPresent()) {
             String t = maybePrice.get().replace(",", "").trim();
@@ -83,7 +105,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         Optional<String> maybeStatus = argMultimap.getValue(PREFIX_PROPERTY_STATUS);
         if (maybeStatus.isPresent()) {
             String t = maybeStatus.get().trim().toLowerCase();
-            if (!(t.equals("unsold") || t.equals("sold") || t.equals("rented") || t.equals("off-market"))) {
+            if (!(t.equals("unsold") || t.equals("sold"))) {
                 throw new ParseException("Error: Invalid status");
             }
             builder.withStatus(t);
@@ -96,6 +118,15 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
                 throw new ParseException("Error: owner value too long");
             }
             builder.withOwner(t);
+        }
+
+        Optional<String> maybeListing = argMultimap.getValue(PREFIX_PROPERTY_LISTING);
+        if (maybeListing.isPresent()) {
+            String t = maybeListing.get().trim().toLowerCase();
+            if (!(t.equals("sale") || t.equals("rent"))) {
+                throw new ParseException("Error: Invalid listing");
+            }
+            builder.withListing(t);
         }
 
         int limit = argMultimap.getValue(PREFIX_LIMIT)

@@ -19,7 +19,7 @@ public class FilterPropertyCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Filters properties using optional fields.\n"
             + "Available tags:\n"
-            + "address/ type/ bedroom/ bathroom/ price/ status/ owner/ limit/ offset/\n"
+            + "address/ postal/ type/ bedroom/ bathroom/ floorarea/ price/ status/ owner/ listing/ limit/ offset/\n"
             + "Example: " + COMMAND_WORD + " bedroom/2 bathroom/3 price/500000";
 
     public static final String MESSAGE_INVALID_LIMIT = "Error: Invalid limit";
