@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -11,6 +13,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.uuid.Uuid;
+
+
 
 /**
  * Deletes a person identified by their unique ID from the address book.
@@ -26,6 +30,8 @@ public class DeleteContactCommand extends Command {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
     public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with UUID: %s";
+
+    private static final Logger logger = Logger.getLogger(DeleteContactCommand.class.getName());
 
     private final Uuid targetUuid;
 
@@ -49,10 +55,12 @@ public class DeleteContactCommand extends Command {
                 .findFirst();
 
         if (personToDelete.isEmpty()) {
+            logger.log(Level.WARNING, "Failed to delete contact. UUID not found: {0}", targetUuid.getValue());
             throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetUuid.getValue()));
         }
 
         model.deletePerson(personToDelete.get());
+        logger.log(Level.INFO, "Successfully deleted contact: {0}", personToDelete.get().getName());
         return new CommandResult(String.format(
                 MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete.get())));
     }
