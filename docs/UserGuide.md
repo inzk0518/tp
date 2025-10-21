@@ -26,7 +26,17 @@ TheRealDeal is a **desktop app for real estate agents, optimized for use via a C
    ![Ui](images/Ui.png)
    *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+### GUI Overview
+
+TheRealDeal GUI is organised into **four** key components:
+![GUI Overview](images/GUI-UI.png)
+
+* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
+* `Command Box`: The main area where users can enter commands to interact with the app.
+* `Result Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command. Situated below the `Command Box`.
+* `List Card`: Displays key information about clients or listings, depending on the user's command. Situated below the `Result Display`.
+
+1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -208,6 +218,34 @@ Format: `delete c/UUID`
 
 Examples:
 * `delete c/1`
+
+
+### Viewing properties linked to a client
+
+Shows all properties associated with a specific client
+
+Format: `showproperties c/UUID`
+
+* Displays all properties linked to the client (whether as buyer, seller, or owner).
+* The UUID refers to the ID number shown in the displayed person list.
+
+Examples:
+* `showproperties c/7`
+
+**Note:** If the client has no associated properties, an empty list will be displayed.
+
+### Viewing clients associated to a property
+
+Shows all clients associated with a specific property
+
+Format: `showclients p/UUID`
+
+* Displays the owner, buyers, and sellers linked to the property.
+* The UUID refers to the unique identifier shown in the displayed property list.
+* Each client is shown with their name and unique ID.
+
+Examples:
+* `showclients p/15` 
 
 
 ### Clearing all entries : `clear`
