@@ -4,7 +4,6 @@ title: User Guide
 ---
 
 TheRealDeal is a **desktop app for real estate agents, optimized for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
-TheRealDeal is a **desktop app for real estate agents, optimized for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
 
 * Table of Contents
 {:toc}
@@ -51,7 +50,7 @@ TheRealDeal is a **desktop app for real estate agents, optimized for use via a C
 **:information_source: Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+  e.g. in `addcontact n/NAME`, `NAME` is a parameter which can be used as `addcontact n/John Doe`.
 
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
@@ -70,31 +69,13 @@ TheRealDeal is a **desktop app for real estate agents, optimized for use via a C
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
-
-![help message](images/helpMessage.png)
+_~~Shows a message explaining how to access the help page.~~_
 
 Format: `help`
 
-
-### Adding a person: `add`
-
-Adds a person to the address book.
-
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
-</div>
-
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
-
-
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+_~~Shows a list of all persons in the address book.~~_
 
 Format: `list`
 
@@ -117,18 +98,31 @@ Examples:
 
 Edits an existing contact in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person that has the UUID specified `UUID`. The UUID refers to the ID number shown in the displayed person list.
 * At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the person’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 1 p/91234567 e/johndoe@example.com` 
+*  `edit 2 n/Betsy Crower t/`
+
+### Filtering contact : `filtercontact`
+
+Filters the contacts based on the fields given
+
+Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
+
+* The search is case-insensitive. e.g `hans` will match `Hans`
+* Substring words will be matched e.g. `Han` will match `Hans`
+* Persons matching at least one keyword will be returned
+
+Examples:
+* `filtercontact a/yishun`
+* `filtercontact n/Tan s/active`
+
 
 ### Adding a property: `addproperty`
 
@@ -183,24 +177,6 @@ Examples:
 * `filterproperty bedroom/2 floorarea/100`
 
 
-### Filtering contact : `filtercontact`
-
-Finds persons whose names contain any of the given keywords.
-
-Format: `find KEYWORD [MORE_KEYWORDS]`
-
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-
-Examples:
-* `filtercontact a/yishun`
-* `filtercontact n/Tan s/active`
-
-
 ### Linking people and properties : `link`
 
 Links people to properties as buyers or sellers by their UUIDs.
@@ -226,11 +202,9 @@ Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
 
 Deletes the specified person from the address book.
 
-Format: `delete INDEX`
+Format: `delete c/UUID`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the person that has the UUID specified `UUID`. The UUID refers to the ID number shown in the displayed person list.
 
 Examples:
 * `delete c/1`
@@ -238,14 +212,14 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+_~~Clears all entries from the address book.~~_
 
 Format: `clear`
 
 
 ### Exiting the program : `exit`
 
-Exits the program.
+_~~Exits the program.~~_
 
 Format: `exit`
 
