@@ -124,6 +124,22 @@ Examples:
 * `filtercontact n/Tan s/active`
 
 
+### Filtering contact : `filterproperty`
+
+Filters the properties based on the fields given
+
+Format: `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`
+
+* The order of the filter field does not matter
+* The search is case-insensitive. e.g `clementi` will match `Clementi`
+* Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
+* Property matching all the filter will be returned
+
+Examples:
+* `filterproperty address/yishun`
+* `filterproperty bedroom/2 floorarea/100`
+
+
 ### Linking people and properties : `link`
 
 Links people to properties as buyers or sellers by their UUIDs.
@@ -210,6 +226,7 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> e.g., `filterproperty bedroom/2 price/2000`
 **Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> e.g., `link c/12 r/buyer p/12 p/4`
 **Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
