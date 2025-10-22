@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -43,7 +44,7 @@ public class ShowPropertiesCommandTest {
         Uuid uuid = new Uuid(1, PERSON);
         ShowPropertiesCommand command = new ShowPropertiesCommand(uuid);
 
-        assertTrue(command.equals(command));
+        assertEquals(command, command);
     }
 
     @Test
@@ -52,7 +53,7 @@ public class ShowPropertiesCommandTest {
         ShowPropertiesCommand command1 = new ShowPropertiesCommand(uuid);
         ShowPropertiesCommand command2 = new ShowPropertiesCommand(uuid);
 
-        assertTrue(command1.equals(command2));
+        assertEquals(command1, command2);
     }
 
     @Test
@@ -63,7 +64,7 @@ public class ShowPropertiesCommandTest {
         ShowPropertiesCommand command1 = new ShowPropertiesCommand(uuid1);
         ShowPropertiesCommand command2 = new ShowPropertiesCommand(uuid2);
 
-        assertFalse(command1.equals(command2));
+        assertNotEquals(command1, command2);
     }
 
     @Test
@@ -71,7 +72,7 @@ public class ShowPropertiesCommandTest {
         Uuid uuid = new Uuid(1, PERSON);
         ShowPropertiesCommand command = new ShowPropertiesCommand(uuid);
 
-        assertFalse(command.equals("not a command"));
+        assertNotEquals("not a command", command);
     }
 
     @Test
@@ -79,7 +80,7 @@ public class ShowPropertiesCommandTest {
         Uuid uuid = new Uuid(1, PERSON);
         ShowPropertiesCommand command = new ShowPropertiesCommand(uuid);
 
-        assertFalse(command.equals(null));
+        assertNotEquals(null, command);
     }
 
     @Test

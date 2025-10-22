@@ -10,10 +10,9 @@ import seedu.address.model.uuid.Uuid;
 import seedu.address.ui.MainWindow;
 
 /**
- * Finds and lists all properties where the specified client is the owner.
+ * Finds and lists all properties associated with a specified client.
  *
- * Note: This code currently only shows properties where client is the owner only.
- * Future enhancement: Show all properties linked to client (as buyer, seller, etc.)
+ * Show all properties linked to client (as buyer, seller, etc.)
  * when property-client association model is implemented.
  */
 public class ShowPropertiesCommand extends Command {
@@ -21,7 +20,7 @@ public class ShowPropertiesCommand extends Command {
     public static final String COMMAND_WORD = "showproperties";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Shows all properties owned by the specified client.\n"
+            + ": Shows all properties associated with the specified client.\n"
             + "Parameters: c/CLIENT_UUID (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " c/123";
 
@@ -30,14 +29,14 @@ public class ShowPropertiesCommand extends Command {
     public static final String MESSAGE_NO_PROPERTIES =
             "No properties found owned by client UUID: %1$s\n"
                     + "Possible reasons:\n"
-                    + "  • The client exists but doesn't own any properties yet\n"
+                    + "  • The client exists but is not linked to any properties yet\n"
                     + "  • The client UUID doesn't exist (use 'list' to verify)\n"
                     + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this client.";
 
     private final Uuid clientUuid;
 
     /**
-     * Creates a ShowPropertiesCommand to find all properties owned by the specified client.
+     * Creates a ShowPropertiesCommand to find all properties associated to the specified client.
      *
      * @param clientUuid The UUID of the client to search for.
      */

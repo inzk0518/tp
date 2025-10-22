@@ -1,6 +1,8 @@
 package seedu.address.model.property;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
@@ -95,7 +97,7 @@ public class AssociatedWithClientPredicateTest {
     @Test
     public void equals_sameObject_returnsTrue() {
         AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
-        assertTrue(predicate.equals(predicate));
+        assertEquals(predicate, predicate);
     }
 
     @Test
@@ -103,7 +105,7 @@ public class AssociatedWithClientPredicateTest {
         AssociatedWithClientPredicate firstPredicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
         AssociatedWithClientPredicate secondPredicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
 
-        assertTrue(firstPredicate.equals(secondPredicate));
+        assertEquals(firstPredicate, secondPredicate);
     }
 
     @Test
@@ -111,18 +113,18 @@ public class AssociatedWithClientPredicateTest {
         AssociatedWithClientPredicate firstPredicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
         AssociatedWithClientPredicate secondPredicate = new AssociatedWithClientPredicate(CLIENT_UUID_2);
 
-        assertFalse(firstPredicate.equals(secondPredicate));
+        assertNotEquals(firstPredicate, secondPredicate);
     }
 
     @Test
     public void equals_differentType_returnsFalse() {
         AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
-        assertFalse(predicate.equals("not a predicate"));
+        assertNotEquals("not a predicate", predicate);
     }
 
     @Test
     public void equals_null_returnsFalse() {
         AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
-        assertFalse(predicate.equals(null));
+        assertNotEquals(null, predicate);
     }
 }
