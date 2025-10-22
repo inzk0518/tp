@@ -24,10 +24,10 @@ public class ShowPropertiesCommand extends Command {
             + "Parameters: c/CLIENT_UUID (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " c/123";
 
-    public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s owned by client UUID: %1$s";
+    public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to client UUID: %1$s";
 
     public static final String MESSAGE_NO_PROPERTIES =
-            "No properties found owned by client UUID: %1$s\n"
+            "No properties found associated to client UUID: %1$s\n"
                     + "Possible reasons:\n"
                     + "  • The client exists but is not linked to any properties yet\n"
                     + "  • The client UUID doesn't exist (use 'list' to verify)\n"
