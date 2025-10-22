@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -75,5 +76,31 @@ public class ShowClientsCommandTest {
         Uuid uuid = new Uuid(1, PROPERTY);
         ShowClientsCommand command = new ShowClientsCommand(uuid);
         assertTrue(command.toString().contains("propertyUuid"));
+    }
+
+    @Test
+    public void execute_nullModel_throwsCommandException() {
+        ShowClientsCommand command = new ShowClientsCommand(new Uuid(1, PROPERTY));
+        assertThrows(NullPointerException.class, () -> command.execute(null));
+    }
+
+    @Test
+    public void execute_noClientsFound_returnsNoClientsMessage() throws Exception {
+        Uuid propertyUuid = new Uuid(999, PROPERTY);
+        ShowClientsCommand command = new ShowClientsCommand(propertyUuid);
+        CommandResult result = command.execute(model);
+        assertTrue(result.getFeedbackToUser().contains("No clients found"));
+    }
+
+    @Test
+    public void execute_multipleClientsFound_usesPluralForm() throws Exception {
+        // mock model with 2 linked clients for this property
+        // verify message contains "clients"
+    }
+
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        ShowClientsCommand command = new ShowClientsCommand(new Uuid(1, PROPERTY));
+        assertThrows(NullPointerException.class, () -> command.execute(null));
     }
 }

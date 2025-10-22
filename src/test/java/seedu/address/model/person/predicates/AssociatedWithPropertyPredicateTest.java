@@ -171,4 +171,28 @@ public class AssociatedWithPropertyPredicateTest {
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of());
         assertNotEquals(null, predicate);
     }
+
+    @Test
+    public void test_emptyPropertyList_returnsFalse() {
+        Person person = new PersonBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+
+        AssociatedWithPropertyPredicate predicate =
+                new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of());
+
+        assertFalse(predicate.test(person));
+    }
+
+    @Test
+    public void test_propertyUuidMatchesButNoAssociations_returnsFalse() {
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
+                .withUuid(PROPERTY_UUID_1.getValue())
+                .build();
+
+        Person person = new PersonBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+
+        AssociatedWithPropertyPredicate predicate =
+                new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
+
+        assertFalse(predicate.test(person));
+    }
 }

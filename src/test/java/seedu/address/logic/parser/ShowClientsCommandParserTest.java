@@ -64,4 +64,16 @@ public class ShowClientsCommandParserTest {
         assertParseFailure(parser, "extra text p/1",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowClientsCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_validArgsWithExtraWhitespace_returnsShowClientsCommand() {
+        Uuid expectedUuid = new Uuid(5, PROPERTY);
+        assertParseSuccess(parser, "   p/5   ", new ShowClientsCommand(expectedUuid));
+    }
+
+    @Test
+    public void parse_invalidPrefixCase_throwsParseException() {
+        assertParseFailure(parser, " P/1",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowClientsCommand.MESSAGE_USAGE));
+    }
 }
