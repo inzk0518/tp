@@ -127,4 +127,28 @@ public class AssociatedWithClientPredicateTest {
         AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
         assertNotEquals(null, predicate);
     }
+
+    @Test
+    public void test_propertyWithNullBuyersList_checksOtherFields() {
+        AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
+
+        // Property owned by client, buyers list should be null by default
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
+                .withOwner("1")
+                .build();
+
+        assertTrue(predicate.test(property));
+    }
+
+    @Test
+    public void test_propertyWithNullSellersList_checksOtherFields() {
+        AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(CLIENT_UUID_1);
+
+        // Property owned by client, sellers list should be null by default
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
+                .withOwner("1")
+                .build();
+
+        assertTrue(predicate.test(property));
+    }
 }
