@@ -195,4 +195,29 @@ public class AssociatedWithPropertyPredicateTest {
 
         assertFalse(predicate.test(person));
     }
+
+    @Test
+    public void test_differentPropertyType_returnsFalse() {
+        Property unrelatedProperty = new PropertyBuilderUtil(PROPERTY_BETA)
+                .withUuid(PROPERTY_UUID_1.getValue())
+                .withOwner(String.valueOf(CLIENT_UUID_2.getValue()))
+                .build();
+
+        Person unrelatedPerson = new PersonBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+
+        AssociatedWithPropertyPredicate predicate =
+                new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(unrelatedProperty));
+
+        assertFalse(predicate.test(unrelatedPerson));
+    }
+
+    @Test
+    public void toString_containsUuid() {
+        AssociatedWithPropertyPredicate predicate =
+                new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of());
+
+        String result = predicate.toString();
+
+        assertTrue(result.contains(PROPERTY_UUID_1.toString()));
+    }
 }

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalProperties.getTypicalPropertyBook;
@@ -102,5 +103,44 @@ public class ShowClientsCommandTest {
     public void execute_nullModel_throwsNullPointerException() {
         ShowClientsCommand command = new ShowClientsCommand(new Uuid(1, PROPERTY));
         assertThrows(NullPointerException.class, () -> command.execute(null));
+    }
+
+    @Test
+    public void execute_propertyExistsButNoLinkedClients_showsNoClientsMessage() throws Exception {
+        Uuid existingPropertyUuid = new Uuid(1, PROPERTY);
+        ShowClientsCommand command = new ShowClientsCommand(existingPropertyUuid);
+
+        CommandResult result = command.execute(model);
+
+        assertTrue(result.getFeedbackToUser().contains("No clients found associated with property"));
+    }
+
+    @Test
+    public void execute_nonPropertyUuid_showsNoClientsFound() throws Exception {
+        Uuid personUuid = new Uuid(1, PERSON); // wrong type
+        ShowClientsCommand command = new ShowClientsCommand(personUuid);
+
+        CommandResult result = command.execute(model);
+
+        assertTrue(result.getFeedbackToUser().contains("No clients"));
+    }
+
+    @Test
+    public void equals_differentCommandType_returnsFalse() {
+        ShowClientsCommand showCommand = new ShowClientsCommand(new Uuid(1, PROPERTY));
+        ShowPropertiesCommand otherCommand = new ShowPropertiesCommand(new Uuid(1, PERSON));
+
+        assertNotEquals(showCommand, otherCommand);
+    }
+
+    @Test
+    public void toString_includesUuidValue() {
+        Uuid uuid = new Uuid(5, PROPERTY);
+        ShowClientsCommand command = new ShowClientsCommand(uuid);
+
+        String commandString = command.toString();
+
+        assertTrue(commandString.contains("5"));
+        assertTrue(commandString.contains("PROPERTY"));
     }
 }
