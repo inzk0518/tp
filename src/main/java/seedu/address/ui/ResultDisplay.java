@@ -16,8 +16,14 @@ public class ResultDisplay extends UiPart<Region> {
     @FXML
     private TextArea resultDisplay;
 
+    /**
+     * Creates a ResultDisplay with a welcome message.
+     */
     public ResultDisplay() {
         super(FXML);
+        resultDisplay.setText("Welcome to TheRealDeal!\n"
+                + "For more info, type \"help\"\n"
+                + "To switch to properties, type \"filterproperty\"");
     }
 
     public void setFeedbackToUser(String feedbackToUser) {

@@ -1,33 +1,28 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
+
 import seedu.address.logic.commands.ShowClientsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.uuid.Uuid;
 
 /**
- * Parse the input for ShowClientsCommand
+ * Parses input arguments and creates a new ShowClientsCommand object.
  */
 public class ShowClientsCommandParser implements Parser<ShowClientsCommand> {
 
     @Override
-    public ShowClientsCommand parse(String userInput) throws ParseException {
-        String trimmedArgs = userInput.trim();
+    public ShowClientsCommand parse(String args) throws ParseException {
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ID);
 
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException("Property ID cannot be empty");
+        if (!argMultimap.arePrefixesPresent(PREFIX_PROPERTY_ID) || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowClientsCommand.MESSAGE_USAGE));
         }
 
-        // Check if input starts with "p/"
-        if (!trimmedArgs.startsWith("p/")) {
-            throw new ParseException("Invalid format. Use the following: showclients p/PROPERTY_ID");
-        }
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_PROPERTY_ID);
 
-        // Extract everything after "p/"
-        String propertyId = trimmedArgs.substring(2).trim();
-
-        if (propertyId.isEmpty()) {
-            throw new ParseException("Property ID cannot be empty");
-        }
-
-        return new ShowClientsCommand(propertyId);
+        Uuid propertyUuid = ParserUtil.parsePropertyId(argMultimap.getValue(PREFIX_PROPERTY_ID).get());
+        return new ShowClientsCommand(propertyUuid);
     }
 }
