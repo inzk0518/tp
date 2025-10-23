@@ -64,6 +64,9 @@ public class FilterPropertyCommand extends Command {
         int from = total == 0 ? 0 : start + 1;
         int to = total == 0 ? 0 : endExclusive;
         String msg = String.format("%d properties matched (showing %d–%d)", total, from, to);
+
+        showPropertiesView();
+
         return new CommandResult(msg);
     }
 

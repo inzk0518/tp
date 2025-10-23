@@ -60,8 +60,10 @@ public class AddContactCommand extends Command {
         if (model.hasContact(contactWithUuid)) {
             throw new CommandException(MESSAGE_DUPLICATE_CONTACT);
         }
-
         model.addContact(contactWithUuid);
+
+        showContactsView();
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(contactWithUuid)));
     }
 

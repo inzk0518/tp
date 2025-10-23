@@ -5,7 +5,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CONTACTS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 
 import seedu.address.model.Model;
-import seedu.address.ui.MainWindow;
 
 /**
  * Lists all contacts in the address book to the user.
@@ -22,10 +21,6 @@ public class ListCommand extends Command {
         requireNonNull(model);
         model.updateFilteredContactList(PREDICATE_SHOW_ALL_CONTACTS); // list all contacts
         model.updateFilteredPropertyList(PREDICATE_SHOW_ALL_PROPERTIES); // list all properties
-
-        if (MainWindow.getInstance() != null) {
-            MainWindow.getInstance().showContactsView();
-        }
 
         return new CommandResult(MESSAGE_SUCCESS);
     }

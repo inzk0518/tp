@@ -41,6 +41,6 @@ public class BudgetMin {
     public boolean equals(Object other) {
         return other == this
                 || (other instanceof BudgetMin
-                && value == ((BudgetMin) other).value);
+                && value.equals(((BudgetMin) other).value));
     }
 }

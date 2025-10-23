@@ -75,8 +75,10 @@ public class FilterContactCommand extends Command {
         // Build output message (e.g., “12 properties matched (showing 6–10)”)
         int from = total == 0 ? 0 : start + 1;
         int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW, Math.min(limit, total - offset),
-                                                                    from, to);
+        String msg = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW,
+                Math.min(limit, total - offset), from, to);
+
+        showContactsView();
 
         return new CommandResult(msg);
     }

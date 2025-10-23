@@ -25,6 +25,8 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.contact.Contact;
 import seedu.address.model.contact.FilterContactPredicate;
+import seedu.address.model.property.Property;
+import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
 import seedu.address.testutil.EditContactDescriptorBuilder;
 import seedu.address.testutil.LinkDescriptorBuilder;
 import seedu.address.testutil.UnlinkDescriptorBuilder;
@@ -134,6 +136,7 @@ public class CommandTestUtil {
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
         assertEquals(expectedFilteredList, actualModel.getFilteredContactList());
     }
+
     /**
      * Updates {@code model}'s filtered list to show only the contact at the given {@code targetIndex} in the
      * {@code model}'s address book.
@@ -153,6 +156,22 @@ public class CommandTestUtil {
         );
         model.updateFilteredContactList(predicate);
         assertEquals(1, model.getFilteredContactList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the property at the given {@code targetIndex} in the
+     * {@code model}'s property book.
+     */
+    public static void showPropertyAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredPropertyList().size());
+
+        Property property = model.getFilteredPropertyList().get(targetIndex.getZeroBased());
+        final String[] splitAddress = property.getPropertyAddress().value.split("\\s+");
+
+        PropertyMatchesFilterPredicate predicate = new PropertyMatchesFilterPredicate(
+                splitAddress[0], null, null, null, null, null, null, null, null, null);
+        model.updateFilteredPropertyList(predicate);
+        assertEquals(1, model.getFilteredPropertyList().size());
     }
 
 }

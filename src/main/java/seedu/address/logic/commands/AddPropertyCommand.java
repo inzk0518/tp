@@ -76,6 +76,9 @@ public class AddPropertyCommand extends Command {
         }
 
         model.addProperty(propertyWithUuid);
+
+        showPropertiesView();
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(propertyWithUuid)));
     }
 

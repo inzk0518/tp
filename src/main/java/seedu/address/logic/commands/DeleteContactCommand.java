@@ -61,6 +61,9 @@ public class DeleteContactCommand extends Command {
 
         model.deleteContact(contactToDelete.get());
         logger.log(Level.INFO, "Successfully deleted contact: {0}", contactToDelete.get().getName());
+
+        showContactsView();
+
         return new CommandResult(String.format(
                 MESSAGE_DELETE_CONTACT_SUCCESS, Messages.format(contactToDelete.get())));
     }

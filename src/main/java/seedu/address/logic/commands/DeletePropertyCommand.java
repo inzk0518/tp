@@ -43,6 +43,9 @@ public class DeletePropertyCommand extends Command {
                 .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID));
 
         model.deleteProperty(propertyToDelete);
+
+        showPropertiesView();
+
         return new CommandResult(String.format(MESSAGE_DELETE_PROPERTY_SUCCESS, Messages.format(propertyToDelete)));
     }
 
