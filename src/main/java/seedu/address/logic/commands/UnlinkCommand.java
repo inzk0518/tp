@@ -9,6 +9,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,6 +40,8 @@ public class UnlinkCommand extends Command {
     public static final String MESSAGE_UNLINK_SUCCESS =
             "Unlinked Property IDs: %1$s with Contact IDs: %2$s";
 
+    private static final Logger logger = Logger.getLogger(UnlinkCommand.class.getName());
+
     private final UnlinkDescriptor unlinkDescriptor;
 
     /**
@@ -64,6 +68,8 @@ public class UnlinkCommand extends Command {
                 .forEach(i -> model.setContact(targetContacts.get(i), updatedContacts.get(i)));
         Stream.iterate(0, x -> x < targetProperties.size(), x -> x + 1)
                 .forEach(i -> model.setProperty(targetProperties.get(i), updatedProperties.get(i)));
+
+        logger.log(Level.FINER, "Successfully unlinked contacts and properties");
 
         return new CommandResult(String.format(MESSAGE_UNLINK_SUCCESS, unlinkDescriptor.getPropertyIds(),
                     unlinkDescriptor.getContactIds()));
