@@ -10,6 +10,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,6 +46,8 @@ public class LinkCommand extends Command {
     public static final String MESSAGE_LINK_SELLER_SUCCESS =
             "Linked Property IDs: %1$s with Contact IDs: %2$s as seller";
 
+    private static final Logger logger = Logger.getLogger(LinkCommand.class.getName());
+
     private final LinkDescriptor linkDescriptor;
 
     /**
@@ -71,6 +75,9 @@ public class LinkCommand extends Command {
         Stream.iterate(0, x -> x < targetProperties.size(), x -> x + 1)
                 .forEach(i -> model.setProperty(targetProperties.get(i), updatedProperties.get(i)));
 
+        logger.log(Level.FINER, "Successfully linked contacts to properties as {0}",
+                linkDescriptor.getRelationship());
+
         switch (linkDescriptor.getRelationship()) {
         case "buyer":
             return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS, linkDescriptor.getPropertyIds(),
@@ -79,6 +86,7 @@ public class LinkCommand extends Command {
             return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS, linkDescriptor.getPropertyIds(),
                     linkDescriptor.getContactIds()));
         default:
+            logger.log(Level.WARNING, "Linking failed due to invalid relationship");
             throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
         }
     }

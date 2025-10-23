@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TheRealDeal is a **desktop app for real estate agents, optimised for use via a Command Line Interface** (CLI) to streamline client management by providing **quick access to client preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
+TheRealDeal is a **desktop app for real estate agents, optimised for use via a Command Line Interface** (CLI) to streamline contact management by providing **quick access to contact preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
 
 * Table of Contents
 {:toc}
@@ -34,16 +34,16 @@ TheRealDeal GUI is organised into **four** key components:
 * `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
 * `Command Box`: The main area where users can enter commands to interact with the app.
 * `Result Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command. Situated below the `Command Box`.
-* `List Card`: Displays key information about clients or listings, depending on the user's command. Situated below the `Result Display`.
+* `List Card`: Displays key information about contacts or listings, depending on the user's command. Situated below the `Result Display`.
 
 Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * `deletecontact 3` : Deletes the 3rd contact shown in the current list.
 
    * `clear` : Deletes all contacts.
 
@@ -87,8 +87,7 @@ Format: `help`
 
 ### Listing all contacts and properties: `list`
 
-Displays all contacts and properties in the address book.
- It resets any active filters and shows the complete list.
+Displays all contacts and properties in the app. It resets any active filters and shows the complete list.
 
 Both contact and property cards display an ID field which represents the `UUID` of that contact/property.
 This `UUID` will be used for other commands.
@@ -117,10 +116,11 @@ Edits an existing contact in the address book.
 
 Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
 
-* Edits the person that has the UUID specified `UUID`. The UUID refers to the ID number shown in the displayed person list.
+* Edits the contact that has the UUID specified `UUID`. 
+* The UUID refers to the ID number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without specifying any tags after it.
+* When editing tags, the existing tags of the contact will be removed i.e adding of tags is not cumulative.
+* You can remove all the contact’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` 
@@ -134,7 +134,7 @@ Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [ma
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Substring words will be matched e.g. `Han` will match `Hans`
-* Persons matching at least one keyword will be returned
+* Contacts matching at least one keyword will be returned
 
 Examples:
 * `filtercontact a/yishun`
@@ -144,11 +144,11 @@ Examples:
 
 Deletes the specified contact from the address book.
 
-Format: `deletecontact INDEX`
+Format: `deletecontact UUID`
 
-* Deletes the contact at the specified `INDEX`.
-* The index refers to the index number shown in the displayed contact list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the contact with the specified `UUID`.
+* The UUID refers to the id number shown in the displayed contact list.
+* The command only works on contacts currently visible in the property list panel. Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
 Examples:
 * `deletecontact 1`
@@ -163,7 +163,7 @@ Format: `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/
 * `postal/POSTAL` must be a 6-digit Singapore postal code.
 * `price/PRICE` must be a positive integer up to 1,000,000,000,000.
 * `type/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
-* `status/STATUS` accepts `unsold` or `sold` (case-insensitive).
+* `status/STATUS` accepts `available` or `unavailable` (case-insensitive).
 * `bedroom/BEDROOM` and `bathroom/BATHROOM` accept integers from 0 to 20.
 * `floorarea/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
 * `listing/LISTING` accepts `sale` or `rent` (case-insensitive). A property marked as `sold` cannot be listed for `rent`.
@@ -195,7 +195,9 @@ Deletes a property identified by its UUID.
 
 Format: `deleteproperty UUID`
 
-* The command only works on properties currently visible in the property list panel. Filter the list first if needed.
+* Deletes the property with the specified `UUID`.
+* The UUID refers to the id number shown in the displayed property list.
+* The command only works on properties currently visible in the property list panel. Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
 Examples:
 * `deleteproperty 12`
@@ -205,19 +207,19 @@ Examples:
 
 Links people to properties as buyers or sellers by their UUIDs.
 
-Format: `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
+Format: `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
 
 * `RELATIONSHIP` **must be either `buyer` or `seller`**
-* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `CONTACT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `link` can link any number of properties and people at once (excluding none).
 
 ### Unlinking people and properties : `unlink`
 
 Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
 
-Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
+Format: `link c/CONTACT_ID... p/PROPERTY_ID...`
 
-* `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
+* `CONTACT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `unlink` can unlink any number of properties and people at once (excluding none).
 
 ### Showing properties associated with a contact : `showproperties`
@@ -306,8 +308,8 @@ Action | Format, Examples
 **Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
 **Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`
 **Delete Property** | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`
-**Link** | `link c/CLIENT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`
-**Unlink** | `unlink c/CLIENT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`
+**Link** | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`
+**Unlink** | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
 **Clear** | `clear`
 **Help** | `help`
