@@ -181,11 +181,9 @@ public class UnlinkCommand extends Command {
                     .duplicateWithNewBuyingPersonIds(
                     propertyToEdit.getBuyingPersonIds().stream().filter(id -> !personIds.contains(id))
                     .collect(Collectors.toSet()))
-                    // Set.of())
                     .duplicateWithNewSellingPersonIds(
                     propertyToEdit.getSellingPersonIds().stream().filter(id -> !personIds.contains(id))
                     .collect(Collectors.toSet())))
-                    // Set.of()))
                     .collect(Collectors.toList());
         }
 
