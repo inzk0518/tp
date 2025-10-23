@@ -23,7 +23,7 @@ public class ShowContactsCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d contact%3$s associated with property UUID: %1$s";
 
-    public static final String MESSAGE_NO_CLIENTS =
+    public static final String MESSAGE_NO_CONTACTS =
             "No contacts found associated with property UUID: %1$s\n"
                     + "Possible reasons:\n"
                     + "  • The property exists but has no linked contacts yet\n"
@@ -59,7 +59,7 @@ public class ShowContactsCommand extends Command {
         int numContactsFound = model.getFilteredContactList().size();
 
         if (numContactsFound == 0) {
-            return new CommandResult(String.format(MESSAGE_NO_CLIENTS, propertyUuid));
+            return new CommandResult(String.format(MESSAGE_NO_CONTACTS, propertyUuid));
         }
 
         String pluralSuffix = numContactsFound == 1 ? "" : "s";

@@ -31,7 +31,7 @@ public class ShowPropertiesCommand extends Command {
                     + "Possible reasons:\n"
                     + "  • The contact exists but is not linked to any properties yet\n"
                     + "  • The contact UUID doesn't exist (use 'list' to verify)\n"
-                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this client.";
+                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this contact.";
 
     private final Uuid contactUuid;
 
@@ -53,7 +53,7 @@ public class ShowPropertiesCommand extends Command {
         AssociatedWithContactPredicate predicate = new AssociatedWithContactPredicate(contactUuid);
         model.updateFilteredPropertyList(predicate);
 
-        //Toggle from clients list to property list
+        //Toggle from contacts list to property list
         if (MainWindow.getInstance() != null) {
             MainWindow.getInstance().showPropertiesView();
         }

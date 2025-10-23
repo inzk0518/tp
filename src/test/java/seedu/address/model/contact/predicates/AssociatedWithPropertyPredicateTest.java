@@ -26,17 +26,17 @@ public class AssociatedWithPropertyPredicateTest {
 
     private static final Uuid PROPERTY_UUID_1 = new Uuid(1, PROPERTY);
     private static final Uuid PROPERTY_UUID_2 = new Uuid(2, PROPERTY);
-    private static final Uuid CLIENT_UUID_1 = new Uuid(10, CONTACT);
-    private static final Uuid CLIENT_UUID_2 = new Uuid(11, CONTACT);
+    private static final Uuid CONTACT_UUID_1 = new Uuid(10, CONTACT);
+    private static final Uuid CONTACT_UUID_2 = new Uuid(11, CONTACT);
 
     @Test
-    public void test_clientIsOwner_returnsTrue() {
+    public void test_contactIsOwner_returnsTrue() {
         Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withOwner(String.valueOf(CLIENT_UUID_1.getValue()))
+                .withOwner(String.valueOf(CONTACT_UUID_1.getValue()))
                 .withUuid(PROPERTY_UUID_1.getValue())
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -45,13 +45,13 @@ public class AssociatedWithPropertyPredicateTest {
     }
 
     @Test
-    public void test_clientIsBuyer_returnsTrue() {
+    public void test_contactIsBuyer_returnsTrue() {
         Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
                 .withUuid(PROPERTY_UUID_1.getValue())
-                .withBuyingContactIds(CLIENT_UUID_1)
+                .withBuyingContactIds(CONTACT_UUID_1)
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -60,13 +60,13 @@ public class AssociatedWithPropertyPredicateTest {
     }
 
     @Test
-    public void test_clientIsSeller_returnsTrue() {
+    public void test_contactIsSeller_returnsTrue() {
         Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
                 .withUuid(PROPERTY_UUID_1.getValue())
-                .withSellingContactIds(CLIENT_UUID_1)
+                .withSellingContactIds(CONTACT_UUID_1)
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -75,15 +75,15 @@ public class AssociatedWithPropertyPredicateTest {
     }
 
     @Test
-    public void test_clientMultipleRoles_returnsTrue() {
+    public void test_contactMultipleRoles_returnsTrue() {
         Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
                 .withUuid(PROPERTY_UUID_1.getValue())
-                .withOwner(String.valueOf(CLIENT_UUID_1.getValue()))
-                .withBuyingContactIds(CLIENT_UUID_1)
-                .withSellingContactIds(CLIENT_UUID_1)
+                .withOwner(String.valueOf(CONTACT_UUID_1.getValue()))
+                .withBuyingContactIds(CONTACT_UUID_1)
+                .withSellingContactIds(CONTACT_UUID_1)
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -95,10 +95,10 @@ public class AssociatedWithPropertyPredicateTest {
     public void test_propertyUuidMismatch_returnsFalse() {
         Property property = new PropertyBuilderUtil(PROPERTY_ALPHA)
                 .withUuid(PROPERTY_UUID_2.getValue())
-                .withOwner(String.valueOf(CLIENT_UUID_1.getValue()))
+                .withOwner(String.valueOf(CONTACT_UUID_1.getValue()))
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -107,13 +107,13 @@ public class AssociatedWithPropertyPredicateTest {
     }
 
     @Test
-    public void test_clientNotAssociated_returnsFalse() {
+    public void test_contactNotAssociated_returnsFalse() {
         Property property = new PropertyBuilderUtil(PROPERTY_BETA)
                 .withUuid(PROPERTY_UUID_1.getValue())
-                .withOwner(String.valueOf(CLIENT_UUID_2.getValue()))
+                .withOwner(String.valueOf(CONTACT_UUID_2.getValue()))
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -174,7 +174,7 @@ public class AssociatedWithPropertyPredicateTest {
 
     @Test
     public void test_emptyPropertyList_returnsFalse() {
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of());
@@ -188,7 +188,7 @@ public class AssociatedWithPropertyPredicateTest {
                 .withUuid(PROPERTY_UUID_1.getValue())
                 .build();
 
-        Contact contact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact contact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(property));
@@ -200,10 +200,10 @@ public class AssociatedWithPropertyPredicateTest {
     public void test_differentPropertyType_returnsFalse() {
         Property unrelatedProperty = new PropertyBuilderUtil(PROPERTY_BETA)
                 .withUuid(PROPERTY_UUID_1.getValue())
-                .withOwner(String.valueOf(CLIENT_UUID_2.getValue()))
+                .withOwner(String.valueOf(CONTACT_UUID_2.getValue()))
                 .build();
 
-        Contact unrelatedContact = new ContactBuilderUtil().withUuid(CLIENT_UUID_1.getValue()).build();
+        Contact unrelatedContact = new ContactBuilderUtil().withUuid(CONTACT_UUID_1.getValue()).build();
 
         AssociatedWithPropertyPredicate predicate =
                 new AssociatedWithPropertyPredicate(PROPERTY_UUID_1, List.of(unrelatedProperty));

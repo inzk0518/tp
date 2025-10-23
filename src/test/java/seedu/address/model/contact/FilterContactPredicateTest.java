@@ -166,16 +166,16 @@ public class FilterContactPredicateTest {
                 Optional.empty(), Optional.empty()
         );
 
-        // Person with status "Active" should match
+        // Contact with status "Active" should match
         assertTrue(predicate.test(new ContactBuilderUtil().withStatus("Active").build()));
 
-        // Person with status "inactive" should NOT match
+        // Contact with status "inactive" should NOT match
         assertFalse(predicate.test(new ContactBuilderUtil().withStatus("inactive").build()));
 
-        // Person with status "active" should match (case-insensitive)
+        // Contact with status "active" should match (case-insensitive)
         assertTrue(predicate.test(new ContactBuilderUtil().withStatus("active").build()));
 
-        // Person with status null or empty string (empty status) should NOT match
+        // Contact with status null or empty string (empty status) should NOT match
         assertFalse(predicate.test(new ContactBuilderUtil().withStatus("").build()));
     }
 

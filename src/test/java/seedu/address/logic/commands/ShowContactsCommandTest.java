@@ -16,7 +16,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.uuid.Uuid;
 
-public class ShowClientsCommandTest {
+public class ShowContactsCommandTest {
 
     private final Model model = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 
@@ -117,8 +117,8 @@ public class ShowClientsCommandTest {
 
     @Test
     public void execute_nonPropertyUuid_showsNoContactsFound() throws Exception {
-        Uuid personUuid = new Uuid(1, CONTACT); // wrong type
-        ShowContactsCommand command = new ShowContactsCommand(personUuid);
+        Uuid contactUuid = new Uuid(1, CONTACT); // wrong type
+        ShowContactsCommand command = new ShowContactsCommand(contactUuid);
 
         CommandResult result = command.execute(model);
 
