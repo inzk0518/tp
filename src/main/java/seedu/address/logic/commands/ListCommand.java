@@ -1,28 +1,30 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CONTACTS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 
 import seedu.address.model.Model;
 import seedu.address.ui.MainWindow;
 
 /**
- * Lists all persons in the address book to the user.
+ * Lists all contacts in the address book to the user.
  */
 public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_SUCCESS = "Listed all persons";
+    public static final String MESSAGE_SUCCESS = "Listed all contacts/properties";
 
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredContactList(PREDICATE_SHOW_ALL_CONTACTS); // list all contacts
+        model.updateFilteredPropertyList(PREDICATE_SHOW_ALL_PROPERTIES); // list all properties
 
         if (MainWindow.getInstance() != null) {
-            MainWindow.getInstance().showClientsView();
+            MainWindow.getInstance().showContactsView();
         }
 
         return new CommandResult(MESSAGE_SUCCESS);

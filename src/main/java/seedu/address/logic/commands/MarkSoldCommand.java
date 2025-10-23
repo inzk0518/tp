@@ -73,11 +73,11 @@ public class MarkSoldCommand extends Command {
                     property.getListing(),
                     property.getPostal(),
                     property.getPrice(),
-                    new Status("sold"),
+                    new Status("unavailable"),
                     property.getType(),
                     property.getOwner(),
-                    property.getBuyingPersonIds(),
-                    property.getSellingPersonIds()
+                    property.getBuyingContactIds(),
+                    property.getSellingContactIds()
             );
             model.setProperty(property, updated);
             count++;

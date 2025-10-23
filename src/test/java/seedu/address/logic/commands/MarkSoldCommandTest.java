@@ -17,7 +17,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.Status;
 import seedu.address.model.uuid.Uuid;
@@ -38,12 +38,12 @@ public class MarkSoldCommandTest {
         property1 = new PropertyBuilderUtil()
                 .withUuid(1)
                 .withPropertyAddress("Blk 123 Clementi Ave 3")
-                .withStatus("unsold")
+                .withStatus("available")
                 .build();
         property2 = new PropertyBuilderUtil()
                 .withUuid(2)
                 .withPropertyAddress("Blk 456 Tampines St 21")
-                .withStatus("unsold")
+                .withStatus("available")
                 .build();
 
         modelStub = new ModelStub();
@@ -59,8 +59,8 @@ public class MarkSoldCommandTest {
         CommandResult result = command.execute(modelStub);
 
         assertEquals(String.format(MarkSoldCommand.MESSAGE_MARK_SOLD_SUCCESS, 2), result.getFeedbackToUser());
-        assertEquals(new Status("sold"), modelStub.getPropertyById(property1.getUuid()).getStatus());
-        assertEquals(new Status("sold"), modelStub.getPropertyById(property2.getUuid()).getStatus());
+        assertEquals(new Status("unavailable"), modelStub.getPropertyById(property1.getUuid()).getStatus());
+        assertEquals(new Status("unavailable"), modelStub.getPropertyById(property2.getUuid()).getStatus());
     }
 
     /**
@@ -100,8 +100,8 @@ public class MarkSoldCommandTest {
                     editedProperty.getStatus(),
                     editedProperty.getType(),
                     editedProperty.getOwner(),
-                    editedProperty.getBuyingPersonIds(),
-                    editedProperty.getSellingPersonIds()
+                    editedProperty.getBuyingContactIds(),
+                    editedProperty.getSellingContactIds()
             );
             propertyMap.put(id, updatedWithSameId);
         }
@@ -132,7 +132,7 @@ public class MarkSoldCommandTest {
         }
 
         @Override
-        public void addPerson(Person person) {
+        public void addContact(Contact contact) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -147,27 +147,27 @@ public class MarkSoldCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Person person) {
+        public boolean hasContact(Contact contact) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deletePerson(Person target) {
+        public void deleteContact(Contact target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setPerson(Person target, Person editedPerson) {
+        public void setContact(Contact target, Contact editedContact) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Person> getFilteredPersonList() {
+        public ObservableList<Contact> getFilteredContactList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
+        public void updateFilteredContactList(Predicate<Contact> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 

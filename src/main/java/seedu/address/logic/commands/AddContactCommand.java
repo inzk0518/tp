@@ -11,17 +11,17 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.uuid.Uuid;
 
 /**
- * Adds a person to the address book.
+ * Adds a contact to the address book.
  */
 public class AddContactCommand extends Command {
 
     public static final String COMMAND_WORD = "addcontact";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a contact to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
@@ -36,33 +36,33 @@ public class AddContactCommand extends Command {
             + PREFIX_TAG + "buyer "
             + PREFIX_TAG + "seller";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New contact added: %1$s";
+    public static final String MESSAGE_DUPLICATE_CONTACT = "This contact already exists in the address book";
 
-    private final Person toAdd;
+    private final Contact toAdd;
 
     /**
-     * Creates an AddContactCommand to add the specified {@code Person}
+     * Creates an AddContactCommand to add the specified {@code Contact}
      */
-    public AddContactCommand(Person person) {
-        requireNonNull(person);
-        toAdd = person;
+    public AddContactCommand(Contact contact) {
+        requireNonNull(contact);
+        toAdd = contact;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Updating UUID of person
+        // Updating UUID of contact
         Uuid uuid = model.getAddressBook().generateNextUuid();
-        Person personWithUuid = toAdd.duplicateWithNewUuid(uuid);
+        Contact contactWithUuid = toAdd.duplicateWithNewUuid(uuid);
 
-        if (model.hasPerson(personWithUuid)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        if (model.hasContact(contactWithUuid)) {
+            throw new CommandException(MESSAGE_DUPLICATE_CONTACT);
         }
 
-        model.addPerson(personWithUuid);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(personWithUuid)));
+        model.addContact(contactWithUuid);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(contactWithUuid)));
     }
 
     @Override

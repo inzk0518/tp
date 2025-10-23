@@ -2,7 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_RELATIONSHIP;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
@@ -28,8 +28,8 @@ public class LinkCommandParser implements Parser<LinkCommand> {
 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP,
-                        PREFIX_CLIENT_ID);
-        if (!argMultimap.arePrefixesPresent(PREFIX_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP, PREFIX_CLIENT_ID)
+                        PREFIX_CONTACT_ID);
+        if (!argMultimap.arePrefixesPresent(PREFIX_PROPERTY_ID, PREFIX_LINK_RELATIONSHIP, PREFIX_CONTACT_ID)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, LinkCommand.MESSAGE_USAGE));
         }
@@ -41,13 +41,13 @@ public class LinkCommandParser implements Parser<LinkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE));
         }
 
-        Set<Uuid> personIds = ParserUtil.parsePersonIds(argMultimap.getAllValues(PREFIX_CLIENT_ID));
+        Set<Uuid> contactIds = ParserUtil.parseContactIds(argMultimap.getAllValues(PREFIX_CONTACT_ID));
         Set<Uuid> propertyIds = ParserUtil.parsePropertyIds(argMultimap.getAllValues(PREFIX_PROPERTY_ID));
 
         LinkDescriptor linkDescriptor = new LinkDescriptor();
 
         linkDescriptor.setRelationship(relationship);
-        linkDescriptor.setPersonIds(personIds);
+        linkDescriptor.setContactIds(contactIds);
         linkDescriptor.setPropertyIds(propertyIds);
 
         return new LinkCommand(linkDescriptor);

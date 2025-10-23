@@ -3,7 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +16,13 @@ public class ShowPropertiesCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsShowPropertiesCommand() {
-        Uuid expectedUuid = new Uuid(1, PERSON);
+        Uuid expectedUuid = new Uuid(1, CONTACT);
         assertParseSuccess(parser, " c/1", new ShowPropertiesCommand(expectedUuid));
     }
 
     @Test
     public void parse_validArgsLargeNumber_returnsShowPropertiesCommand() {
-        Uuid expectedUuid = new Uuid(123, PERSON);
+        Uuid expectedUuid = new Uuid(123, CONTACT);
         assertParseSuccess(parser, " c/123", new ShowPropertiesCommand(expectedUuid));
     }
 

@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_AMY_PROPERTY_ALPHA;
 import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_BOB_PROPERTY_BETA;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.BENSON;
+import static seedu.address.testutil.TypicalContacts.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 import static seedu.address.testutil.TypicalProperties.getTypicalPropertyBook;
@@ -24,9 +24,9 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
-import seedu.address.testutil.PersonBuilderUtil;
+import seedu.address.testutil.ContactBuilderUtil;
 import seedu.address.testutil.PropertyBuilderUtil;
 import seedu.address.testutil.UnlinkDescriptorBuilder;
 
@@ -39,29 +39,29 @@ public class UnlinkCommandTest {
         model = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 
         Property linkedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withSellingPersonIds(ALICE.getUuid().getValue())
-                .withBuyingPersonIds(BENSON.getUuid().getValue())
+                .withSellingContactIds(ALICE.getUuid().getValue())
+                .withBuyingContactIds(BENSON.getUuid().getValue())
                 .build();
 
         Property linkedPropertyBeta = new PropertyBuilderUtil(PROPERTY_BETA)
-                .withSellingPersonIds(BENSON.getUuid().getValue())
-                .withBuyingPersonIds(ALICE.getUuid().getValue())
+                .withSellingContactIds(BENSON.getUuid().getValue())
+                .withBuyingContactIds(ALICE.getUuid().getValue())
                 .build();
 
-        Person linkedAlice = new PersonBuilderUtil(ALICE)
+        Contact linkedAlice = new ContactBuilderUtil(ALICE)
                 .withSellingPropertyIds(linkedPropertyAlpha.getUuid())
                 .withBuyingPropertyIds(linkedPropertyBeta.getUuid())
                 .build();
 
-        Person linkedBenson = new PersonBuilderUtil(BENSON)
+        Contact linkedBenson = new ContactBuilderUtil(BENSON)
                 .withSellingPropertyIds(linkedPropertyBeta.getUuid())
                 .withBuyingPropertyIds(linkedPropertyAlpha.getUuid())
                 .build();
 
         model.setProperty(PROPERTY_ALPHA, linkedPropertyAlpha);
         model.setProperty(PROPERTY_BETA, linkedPropertyBeta);
-        model.setPerson(ALICE, linkedAlice);
-        model.setPerson(BENSON, linkedBenson);
+        model.setContact(ALICE, linkedAlice);
+        model.setContact(BENSON, linkedBenson);
     }
 
     @Test
@@ -74,91 +74,91 @@ public class UnlinkCommandTest {
 
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid()))
                 .build();
 
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
 
         String expectedMessage = String.format(UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getPersonIds());
+                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property expectedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withBuyingPersonIds(BENSON.getUuid().getValue())
+                .withBuyingContactIds(BENSON.getUuid().getValue())
                 .build();
 
         Property expectedPropertyBeta = new PropertyBuilderUtil(PROPERTY_BETA)
-                .withSellingPersonIds(BENSON.getUuid().getValue())
-                .withBuyingPersonIds(ALICE.getUuid().getValue())
+                .withSellingContactIds(BENSON.getUuid().getValue())
+                .withBuyingContactIds(ALICE.getUuid().getValue())
                 .build();
 
-        Person expectedAlice = new PersonBuilderUtil(ALICE)
+        Contact expectedAlice = new ContactBuilderUtil(ALICE)
                 .withBuyingPropertyIds(expectedPropertyBeta.getUuid())
                 .build();
 
-        Person expectedBenson = new PersonBuilderUtil(BENSON)
+        Contact expectedBenson = new ContactBuilderUtil(BENSON)
                 .withSellingPropertyIds(expectedPropertyBeta.getUuid())
                 .withBuyingPropertyIds(expectedPropertyAlpha.getUuid())
                 .build();
 
         expectedModel.setProperty(PROPERTY_ALPHA, expectedPropertyAlpha);
         expectedModel.setProperty(PROPERTY_BETA, expectedPropertyBeta);
-        expectedModel.setPerson(ALICE, expectedAlice);
-        expectedModel.setPerson(BENSON, expectedBenson);
+        expectedModel.setContact(ALICE, expectedAlice);
+        expectedModel.setContact(BENSON, expectedBenson);
 
         assertCommandSuccess(unlinkCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_validUnlinkDescriptorWithMultiplePersons_success() {
+    public void execute_validUnlinkDescriptorWithMultipleContacts_success() {
 
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .build();
 
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
 
         String expectedMessage = String.format(UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getPersonIds());
+                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property expectedPropertyBeta = new PropertyBuilderUtil(PROPERTY_BETA)
-                .withSellingPersonIds(BENSON.getUuid().getValue())
-                .withBuyingPersonIds(ALICE.getUuid().getValue())
+                .withSellingContactIds(BENSON.getUuid().getValue())
+                .withBuyingContactIds(ALICE.getUuid().getValue())
                 .build();
 
-        Person expectedAlice = new PersonBuilderUtil(ALICE)
+        Contact expectedAlice = new ContactBuilderUtil(ALICE)
                 .withBuyingPropertyIds(expectedPropertyBeta.getUuid())
                 .build();
 
-        Person expectedBenson = new PersonBuilderUtil(BENSON)
+        Contact expectedBenson = new ContactBuilderUtil(BENSON)
                 .withSellingPropertyIds(expectedPropertyBeta.getUuid())
                 .build();
 
         expectedModel.setProperty(PROPERTY_BETA, expectedPropertyBeta);
-        expectedModel.setPerson(ALICE, expectedAlice);
-        expectedModel.setPerson(BENSON, expectedBenson);
+        expectedModel.setContact(ALICE, expectedAlice);
+        expectedModel.setContact(BENSON, expectedBenson);
 
         assertCommandSuccess(unlinkCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_validUnlinkDescriptorWithMultiplePropertiesAndPersons_success() {
+    public void execute_validUnlinkDescriptorWithMultiplePropertiesAndContacts_success() {
 
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid(), PROPERTY_BETA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .build();
 
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
 
         String expectedMessage = String.format(UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getPersonIds());
+                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 
@@ -195,7 +195,7 @@ public class UnlinkCommandTest {
     public void toStringMethod() {
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid(), PROPERTY_BETA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .build();
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
         String expected = UnlinkCommand.class.getCanonicalName() + "{unlinkDescriptor=" + unlinkDescriptor + "}";

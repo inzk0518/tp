@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_AMY_PROPERTY_ALPHA;
 import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_BOB_PROPERTY_BETA;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
+import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.getTypicalContacts;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.getTypicalProperties;
 
@@ -18,33 +18,33 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.UnlinkCommand.UnlinkDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.testutil.UnlinkDescriptorBuilder;
 
 public class UnlinkDescriptorTest {
 
     @Test
-    public void getPeopleInList_duplicatePersonIds_throwsCommandException() {
+    public void getContactsInList_duplicateContactIds_throwsCommandException() {
 
-        List<Person> personList = new ArrayList<>(getTypicalPersons());
-        personList.add(ALICE);
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+        contactList.add(ALICE);
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
-                .withPersonIds(Set.of(ALICE.getUuid())).build();
+                .withContactIds(Set.of(ALICE.getUuid())).build();
 
-        assertThrows(CommandException.class, () -> unlinkDescriptor.getPeopleInList(personList));
+        assertThrows(CommandException.class, () -> unlinkDescriptor.getContactsInList(contactList));
 
     }
 
     @Test
     public void getPropertiesInList_duplicatePropertyIds_throwsCommandException() {
 
-        List<Property> personList = new ArrayList<>(getTypicalProperties());
-        personList.add(PROPERTY_ALPHA);
+        List<Property> contactList = new ArrayList<>(getTypicalProperties());
+        contactList.add(PROPERTY_ALPHA);
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
 
-        assertThrows(CommandException.class, () -> unlinkDescriptor.getPropertiesInList(personList));
+        assertThrows(CommandException.class, () -> unlinkDescriptor.getPropertiesInList(contactList));
     }
 
     @Test
@@ -65,9 +65,9 @@ public class UnlinkDescriptorTest {
         // different values -> returns false
         assertFalse(UNLINK_DESC_AMY_PROPERTY_ALPHA.equals(UNLINK_DESC_BOB_PROPERTY_BETA));
 
-        // different personId -> returns false
+        // different contactId -> returns false
         UnlinkDescriptor editedDescriptor = new UnlinkDescriptorBuilder(UNLINK_DESC_AMY_PROPERTY_ALPHA)
-                .withPersonIds(UNLINK_DESC_BOB_PROPERTY_BETA.getPersonIds()).build();
+                .withContactIds(UNLINK_DESC_BOB_PROPERTY_BETA.getContactIds()).build();
         assertFalse(UNLINK_DESC_AMY_PROPERTY_ALPHA.equals(editedDescriptor));
 
         // different propertyId -> returns false
@@ -80,7 +80,7 @@ public class UnlinkDescriptorTest {
     public void toStringMethod() {
         UnlinkDescriptor descriptor = UNLINK_DESC_AMY_PROPERTY_ALPHA;
         String expectedString = UnlinkDescriptor.class.getCanonicalName()
-                + "{personIds=" + descriptor.getPersonIds()
+                + "{contactIds=" + descriptor.getContactIds()
                 + ", propertyIds=" + descriptor.getPropertyIds() + "}";
         assertTrue(descriptor.toString().equals(expectedString));
     }

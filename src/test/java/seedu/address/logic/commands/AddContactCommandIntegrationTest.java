@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalContacts.getTypicalAddressBook;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +12,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilderUtil;
+import seedu.address.model.contact.Contact;
+import seedu.address.testutil.ContactBuilderUtil;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code AddContactCommand}.
@@ -28,23 +28,23 @@ public class AddContactCommandIntegrationTest {
     }
 
     @Test
-    public void execute_newPerson_success() {
-        Person validPerson = new PersonBuilderUtil().build();
+    public void execute_newContact_success() {
+        Contact validContact = new ContactBuilderUtil().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
-        expectedModel.addPerson(validPerson);
+        expectedModel.addContact(validContact);
 
-        assertCommandSuccess(new AddContactCommand(validPerson), model,
-                String.format(AddContactCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
+        assertCommandSuccess(new AddContactCommand(validContact), model,
+                String.format(AddContactCommand.MESSAGE_SUCCESS, Messages.format(validContact)),
                 expectedModel);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Person personInList = model.getAddressBook().getPersonList().get(0);
-        assertCommandFailure(new AddContactCommand(personInList), model,
-                AddContactCommand.MESSAGE_DUPLICATE_PERSON);
+    public void execute_duplicateContact_throwsCommandException() {
+        Contact contactInList = model.getAddressBook().getContactList().get(0);
+        assertCommandFailure(new AddContactCommand(contactInList), model,
+                AddContactCommand.MESSAGE_DUPLICATE_CONTACT);
     }
 
 }

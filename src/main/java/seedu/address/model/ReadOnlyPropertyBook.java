@@ -10,8 +10,8 @@ import seedu.address.model.uuid.Uuid;
 public interface ReadOnlyPropertyBook {
 
     /**
-     * Returns an unmodifiable view of the persons list.
-     * This list will not contain any duplicate persons.
+     * Returns an unmodifiable view of the property list.
+     * This list will not contain any duplicate properties.
      */
     ObservableList<Property> getPropertyList();
 

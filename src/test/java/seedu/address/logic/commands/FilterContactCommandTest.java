@@ -3,9 +3,9 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
+import static seedu.address.logic.Messages.MESSAGE_CONTACTS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalContacts.getTypicalAddressBook;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -16,7 +16,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.contact.FilterContactPredicate;
 
 public class FilterContactCommandTest {
 
@@ -58,21 +58,21 @@ public class FilterContactCommandTest {
     }
 
     @Test
-    public void execute_zeroFilters_noPersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW,
-                model.getFilteredPersonList().size(), 1, 7);
+    public void execute_zeroFilters_noContactFound() {
+        String expectedMessage = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW,
+                model.getFilteredContactList().size(), 1, 7);
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
         FilterContactCommand command = new FilterContactCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateFilteredContactList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_multipleFilters_multiplePersonsFound() {
+    public void execute_multipleFilters_multipleContactsFound() {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.of(Arrays.asList("Kurz", "Elle", "Kunz")),
                 Optional.empty(), Optional.empty(),
@@ -82,15 +82,15 @@ public class FilterContactCommandTest {
 
         FilterContactCommand command = new FilterContactCommand(predicate);
 
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateFilteredContactList(predicate);
 
         CommandResult result = command.execute(model);
 
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW,
-                expectedModel.getFilteredPersonList().size(), 1, 3);
+        String expectedMessage = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW,
+                expectedModel.getFilteredContactList().size(), 1, 3);
 
         assertEquals(expectedMessage, result.getFeedbackToUser());
-        assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+        assertEquals(expectedModel.getFilteredContactList(), model.getFilteredContactList());
     }
 
     @Test

@@ -1,6 +1,6 @@
 package seedu.address.storage;
 
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.ArrayList;
@@ -43,8 +43,8 @@ class JsonAdaptedProperty {
     private final String status;
     private final String type;
     private final String owner;
-    private final List<Integer> buyingPersonIds = new ArrayList<>();
-    private final List<Integer> sellingPersonIds = new ArrayList<>();
+    private final List<Integer> buyingContactIds = new ArrayList<>();
+    private final List<Integer> sellingContactIds = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedProperty} with the given property details.
@@ -61,8 +61,8 @@ class JsonAdaptedProperty {
                                @JsonProperty("status") String status,
                                @JsonProperty("type") String type,
                                @JsonProperty("owner") String owner,
-                               @JsonProperty("buyingPersonIds") List<Integer> buyingPersonIds,
-                               @JsonProperty("sellingPersonIds") List<Integer> sellingPersonIds) {
+                               @JsonProperty("buyingContactIds") List<Integer> buyingContactIds,
+                               @JsonProperty("sellingContactIds") List<Integer> sellingContactIds) {
         this.uuid = uuid;
         this.address = address;
         this.bathroom = bathroom;
@@ -74,11 +74,11 @@ class JsonAdaptedProperty {
         this.status = status;
         this.type = type;
         this.owner = owner;
-        if (buyingPersonIds != null) {
-            this.buyingPersonIds.addAll(buyingPersonIds);
+        if (buyingContactIds != null) {
+            this.buyingContactIds.addAll(buyingContactIds);
         }
-        if (sellingPersonIds != null) {
-            this.sellingPersonIds.addAll(sellingPersonIds);
+        if (sellingContactIds != null) {
+            this.sellingContactIds.addAll(sellingContactIds);
         }
     }
 
@@ -97,20 +97,20 @@ class JsonAdaptedProperty {
         status = source.getStatus().value;
         type = source.getType().value;
         owner = source.getOwner().value;
-        buyingPersonIds.addAll(source
-                .getBuyingPersonIds()
+        buyingContactIds.addAll(source
+                .getBuyingContactIds()
                 .stream()
                 .map(id -> id.getValue())
                 .toList());
-        sellingPersonIds.addAll(source
-                .getSellingPersonIds()
+        sellingContactIds.addAll(source
+                .getSellingContactIds()
                 .stream()
                 .map(id -> id.getValue())
                 .toList());
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's
+     * Converts this Jackson-friendly adapted contact object into the model's
      * {@code Property} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in
@@ -207,21 +207,21 @@ class JsonAdaptedProperty {
         }
         final Owner modelOwner = new Owner(owner);
 
-        final List<Uuid> tempBuyingPersonIds = new ArrayList<>();
-        for (Integer id : this.buyingPersonIds) {
-            tempBuyingPersonIds.add(new Uuid(id, PERSON));
+        final List<Uuid> tempBuyingContactIds = new ArrayList<>();
+        for (Integer id : this.buyingContactIds) {
+            tempBuyingContactIds.add(new Uuid(id, CONTACT));
         }
-        final Set<Uuid> modelBuyingPersonIds = new HashSet<>(tempBuyingPersonIds);
+        final Set<Uuid> modelBuyingContactIds = new HashSet<>(tempBuyingContactIds);
 
-        final List<Uuid> tempSellingPersonIds = new ArrayList<>();
-        for (Integer id : this.sellingPersonIds) {
-            tempSellingPersonIds.add(new Uuid(id, PERSON));
+        final List<Uuid> tempSellingContactIds = new ArrayList<>();
+        for (Integer id : this.sellingContactIds) {
+            tempSellingContactIds.add(new Uuid(id, CONTACT));
         }
-        final Set<Uuid> modelSellingPersonIds = new HashSet<>(tempSellingPersonIds);
+        final Set<Uuid> modelSellingContactIds = new HashSet<>(tempSellingContactIds);
 
         return new Property(modelUuid, modelAddress, modelBathroom, modelBedroom, modelFloorArea, modelListing,
                 modelPostal, modelPrice, modelStatus, modelType, modelOwner,
-                modelBuyingPersonIds, modelSellingPersonIds);
+                modelBuyingContactIds, modelSellingContactIds);
     }
 
 }

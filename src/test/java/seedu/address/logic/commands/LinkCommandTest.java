@@ -8,9 +8,9 @@ import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_BOB_SELLER_
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.BENSON;
+import static seedu.address.testutil.TypicalContacts.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 import static seedu.address.testutil.TypicalProperties.getTypicalPropertyBook;
@@ -25,10 +25,10 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
+import seedu.address.testutil.ContactBuilderUtil;
 import seedu.address.testutil.LinkDescriptorBuilder;
-import seedu.address.testutil.PersonBuilderUtil;
 import seedu.address.testutil.PropertyBuilderUtil;
 public class LinkCommandTest {
 
@@ -44,61 +44,61 @@ public class LinkCommandTest {
 
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid()))
                 .withRelationship("seller")
                 .build();
 
         LinkCommand linkCommand = new LinkCommand(linkDescriptor);
 
         String expectedMessage = String.format(LinkCommand.MESSAGE_LINK_SELLER_SUCCESS,
-                linkDescriptor.getPropertyIds(), linkDescriptor.getPersonIds());
+                linkDescriptor.getPropertyIds(), linkDescriptor.getContactIds());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property updatedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withSellingPersonIds(ALICE.getUuid().getValue()).build();
+                .withSellingContactIds(ALICE.getUuid().getValue()).build();
         expectedModel.setProperty(PROPERTY_ALPHA, updatedPropertyAlpha);
 
-        Person updatedAlice = new PersonBuilderUtil(ALICE)
+        Contact updatedAlice = new ContactBuilderUtil(ALICE)
                 .withSellingPropertyIds(updatedPropertyAlpha.getUuid()).build();
-        expectedModel.setPerson(ALICE, updatedAlice);
+        expectedModel.setContact(ALICE, updatedAlice);
 
         assertCommandSuccess(linkCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_validLinkDescriptorWithMultiplePropertiesAndPersons_success() {
+    public void execute_validLinkDescriptorWithMultiplePropertiesAndContacts_success() {
 
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid(), PROPERTY_BETA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .withRelationship("buyer")
                 .build();
 
         LinkCommand linkCommand = new LinkCommand(linkDescriptor);
 
         String expectedMessage = String.format(LinkCommand.MESSAGE_LINK_BUYER_SUCCESS,
-                linkDescriptor.getPropertyIds(), linkDescriptor.getPersonIds());
+                linkDescriptor.getPropertyIds(), linkDescriptor.getContactIds());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
 
         Property updatedPropertyAlpha = new PropertyBuilderUtil(PROPERTY_ALPHA)
-                .withBuyingPersonIds(ALICE.getUuid().getValue(), BENSON.getUuid().getValue()).build();
+                .withBuyingContactIds(ALICE.getUuid().getValue(), BENSON.getUuid().getValue()).build();
         expectedModel.setProperty(PROPERTY_ALPHA, updatedPropertyAlpha);
 
         Property updatedPropertyBeta = new PropertyBuilderUtil(PROPERTY_BETA)
-                .withBuyingPersonIds(ALICE.getUuid().getValue(), BENSON.getUuid().getValue()).build();
+                .withBuyingContactIds(ALICE.getUuid().getValue(), BENSON.getUuid().getValue()).build();
         expectedModel.setProperty(PROPERTY_BETA, updatedPropertyBeta);
 
-        Person updatedAlice = new PersonBuilderUtil(ALICE)
+        Contact updatedAlice = new ContactBuilderUtil(ALICE)
                 .withBuyingPropertyIds(updatedPropertyAlpha.getUuid(), updatedPropertyBeta.getUuid()).build();
-        expectedModel.setPerson(ALICE, updatedAlice);
+        expectedModel.setContact(ALICE, updatedAlice);
 
-        Person updatedBenson = new PersonBuilderUtil(BENSON)
+        Contact updatedBenson = new ContactBuilderUtil(BENSON)
                 .withBuyingPropertyIds(updatedPropertyAlpha.getUuid(), updatedPropertyBeta.getUuid()).build();
-        expectedModel.setPerson(BENSON, updatedBenson);
+        expectedModel.setContact(BENSON, updatedBenson);
 
         assertCommandSuccess(linkCommand, model, expectedMessage, expectedModel);
     }
@@ -108,7 +108,7 @@ public class LinkCommandTest {
 
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid()))
                 .withRelationship("owner")
                 .build();
 
@@ -149,7 +149,7 @@ public class LinkCommandTest {
     public void toStringMethod() {
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid(), PROPERTY_BETA.getUuid()))
-                .withPersonIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid(), BENSON.getUuid()))
                 .withRelationship("seller")
                 .build();
         LinkCommand linkCommand = new LinkCommand(linkDescriptor);

@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
 import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_BOB_SELLER_PROPERTY_BETA;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
+import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.getTypicalContacts;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.getTypicalProperties;
 
@@ -18,56 +18,56 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.LinkCommand.LinkDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.testutil.LinkDescriptorBuilder;
 
 public class LinkDescriptorTest {
 
     @Test
-    public void getPeopleInList_duplicatePersonIds_throwsCommandException() {
+    public void getContactsInList_duplicateContactIds_throwsCommandException() {
 
-        List<Person> personList = new ArrayList<>(getTypicalPersons());
-        personList.add(ALICE);
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+        contactList.add(ALICE);
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPersonIds(Set.of(ALICE.getUuid())).build();
+                .withContactIds(Set.of(ALICE.getUuid())).build();
 
-        assertThrows(CommandException.class, () -> linkDescriptor.getPeopleInList(personList));
+        assertThrows(CommandException.class, () -> linkDescriptor.getContactsInList(contactList));
     }
 
     @Test
     public void getPropertiesInList_duplicatePropertyIds_throwsCommandException() {
 
-        List<Property> personList = new ArrayList<>(getTypicalProperties());
-        personList.add(PROPERTY_ALPHA);
+        List<Property> contactList = new ArrayList<>(getTypicalProperties());
+        contactList.add(PROPERTY_ALPHA);
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
 
-        assertThrows(CommandException.class, () -> linkDescriptor.getPropertiesInList(personList));
+        assertThrows(CommandException.class, () -> linkDescriptor.getPropertiesInList(contactList));
     }
 
     @Test
-    public void getUpdatedPeople_unknownRelationship_throwsCommandException() {
+    public void getUpdatedContacts_unknownRelationship_throwsCommandException() {
 
-        List<Person> personList = new ArrayList<>(getTypicalPersons());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
-                .withPersonIds(Set.of(ALICE.getUuid()))
+                .withContactIds(Set.of(ALICE.getUuid()))
                 .withRelationship("owner")
                 .build();
 
-        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedPeople(personList));
+        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedContacts(contactList));
     }
 
     @Test
     public void getUpdatedProperties_unknownRelationship_throwsCommandException() {
 
-        List<Property> personList = new ArrayList<>(getTypicalProperties());
+        List<Property> contactList = new ArrayList<>(getTypicalProperties());
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
                 .withRelationship("tenant")
                 .build();
 
-        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedProperties(personList));
+        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedProperties(contactList));
     }
 
     @Test
@@ -93,9 +93,9 @@ public class LinkDescriptorTest {
                 .withRelationship(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getRelationship()).build();
         assertFalse(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA.equals(editedDescriptor));
 
-        // different personId -> returns false
+        // different contactId -> returns false
         editedDescriptor = new LinkDescriptorBuilder(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA)
-                .withPersonIds(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getPersonIds()).build();
+                .withContactIds(LINK_DESC_BOB_SELLER_PROPERTY_BETA.getContactIds()).build();
         assertFalse(LINK_DESC_AMY_BUYER_PROPERTY_ALPHA.equals(editedDescriptor));
 
         // different propertyId -> returns false
@@ -108,7 +108,7 @@ public class LinkDescriptorTest {
     public void toStringMethod() {
         LinkDescriptor descriptor = LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
         String expectedString = LinkDescriptor.class.getCanonicalName()
-                + "{personIds=" + descriptor.getPersonIds()
+                + "{contactIds=" + descriptor.getContactIds()
                 + ", relationship=" + descriptor.getRelationship()
                 + ", propertyIds=" + descriptor.getPropertyIds() + "}";
         assertTrue(descriptor.toString().equals(expectedString));
