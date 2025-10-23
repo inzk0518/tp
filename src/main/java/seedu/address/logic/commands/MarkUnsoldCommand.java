@@ -82,6 +82,9 @@ public class MarkUnsoldCommand extends Command {
             model.setProperty(property, updated);
             count++;
         }
+
+        showPropertiesView();
+
         return new CommandResult(String.format(MESSAGE_MARK_UNSOLD_SUCCESS, count));
     }
 
