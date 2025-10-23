@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CONTACTS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.BENSON;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 
@@ -21,7 +21,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.person.FilterContactPredicate;
+import seedu.address.model.contact.FilterContactPredicate;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.AddressBookBuilder;
 
@@ -107,24 +107,24 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasPerson_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hasPerson(null));
+    public void hasContact_nullContact_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasContact(null));
     }
 
     @Test
-    public void hasPerson_personNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hasPerson(ALICE));
+    public void hasContact_contactNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasContact(ALICE));
     }
 
     @Test
-    public void hasPerson_personInAddressBook_returnsTrue() {
-        modelManager.addPerson(ALICE);
-        assertTrue(modelManager.hasPerson(ALICE));
+    public void hasContact_contactInAddressBook_returnsTrue() {
+        modelManager.addContact(ALICE);
+        assertTrue(modelManager.hasContact(ALICE));
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    public void getFilteredContactList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredContactList().remove(0));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        AddressBook addressBook = new AddressBookBuilder().withContact(ALICE).withContact(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();
         PropertyBook propertyBook = new PropertyBook();
         propertyBook.addProperty(PROPERTY_ALPHA);
@@ -177,7 +177,7 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredPersonList(new FilterContactPredicate(
+        modelManager.updateFilteredContactList(new FilterContactPredicate(
                 Optional.of(Arrays.asList(keywords)),
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(), Optional.empty(),
@@ -187,7 +187,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(addressBook, propertyBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        modelManager.updateFilteredContactList(PREDICATE_SHOW_ALL_CONTACTS);
 
         // different filtered property list -> returns false
         modelManager.updateFilteredPropertyList(property -> false);

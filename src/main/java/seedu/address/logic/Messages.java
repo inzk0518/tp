@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 
 /**
@@ -15,8 +15,8 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "A person index provided is invalid";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%d persons listed! (showing %d–%d)";
+    public static final String MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX = "A contact index provided is invalid";
+    public static final String MESSAGE_CONTACTS_LISTED_OVERVIEW = "%d contacts listed! (showing %d–%d)";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX = "A property index provided is invalid";
@@ -35,25 +35,25 @@ public class Messages {
     }
 
     /**
-     * Formats the {@code person} for display to the user.
+     * Formats the {@code contact} for display to the user.
      */
-    public static String format(Person person) {
+    public static String format(Contact contact) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(person.getName())
+        builder.append(contact.getName())
                 .append("; Id: ")
-                .append(person.getUuid())
+                .append(contact.getUuid())
                 .append("; Phone: ")
-                .append(person.getPhone())
+                .append(contact.getPhone())
                 .append("; Email: ")
-                .append(person.getEmail())
+                .append(contact.getEmail())
                 .append("; Address: ")
-                .append(person.getAddress())
+                .append(contact.getAddress())
                 .append("; Tags: [");
-        person.getTags().forEach(builder::append);
+        contact.getTags().forEach(builder::append);
         builder.append("]; Buying Property Ids: [");
-        person.getBuyingPropertyIds().forEach(builder::append);
+        contact.getBuyingPropertyIds().forEach(builder::append);
         builder.append("]; Selling Property Ids: [");
-        person.getSellingPropertyIds().forEach(builder::append);
+        contact.getSellingPropertyIds().forEach(builder::append);
         builder.append("]");
         return builder.toString();
     }
@@ -88,10 +88,10 @@ public class Messages {
                 .append(property.getType())
                 .append("; Owner: ")
                 .append(property.getOwner());
-        builder.append("; Buying Person Ids: [");
-        property.getBuyingPersonIds().forEach(builder::append);
-        builder.append("]; Selling Person Ids: [");
-        property.getSellingPersonIds().forEach(builder::append);
+        builder.append("; Buying Contact Ids: [");
+        property.getBuyingContactIds().forEach(builder::append);
+        builder.append("]; Selling Contact Ids: [");
+        property.getSellingContactIds().forEach(builder::append);
         builder.append("]");
         return builder.toString();
     }

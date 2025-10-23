@@ -6,9 +6,9 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.DeleteContactCommand.MESSAGE_PERSON_NOT_FOUND;
+import static seedu.address.logic.commands.DeleteContactCommand.MESSAGE_CONTACT_NOT_FOUND;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalContacts.AMY;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 
 import java.io.IOException;
@@ -31,13 +31,13 @@ import seedu.address.model.PropertyBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonPropertyBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
-import seedu.address.testutil.PersonBuilderUtil;
+import seedu.address.testutil.ContactBuilderUtil;
 import seedu.address.testutil.PropertyBuilderUtil;
 
 public class LogicManagerTest {
@@ -49,7 +49,7 @@ public class LogicManagerTest {
             "postal/123456",
             "price/500000",
             "type/HDB",
-            "status/unsold",
+            "status/unavailable",
             "bedroom/3",
             "bathroom/2",
             "floorarea/120",
@@ -81,8 +81,8 @@ public class LogicManagerTest {
 
     @Test
     public void execute_commandExecutionError_throwsParseException() {
-        String deleteCommand = "delete c/9";
-        assertCommandException(deleteCommand, String.format(MESSAGE_PERSON_NOT_FOUND, 9));
+        String deleteCommand = "deletecontact 9";
+        assertCommandException(deleteCommand, String.format(MESSAGE_CONTACT_NOT_FOUND, 9));
     }
 
     @Test
@@ -116,8 +116,8 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+    public void getFilteredContactList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredContactList().remove(0));
     }
 
     /**
@@ -203,9 +203,9 @@ public class LogicManagerTest {
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddContactCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
-        Person expectedPerson = new PersonBuilderUtil(AMY).withTags().build();
+        Contact expectedContact = new ContactBuilderUtil(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addPerson(expectedPerson);
+        expectedModel.addContact(expectedContact);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 

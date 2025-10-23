@@ -1,9 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.ArrayList;
@@ -15,33 +15,33 @@ import java.util.stream.Stream;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
 
 /**
- * Unlinks properties from people.
+ * Unlinks properties from contacts.
  */
 public class UnlinkCommand extends Command {
 
     public static final String COMMAND_WORD = "unlink";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": unlinks properties from people. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": unlinks properties from contacts. "
             + "Parameters: "
             + PREFIX_PROPERTY_ID + "PROPERTY_ID{1..} "
-            + PREFIX_CLIENT_ID + "CLIENT_ID{1..}"
+            + PREFIX_CONTACT_ID + "CONTACT_ID{1..}"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PROPERTY_ID + "2 "
             + PREFIX_PROPERTY_ID + "5 "
-            + PREFIX_CLIENT_ID + "3";
+            + PREFIX_CONTACT_ID + "3";
 
     public static final String MESSAGE_UNLINK_SUCCESS =
-            "Unlinked Property IDs: %1$s with Person IDs: %2$s";
+            "Unlinked Property IDs: %1$s with Contact IDs: %2$s";
 
     private final UnlinkDescriptor unlinkDescriptor;
 
     /**
-     * Creates an UnlinkCommand to unlink the specified {@code Properties} to the specified {@code People}
+     * Creates an UnlinkCommand to unlink the specified {@code Property} to the specified {@code Contact}
      */
     public UnlinkCommand(UnlinkDescriptor unlinkDescriptor) {
         requireNonNull(unlinkDescriptor);
@@ -51,22 +51,22 @@ public class UnlinkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownPersonList = model.getFilteredPersonList();
+        List<Contact> lastShownContactList = model.getFilteredContactList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
 
-        List<Person> targetPeople = unlinkDescriptor.getPeopleInList(lastShownPersonList);
+        List<Contact> targetContacts = unlinkDescriptor.getContactsInList(lastShownContactList);
         List<Property> targetProperties = unlinkDescriptor.getPropertiesInList(lastShownPropertyList);
 
-        List<Person> updatedPeople = unlinkDescriptor.getUpdatedPeople(lastShownPersonList);
+        List<Contact> updatedContacts = unlinkDescriptor.getUpdatedContacts(lastShownContactList);
         List<Property> updatedProperties = unlinkDescriptor.getUpdatedProperties(lastShownPropertyList);
 
-        Stream.iterate(0, x -> x < targetPeople.size(), x -> x + 1)
-                .forEach(i -> model.setPerson(targetPeople.get(i), updatedPeople.get(i)));
+        Stream.iterate(0, x -> x < targetContacts.size(), x -> x + 1)
+                .forEach(i -> model.setContact(targetContacts.get(i), updatedContacts.get(i)));
         Stream.iterate(0, x -> x < targetProperties.size(), x -> x + 1)
                 .forEach(i -> model.setProperty(targetProperties.get(i), updatedProperties.get(i)));
 
         return new CommandResult(String.format(MESSAGE_UNLINK_SUCCESS, unlinkDescriptor.getPropertyIds(),
-                    unlinkDescriptor.getPersonIds()));
+                    unlinkDescriptor.getContactIds()));
     }
 
     @Override
@@ -91,10 +91,10 @@ public class UnlinkCommand extends Command {
     }
 
     /**
-     * Stores Ids to unlink a property to a person.
+     * Stores Ids to unlink a property to a contact.
      */
     public static class UnlinkDescriptor {
-        private Set<Uuid> personIds;
+        private Set<Uuid> contactIds;
         private Set<Uuid> propertyIds;
 
         public UnlinkDescriptor() {}
@@ -103,16 +103,16 @@ public class UnlinkCommand extends Command {
          * Copy constructor.
          */
         public UnlinkDescriptor(UnlinkDescriptor toCopy) {
-            setPersonIds(toCopy.personIds);
+            setContactIds(toCopy.contactIds);
             setPropertyIds(toCopy.propertyIds);
         }
 
-        public void setPersonIds(Set<Uuid> personIds) {
-            this.personIds = personIds;
+        public void setContactIds(Set<Uuid> contactIds) {
+            this.contactIds = contactIds;
         }
 
-        public Set<Uuid> getPersonIds() {
-            return personIds;
+        public Set<Uuid> getContactIds() {
+            return contactIds;
         }
 
         public void setPropertyIds(Set<Uuid> propertyIds) {
@@ -124,19 +124,19 @@ public class UnlinkCommand extends Command {
         }
 
         /**
-         * Returns the {@code List<Person>} in the list with all matching personIds.
+         * Returns the {@code List<Contact>} in the list with all matching contactIds.
          *
-         * @throws CommandException if any person is not found in the list.
+         * @throws CommandException if any contact is not found in the list.
          */
-        public List<Person> getPeopleInList(List<Person> personList) throws CommandException {
-            assert (personList != null);
-            List<Person> peopleList = new ArrayList<>(personList).stream()
-                    .filter(person -> personIds.contains(person.getUuid()))
+        public List<Contact> getContactsInList(List<Contact> contactList) throws CommandException {
+            assert (contactList != null);
+            List<Contact> contactsList = new ArrayList<>(contactList).stream()
+                    .filter(contact -> contactIds.contains(contact.getUuid()))
                     .collect(Collectors.toList());
-            if (peopleList.size() != personIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            if (contactsList.size() != contactIds.size()) {
+                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX);
             }
-            return peopleList;
+            return contactsList;
         }
 
         /**
@@ -156,33 +156,33 @@ public class UnlinkCommand extends Command {
         }
 
         /**
-         * Returns an edited {@code List<Person>} with the properties unlinked.
+         * Returns an edited {@code List<Contact>} with the properties unlinked.
          */
-        public List<Person> getUpdatedPeople(List<Person> personList) throws CommandException {
-            List<Person> peopleToEdit = getPeopleInList(personList);
-            return new ArrayList<>(peopleToEdit).stream()
-                    .map(personToEdit -> personToEdit
+        public List<Contact> getUpdatedContacts(List<Contact> contactList) throws CommandException {
+            List<Contact> contactsToEdit = getContactsInList(contactList);
+            return new ArrayList<>(contactsToEdit).stream()
+                    .map(contactToEdit -> contactToEdit
                     .duplicateWithNewBuyingPropertyIds(
-                    personToEdit.getBuyingPropertyIds().stream().filter(id -> !propertyIds.contains(id))
+                    contactToEdit.getBuyingPropertyIds().stream().filter(id -> !propertyIds.contains(id))
                     .collect(Collectors.toSet()))
                     .duplicateWithNewSellingPropertyIds(
-                    personToEdit.getSellingPropertyIds().stream().filter(id -> !propertyIds.contains(id))
+                    contactToEdit.getSellingPropertyIds().stream().filter(id -> !propertyIds.contains(id))
                     .collect(Collectors.toSet())))
                     .collect(Collectors.toList());
         }
 
         /**
-         * Returns an edited {@code List<Property>} with the people unlinked.
+         * Returns an edited {@code List<Property>} with the contacts unlinked.
          */
         public List<Property> getUpdatedProperties(List<Property> propertyList) throws CommandException {
             List<Property> propertiesToEdit = getPropertiesInList(propertyList);
             return new ArrayList<>(propertiesToEdit).stream()
                     .map(propertyToEdit -> propertyToEdit
-                    .duplicateWithNewBuyingPersonIds(
-                    propertyToEdit.getBuyingPersonIds().stream().filter(id -> !personIds.contains(id))
+                    .duplicateWithNewBuyingContactIds(
+                    propertyToEdit.getBuyingContactIds().stream().filter(id -> !contactIds.contains(id))
                     .collect(Collectors.toSet()))
-                    .duplicateWithNewSellingPersonIds(
-                    propertyToEdit.getSellingPersonIds().stream().filter(id -> !personIds.contains(id))
+                    .duplicateWithNewSellingContactIds(
+                    propertyToEdit.getSellingContactIds().stream().filter(id -> !contactIds.contains(id))
                     .collect(Collectors.toSet())))
                     .collect(Collectors.toList());
         }
@@ -199,14 +199,14 @@ public class UnlinkCommand extends Command {
 
             UnlinkDescriptor otherUnlinkDescriptor = (UnlinkDescriptor) other;
 
-            return personIds.equals(otherUnlinkDescriptor.personIds)
+            return contactIds.equals(otherUnlinkDescriptor.contactIds)
                     && propertyIds.equals(otherUnlinkDescriptor.propertyIds);
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .add("personIds", personIds)
+                    .add("contactIds", contactIds)
                     .add("propertyIds", propertyIds)
                     .toString();
         }

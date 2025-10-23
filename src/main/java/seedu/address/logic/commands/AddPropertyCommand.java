@@ -46,14 +46,12 @@ public class AddPropertyCommand extends Command {
             + PREFIX_PROPERTY_BATHROOM + "2 "
             + PREFIX_PROPERTY_FLOOR_AREA + "1023 "
             + PREFIX_PROPERTY_PRICE + "1950000 "
-            + PREFIX_PROPERTY_STATUS + "sold "
+            + PREFIX_PROPERTY_STATUS + "unavailable "
             + PREFIX_PROPERTY_LISTING + "sale "
             + PREFIX_PROPERTY_OWNER + "1";
 
     public static final String MESSAGE_SUCCESS = "New property added: %1$s";
     public static final String MESSAGE_DUPLICATE_PROPERTY = "This property already exists in the property list";
-    public static final String MESSAGE_CONFLICT_STATUS_LISTING =
-            "A property with status \"Sold\" cannot have a \"Rent\" listing type, and vice versa.";
 
     private final Property toAdd;
 

@@ -1,7 +1,7 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.contact.Contact;
+import seedu.address.model.contact.UniqueContactList;
 import seedu.address.model.uuid.Uuid;
 
 /**
@@ -20,7 +20,7 @@ import seedu.address.model.uuid.Uuid;
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
-    private final UniquePersonList persons;
+    private final UniqueContactList contacts;
     private int nextUuid = 1;
 
     /*
@@ -31,13 +31,13 @@ public class AddressBook implements ReadOnlyAddressBook {
      *   among constructors.
      */
     {
-        persons = new UniquePersonList();
+        contacts = new UniqueContactList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Persons in the {@code toBeCopied}
+     * Creates an AddressBook using the Contacts in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -47,11 +47,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the person list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
+     * Replaces the contents of the contact list with {@code contacts}.
+     * {@code contacts} must not contain duplicate contacts.
      */
-    public void setPersons(List<Person> persons) {
-        this.persons.setPersons(persons);
+    public void setContacts(List<Contact> contacts) {
+        this.contacts.setContacts(contacts);
     }
 
     /**
@@ -59,32 +59,32 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
-        setPersons(newData.getPersonList());
+        setContacts(newData.getContactList());
         setNextUuid(newData.getNextUuid());
     }
 
-    //// person-level operations
+    //// contact-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if a contact with the same identity as {@code contact} exists in the address book.
      */
-    public boolean hasPerson(Person person) {
-        requireNonNull(person);
-        return persons.contains(person);
+    public boolean hasContact(Contact contact) {
+        requireNonNull(contact);
+        return contacts.contains(contact);
     }
 
     /**
      * Sets the next UUID to be used.
      */
     public Uuid generateNextUuid() {
-        Set<Integer> existingIds = persons.asUnmodifiableObservableList()
+        Set<Integer> existingIds = contacts.asUnmodifiableObservableList()
                 .stream()
                 .map(person -> person.getUuid().getValue())
                 .collect(Collectors.toSet());
         while (existingIds.contains(nextUuid)) {
             nextUuid++;
         }
-        return new Uuid(nextUuid, PERSON);
+        return new Uuid(nextUuid, CONTACT);
     }
 
     /**
@@ -102,30 +102,31 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds a contact to the address book.
+     * The contact must not already exist in the address book.
      */
-    public void addPerson(Person p) {
-        persons.add(p);
+    public void addContact(Contact p) {
+        contacts.add(p);
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * Replaces the given contact {@code target} in the list with {@code editedContact}.
      * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * The contact identity of {@code editedContact} must not be the same
+     * as another existing contact in the address book.
      */
-    public void setPerson(Person target, Person editedPerson) {
-        requireNonNull(editedPerson);
+    public void setContact(Contact target, Contact editedContact) {
+        requireNonNull(editedContact);
 
-        persons.setPerson(target, editedPerson);
+        contacts.setContact(target, editedContact);
     }
 
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
-    public void removePerson(Person key) {
-        persons.remove(key);
+    public void removeContact(Contact key) {
+        contacts.remove(key);
     }
 
     //// util methods
@@ -133,13 +134,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("persons", persons)
+                .add("contacts", contacts)
                 .toString();
     }
 
     @Override
-    public ObservableList<Person> getPersonList() {
-        return persons.asUnmodifiableObservableList();
+    public ObservableList<Contact> getContactList() {
+        return contacts.asUnmodifiableObservableList();
     }
 
     @Override
@@ -154,11 +155,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        return contacts.equals(otherAddressBook.contacts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(persons, nextUuid);
+        return Objects.hash(contacts, nextUuid);
     }
 }

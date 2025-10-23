@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.DeleteContactCommand.MESSAGE_PERSON_NOT_FOUND;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.logic.commands.DeleteContactCommand.MESSAGE_CONTACT_NOT_FOUND;
+import static seedu.address.testutil.TypicalContacts.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.uuid.Uuid;
 
 /**
@@ -27,33 +27,33 @@ public class DeleteContactCommandTest {
 
     @Test
     public void execute_validUuidUnfilteredList_success() {
-        Person personToDelete = model.getFilteredPersonList().get(0);
-        Uuid uuidToDelete = personToDelete.getUuid();
+        Contact contactToDelete = model.getFilteredContactList().get(0);
+        Uuid uuidToDelete = contactToDelete.getUuid();
         DeleteContactCommand deleteContactCommand = new DeleteContactCommand(uuidToDelete);
 
-        String expectedMessage = String.format(DeleteContactCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-                Messages.format(personToDelete));
+        String expectedMessage = String.format(DeleteContactCommand.MESSAGE_DELETE_CONTACT_SUCCESS,
+                Messages.format(contactToDelete));
 
         Model expectedModel = new ModelManager(model.getAddressBook(),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
-        expectedModel.deletePerson(personToDelete);
+        expectedModel.deleteContact(contactToDelete);
 
         assertCommandSuccess(deleteContactCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_invalidUuidUnfilteredList_throwsCommandException() {
-        Uuid invalidUuid = new Uuid(999999, Uuid.StoredItem.PERSON); // Non-existent UUID
+        Uuid invalidUuid = new Uuid(999999, Uuid.StoredItem.CONTACT); // Non-existent UUID
         DeleteContactCommand deleteContactCommand = new DeleteContactCommand(invalidUuid);
 
         assertCommandFailure(deleteContactCommand, model,
-                String.format(MESSAGE_PERSON_NOT_FOUND, invalidUuid.getValue()));
+                String.format(MESSAGE_CONTACT_NOT_FOUND, invalidUuid.getValue()));
     }
 
     @Test
     public void equals() {
-        Uuid firstUuid = model.getFilteredPersonList().get(0).getUuid();
-        Uuid secondUuid = model.getFilteredPersonList().get(1).getUuid();
+        Uuid firstUuid = model.getFilteredContactList().get(0).getUuid();
+        Uuid secondUuid = model.getFilteredContactList().get(1).getUuid();
 
         DeleteContactCommand deleteFirstCommand = new DeleteContactCommand(firstUuid);
         DeleteContactCommand deleteSecondCommand = new DeleteContactCommand(secondUuid);
@@ -71,13 +71,13 @@ public class DeleteContactCommandTest {
         // null -> returns false
         assertNotEquals(null, deleteFirstCommand);
 
-        // different person -> returns false
+        // different contact -> returns false
         assertNotEquals(deleteFirstCommand, deleteSecondCommand);
     }
 
     @Test
     public void toStringMethod() {
-        Uuid targetUuid = model.getFilteredPersonList().get(0).getUuid();
+        Uuid targetUuid = model.getFilteredContactList().get(0).getUuid();
         DeleteContactCommand deleteContactCommand = new DeleteContactCommand(targetUuid);
         String expected = DeleteContactCommand.class.getCanonicalName() + "{targetUuid=" + targetUuid + "}";
         assertEquals(expected, deleteContactCommand.toString());

@@ -15,12 +15,12 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessFirst() throws Exception {
-        String input = " type/condo bedroom/3 floorarea/100 status/unsold limit/5 offset/10";
+        String input = " type/condo bedroom/3 floorarea/100 status/available limit/5 offset/10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
                                 .withType("condo").withBedroom("3")
-                                .withFloorArea("100").withStatus("unsold").build(),
+                                .withFloorArea("100").withStatus("available").build(),
                         5, 10);
         assertEquals(expected, parser.parse(input));
 

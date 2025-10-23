@@ -95,7 +95,7 @@ class DeletePropertyCommandTest {
     private static Property buildProperty(String address) {
         return new Property(new Uuid(1, PROPERTY), new PropertyAddress(address), new Bathroom("2"), new Bedroom("3"),
                 new FloorArea("120"), new Listing("sale"), new Postal("123456"), new Price("500000"),
-                new Status("sold"), new Type("HDB"), new Owner("owner123"), new HashSet<>(), new HashSet<>());
+                new Status("unavailable"), new Type("HDB"), new Owner("owner123"), new HashSet<>(), new HashSet<>());
     }
 
     private static Uuid deriveDifferentId(Uuid propertyId) {

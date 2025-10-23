@@ -16,18 +16,18 @@ import seedu.address.logic.commands.AddContactCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteContactCommand;
 import seedu.address.logic.commands.EditContactCommand;
-import seedu.address.logic.commands.EditContactCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.EditContactCommand.EditContactDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.FilterContactPredicate;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
+import seedu.address.model.contact.FilterContactPredicate;
 import seedu.address.model.uuid.Uuid;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
-import seedu.address.testutil.PersonBuilderUtil;
-import seedu.address.testutil.PersonUtil;
+import seedu.address.testutil.ContactBuilderUtil;
+import seedu.address.testutil.ContactUtil;
+import seedu.address.testutil.EditContactDescriptorBuilder;
 
 public class AddressBookParserTest {
 
@@ -35,9 +35,9 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Person person = new PersonBuilderUtil().build();
-        AddContactCommand command = (AddContactCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
-        assertEquals(new AddContactCommand(person), command);
+        Contact contact = new ContactBuilderUtil().build();
+        AddContactCommand command = (AddContactCommand) parser.parseCommand(ContactUtil.getAddCommand(contact));
+        assertEquals(new AddContactCommand(contact), command);
     }
 
     @Test
@@ -49,18 +49,18 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteContactCommand command = (DeleteContactCommand) parser.parseCommand(
-                DeleteContactCommand.COMMAND_WORD + " c/1");
-        assertEquals(new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.PERSON)), command);
+                DeleteContactCommand.COMMAND_WORD + " 1");
+        assertEquals(new DeleteContactCommand(new Uuid(1, Uuid.StoredItem.CONTACT)), command);
     }
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Person person = new PersonBuilderUtil().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
-        Uuid targetUuid = person.getUuid();
+        Contact contact = new ContactBuilderUtil().build();
+        EditContactDescriptor descriptor = new EditContactDescriptorBuilder(contact).build();
+        Uuid targetUuid = contact.getUuid();
         String commandString = EditContactCommand.COMMAND_WORD + " "
-                + targetUuid.toString().replace(" (PERSON)", "") + " "
-                + PersonUtil.getEditPersonDescriptorDetails(descriptor);
+                + targetUuid.toString().replace(" (CONTACT)", "") + " "
+                + ContactUtil.getEditContactDescriptorDetails(descriptor);
         System.out.println(commandString);
         EditContactCommand command = (EditContactCommand) parser.parseCommand(commandString);
 

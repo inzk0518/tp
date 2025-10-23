@@ -1,8 +1,8 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.getTypicalPropertyBook;
 
@@ -26,19 +26,19 @@ public class LinkUnlinkIntegrationTest {
 
         Model model = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 
-        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder().withPersonIds(Set.of(ALICE.getUuid()))
+        LinkDescriptor linkDescriptor = new LinkDescriptorBuilder().withContactIds(Set.of(ALICE.getUuid()))
                 .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
         LinkCommand linkCommand = new LinkCommand(linkDescriptor);
 
-        UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder().withPersonIds(Set.of(ALICE.getUuid()))
+        UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder().withContactIds(Set.of(ALICE.getUuid()))
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
         LinkUnlinkCommandUtil linkUnlink = new LinkUnlinkCommandUtil(linkCommand, unlinkCommand);
 
         String expectedMessage =
                 String.format(LinkCommand.MESSAGE_LINK_BUYER_SUCCESS + "\n" + UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                linkDescriptor.getPropertyIds(), linkDescriptor.getPersonIds(),
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getPersonIds());
+                linkDescriptor.getPropertyIds(), linkDescriptor.getContactIds(),
+                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 

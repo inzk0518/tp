@@ -9,13 +9,13 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Status {
     public static final String MESSAGE_CONSTRAINTS =
-            "Invalid status \"VALUE\". Allowed: unsold, sold.";
+            "Invalid status \"VALUE\". Allowed: available, unavailable.";
 
     /*
-     * The status must be one of the predefined values: unsold, sold
+     * The status must be one of the predefined values: unavailable, available
      * Case-insensitive matching is supported.
      */
-    public static final String VALIDATION_REGEX = "^(?i)(unsold|sold)$";
+    public static final String VALIDATION_REGEX = "^(?i)(available|unavailable)$";
 
     public final String value;
 

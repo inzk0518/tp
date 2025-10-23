@@ -30,16 +30,16 @@ public class Property {
     private final Status status;
     private final Type type;
     private final Owner owner;
-    private final Set<Uuid> buyingPersonIds = new HashSet<>();
-    private final Set<Uuid> sellingPersonIds = new HashSet<>();
+    private final Set<Uuid> buyingContactIds = new HashSet<>();
+    private final Set<Uuid> sellingContactIds = new HashSet<>();
 
     /**
      * Constructs a {@code Property}.
      * Every field must be present and not null.
      */
     public Property(Uuid uuid, PropertyAddress address, Bathroom bathroom, Bedroom bedroom, FloorArea floorArea,
-            Listing listing, Postal postal, Price price, Status status, Type type, Owner owner,
-            Set<Uuid> buyingPersonIds, Set<Uuid> sellingPersonIds) {
+                    Listing listing, Postal postal, Price price, Status status, Type type, Owner owner,
+                    Set<Uuid> buyingContactIds, Set<Uuid> sellingContactIds) {
         requireAllNonNull(address, bathroom, bedroom, floorArea, listing, postal, price, status, type, owner);
         this.uuid = uuid;
         this.address = address;
@@ -52,8 +52,8 @@ public class Property {
         this.status = status;
         this.type = type;
         this.owner = owner;
-        this.buyingPersonIds.addAll(buyingPersonIds);
-        this.sellingPersonIds.addAll(sellingPersonIds);
+        this.buyingContactIds.addAll(buyingContactIds);
+        this.sellingContactIds.addAll(sellingContactIds);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Property {
      */
     public Property duplicateWithNewUuid(Uuid uuid) {
         return new Property(uuid, address, bathroom, bedroom, floorArea, listing, postal,
-                price, status, type, owner, buyingPersonIds, sellingPersonIds);
+                price, status, type, owner, buyingContactIds, sellingContactIds);
     }
 
     // Getter methods
@@ -111,37 +111,37 @@ public class Property {
     }
 
     /**
-     * Returns an immutable person index set, which throws {@code UnsupportedOperationException}
+     * Returns an immutable contact index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Uuid> getBuyingPersonIds() {
-        return Collections.unmodifiableSet(buyingPersonIds);
+    public Set<Uuid> getBuyingContactIds() {
+        return Collections.unmodifiableSet(buyingContactIds);
     }
 
     /**
-     * Returns an immutable person index set, which throws {@code UnsupportedOperationException}
+     * Returns an immutable contact index set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Uuid> getSellingPersonIds() {
-        return Collections.unmodifiableSet(sellingPersonIds);
+    public Set<Uuid> getSellingContactIds() {
+        return Collections.unmodifiableSet(sellingContactIds);
     }
 
     /**
-     * Duplicates Property with the new BuyingPersonIds.
+     * Duplicates Property with the new BuyingContactIds.
      * Used for updating Property when linking or unlinking.
      */
-    public Property duplicateWithNewBuyingPersonIds(Set<Uuid> buyingPersonIds) {
+    public Property duplicateWithNewBuyingContactIds(Set<Uuid> buyingContactIds) {
         return new Property(uuid, address, bathroom, bedroom, floorArea, listing, postal,
-                price, status, type, owner, buyingPersonIds, sellingPersonIds);
+                price, status, type, owner, buyingContactIds, sellingContactIds);
     }
 
     /**
-     * Duplicates Property with the new SellingPersonIds.
+     * Duplicates Property with the new SellingContactIds.
      * Used for updating Property when linking or unlinking.
      */
-    public Property duplicateWithNewSellingPersonIds(Set<Uuid> sellingPersonIds) {
+    public Property duplicateWithNewSellingContactIds(Set<Uuid> sellingContactIds) {
         return new Property(uuid, address, bathroom, bedroom, floorArea, listing, postal,
-                price, status, type, owner, buyingPersonIds, sellingPersonIds);
+                price, status, type, owner, buyingContactIds, sellingContactIds);
     }
 
     /**
@@ -162,7 +162,7 @@ public class Property {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return java.util.Objects.hash(address, bathroom, bedroom, floorArea, listing, postal, price, status, type,
-                owner, buyingPersonIds, sellingPersonIds);
+                owner, buyingContactIds, sellingContactIds);
     }
 
     /*
@@ -206,8 +206,8 @@ public class Property {
                 .add("Status", status)
                 .add("Type", type)
                 .add("Owner", owner)
-                .add("Buying Person IDs", buyingPersonIds)
-                .add("Selling Person IDs", sellingPersonIds)
+                .add("Buying Contact IDs", buyingContactIds)
+                .add("Selling Contact IDs", sellingContactIds)
                 .toString();
     }
 }
