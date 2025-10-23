@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 
 /**
  * An Immutable AddressBook that is serializable to JSON format.
@@ -19,22 +19,22 @@ import seedu.address.model.person.Person;
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
 
-    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_CONTACT = "Contacts list contains duplicate contact(s).";
 
-    private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedContact> contacts = new ArrayList<>();
     @JsonProperty("nextUuid")
     private final int nextUuid; // stored UUID counter
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with persons and UUID.
-     * @param persons List of persons adapted for JSON.
+     * Constructs a {@code JsonSerializableAddressBook} with contacts and UUID.
+     * @param contacts List of contacts adapted for JSON.
      * @param nextUuid Next UUID counter to store.
      */
     @JsonCreator
     public JsonSerializableAddressBook(
-            @JsonProperty("persons") List<JsonAdaptedPerson> persons,
+            @JsonProperty("contacts") List<JsonAdaptedContact> contacts,
             @JsonProperty("nextUuid") int nextUuid) {
-        this.persons.addAll(persons);
+        this.contacts.addAll(contacts);
         this.nextUuid = nextUuid;
     }
 
@@ -44,7 +44,7 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        contacts.addAll(source.getContactList().stream().map(JsonAdaptedContact::new).collect(Collectors.toList()));
         nextUuid = source.getNextUuid();
     }
 
@@ -57,17 +57,17 @@ class JsonSerializableAddressBook {
 
     /**
      * Converts this address book into the model's {@code AddressBook} object.
-     * @return AddressBook model with persons and nextUuid restored.
+     * @return AddressBook model with contacts and nextUuid restored.
      * @throws IllegalValueException if there were any data constraints violated.
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
-            if (addressBook.hasPerson(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+        for (JsonAdaptedContact jsonAdaptedContact : contacts) {
+            Contact contact = jsonAdaptedContact.toModelType();
+            if (addressBook.hasContact(contact)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_CONTACT);
             }
-            addressBook.addPerson(person);
+            addressBook.addContact(contact);
         }
         addressBook.setNextUuid(this.nextUuid);
         return addressBook;

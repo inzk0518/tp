@@ -34,5 +34,5 @@ public class CliSyntax {
     /* Prefix definitions for linking */
     public static final Prefix PREFIX_PROPERTY_ID = new Prefix("p/");
     public static final Prefix PREFIX_LINK_RELATIONSHIP = new Prefix("r/");
-    public static final Prefix PREFIX_CLIENT_ID = new Prefix("c/");
+    public static final Prefix PREFIX_CONTACT_ID = new Prefix("c/");
 }

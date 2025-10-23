@@ -32,7 +32,7 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private PersonListPanel personListPanel;
+    private ContactListPanel contactListPanel;
     private PropertyListPanel propertyListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
@@ -102,7 +102,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        contactListPanel = new ContactListPanel(logic.getFilteredContactList());
         propertyListPanel = new PropertyListPanel(logic.getFilteredPropertyList());
 
         resultDisplay = new ResultDisplay();
@@ -114,16 +114,16 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        // Show clients view by default
-        showClientsView();
+        // Show contacts view by default
+        showContactsView();
     }
 
     /**
-     * Switches to clients view.
+     * Switches to contacts view.
      */
-    public void showClientsView() {
+    public void showContactsView() {
         contentPlaceholder.getChildren().clear();
-        contentPlaceholder.getChildren().add(personListPanel.getRoot());
+        contentPlaceholder.getChildren().add(contactListPanel.getRoot());
     }
 
     /**
@@ -174,8 +174,8 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
-    public PersonListPanel getPersonListPanel() {
-        return personListPanel;
+    public ContactListPanel getContactListPanel() {
+        return contactListPanel;
     }
 
     /**

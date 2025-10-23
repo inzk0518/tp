@@ -36,7 +36,7 @@ public class PropertyMatchesFilterPredicateTest {
             new Listing("sale"),
             new Postal("123456"),
             new Price("800000"),
-            new Status("unsold"),
+            new Status("available"),
             new Type("condo"),
             new Owner("JohnTan"),
             new HashSet<>(),
@@ -51,7 +51,7 @@ public class PropertyMatchesFilterPredicateTest {
             new Listing("rent"),
             new Postal("654321"),
             new Price("400000"),
-            new Status("sold"),
+            new Status("unavailable"),
             new Type("hdb"),
             new Owner("MaryLim"),
             new HashSet<>(),
@@ -66,6 +66,27 @@ public class PropertyMatchesFilterPredicateTest {
     }
 
     @Test
+    public void testMatchesPostalFailure() {
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withPostal("123456").build();
+        assertTrue(predicate.test(condoProperty));
+        assertFalse(predicate.test(hdbProperty));
+    }
+
+    @Test
+    public void testMatchesFloorAreaFailure() {
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withFloorArea("80").build();
+        assertTrue(predicate.test(hdbProperty));
+        assertFalse(predicate.test(condoProperty));
+    }
+
+    @Test
+    public void testMatchesListingFailure() {
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withListing("sale").build();
+        assertTrue(predicate.test(condoProperty));
+        assertFalse(predicate.test(hdbProperty));
+    }
+
+    @Test
     public void testMatchesOwnerSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withOwner("mary").build();
         assertTrue(predicate.test(hdbProperty));
@@ -74,7 +95,7 @@ public class PropertyMatchesFilterPredicateTest {
 
     @Test
     public void testMatchesStatusSuccess() {
-        var predicate = new PropertyMatchesFilterPredicate.Builder().withStatus("unsold").build();
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withStatus("available").build();
         assertTrue(predicate.test(condoProperty));
         assertFalse(predicate.test(hdbProperty));
     }
@@ -111,7 +132,7 @@ public class PropertyMatchesFilterPredicateTest {
     public void testMatchesMultipleCriteriaSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder()
                 .withType("condo")
-                .withStatus("unsold")
+                .withStatus("available")
                 .withOwner("john")
                 .build();
         assertTrue(predicate.test(condoProperty));

@@ -17,7 +17,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.Status;
 import seedu.address.model.uuid.Uuid;
@@ -35,7 +35,7 @@ public class MarkUnsoldCommandTest {
     public void setUp() {
         property1 = new PropertyBuilderUtil()
                 .withPropertyAddress("Blk 999 Orchard Rd")
-                .withStatus("sold")
+                .withStatus("unavailable")
                 .build();
         modelStub = new ModelStub();
         modelStub.addProperty(property1);
@@ -49,7 +49,7 @@ public class MarkUnsoldCommandTest {
         CommandResult result = command.execute(modelStub);
 
         assertEquals(String.format(MarkUnsoldCommand.MESSAGE_MARK_UNSOLD_SUCCESS, 1), result.getFeedbackToUser());
-        assertEquals(new Status("unsold"), modelStub.getPropertyById(property1.getUuid()).getStatus());
+        assertEquals(new Status("available"), modelStub.getPropertyById(property1.getUuid()).getStatus());
     }
 
     private static class ModelStub implements Model {
@@ -80,8 +80,8 @@ public class MarkUnsoldCommandTest {
                     editedProperty.getStatus(),
                     editedProperty.getType(),
                     editedProperty.getOwner(),
-                    editedProperty.getBuyingPersonIds(),
-                    editedProperty.getSellingPersonIds()
+                    editedProperty.getBuyingContactIds(),
+                    editedProperty.getSellingContactIds()
             );
             propertyMap.put(id, updatedWithSameId);
         }
@@ -117,7 +117,7 @@ public class MarkUnsoldCommandTest {
         }
 
         @Override
-        public void addPerson(Person person) {
+        public void addContact(Contact contact) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -132,27 +132,27 @@ public class MarkUnsoldCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Person person) {
+        public boolean hasContact(Contact contact) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deletePerson(Person target) {
+        public void deleteContact(Contact target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setPerson(Person target, Person editedPerson) {
+        public void setContact(Contact target, Contact editedContact) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Person> getFilteredPersonList() {
+        public ObservableList<Contact> getFilteredContactList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
+        public void updateFilteredContactList(Predicate<Contact> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 

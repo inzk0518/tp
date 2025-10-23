@@ -19,26 +19,12 @@ public class DeleteContactCommandParser implements Parser<DeleteContactCommand> 
      */
     @Override
     public DeleteContactCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-
-        if (!trimmedArgs.startsWith("c/") || trimmedArgs.length() <= 2) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, DeleteContactCommand.MESSAGE_USAGE));
-        }
-
-        String idString = trimmedArgs.substring(2).trim();
-        int id;
-
         try {
-            id = Integer.parseInt(idString);
-        } catch (NumberFormatException e) {
-            throw new ParseException("UUID must be a positive integer.");
+            Uuid id = ParserUtil.parseContactId(args);
+            return new DeleteContactCommand(id);
+        } catch (ParseException pe) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteContactCommand.MESSAGE_USAGE), pe);
         }
-
-        if (!Uuid.isValidUuid(id)) {
-            throw new ParseException(Uuid.MESSAGE_CONSTRAINTS);
-        }
-
-        return new DeleteContactCommand(new Uuid(id, Uuid.StoredItem.PERSON));
     }
 }

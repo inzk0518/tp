@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.property.AssociatedWithClientPredicate;
+import seedu.address.model.property.AssociatedWithContactPredicate;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.ui.MainWindow;
 
@@ -50,7 +50,7 @@ public class ShowPropertiesCommand extends Command {
         requireNonNull(model);
 
         // Filter properties where owner matches the client UUID
-        AssociatedWithClientPredicate predicate = new AssociatedWithClientPredicate(clientUuid);
+        AssociatedWithContactPredicate predicate = new AssociatedWithContactPredicate(clientUuid);
         model.updateFilteredPropertyList(predicate);
 
         //Toggle from clients list to property list
@@ -87,7 +87,7 @@ public class ShowPropertiesCommand extends Command {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("clientUuid", clientUuid)
+                .add("contactUuid", clientUuid)
                 .toString();
     }
 }

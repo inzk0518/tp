@@ -1,6 +1,6 @@
 package seedu.address.testutil;
 
-import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
+import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.HashSet;
@@ -33,11 +33,11 @@ public class PropertyBuilderUtil {
     public static final String DEFAULT_LISTING = "sale";
     public static final String DEFAULT_POSTAL = "886231";
     public static final String DEFAULT_PRICE = "210000";
-    public static final String DEFAULT_STATUS = "sold";
+    public static final String DEFAULT_STATUS = "unavailable";
     public static final String DEFAULT_TYPE = "landed";
     public static final String DEFAULT_OWNER = "owner123";
-    public static final Set<Uuid> DEFAULT_BUYING_PERSON_IDS = new HashSet<>();
-    public static final Set<Uuid> DEFAULT_SELLING_PERSON_IDS = new HashSet<>();
+    public static final Set<Uuid> DEFAULT_BUYING_CONTACT_IDS = new HashSet<>();
+    public static final Set<Uuid> DEFAULT_SELLING_CONTACT_IDS = new HashSet<>();
 
     private PropertyAddress propertyAddress;
     private Bathroom bathroom;
@@ -50,8 +50,8 @@ public class PropertyBuilderUtil {
     private Type type;
     private Owner owner;
     private Uuid uuid;
-    private Set<Uuid> buyingPersonIds;
-    private Set<Uuid> sellingPersonIds;
+    private Set<Uuid> buyingContactIds;
+    private Set<Uuid> sellingContactIds;
 
     /**
      * Creates a {@code PropertyBuilderUtil} with the default details.
@@ -68,8 +68,8 @@ public class PropertyBuilderUtil {
         status = new Status(DEFAULT_STATUS);
         type = new Type(DEFAULT_TYPE);
         owner = new Owner(DEFAULT_OWNER);
-        buyingPersonIds = DEFAULT_BUYING_PERSON_IDS;
-        sellingPersonIds = DEFAULT_SELLING_PERSON_IDS;
+        buyingContactIds = DEFAULT_BUYING_CONTACT_IDS;
+        sellingContactIds = DEFAULT_SELLING_CONTACT_IDS;
     }
 
     /**
@@ -87,8 +87,8 @@ public class PropertyBuilderUtil {
         status = new Status(propertyToCopy.getStatus().value);
         type = new Type(propertyToCopy.getType().value);
         owner = new Owner(propertyToCopy.getOwner().value);
-        buyingPersonIds = new HashSet<>(propertyToCopy.getBuyingPersonIds());
-        sellingPersonIds = new HashSet<>(propertyToCopy.getSellingPersonIds());
+        buyingContactIds = new HashSet<>(propertyToCopy.getBuyingContactIds());
+        sellingContactIds = new HashSet<>(propertyToCopy.getSellingContactIds());
     }
 
     /**
@@ -181,52 +181,52 @@ public class PropertyBuilderUtil {
     }
 
     /**
-     * Empties the {@code buyingPersonIds} of the {@code Property} that we are building.
+     * Empties the {@code buyingContactIds} of the {@code Property} that we are building.
      * Used to avoid ambiguity with varargs method.
      */
-    public PropertyBuilderUtil withBuyingPersonIds() {
-        this.buyingPersonIds = new HashSet<>();
+    public PropertyBuilderUtil withBuyingContactIds() {
+        this.buyingContactIds = new HashSet<>();
         return this;
     }
 
     /**
-     * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Person} that we are building.
+     * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Contact} that we are building.
      */
-    public PropertyBuilderUtil withBuyingPersonIds(int ... ids) {
-        this.buyingPersonIds = SampleDataUtil.getUuidSet(PERSON, ids);
+    public PropertyBuilderUtil withBuyingContactIds(int ... ids) {
+        this.buyingContactIds = SampleDataUtil.getUuidSet(CONTACT, ids);
         return this;
     }
 
     /**
-     * Sets the {@code buyingPersonIds} of the {@code Property} that we are building.
+     * Sets the {@code buyingContactIds} of the {@code Property} that we are building.
      */
-    public PropertyBuilderUtil withBuyingPersonIds(Uuid ... ids) {
-        this.buyingPersonIds = Set.of(ids);
+    public PropertyBuilderUtil withBuyingContactIds(Uuid ... ids) {
+        this.buyingContactIds = Set.of(ids);
         return this;
     }
 
     /**
-     * Empties the {@code sellingPersonIds} of the {@code Property} that we are building.
+     * Empties the {@code sellingContactIds} of the {@code Property} that we are building.
      * Used to avoid ambiguity with varargs method.
      */
-    public PropertyBuilderUtil withSellingPersonIds() {
-        this.sellingPersonIds = new HashSet<>();
+    public PropertyBuilderUtil withSellingContactIds() {
+        this.sellingContactIds = new HashSet<>();
         return this;
     }
 
     /**
-     * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Person} that we are building.
+     * Parses the {@code ids} into a {@code Set<Uuid>} and set it to the {@code Contact} that we are building.
      */
-    public PropertyBuilderUtil withSellingPersonIds(int ... ids) {
-        this.sellingPersonIds = SampleDataUtil.getUuidSet(PERSON, ids);
+    public PropertyBuilderUtil withSellingContactIds(int ... ids) {
+        this.sellingContactIds = SampleDataUtil.getUuidSet(CONTACT, ids);
         return this;
     }
 
     /**
-     * Sets the {@code buyingPersonIds} of the {@code Property} that we are building.
+     * Sets the {@code buyingContactIds} of the {@code Property} that we are building.
      */
-    public PropertyBuilderUtil withSellingPersonIds(Uuid ... ids) {
-        this.sellingPersonIds = Set.of(ids);
+    public PropertyBuilderUtil withSellingContactIds(Uuid ... ids) {
+        this.sellingContactIds = Set.of(ids);
         return this;
     }
 
@@ -235,7 +235,7 @@ public class PropertyBuilderUtil {
      */
     public Property build() {
         return new Property(uuid, propertyAddress, bathroom, bedroom, floorArea, listing, postal, price, status,
-                type, owner, buyingPersonIds, sellingPersonIds);
+                type, owner, buyingContactIds, sellingContactIds);
     }
 
 }

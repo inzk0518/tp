@@ -59,8 +59,8 @@ public class PropertyCard extends UiPart<Region> {
         owner.setText("Owner: " + property.getOwner().value);
 
         String formattedLinkedIds = String.format("Buyer Ids: %s • Seller Ids: %s",
-                property.getBuyingPersonIds().toString(),
-                property.getSellingPersonIds().toString());
+                property.getBuyingContactIds().toString(),
+                property.getSellingContactIds().toString());
         linkedIds.setText(formattedLinkedIds);
     }
 }

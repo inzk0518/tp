@@ -70,10 +70,6 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
         Listing listing = ParserUtil.parseListing(argMultimap.getValue(PREFIX_PROPERTY_LISTING).get());
         Owner owner = ParserUtil.parseOwner(argMultimap.getValue(PREFIX_PROPERTY_OWNER).get());
 
-        if ((status.isSold() && listing.isRent()) || (status.isRented() && listing.isSale())) {
-            throw new ParseException(AddPropertyCommand.MESSAGE_CONFLICT_STATUS_LISTING);
-        }
-
         Property property = new Property(null, address, bathroom, bedroom, floorArea, listing,
                 postal, price, status, type, owner, new HashSet<>(), new HashSet<>());
 
