@@ -10,50 +10,50 @@ import seedu.address.model.uuid.Uuid;
 import seedu.address.ui.MainWindow;
 
 /**
- * Finds and lists all properties associated with a specified client.
+ * Finds and lists all properties associated with a specified contact.
  *
- * Show all properties linked to client (as buyer, seller, etc.)
- * when property-client association model is implemented.
+ * Show all properties linked to contact (as buyer, seller, etc.)
+ * when property-contact association model is implemented.
  */
 public class ShowPropertiesCommand extends Command {
 
     public static final String COMMAND_WORD = "showproperties";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Shows all properties associated with the specified client.\n"
-            + "Parameters: c/CLIENT_UUID (must be a positive integer)\n"
+            + ": Shows all properties associated with the specified contact.\n"
+            + "Parameters: c/CONTACT_UUID (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " c/123";
 
-    public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to client UUID: %1$s";
+    public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to contact UUID: %1$s";
 
     public static final String MESSAGE_NO_PROPERTIES =
-            "No properties found associated to client UUID: %1$s\n"
+            "No properties found associated to contact UUID: %1$s\n"
                     + "Possible reasons:\n"
-                    + "  • The client exists but is not linked to any properties yet\n"
-                    + "  • The client UUID doesn't exist (use 'list' to verify)\n"
-                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this client.";
+                    + "  • The contact exists but is not linked to any properties yet\n"
+                    + "  • The contact UUID doesn't exist (use 'list' to verify)\n"
+                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this contact.";
 
-    private final Uuid clientUuid;
+    private final Uuid contactUuid;
 
     /**
-     * Creates a ShowPropertiesCommand to find all properties associated to the specified client.
+     * Creates a ShowPropertiesCommand to find all properties associated to the specified contact.
      *
-     * @param clientUuid The UUID of the client to search for.
+     * @param contactUuid The UUID of the contact to search for.
      */
-    public ShowPropertiesCommand(Uuid clientUuid) {
-        requireNonNull(clientUuid);
-        this.clientUuid = clientUuid;
+    public ShowPropertiesCommand(Uuid contactUuid) {
+        requireNonNull(contactUuid);
+        this.contactUuid = contactUuid;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Filter properties where owner matches the client UUID
-        AssociatedWithContactPredicate predicate = new AssociatedWithContactPredicate(clientUuid);
+        // Filter properties where owner matches the contact UUID
+        AssociatedWithContactPredicate predicate = new AssociatedWithContactPredicate(contactUuid);
         model.updateFilteredPropertyList(predicate);
 
-        //Toggle from clients list to property list
+        //Toggle from contacts list to property list
         if (MainWindow.getInstance() != null) {
             MainWindow.getInstance().showPropertiesView();
         }
@@ -61,13 +61,13 @@ public class ShowPropertiesCommand extends Command {
         int numPropertiesFound = model.getFilteredPropertyList().size();
 
         if (numPropertiesFound == 0) {
-            return new CommandResult(String.format(MESSAGE_NO_PROPERTIES, clientUuid));
+            return new CommandResult(String.format(MESSAGE_NO_PROPERTIES, contactUuid));
         }
 
         // Grammatically correct: "1 property" vs "2 properties"
         String propertyWord = numPropertiesFound == 1 ? "y" : "ies";
         return new CommandResult(
-                String.format(MESSAGE_SUCCESS, clientUuid, numPropertiesFound, propertyWord));
+                String.format(MESSAGE_SUCCESS, contactUuid, numPropertiesFound, propertyWord));
     }
 
     @Override
@@ -81,13 +81,13 @@ public class ShowPropertiesCommand extends Command {
         }
 
         ShowPropertiesCommand otherCommand = (ShowPropertiesCommand) other;
-        return clientUuid.equals(otherCommand.clientUuid);
+        return contactUuid.equals(otherCommand.contactUuid);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("contactUuid", clientUuid)
+                .add("contactUuid", contactUuid)
                 .toString();
     }
 }
