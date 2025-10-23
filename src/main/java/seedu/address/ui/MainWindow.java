@@ -115,13 +115,13 @@ public class MainWindow extends UiPart<Stage> {
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
         // Show clients view by default
-        showClientsView();
+        showContactsView();
     }
 
     /**
      * Switches to clients view.
      */
-    public void showClientsView() {
+    public void showContactsView() {
         contentPlaceholder.getChildren().clear();
         contentPlaceholder.getChildren().add(personListPanel.getRoot());
     }

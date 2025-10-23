@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.ui.MainWindow;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.
@@ -16,5 +17,25 @@ public abstract class Command {
      * @throws CommandException If an error occurs during command execution.
      */
     public abstract CommandResult execute(Model model) throws CommandException;
+
+    /**
+     * Updates GUI to show contact view.
+     * Used after most command executions.
+     */
+    public void showContactsView() {
+        if (MainWindow.getInstance() != null) {
+            MainWindow.getInstance().showContactsView();
+        }
+    }
+
+    /**
+     * Updates GUI to show property view.
+     * Used after most command executions.
+     */
+    public void showPropertiesView() {
+        if (MainWindow.getInstance() != null) {
+            MainWindow.getInstance().showPropertiesView();
+        }
+    }
 
 }

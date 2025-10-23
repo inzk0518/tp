@@ -52,6 +52,9 @@ public class DeleteContactCommand extends Command {
         }
 
         model.deletePerson(personToDelete.get());
+
+        showContactsView();
+
         return new CommandResult(String.format(
                 MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete.get())));
     }

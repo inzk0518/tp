@@ -62,6 +62,9 @@ public class AddContactCommand extends Command {
         }
 
         model.addPerson(personWithUuid);
+
+        showContactsView();
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(personWithUuid)));
     }
 

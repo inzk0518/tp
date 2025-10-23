@@ -51,10 +51,8 @@ public class ShowClientsCommand extends Command {
                 new AssociatedWithPropertyPredicate(propertyUuid, model.getPropertyBook().getPropertyList());
         model.updateFilteredPersonList(predicate);
 
-        // Switch view to show clients
-        if (MainWindow.getInstance() != null) {
-            MainWindow.getInstance().showClientsView();
-        }
+        // Switch view to show contacts
+        showContactsView();
 
         int numClientsFound = model.getFilteredPersonList().size();
 

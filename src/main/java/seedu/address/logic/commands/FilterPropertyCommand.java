@@ -8,6 +8,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
+import seedu.address.ui.MainWindow;
 
 /**
  * Filters properties using various optional attributes with pagination.
@@ -65,6 +66,9 @@ public class FilterPropertyCommand extends Command {
         int from = total == 0 ? 0 : start + 1;
         int to = total == 0 ? 0 : endExclusive;
         String msg = String.format("%d properties matched (showing %d–%d)", total, from, to);
+
+        showPropertiesView();
+
         return new CommandResult(msg);
     }
 

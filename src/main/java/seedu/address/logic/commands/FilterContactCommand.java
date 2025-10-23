@@ -9,6 +9,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.Model;
 import seedu.address.model.person.FilterContactPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.ui.MainWindow;
 
 /**
  * Filters and lists all persons in the address book that match the given {@link FilterContactPredicate}.
@@ -75,8 +76,10 @@ public class FilterContactCommand extends Command {
         // Build output message (e.g., “12 properties matched (showing 6–10)”)
         int from = total == 0 ? 0 : start + 1;
         int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, Math.min(limit, total - offset),
-                                                                    from, to);
+        String msg = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW,
+                Math.min(limit, total - offset), from, to);
+
+        showContactsView();
 
         return new CommandResult(msg);
     }
