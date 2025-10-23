@@ -116,9 +116,9 @@ public class PropertyMatchesFilterPredicateTest {
 
     @Test
     public void testMatchesPriceSuccess() {
-        var predicate = new PropertyMatchesFilterPredicate.Builder().withPrice("800000").build();
-        assertTrue(predicate.test(condoProperty));
-        assertFalse(predicate.test(hdbProperty));
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withPrice("500000").build();
+        assertTrue(predicate.test(hdbProperty));
+        assertFalse(predicate.test(condoProperty));
     }
 
     @Test

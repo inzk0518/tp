@@ -157,9 +157,9 @@ public class FilterPropertyCommandTest {
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
-        assertEquals(1, shown.size());
+        assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
     }
 
     @Test

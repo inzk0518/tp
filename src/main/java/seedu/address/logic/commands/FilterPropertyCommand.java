@@ -24,7 +24,6 @@ public class FilterPropertyCommand extends Command {
 
     public static final String MESSAGE_INVALID_LIMIT = "Error: Invalid limit";
     public static final String MESSAGE_INVALID_OFFSET = "Error: Invalid offset";
-    public static final String MESSAGE_DUPLICATE_TAGS = "Error: Duplicate tags";
 
     private final PropertyMatchesFilterPredicate predicate;
     private final int limit;

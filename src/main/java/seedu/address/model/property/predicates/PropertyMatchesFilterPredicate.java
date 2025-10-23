@@ -93,10 +93,10 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
             return false;
         }
 
-        // price equals (integer string)
+        // price less than price filter
         if (price != null) {
             String priceVal = p.getPrice().value; // digits only
-            if (!priceVal.equals(price)) {
+            if (Integer.parseInt(priceVal) > Integer.parseInt(price)) {
                 return false;
             }
         }
