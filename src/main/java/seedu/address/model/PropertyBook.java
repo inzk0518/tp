@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -79,7 +81,14 @@ public class PropertyBook implements ReadOnlyPropertyBook {
      * Sets the next UUID to be used.
      */
     public Uuid generateNextUuid() {
-        return new Uuid(nextUuid++, PROPERTY);
+        Set<Integer> existingIds = properties.asUnmodifiableObservableList()
+                .stream()
+                .map(property -> property.getUuid().getValue())
+                .collect(Collectors.toSet());
+        while (existingIds.contains(nextUuid)) {
+            nextUuid++;
+        }
+        return new Uuid(nextUuid, PROPERTY);
     }
 
     /**

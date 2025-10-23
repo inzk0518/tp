@@ -5,6 +5,8 @@ import static seedu.address.model.uuid.Uuid.StoredItem.PERSON;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -75,7 +77,14 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Sets the next UUID to be used.
      */
     public Uuid generateNextUuid() {
-        return new Uuid(nextUuid++, PERSON);
+        Set<Integer> existingIds = persons.asUnmodifiableObservableList()
+                .stream()
+                .map(person -> person.getUuid().getValue())
+                .collect(Collectors.toSet());
+        while (existingIds.contains(nextUuid)) {
+            nextUuid++;
+        }
+        return new Uuid(nextUuid, PERSON);
     }
 
     /**
