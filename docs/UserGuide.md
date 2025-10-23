@@ -220,6 +220,34 @@ Format: `link c/CLIENT_ID... p/PROPERTY_ID...`
 * `CLIENT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `unlink` can unlink any number of properties and people at once (excluding none).
 
+### Showing properties associated with a contact : `showproperties`
+
+Displays all properties associated with a specific contact by their UUID.
+
+Format: `showproperties c/CONTACT_UUID`
+
+* `CONTACT_UUID` refers to the UUID of the contact shown in the contact list.
+* The view automatically switches to show the property list.
+* If no properties are found, suggestions will be provided.
+
+Examples:
+* `showproperties c/1`
+* `showproperties c/123`
+
+### Showing contacts associated with a property : `showcontacts`
+
+Displays all contacts associated with a specific property by their UUID.
+
+Format: `showcontacts p/PROPERTY_UUID`
+
+* `PROPERTY_UUID` refers to the UUID of the property shown in the property list.
+* The view automatically switches to show the contact list.
+* If no contacts are found, suggestions will be provided.
+
+Examples:
+* `showcontacts p/1`
+* `showcontacts p/12`
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
