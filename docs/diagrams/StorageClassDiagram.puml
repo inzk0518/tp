@@ -14,6 +14,13 @@ Class JsonUserPrefsStorage
 Class "<<interface>>\nStorage" as Storage
 Class StorageManager
 
+package "PropertyBook Storage" #F4F6F6{
+Class "<<interface>>\nPropertyBookStorage" as PropertyBookStorage
+Class JsonPropertyBookStorage
+Class JsonSerializablePropertyBook
+Class JsonAdaptedProperty
+}
+
 package "AddressBook Storage" #F4F6F6{
 Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
 Class JsonAddressBookStorage
@@ -28,13 +35,20 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Storage
 
 StorageManager .up.|> Storage
-StorageManager -up-> "1" UserPrefsStorage
-StorageManager -up-> "1" AddressBookStorage
+StorageManager --> "1" UserPrefsStorage
+StorageManager --> "1" PropertyBookStorage
+StorageManager --> "1" AddressBookStorage
 
-Storage -left-|> UserPrefsStorage
-Storage -right-|> AddressBookStorage
+Storage --|> UserPrefsStorage
+Storage --|> PropertyBookStorage
+Storage --|> AddressBookStorage
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
+
+JsonPropertyBookStorage .up.|> PropertyBookStorage
+JsonPropertyBookStorage ..> JsonSerializablePropertyBook
+JsonSerializablePropertyBook --> "*" JsonAdaptedProperty
+
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
 JsonSerializableAddressBook --> "*" JsonAdaptedContact
