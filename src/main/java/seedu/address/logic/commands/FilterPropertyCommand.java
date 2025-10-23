@@ -20,7 +20,7 @@ public class FilterPropertyCommand extends Command {
             + "Filters properties using optional fields.\n"
             + "Available tags:\n"
             + "address/ postal/ type/ bedroom/ bathroom/ floorarea/ price/ status/ owner/ listing/ limit/ offset/\n"
-            + "Example: " + COMMAND_WORD + " bedroom/2 bathroom/3 price/500000";
+            + "Example: " + COMMAND_WORD + " postal/123000 bedroom/2 bathroom/3 price/500000 listing/sale";
 
     public static final String MESSAGE_INVALID_LIMIT = "Error: Invalid limit";
     public static final String MESSAGE_INVALID_OFFSET = "Error: Invalid offset";
