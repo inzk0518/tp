@@ -1,7 +1,5 @@
 package seedu.address.model.util;
 
-import java.awt.event.HierarchyBoundsListener;
-
 import static seedu.address.model.uuid.Uuid.StoredItem.CONTACT;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 
@@ -92,7 +90,7 @@ public class SampleDataUtil {
         return new Property[] {
             new Property(new Uuid(1, PROPERTY), new PropertyAddress("123 Yishun Road"), new Bathroom("2"),
                     new Bedroom("3"), new FloorArea("100"), new Listing("sale"), new Postal("545603"),
-                    new Price("310000"), new Status("sold"), new Type("HDB"),
+                    new Price("310000"), new Status("available"), new Type("HDB"),
                     new Owner("1"), EMPTY_BUYING_CONTACT_ID_SET, Set.of(new Uuid(1, CONTACT)))
         };
     }

@@ -8,7 +8,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
-import seedu.address.ui.MainWindow;
 
 /**
  * Filters properties using various optional attributes with pagination.

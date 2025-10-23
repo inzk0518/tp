@@ -7,7 +7,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.contact.predicates.AssociatedWithPropertyPredicate;
 import seedu.address.model.uuid.Uuid;
-import seedu.address.ui.MainWindow;
 
 /**
  * Creates a ShowContactsCommand to list all contacts associated with the specified property UUID.
