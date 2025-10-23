@@ -46,16 +46,11 @@
           </padding>
         </StackPane>
 
-        <VBox fx:id="contactList" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
+        <VBox fx:id="contentArea" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
           <padding>
             <Insets top="10" right="10" bottom="10" left="10" />
           </padding>
-          <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
-            <items>
-              <StackPane fx:id="contactListPanelPlaceholder" />
-              <StackPane fx:id="propertyListPanelPlaceholder" />
-            </items>
-          </SplitPane>
+          <StackPane fx:id="contentPlaceholder" VBox.vgrow="ALWAYS" />
         </VBox>
 
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />

@@ -42,9 +42,12 @@ public class FilterPropertyCommandTest {
     public void setUp() {
         model = new ModelManager();
 
-        p1 = createProperty("123 Orchard Rd", "Condo", 3, 2, "1000000", "available", "alice");
-        p2 = createProperty("456 Bedok Ave", "HDB", 4, 3, "750000", "unavailable", "bob");
-        p3 = createProperty("789 Clementi St", "Landed", 5, 4, "2000000", "available", "carol");
+        p1 = createProperty("123 Orchard Rd", "123000", "Condo", 3, 2,
+                "100", "1000000", "available", "alice", "sale");
+        p2 = createProperty("456 Bedok Ave", "456000", "HDB", 4, 3,
+                "150", "750000", "unavailable", "bob", "sale");
+        p3 = createProperty("789 Clementi St", "123456", "Landed", 5, 4,
+                "180", "2000000", "available", "carol", "rent");
 
         model.addProperty(p1);
         model.addProperty(p2);
@@ -54,16 +57,17 @@ public class FilterPropertyCommandTest {
     /**
      * Helper to create a Property using simplified fields.
      */
-    private Property createProperty(String address, String type, int bedroom,
-                                    int bathroom, String price, String status, String ownerName) {
+    private Property createProperty(
+            String address, String postal, String type, int bedroom,
+            int bathroom, String floorArea, String price, String status, String ownerName, String listing) {
         return new Property(
                 null,
                 new PropertyAddress(address),
                 new Bathroom(String.valueOf(bathroom)),
                 new Bedroom(String.valueOf(bedroom)),
-                new FloorArea("100"),
-                new Listing("sale"),
-                new Postal("123456"),
+                new FloorArea(floorArea),
+                new Listing(listing),
+                new Postal(postal),
                 new Price(price),
                 new Status(status),
                 new Type(type),
@@ -71,6 +75,20 @@ public class FilterPropertyCommandTest {
                 new HashSet<>(),
                 new HashSet<>()
         );
+    }
+
+    @Test
+    public void execute_filterByPostal_success() throws CommandException {
+        PropertyMatchesFilterPredicate predicate =
+                new PropertyMatchesFilterPredicate.Builder().withPostal("123000").build();
+
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        CommandResult result = command.execute(model);
+
+        List<Property> shown = model.getFilteredPropertyList();
+        assertEquals(1, shown.size());
+        assertTrue(shown.contains(p1));
+        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
     }
 
     @Test
@@ -117,6 +135,20 @@ public class FilterPropertyCommandTest {
     }
 
     @Test
+    public void execute_filterByFloorArea_success() throws CommandException {
+        PropertyMatchesFilterPredicate predicate =
+                new PropertyMatchesFilterPredicate.Builder().withFloorArea("100").build();
+
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        CommandResult result = command.execute(model);
+
+        List<Property> shown = model.getFilteredPropertyList();
+        assertEquals(1, shown.size());
+        assertTrue(shown.contains(p1));
+        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+    }
+
+    @Test
     public void execute_filterByPrice_success() throws CommandException {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withPrice("1000000").build();
@@ -142,6 +174,20 @@ public class FilterPropertyCommandTest {
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p3));
         assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_filterByListing_success() throws CommandException {
+        PropertyMatchesFilterPredicate predicate =
+                new PropertyMatchesFilterPredicate.Builder().withListing("sale").build();
+
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        CommandResult result = command.execute(model);
+
+        List<Property> shown = model.getFilteredPropertyList();
+        assertEquals(2, shown.size());
+        assertTrue(shown.contains(p1));
+        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
     }
 
     @Test

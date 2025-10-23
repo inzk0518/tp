@@ -5,14 +5,14 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.property.OwnerMatchesPredicate;
+import seedu.address.model.property.AssociatedWithContactPredicate;
 import seedu.address.model.uuid.Uuid;
+import seedu.address.ui.MainWindow;
 
 /**
- * Finds and lists all properties where the specified contact is the owner.
+ * Finds and lists all properties associated with a specified contact.
  *
- * Note: This code currently only shows properties where contact is the owner only.
- * Future enhancement: Show all properties linked to contact (as buyer, seller, etc.)
+ * Show all properties linked to contact (as buyer, seller, etc.)
  * when property-contact association model is implemented.
  */
 public class ShowPropertiesCommand extends Command {
@@ -20,8 +20,8 @@ public class ShowPropertiesCommand extends Command {
     public static final String COMMAND_WORD = "showproperties";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Shows all properties owned by the specified contact.\n"
-            + "Parameters: c/CONTACT_ID (must be a positive integer)\n"
+            + ": Shows all properties associated with the specified contact.\n"
+            + "Parameters: c/CONTACT_UUID (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " c/123";
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s owned by contact UUID: %1$s";
@@ -29,14 +29,14 @@ public class ShowPropertiesCommand extends Command {
     public static final String MESSAGE_NO_PROPERTIES =
             "No properties found owned by contact UUID: %1$s\n"
                     + "Possible reasons:\n"
-                    + "  • The contact exists but doesn't own any properties yet\n"
+                    + "  • The contact exists but is not linked to any properties yet\n"
                     + "  • The contact UUID doesn't exist (use 'list' to verify)\n"
-                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this contact.";
+                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this client.";
 
     private final Uuid contactUuid;
 
     /**
-     * Creates a ShowPropertiesCommand to find all properties owned by the specified contact.
+     * Creates a ShowPropertiesCommand to find all properties associated to the specified contact.
      *
      * @param contactUuid The UUID of the contact to search for.
      */
@@ -50,8 +50,13 @@ public class ShowPropertiesCommand extends Command {
         requireNonNull(model);
 
         // Filter properties where owner matches the contact UUID
-        OwnerMatchesPredicate predicate = new OwnerMatchesPredicate(contactUuid);
+        AssociatedWithContactPredicate predicate = new AssociatedWithContactPredicate(contactUuid);
         model.updateFilteredPropertyList(predicate);
+
+        //Toggle from clients list to property list
+        if (MainWindow.getInstance() != null) {
+            MainWindow.getInstance().showPropertiesView();
+        }
 
         int numPropertiesFound = model.getFilteredPropertyList().size();
 

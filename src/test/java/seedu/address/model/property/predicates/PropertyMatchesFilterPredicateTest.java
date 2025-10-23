@@ -66,6 +66,27 @@ public class PropertyMatchesFilterPredicateTest {
     }
 
     @Test
+    public void testMatchesPostalFailure() {
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withPostal("123456").build();
+        assertTrue(predicate.test(condoProperty));
+        assertFalse(predicate.test(hdbProperty));
+    }
+
+    @Test
+    public void testMatchesFloorAreaFailure() {
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withFloorArea("80").build();
+        assertTrue(predicate.test(hdbProperty));
+        assertFalse(predicate.test(condoProperty));
+    }
+
+    @Test
+    public void testMatchesListingFailure() {
+        var predicate = new PropertyMatchesFilterPredicate.Builder().withListing("sale").build();
+        assertTrue(predicate.test(condoProperty));
+        assertFalse(predicate.test(hdbProperty));
+    }
+
+    @Test
     public void testMatchesOwnerSuccess() {
         var predicate = new PropertyMatchesFilterPredicate.Builder().withOwner("mary").build();
         assertTrue(predicate.test(hdbProperty));

@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -17,7 +16,6 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.property.Property;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -26,6 +24,7 @@ import seedu.address.model.property.Property;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static MainWindow instance;
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -45,10 +44,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane contactListPanelPlaceholder;
-
-    @FXML
-    private StackPane propertyListPanelPlaceholder;
+    private StackPane contentPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -65,6 +61,7 @@ public class MainWindow extends UiPart<Stage> {
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        instance = this;
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -72,6 +69,10 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+    }
+
+    public static MainWindow getInstance() {
+        return instance;
     }
 
     public Stage getPrimaryStage() {
@@ -89,21 +90,6 @@ public class MainWindow extends UiPart<Stage> {
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
 
-        /*
-         * TODO: the code below can be removed once the bug reported here
-         * https://bugs.openjdk.java.net/browse/JDK-8131666
-         * is fixed in later version of SDK.
-         *
-         * According to the bug report, TextInputControl (TextField, TextArea) will
-         * consume function-key events. Because CommandBox contains a TextField, and
-         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
-         * not work when the focus is in them because the key event is consumed by
-         * the TextInputControl(s).
-         *
-         * For now, we add following event filter to capture such key events and open
-         * help window purposely so to support accelerators even when focus is
-         * in CommandBox or ResultDisplay.
-         */
         getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
                 menuItem.getOnAction().handle(new ActionEvent());
@@ -117,7 +103,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         contactListPanel = new ContactListPanel(logic.getFilteredContactList());
-        contactListPanelPlaceholder.getChildren().add(contactListPanel.getRoot());
+        propertyListPanel = new PropertyListPanel(logic.getFilteredPropertyList());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -128,16 +114,24 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        fillPropertyListPanel();
+        // Show contacts view by default
+        showContactsView();
     }
 
     /**
-     * Fills up the property list panel.
+     * Switches to contacts view.
      */
-    private void fillPropertyListPanel() {
-        ObservableList<Property> propertyList = logic.getFilteredPropertyList();
-        propertyListPanel = new PropertyListPanel(propertyList);
-        propertyListPanelPlaceholder.getChildren().add(propertyListPanel.getRoot());
+    public void showContactsView() {
+        contentPlaceholder.getChildren().clear();
+        contentPlaceholder.getChildren().add(contactListPanel.getRoot());
+    }
+
+    /**
+     * Switches to properties view.
+     */
+    public void showPropertiesView() {
+        contentPlaceholder.getChildren().clear();
+        contentPlaceholder.getChildren().add(propertyListPanel.getRoot());
     }
 
     /**

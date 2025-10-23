@@ -55,9 +55,9 @@ public class ContactCard extends UiPart<Region> {
         uuid.setText("id: " + contact.getUuid().getValue());
         id.setText(displayedIndex + ". ");
         name.setText(contact.getName().fullName);
-        phone.setText(contact.getPhone().value);
-        address.setText(contact.getAddress().value);
-        email.setText(contact.getEmail().value);
+        phone.setText("Phone: " + contact.getPhone().value);
+        address.setText("Address: " + contact.getAddress().value);
+        email.setText("Email: " + contact.getEmail().value);
         contact.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
