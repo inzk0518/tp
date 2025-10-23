@@ -5,6 +5,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 
 import seedu.address.model.Model;
+import seedu.address.ui.MainWindow;
 
 /**
  * Lists all persons in the address book to the user.

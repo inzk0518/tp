@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.property.Property;
-import seedu.address.model.uuid.Uuid;
 
 /**
  * A UI component that displays information of a {@code Property}.
@@ -19,19 +18,19 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private HBox cardPane;
     @FXML
-    private Label id;
+    private Label propertyUuid;
     @FXML
-    private Label uuid;
+    private Label propertyIndex;
     @FXML
-    private Label address;
+    private Label propertyAddress;
     @FXML
     private Label details;
     @FXML
     private Label price;
     @FXML
-    private Label owner;
-    @FXML
     private Label linkedIds;
+    @FXML
+    private Label owner;
 
     /**
      * Creates a {@code PropertyCard} with the given {@code Property} and index to display.
@@ -39,9 +38,9 @@ public class PropertyCard extends UiPart<Region> {
     public PropertyCard(Property property, int displayedIndex) {
         super(FXML);
         this.property = property;
-        id.setText(displayedIndex + ". ");
-        address.setText(property.getPropertyAddress().value);
-        uuid.setText("id: " + property.getUuid().getValue());
+        propertyIndex.setText(displayedIndex + ".");
+        propertyAddress.setText(property.getPropertyAddress().value);
+        propertyUuid.setText("id: " + property.getUuid().getValue());
 
         // Format: "type • beds beds • baths baths • sqft sqft"
         details.setText(String.format("%s • %s beds • %s baths • %s sqft",
@@ -60,8 +59,8 @@ public class PropertyCard extends UiPart<Region> {
         owner.setText("Owner: " + property.getOwner().value);
 
         String formattedLinkedIds = String.format("Buyer Ids: %s • Seller Ids: %s",
-                Uuid.getGuiSetDisplayAsString(property.getBuyingPersonIds()),
-                Uuid.getGuiSetDisplayAsString(property.getSellingPersonIds()));
+                property.getBuyingPersonIds().toString(),
+                property.getSellingPersonIds().toString());
         linkedIds.setText(formattedLinkedIds);
     }
 }

@@ -16,26 +16,32 @@ import seedu.address.model.property.Property;
 public class PropertyMatchesFilterPredicate implements Predicate<Property> {
 
     private final String address; // substring (case-insensitive)
+    private final String postal; // 6-digit integer string
     private final String type; // equalsIgnoreCase to Type.toString()
     private final String bedroom; // numeric string (0..20)
     private final String bathroom; // numeric string (0..20)
+    private final String floorarea; // integer string (no commas)
     private final String price; // integer string (no commas)
     private final String status; // equalsIgnoreCase to Status.toString()
     private final String owner; // substring of Owner.toString()
+    private final String listing; // sale or rent
 
     /**
      * Create a filter predicate which checks if a Property matches all filter conditions.
      */
     public PropertyMatchesFilterPredicate(
-            String address, String type, String bedroom, String bathroom,
-            String price, String status, String owner) {
+            String address, String postal, String type, String bedroom, String bathroom,
+            String floorarea, String price, String status, String owner, String listing) {
         this.address = norm(address);
+        this.postal = norm(postal);
         this.type = norm(type);
         this.bedroom = norm(bedroom);
         this.bathroom = norm(bathroom);
+        this.floorarea = norm(floorarea == null ? null : floorarea.replace(" ", ""));
         this.price = norm(price == null ? null : price.replace(",", "")); // accept "500,000"
         this.status = norm(status);
         this.owner = norm(owner);
+        this.listing = norm(listing);
     }
 
     /**
@@ -53,6 +59,11 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
     public boolean test(Property p) {
         // address substring
         if (address != null && !p.getPropertyAddress().toString().toLowerCase().contains(address)) {
+            return false;
+        }
+
+        // postal equality
+        if (postal != null && !p.getPostal().toString().equals(postal)) {
             return false;
         }
 
@@ -77,6 +88,11 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
             }
         }
 
+        // floorarea equals
+        if (floorarea != null && !p.getFloorArea().toString().equals(floorarea)) {
+            return false;
+        }
+
         // price equals (integer string)
         if (price != null) {
             String priceVal = p.getPrice().value; // digits only
@@ -95,21 +111,14 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
             return false;
         }
 
+        // listing equal
+        if (listing != null && !p.getListing().toString().equalsIgnoreCase(listing)) {
+            return false;
+        }
+
         return true;
     }
 
-    /*@Override
-    public boolean equals(Object other) {
-        return other == this
-                || (other instanceof PropertyMatchesFilterPredicate
-                && this.address == ((PropertyMatchesFilterPredicate) other).address
-                && this.type == ((PropertyMatchesFilterPredicate) other).type
-                && this.bedroom == ((PropertyMatchesFilterPredicate) other).bedroom
-                && this.bathroom == ((PropertyMatchesFilterPredicate) other).bathroom
-                && this.price == ((PropertyMatchesFilterPredicate) other).price
-                && this.status == ((PropertyMatchesFilterPredicate) other).status
-                && this.owner == ((PropertyMatchesFilterPredicate) other).owner);
-    }*/
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -120,12 +129,15 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
         }
         PropertyMatchesFilterPredicate o = (PropertyMatchesFilterPredicate) other;
         return java.util.Objects.equals(address, o.address)
+                && java.util.Objects.equals(postal, o.postal)
                 && java.util.Objects.equals(type, o.type)
                 && java.util.Objects.equals(bedroom, o.bedroom)
                 && java.util.Objects.equals(bathroom, o.bathroom)
+                && java.util.Objects.equals(floorarea, o.floorarea)
                 && java.util.Objects.equals(price, o.price)
                 && java.util.Objects.equals(status, o.status)
-                && java.util.Objects.equals(owner, o.owner);
+                && java.util.Objects.equals(owner, o.owner)
+                && java.util.Objects.equals(listing, o.listing);
     }
 
     /**
@@ -134,18 +146,30 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
      */
     public static class Builder {
         private String address;
+        private String postal;
         private String type;
         private String bedroom;
         private String bathroom;
+        private String floorarea;
         private String price;
         private String status;
         private String owner;
+        private String listing;
 
         /**
          * Sets the address substring filter (case-insensitive).
          */
         public Builder withAddress(String s) {
             this.address = s;
+            return this;
+        }
+
+        /**
+         * Sets the postal code filter
+         * 6 digit postal code
+         */
+        public Builder withPostal(String s) {
+            this.postal = s;
             return this;
         }
 
@@ -167,10 +191,18 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
         }
 
         /**
-         * Sets the bathroom filter
+         * Sets the bathroom filter.
          */
         public Builder withBathroom(String s) {
             this.bathroom = s;
+            return this;
+        }
+
+        /**
+         * Sets the floor area filter.
+         */
+        public Builder withFloorArea(String s) {
+            this.floorarea = s;
             return this;
         }
 
@@ -199,10 +231,21 @@ public class PropertyMatchesFilterPredicate implements Predicate<Property> {
         }
 
         /**
+         * Sets the listing filter.(sale/rent)
+         * Compared case-insensitively.
+         */
+        public Builder withListing(String s) {
+            this.listing = s;
+            return this;
+        }
+
+        /**
          * Builds a predicate with the current filters.
          */
         public PropertyMatchesFilterPredicate build() {
-            return new PropertyMatchesFilterPredicate(address, type, bedroom, bathroom, price, status, owner);
+            return new PropertyMatchesFilterPredicate(
+                    address, postal, type, bedroom, bathroom, floorarea, price, status, owner, listing
+            );
         }
     }
 }
