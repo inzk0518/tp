@@ -39,6 +39,8 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_UUID = "UUID is not a valid format.";
+    public static final String DEFAULT_BUDGET_MIN = "0";
+    public static final String DEFAULT_BUDGET_MAX = String.valueOf(200_000_000_000L);
 
     /**
      * Returns true if the given string looks like an unrecognized prefix (e.g., "x/foo").
@@ -191,7 +193,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code budgetMin} is not a valid integer or violates constraints.
      */
     public static BudgetMin parseBudgetMin(String budgetMin) throws ParseException {
-        String trimmedBudgetMin = sanitiseNull(budgetMin, "0").trim();
+        String trimmedBudgetMin = sanitiseNull(budgetMin, DEFAULT_BUDGET_MIN).trim();
 
         if (!BudgetMin.isValidBudgetMin(trimmedBudgetMin)) {
             throw new ParseException(BudgetMin.MESSAGE_CONSTRAINTS);
@@ -206,7 +208,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code budgetMax} is not a valid integer or violates constraints.
      */
     public static BudgetMax parseBudgetMax(String budgetMax) throws ParseException {
-        String trimmedBudgetMax = sanitiseNull(budgetMax, String.valueOf(200_000_000_000L)).trim();
+        String trimmedBudgetMax = sanitiseNull(budgetMax, DEFAULT_BUDGET_MAX).trim();
 
         if (!BudgetMax.isValidBudgetMax(trimmedBudgetMax)) {
             throw new ParseException(BudgetMax.MESSAGE_CONSTRAINTS);
