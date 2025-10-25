@@ -9,6 +9,21 @@ TheRealDeal is a **desktop app for real estate agents, optimised for use via a C
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
+## Legend
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+Highlights important details to be aware of.
+</div>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+Highlights helpful advice to use the application more effectively.
+</div>
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+Highlights potential issues you should watch out for.
+</div>
 
 ## Quick start
 
@@ -21,8 +36,9 @@ TheRealDeal is a **desktop app for real estate agents, optimised for use via a C
 
 3. Copy the file to the folder you want to use as the _home folder_ for TheRealDeal.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TheRealDeal.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the <br>
+`java -jar TheRealDeal.jar` command to run the application.<br>
+A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
    
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
@@ -37,21 +53,22 @@ TheRealDeal GUI is organised into **four** key components:
 * `List Card`: Displays key information about contacts or listings, depending on the user's command. Situated below the `Result Display`.
 
 Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+Some example commands you can try:
 
-   * `list` : Lists all contacts.
+* `list` : Lists all contacts.
 
-   * `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+* `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
-   * `deletecontact 3` : Deletes the 3rd contact shown in the current list.
+* `deletecontact 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all contacts.
+* `clear` : Deletes all contacts.
 
-   * `exit` : Exits the app.
+* `exit` : Exits the app.
 
 Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
+
 
 ## Features
 
