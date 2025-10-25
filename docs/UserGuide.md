@@ -376,22 +376,22 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add Contact** | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`
-**Edit Contact** | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`
-**Filter Contact** | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`
-**Delete Contact** | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`
-**Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
-**Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`
-**Delete Property** | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`
-**Mark Property as Sold** | `sold p/UUID...` <br><br> e.g. `sold p/1 p/2`
-**Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`
-**Link** | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`
-**Unlink** | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`
-**List** | `list`
-**Clear** | `clear`
-**Help** | `help`
+| Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add Contact**             | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                      |
+| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                           |
+| **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                                                                                                      |
+| **Delete Contact**          | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                |
+| **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
+| **Filter Property**         | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                            |
+| **Delete Property**         | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`                                                                                                                                                                                                                                                                             |
+| **Mark Property as Sold**   | `sold p/UUID...` <br><br> e.g. `sold p/1 p/2`                                                                                                                                                                                                                                                                                         |
+| **Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`                                                                                                                                                                                                                                                                                     |
+| **Link**                    | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`                                                                                                                                                                                                                                   |
+| **Unlink**                  | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`                                                                                                                                                                                                                                                          |
+| **List**                    | `list`                                                                                                                                                                                                                                                                                                                                |
+| **Clear**                   | `clear`                                                                                                                                                                                                                                                                                                                               |
+| **Help**                    | `help`                                                                                                                                                                                                                                                                                                                                |
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -427,11 +427,11 @@ e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 4. Type `java -jar TheRealDeal.jar`, and hit enter, to run the application.
 
 ## Glossary of Terms
-Term | Definition
---------|------------------
-**CLI** | Command Line Interface (CLI) is an interface where the user interacts with the application via directly typed commands.
-**GUI** | Graphical User Interface (GUI) is a visual interface that users can interact with.
-**UUID** | Universally unique identifier (UUID) of a contact or a property. It is generated by the application and can be referenced from the application.
-**Contact** | A client whose details are stored in the system. The client can either be a buyer, seller, tenant or landlord.
-**Property** | A building whose details are stored in the system. The building can either be a HDB, condominium, landed, apartment or office.
-**JSON** | JavaScript Object Notation (JSON) is a text-based data storage format that is used to store the data of the application.
+| Term         | Definition                                                                                                                                      |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| **CLI**      | Command Line Interface (CLI) is an interface where the user interacts with the application via directly typed commands.                         |
+| **GUI**      | Graphical User Interface (GUI) is a visual interface that users can interact with.                                                              |
+| **UUID**     | Universally unique identifier (UUID) of a contact or a property. It is generated by the application and can be referenced from the application. |
+| **Contact**  | A client whose details are stored in the system. The client can either be a buyer, seller, tenant or landlord.                                  |
+| **Property** | A building whose details are stored in the system. The building can either be a HDB, condominium, landed, apartment or office.                  |
+| **JSON**     | JavaScript Object Notation (JSON) is a text-based data storage format that is used to store the data of the application.                        |
