@@ -46,10 +46,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
                                                                   PREFIX_BUDGET_MAX, PREFIX_NOTES,
                                                                   PREFIX_STATUS);
 
-        if (!argMultimap.arePrefixesPresent(PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
-                || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
-        }
+        validateRequiredPrefixes(argMultimap);
 
         // Check for any unrecognised prefixes inside values
         for (Prefix prefix : argMultimap.getAllPrefixes()) {
@@ -94,4 +91,40 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
 
         return new AddContactCommand(contact);
     }
+
+    /**
+     * Validates that all required prefixes are present (PREFIX_NAME, PREFIX_PHONE)
+     * and that the preamble is empty.
+     *
+     * @param argMultimap The argument multimap containing parsed arguments.
+     * @throws ParseException if required prefixes (name and phone) are missing
+     *                        or if the preamble is not empty.
+     */
+    private void validateRequiredPrefixes(ArgumentMultimap argMultimap) throws ParseException {
+        boolean hasName = argMultimap.arePrefixesPresent(PREFIX_NAME);
+        boolean hasPhone = argMultimap.arePrefixesPresent(PREFIX_PHONE);
+        boolean hasAnyParameter = argMultimap.getAllPrefixes()
+                                    .stream()
+                                    .anyMatch(prefix -> !prefix.getPrefix().isEmpty());
+
+        // Check if preamble is not empty
+        // for commands like addcontact abc
+        // If no parameters at all, show only the normal error
+        if (!argMultimap.getPreamble().isEmpty() || !hasAnyParameter) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+        }
+
+        // Check for missing compulsory parameters
+        if (!hasName && !hasPhone) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    "Name (n/NAME) and Phone (p/PHONE) parameters are missing.\n" + AddContactCommand.MESSAGE_USAGE));
+        } else if (!hasName) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    "Name parameter (n/NAME) is missing.\n" + AddContactCommand.MESSAGE_USAGE));
+        } else if (!hasPhone) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    "Phone parameter (p/PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE));
+        }
+    }
+
 }
