@@ -54,15 +54,18 @@ public class Messages {
                 .append(", Max Budget: ")
                 .append(contact.getBudgetMax())
                 .append(", Tags: [");
-        contact.getTags().forEach(builder::append);
+        contact.getTags().forEach(tag -> builder.append(tag.toString() + ", "));
+        builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
         builder.append("], Notes: ")
                 .append(contact.getNotes())
                 .append(", Status: ")
                 .append(contact.getStatus());
         builder.append(", Buying Property Ids: [");
-        contact.getBuyingPropertyIds().forEach(builder::append);
+        contact.getBuyingPropertyIds().forEach(id -> builder.append(id.toString() + ", "));
+        builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
         builder.append("], Selling Property Ids: [");
-        contact.getSellingPropertyIds().forEach(builder::append);
+        contact.getSellingPropertyIds().forEach(id -> builder.append(id.toString() + ", "));
+        builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
         builder.append("]");
         return builder.toString();
     }
