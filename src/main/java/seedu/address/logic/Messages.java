@@ -55,17 +55,23 @@ public class Messages {
                 .append(contact.getBudgetMax())
                 .append(", Tags: [");
         contact.getTags().forEach(tag -> builder.append(tag.toString() + ", "));
-        builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
+        if (!contact.getTags().isEmpty()) {
+            builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
+        }
         builder.append("], Notes: ")
                 .append(contact.getNotes())
                 .append(", Status: ")
                 .append(contact.getStatus());
         builder.append(", Buying Property Ids: [");
         contact.getBuyingPropertyIds().forEach(id -> builder.append(id.toString() + ", "));
-        builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
+        if (!contact.getBuyingPropertyIds().isEmpty()) {
+            builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
+        }
         builder.append("], Selling Property Ids: [");
         contact.getSellingPropertyIds().forEach(id -> builder.append(id.toString() + ", "));
-        builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
+        if (!contact.getSellingPropertyIds().isEmpty()) {
+            builder.delete(builder.length() - 2, builder.length()); //remove extra comma and space
+        }
         builder.append("]");
         return builder.toString();
     }

@@ -81,7 +81,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
 
         // Validate budget range
         if (Long.parseLong(budgetMax.toString()) < Long.parseLong(budgetMin.toString())) {
-            throw new ParseException("Budget max cannot be less than budget min.");
+            throw new ParseException("Budget maximum cannot be lesser than budget minimum.");
         }
 
         // Correct UUID will be made in AddContactCommand

@@ -97,7 +97,8 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        // remove extra spaces start/end of name and between name/surname
+        String trimmedName = name.trim().replaceAll("\\s+", " ");
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -129,7 +130,7 @@ public class ParserUtil {
      * @return {@code value} if non-null, otherwise {@code defaultValue}
      */
     private static String sanitiseNull(String value, String defaultValue) {
-        return value == null ? defaultValue : value;
+        return value == null || value.isEmpty() ? defaultValue : value;
     }
 
     /**
@@ -182,7 +183,9 @@ public class ParserUtil {
         requireNonNull(tags);
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
+            if (!tagName.isEmpty()) {
+                tagSet.add(parseTag(tagName));
+            }
         }
         return tagSet;
     }

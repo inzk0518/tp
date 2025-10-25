@@ -215,7 +215,7 @@ public class AddContactCommandParserTest {
                 + " min/5000"
                 + " max/1000"; // max < min
         System.out.println(input);
-        assertParseFailure(parser, input, "Budget max cannot be less than budget min.");
+        assertParseFailure(parser, input, "Budget maximum cannot be lesser than budget minimum.");
     }
 
     @Test

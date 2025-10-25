@@ -95,8 +95,8 @@ public class EditContactCommandParserTest {
         assertParseFailure(parser, uuid + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
         // invalid + valid tag combinations
-        assertParseFailure(parser, uuid + TAG_DESC_BUYER + TAG_DESC_TENANT + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, uuid + TAG_EMPTY + TAG_DESC_BUYER, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, uuid + TAG_DESC_BUYER + TAG_DESC_TENANT + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, uuid + INVALID_TAG_DESC + TAG_DESC_BUYER, Tag.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values — first error message expected
         assertParseFailure(parser, uuid + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
