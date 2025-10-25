@@ -32,7 +32,9 @@ import seedu.address.model.uuid.Uuid;
  * Parses input arguments and creates a new AddContactCommand object
  */
 public class AddContactCommandParser implements Parser<AddContactCommand> {
-
+    public static final String NAME_AND_PHONE_MISSING = "Name (n/NAME) and Phone (p/PHONE) parameters are missing.\n";
+    public static final String NAME_MISSING = "Name parameter (n/NAME) is missing.\n";
+    public static final String PHONE_MISSING = "Phone parameter (p/PHONE) is missing.\n";
     /**
      * Parses the given {@code String} of arguments in the context of the AddContactCommand
      * and returns an AddContactCommand object for execution.
@@ -104,13 +106,13 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
         // Check for missing compulsory parameters
         if (!hasName && !hasPhone) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    "Name (n/NAME) and Phone (p/PHONE) parameters are missing.\n" + AddContactCommand.MESSAGE_USAGE));
+                    NAME_AND_PHONE_MISSING + AddContactCommand.MESSAGE_USAGE));
         } else if (!hasName) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    "Name parameter (n/NAME) is missing.\n" + AddContactCommand.MESSAGE_USAGE));
+                    NAME_MISSING + AddContactCommand.MESSAGE_USAGE));
         } else if (!hasPhone) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    "Phone parameter (p/PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE));
+                    PHONE_MISSING + AddContactCommand.MESSAGE_USAGE));
         }
     }
 
@@ -131,7 +133,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
 
             for (String value : argMultimap.getAllValues(prefix)) {
                 if (ParserUtil.looksLikePrefix(value)) {
-                    String errorMessage = getErrorMessageForPrefix(prefix);
+                    String errorMessage = getErrorMessageForPrefix(prefix, value);
                     throw new ParseException(errorMessage);
                 }
             }
@@ -145,7 +147,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
      * @return The specific MESSAGE_CONSTRAINTS for that field type,
      *         or a generic message if the prefix is not recognized.
      */
-    private String getErrorMessageForPrefix(Prefix prefix) {
+    private String getErrorMessageForPrefix(Prefix prefix, String value) {
         if (prefix.equals(PREFIX_NAME)) {
             return String.format(MESSAGE_INVALID_COMMAND_FORMAT, Name.MESSAGE_CONSTRAINTS);
         } else if (prefix.equals(PREFIX_PHONE)) {
@@ -155,13 +157,15 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
         } else if (prefix.equals(PREFIX_ADDRESS)) {
             return String.format(MESSAGE_INVALID_COMMAND_FORMAT, ContactAddress.MESSAGE_CONSTRAINTS);
         } else if (prefix.equals(PREFIX_TAG)) {
-            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, Tag.MESSAGE_CONSTRAINTS);
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    String.format(Tag.MESSAGE_CONSTRAINTS, value));
         } else if (prefix.equals(PREFIX_BUDGET_MIN)) {
             return String.format(MESSAGE_INVALID_COMMAND_FORMAT, BudgetMin.MESSAGE_CONSTRAINTS);
         } else if (prefix.equals(PREFIX_BUDGET_MAX)) {
             return String.format(MESSAGE_INVALID_COMMAND_FORMAT, BudgetMax.MESSAGE_CONSTRAINTS);
         } else if (prefix.equals(PREFIX_STATUS)) {
-            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, ContactStatus.MESSAGE_CONSTRAINTS);
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    String.format(ContactStatus.MESSAGE_CONSTRAINTS, value));
         } else {
             return String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
         }

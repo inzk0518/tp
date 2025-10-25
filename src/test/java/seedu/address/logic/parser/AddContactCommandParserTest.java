@@ -24,6 +24,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_TENANT;
+import static seedu.address.logic.parser.AddContactCommandParser.NAME_AND_PHONE_MISSING;
+import static seedu.address.logic.parser.AddContactCommandParser.NAME_MISSING;
+import static seedu.address.logic.parser.AddContactCommandParser.PHONE_MISSING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -38,8 +41,11 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddContactCommand;
+import seedu.address.model.contact.BudgetMax;
+import seedu.address.model.contact.BudgetMin;
 import seedu.address.model.contact.Contact;
 import seedu.address.model.contact.ContactAddress;
+import seedu.address.model.contact.ContactStatus;
 import seedu.address.model.contact.Email;
 import seedu.address.model.contact.Name;
 import seedu.address.model.contact.Phone;
@@ -248,7 +254,8 @@ public class AddContactCommandParserTest {
         // Tag containing prefix-like value
         assertParseFailure(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + " t/" + prefixLikeValue,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, Tag.MESSAGE_CONSTRAINTS));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        String.format(Tag.MESSAGE_CONSTRAINTS, prefixLikeValue)));
     }
 
     @Test
@@ -260,5 +267,117 @@ public class AddContactCommandParserTest {
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + " " + PREFIX_NOTES + notesWithPrefixLike,
                 new AddContactCommand(expectedContact));
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_missingBothNameAndPhone_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                NAME_AND_PHONE_MISSING + AddContactCommand.MESSAGE_USAGE);
+
+        // Has email but missing both name and phone
+        assertParseFailure(parser, EMAIL_DESC_BOB + ADDRESS_DESC_BOB, expectedMessage);
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_missingNameOnly_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                NAME_MISSING + AddContactCommand.MESSAGE_USAGE);
+
+        // Has phone but missing name
+        assertParseFailure(parser, PHONE_DESC_BOB + EMAIL_DESC_BOB, expectedMessage);
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_missingPhoneOnly_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                PHONE_MISSING + AddContactCommand.MESSAGE_USAGE);
+
+        // Has name but missing phone
+        assertParseFailure(parser, NAME_DESC_BOB + EMAIL_DESC_BOB, expectedMessage);
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_noParameters_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
+
+        // Empty input (no parameters at all)
+        assertParseFailure(parser, "", expectedMessage);
+
+        // Only whitespace
+        assertParseFailure(parser, "   ", expectedMessage);
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_nameWithPrefix_failure() {
+        String prefixLikeValue = "John/Doe";
+
+        assertParseFailure(parser,
+                " n/" + prefixLikeValue + PHONE_DESC_BOB,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, Name.MESSAGE_CONSTRAINTS));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_phoneWithPrefix_failure() {
+        String prefixLikeValue = "9876/5432";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + " p/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, Phone.MESSAGE_CONSTRAINTS));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_emailWithPrefix_failure() {
+        String prefixLikeValue = "test/user@example.com";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " e/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, Email.MESSAGE_CONSTRAINTS));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_addressWithPrefix_failure() {
+        String prefixLikeValue = "123/Main Street";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " a/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ContactAddress.MESSAGE_CONSTRAINTS));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_tagWithPrefix_failure() {
+        String prefixLikeValue = "buyer/seller";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " t/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        String.format(Tag.MESSAGE_CONSTRAINTS, prefixLikeValue)));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_budgetMinWithPrefix_failure() {
+        String prefixLikeValue = "1000/500";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " min/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BudgetMin.MESSAGE_CONSTRAINTS));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_budgetMaxWithPrefix_failure() {
+        String prefixLikeValue = "5000/3000";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " max/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, BudgetMax.MESSAGE_CONSTRAINTS));
+    }
+
+    @Test
+    public void validateNoInvalidPrefixesPresent_statusWithPrefix_failure() {
+        String prefixLikeValue = "Active/Inactive";
+
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + " status/" + prefixLikeValue,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        String.format(ContactStatus.MESSAGE_CONSTRAINTS, prefixLikeValue)));
     }
 }
