@@ -140,14 +140,18 @@ public class AddContactCommandParserTest {
     @Test
     public void parse_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
+        String expectedMissingName = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                "Name parameter (n/NAME) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
+        String expectedMissingPhone = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                "Phone parameter (p/PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
 
         // missing name prefix -> should fail
-        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
+        assertParseFailure(parser, PHONE_DESC_BOB + VALID_NAME_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
+                expectedMissingName);
 
         // missing phone prefix -> should fail
         assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
+                expectedMissingPhone);
 
         // missing email prefix -> should succeed, so test for success instead
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB,
