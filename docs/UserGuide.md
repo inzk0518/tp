@@ -10,20 +10,22 @@ TheRealDeal is a **desktop app for real estate agents, optimised for use via a C
 
 --------------------------------------------------------------------------------------------------------------------
 ## Legend
+These boxes in the User Guide has additional information that you should take note of.
+
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
 Highlights important details to be aware of.
-</div>
+</div> <br>
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
 Highlights helpful advice to use the application more effectively.
-</div>
+</div> <br>
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
 Highlights potential issues you should watch out for.
-</div>
+</div> <br>
 
 ## Quick start
 
@@ -32,7 +34,7 @@ Highlights potential issues you should watch out for.
    **Linux users:** Tutorial to download [here](https://se-education.org/guides/tutorials/javaInstallationLinux.html)<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
+2. Download the latest `TheRealDeal.jar` file from [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for TheRealDeal.
 
@@ -40,7 +42,20 @@ Highlights potential issues you should watch out for.
 `java -jar TheRealDeal.jar` command to run the application.<br>
 A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
    
+### to add picture ------------------------------
+
+
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
+
+Refer to [Features](#features) below for details of each command. <br>
+Refer to [Command Summary](#command-summary) for the list of all commands and their formats.
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+You can search for relevant information in the User Guide with this shortcut:<br>
+Windows & Linux: <code>Ctrl + F</code><br>
+Mac: <code>⌘ + F</code>
+</div>
 
 ### GUI Overview
 
@@ -64,8 +79,6 @@ Some example commands you can try:
 * `clear` : Deletes all contacts.
 
 * `exit` : Exits the app.
-
-Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
