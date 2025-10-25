@@ -171,7 +171,7 @@ public class ParserUtil {
         requireNonNull(tag);
         String trimmedTag = tag.trim();
         if (!Tag.isValidTagName(trimmedTag)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+            throw new ParseException(String.format(Tag.MESSAGE_CONSTRAINTS, trimmedTag));
         }
         return new Tag(trimmedTag);
     }
@@ -239,7 +239,7 @@ public class ParserUtil {
     public static ContactStatus parseContactStatus(String status) throws ParseException {
         String trimmedStatus = sanitiseNull(status, "").trim();
         if (!ContactStatus.isValidStatus(trimmedStatus)) {
-            throw new ParseException(ContactStatus.MESSAGE_CONSTRAINTS);
+            throw new ParseException(String.format(ContactStatus.MESSAGE_CONSTRAINTS, trimmedStatus));
         }
         return new ContactStatus(trimmedStatus);
     }
@@ -327,7 +327,7 @@ public class ParserUtil {
         requireNonNull(type);
         String trimmedType = type.trim();
         if (!Type.isValidType(trimmedType)) {
-            throw new ParseException(Type.MESSAGE_CONSTRAINTS);
+            throw new ParseException(String.format(Type.MESSAGE_CONSTRAINTS, trimmedType));
         }
         return new Type(trimmedType);
     }
@@ -342,7 +342,7 @@ public class ParserUtil {
         requireNonNull(status);
         String trimmedStatus = status.trim();
         if (!Status.isValidStatus(trimmedStatus)) {
-            throw new ParseException(Status.MESSAGE_CONSTRAINTS);
+            throw new ParseException(String.format(Status.MESSAGE_CONSTRAINTS, trimmedStatus));
         }
         return new Status(trimmedStatus);
     }
@@ -402,7 +402,7 @@ public class ParserUtil {
         requireNonNull(listing);
         String trimmedListing = listing.trim();
         if (!Listing.isValidListing(trimmedListing)) {
-            throw new ParseException(Listing.MESSAGE_CONSTRAINTS);
+            throw new ParseException(String.format(Listing.MESSAGE_CONSTRAINTS, trimmedListing));
         }
         return new Listing(trimmedListing);
     }
