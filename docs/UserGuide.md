@@ -427,6 +427,7 @@ e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 4. Type `java -jar TheRealDeal.jar`, and hit enter, to run the application.
 
 ## Glossary of Terms
+
 | Term         | Definition                                                                                                                                      |
 |--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | **CLI**      | Command Line Interface (CLI) is an interface where the user interacts with the application via directly typed commands.                         |
