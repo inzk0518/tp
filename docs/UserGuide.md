@@ -19,7 +19,7 @@ Highlights important details to be aware of.
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
-Highlights helpful advice to use the application more effectively.
+Highlights helpful advice like keyboard shortcuts to use the application more effectively.
 </div> <br>
 
 <div markdown="span" class="alert alert-warning">
@@ -48,7 +48,6 @@ A window similar to the picture below should appear in a few seconds. Note how t
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
 Refer to [Features](#features) below for details of each command. <br>
-Refer to [Command Summary](#command-summary) for the list of all commands and their formats.
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
@@ -109,11 +108,18 @@ Some example commands you can try:
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page
+Opens a separate window containing the link to this User Guide.
 
 Format: `help`
 
 ![help message](images/helpMessage.png)
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+You can also press the <code>F1</code> key to open the help window
+</div>
+
+Refer to [Command Summary](#command-summary) for the list of all commands and their formats.
 
 ### Listing all contacts and properties: `list`
 
@@ -343,6 +349,26 @@ Action | Format, Examples
 **List** | `list`
 **Clear** | `clear`
 **Help** | `help`
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command Parameters
+This table shows every parameter and prefix used in TheRealDeal. 
+
+| Parameter      | Prefix  | Constraints                                                                |
+|----------------|---------|----------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces      |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long |
+| Email          | e/      | Should follow the format: name@example.com                                 |
+| Address        | a/      | Can take any value. Maximum of 200 characters                              |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord   |
+| Minimum Budget | min/    | Should be a non-negative integer                                           |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget          |
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                              |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                  |
+| Limit          | limit/  |                                                                            |
+| Offset         | offset/ |                                                                            |
+|                |         |                                                                            |
 
 ## Basic Command Terminal Navigation
 1. Determine the address of the folder where TheRealDeal is installed.
