@@ -142,6 +142,8 @@ Examples:
 * `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer status/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Editing a contact : `editcontact`
 
 Edits an existing contact in the address book.
@@ -158,6 +160,8 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` 
 *  `edit 2 n/Betsy Crower t/`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Filtering contact : `filtercontact`
 
 Filters the contacts based on the fields given
@@ -171,6 +175,8 @@ Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [ma
 Examples:
 * `filtercontact a/yishun`
 * `filtercontact n/Tan s/active`
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Deleting a contact : `deletecontact`
 
@@ -207,6 +213,8 @@ Examples:
 * `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
 * `addproperty address/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bedroom/4 bathroom/2 floorarea/1050 listing/rent owner/5`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Filtering contact : `filterproperty`
 
 Filters the properties based on the fields given.
@@ -221,6 +229,8 @@ Examples:
 * `filterproperty address/yishun`
 * `filterproperty bedroom/2 floorarea/100`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Deleting a property: `deleteproperty`
 
 Deletes a property identified by its UUID.
@@ -234,6 +244,30 @@ Format: `deleteproperty UUID`
 Examples:
 * `deleteproperty 12`
 * `deleteproperty 3`
+
+### Mark property as sold : `sold`
+
+Marks the statuses of the properties given as unavailable.
+
+Format: `sold p/UUID...`
+
+Examples:
+* `sold p/1`
+* `sold p/2 p/3`
+
+For more information on the parameters, click [here](#command-parameters).
+
+### Mark property as unsold : `unsold`
+
+Marks the statuses of the properties given as available.
+
+Format: `unsold p/UUID...`
+
+Examples:
+* `unsold p/1`
+* `unsold p/2 p/3`
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Linking people and properties : `link`
 
