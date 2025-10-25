@@ -46,21 +46,8 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
                                                                   PREFIX_BUDGET_MAX, PREFIX_NOTES,
                                                                   PREFIX_STATUS);
 
-        validateRequiredPrefixes(argMultimap);
-
-        // Check for any unrecognised prefixes inside values
-        for (Prefix prefix : argMultimap.getAllPrefixes()) {
-            // Skip checking for notes prefix, since '/' is valid in notes
-            if (prefix.equals(PREFIX_NOTES)) {
-                continue;
-            }
-            for (String value : argMultimap.getAllValues(prefix)) {
-                if (ParserUtil.looksLikePrefix(value)) {
-                    throw new ParseException(String.format(
-                            MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
-                }
-            }
-        }
+        validateRequiredPrefixesPresent(argMultimap);
+        validateNoInvalidPrefixesPresent(argMultimap);
 
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
@@ -100,7 +87,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
      * @throws ParseException if required prefixes (name and phone) are missing
      *                        or if the preamble is not empty.
      */
-    private void validateRequiredPrefixes(ArgumentMultimap argMultimap) throws ParseException {
+    private void validateRequiredPrefixesPresent(ArgumentMultimap argMultimap) throws ParseException {
         boolean hasName = argMultimap.arePrefixesPresent(PREFIX_NAME);
         boolean hasPhone = argMultimap.arePrefixesPresent(PREFIX_PHONE);
         boolean hasAnyParameter = argMultimap.getAllPrefixes()
@@ -124,6 +111,59 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
         } else if (!hasPhone) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     "Phone parameter (p/PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Validates that prefix values do not contain unrecognised prefixes.
+     * Skips validation for notes prefix as '/' is valid in notes.
+     *
+     * @param argMultimap The argument multimap containing parsed arguments.
+     * @throws ParseException if a value contains what looks like a prefix,
+     *                        with a specific error message for that field type.
+     */
+    private void validateNoInvalidPrefixesPresent(ArgumentMultimap argMultimap) throws ParseException {
+        for (Prefix prefix : argMultimap.getAllPrefixes()) {
+            // Skip checking for notes prefix, since '/' is valid in notes
+            if (prefix.equals(PREFIX_NOTES)) {
+                continue;
+            }
+
+            for (String value : argMultimap.getAllValues(prefix)) {
+                if (ParserUtil.looksLikePrefix(value)) {
+                    String errorMessage = getErrorMessageForPrefix(prefix);
+                    throw new ParseException(errorMessage);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the appropriate error message for a given prefix.
+     *
+     * @param prefix The prefix to get the error message for.
+     * @return The specific MESSAGE_CONSTRAINTS for that field type,
+     *         or a generic message if the prefix is not recognized.
+     */
+    private String getErrorMessageForPrefix(Prefix prefix) {
+        if (prefix.equals(PREFIX_NAME)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, Name.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_PHONE)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, Phone.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_EMAIL)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, Email.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_ADDRESS)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, ContactAddress.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_TAG)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, Tag.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_BUDGET_MIN)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, BudgetMin.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_BUDGET_MAX)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, BudgetMax.MESSAGE_CONSTRAINTS);
+        } else if (prefix.equals(PREFIX_STATUS)) {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, ContactStatus.MESSAGE_CONSTRAINTS);
+        } else {
+            return String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
         }
     }
 
