@@ -15,17 +15,17 @@ These boxes in the User Guide has additional information that you should take no
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
 Highlights important details to be aware of.
-</div> <br>
+</div>
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
 Highlights helpful advice like keyboard shortcuts to use the application more effectively.
-</div> <br>
+</div>
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
 Highlights potential issues you should watch out for.
-</div> <br>
+</div>
 
 ## Quick start
 
@@ -47,13 +47,13 @@ A window similar to the picture below should appear in a few seconds. Note how t
 
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
-Refer to [Features](#features) below for details of each command. <br>
+To see detailed explanation of every feature, click [here](#features)<br>
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
 You can search for relevant information in the User Guide with this shortcut:<br>
-Windows & Linux: <code>Ctrl + F</code><br>
-Mac: <code>⌘ + F</code>
+Windows & Linux Users: <code>Ctrl + F</code><br>
+Mac Users: <code>⌘ + F</code>
 </div>
 
 ### GUI Overview
@@ -119,7 +119,7 @@ Format: `help`
 You can also press the <code>F1</code> key to open the help window
 </div>
 
-Refer to [Command Summary](#command-summary) for the list of all commands and their formats.
+Refer to [Command Summary](#command-summary) for the list of commands and their formats.
 
 ### Listing all contacts and properties: `list`
 
@@ -134,23 +134,19 @@ Format: `list`
 
 ### Adding a contact : `addcontact`
 
-Adds a new contact to the system, with details of the contact.
+Adds a new contact into the system.
 
-Format: `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
-
-<div markdown="span" class="alert alert-primary">:information_source:
-TEXT for notes has a maximum length of 500 characters <br>
-</div>
+Format: `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
 Examples:
-* `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer s/active`
+* `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer status/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
 
 ### Editing a contact : `editcontact`
 
 Edits an existing contact in the address book.
 
-Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
+Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [status/STATUS]`
 
 * Edits the contact that has the UUID specified `UUID`. 
 * The UUID refers to the ID number shown in the displayed contact list.
@@ -354,6 +350,13 @@ Action | Format, Examples
 
 ## Command Parameters
 This table shows every parameter and prefix used in TheRealDeal. 
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+If the command states that the prefix is optional e.g. <code>n/NAME [t/TAG]</code><br>
+an empty parameter will be the same as not having the prefix<br>
+e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
+</div>
 
 | Parameter      | Prefix  | Constraints                                                                |
 |----------------|---------|----------------------------------------------------------------------------|
