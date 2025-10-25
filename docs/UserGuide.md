@@ -19,12 +19,12 @@ Highlights important details to be aware of.
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
-Highlights helpful advice like keyboard shortcuts to use the application more effectively.
+Provides you with helpful advice like keyboard shortcuts to use the application more effectively.
 </div>
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-Highlights potential issues you should watch out for.
+Warns you of potential issues to should watch out for.
 </div>
 
 ## Quick start
@@ -39,7 +39,7 @@ Highlights potential issues you should watch out for.
 3. Copy the file to the folder you want to use as the _home folder_ for TheRealDeal.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the <br>
-`java -jar TheRealDeal.jar` command to run the application.<br>
+`java -jar TheRealDeal.jar` command to run the application.<br><br>
 A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
    
 ### to add picture ------------------------------
@@ -47,11 +47,11 @@ A window similar to the picture below should appear in a few seconds. Note how t
 
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
-To see detailed explanation of every feature, click [here](#features)<br>
+To see the detailed explanation of every feature, click [here](#features)<br>
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
-You can search for relevant information in the User Guide with this shortcut:<br>
+You can search for relevant information in the User Guide with this shortcut:<br><br>
 Windows & Linux Users: <code>Ctrl + F</code><br>
 Mac Users: <code>⌘ + F</code>
 </div>
@@ -148,7 +148,7 @@ For more information on the parameters, click [here](#command-parameters).
 
 Edits an existing contact in the address book.
 
-Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [status/STATUS]`
+Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
 * Edits the contact that has the UUID specified `UUID`. 
 * The UUID refers to the ID number shown in the displayed contact list.
@@ -166,11 +166,11 @@ For more information on the parameters, click [here](#command-parameters).
 
 Filters the contacts based on the fields given
 
-Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
+Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Substring words will be matched e.g. `Han` will match `Hans`
-* Contacts matching at least one keyword will be returned
+* Contacts matching any one of the keyword will be shown. (meeting only one of the criteria is enough).
 
 Examples:
 * `filtercontact a/yishun`
@@ -185,8 +185,8 @@ Deletes the specified contact from the address book.
 Format: `deletecontact UUID`
 
 * Deletes the contact with the specified `UUID`.
-* The UUID refers to the id number shown in the displayed contact list.
-* The command only works on contacts currently visible in the property list panel. Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
+* The UUID refers to the ID number shown in the displayed contact list.
+* The command only works on contacts currently visible in the property list panel. <br>Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
 Examples:
 * `deletecontact 1`
@@ -318,15 +318,25 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears ***ALL*** contacts and properties from the application.
 
 Format: `clear`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+<code>clear</code> will delete all the data in the system. Please use it carefully as you will not be able to retrieve the data back.
+</div>
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
 Format: `exit`
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+<code>exit</code> will also close any help windows that are open.
+</div>
 
 
 ### Saving the data
@@ -342,7 +352,8 @@ TheRealDeal data is saved automatically as two JSON files
 
 Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the TheRealDeal to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
@@ -352,7 +363,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -367,13 +378,15 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 Action | Format, Examples
 --------|------------------
-**Add Contact** | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`
-**Edit Contact** | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`
-**Filter Contact** | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`
+**Add Contact** | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`
+**Edit Contact** | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`
+**Filter Contact** | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`
 **Delete Contact** | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`
 **Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
 **Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`
 **Delete Property** | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`
+**Mark Property as Sold** | `sold p/UUID...` <br><br> e.g. `sold p/1 p/2`
+**Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`
 **Link** | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`
 **Unlink** | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`
 **List** | `list`
