@@ -169,17 +169,23 @@ For more information on the parameters, click [here](#command-parameters).
 
 ### Filtering contact : `filtercontact`
 
-Filters the contacts based on the fields given
+Filters the contacts based on the fields given. If no fields are given, it will reset the filter.
 
 Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Substring words will be matched e.g. `Han` will match `Hans`
-* Contacts matching any one of the keyword will be shown. (meeting only one of the criteria is enough).
+* Contacts matching any one of the keyword will be shown (meeting only one of the criteria is enough).
+* Filtering is cumulative. Once you filter by name, you can also filter by address.
 
 Examples:
 * `filtercontact a/yishun`
 * `filtercontact n/Tan s/active`
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+To reset all filters, you can type <code>list</code> or <code>filtercontact</code>
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
