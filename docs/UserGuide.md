@@ -9,6 +9,23 @@ TheRealDeal is a **desktop app for real estate agents, optimised for use via a C
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
+## Legend
+These boxes in the User Guide has additional information that you should take note of.
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+Highlights important details to be aware of.
+</div>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+Provides you with helpful advice like keyboard shortcuts to use the application more effectively.
+</div>
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+Warns you of potential issues to should watch out for.
+</div>
 
 ## Quick start
 
@@ -17,18 +34,31 @@ TheRealDeal is a **desktop app for real estate agents, optimised for use via a C
    **Linux users:** Tutorial to download [here](https://se-education.org/guides/tutorials/javaInstallationLinux.html)<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
+2. Download the latest `TheRealDeal.jar` file from [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for TheRealDeal.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TheRealDeal.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the <br>
+`java -jar TheRealDeal.jar` command to run the application.<br><br>
+A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
    
+### to add picture ------------------------------
+
+
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
+
+To see the detailed explanation of every feature, click [here](#features)<br>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+You can search for relevant information in the User Guide with this shortcut:<br><br>
+Windows & Linux Users: <code>Ctrl + F</code><br>
+Mac Users: <code>⌘ + F</code>
+</div>
 
 ### GUI Overview
 
-TheRealDeal GUI is organised into **four** key components:
+TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
 ![GUI Overview](images/GUI-UI.png)
 
 * `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
@@ -37,21 +67,20 @@ TheRealDeal GUI is organised into **four** key components:
 * `List Card`: Displays key information about contacts or listings, depending on the user's command. Situated below the `Result Display`.
 
 Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+Some example commands you can try:
 
-   * `list` : Lists all contacts.
+* `list` : Lists all contacts.
 
-   * `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+* `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
-   * `deletecontact 3` : Deletes the 3rd contact shown in the current list.
+* `deletecontact 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all contacts.
+* `clear` : Deletes all contacts.
 
-   * `exit` : Exits the app.
-
-Refer to the [Features](#features) below for details of each command.
+* `exit` : Exits the app.
 
 --------------------------------------------------------------------------------------------------------------------
+
 
 ## Features
 
@@ -79,11 +108,18 @@ Refer to the [Features](#features) below for details of each command.
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page
+Opens a separate window containing the link to this User Guide.
 
 Format: `help`
 
 ![help message](images/helpMessage.png)
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+You can also press the <code>F1</code> key to open the help window
+</div>
+
+Refer to [Command Summary](#command-summary) for the list of commands and their formats.
 
 ### Listing all contacts and properties: `list`
 
@@ -98,23 +134,21 @@ Format: `list`
 
 ### Adding a contact : `addcontact`
 
-Adds a new contact to the system, with details of the contact.
+Adds a new contact into the system.
 
-Format: `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
-
-<div markdown="span" class="alert alert-primary">:information_source:
-TEXT for notes has a maximum length of 500 characters <br>
-</div>
+Format: `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
 Examples:
-* `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer s/active`
+* `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer status/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Editing a contact : `editcontact`
 
 Edits an existing contact in the address book.
 
-Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`
+Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
 * Edits the contact that has the UUID specified `UUID`. 
 * The UUID refers to the ID number shown in the displayed contact list.
@@ -126,19 +160,23 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` 
 *  `edit 2 n/Betsy Crower t/`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Filtering contact : `filtercontact`
 
 Filters the contacts based on the fields given
 
-Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
+Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Substring words will be matched e.g. `Han` will match `Hans`
-* Contacts matching at least one keyword will be returned
+* Contacts matching any one of the keyword will be shown. (meeting only one of the criteria is enough).
 
 Examples:
 * `filtercontact a/yishun`
 * `filtercontact n/Tan s/active`
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Deleting a contact : `deletecontact`
 
@@ -147,8 +185,8 @@ Deletes the specified contact from the address book.
 Format: `deletecontact UUID`
 
 * Deletes the contact with the specified `UUID`.
-* The UUID refers to the id number shown in the displayed contact list.
-* The command only works on contacts currently visible in the property list panel. Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
+* The UUID refers to the ID number shown in the displayed contact list.
+* The command only works on contacts currently visible in the property list panel. <br>Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
 Examples:
 * `deletecontact 1`
@@ -175,6 +213,8 @@ Examples:
 * `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
 * `addproperty address/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bedroom/4 bathroom/2 floorarea/1050 listing/rent owner/5`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Filtering contact : `filterproperty`
 
 Filters the properties based on the fields given.
@@ -189,6 +229,8 @@ Examples:
 * `filterproperty address/yishun`
 * `filterproperty bedroom/2 floorarea/100`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Deleting a property: `deleteproperty`
 
 Deletes a property identified by its UUID.
@@ -202,6 +244,30 @@ Format: `deleteproperty UUID`
 Examples:
 * `deleteproperty 12`
 * `deleteproperty 3`
+
+### Mark property as sold : `sold`
+
+Marks the statuses of the properties given as unavailable.
+
+Format: `sold p/UUID...`
+
+Examples:
+* `sold p/1`
+* `sold p/2 p/3`
+
+For more information on the parameters, click [here](#command-parameters).
+
+### Mark property as unsold : `unsold`
+
+Marks the statuses of the properties given as available.
+
+Format: `unsold p/UUID...`
+
+Examples:
+* `unsold p/1`
+* `unsold p/2 p/3`
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Linking people and properties : `link`
 
@@ -252,15 +318,25 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears ***ALL*** contacts and properties from the application.
 
 Format: `clear`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+<code>clear</code> will delete all the data in the system. Please use it carefully as you will not be able to retrieve the data back.
+</div>
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
 Format: `exit`
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+<code>exit</code> will also close any help windows that are open.
+</div>
 
 
 ### Saving the data
@@ -276,7 +352,8 @@ TheRealDeal data is saved automatically as two JSON files
 
 Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the TheRealDeal to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
@@ -286,7 +363,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -299,23 +376,63 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add Contact** | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`
-**Edit Contact** | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`
-**Filter Contact** | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG] [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`
-**Delete Contact** | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`
-**Add Property** | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
-**Filter Property** | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`
-**Delete Property** | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`
-**Link** | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`
-**Unlink** | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`
-**List** | `list`
-**Clear** | `clear`
-**Help** | `help`
+| Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add Contact**             | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                      |
+| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                           |
+| **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                                                                                                      |
+| **Delete Contact**          | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                |
+| **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
+| **Filter Property**         | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                            |
+| **Delete Property**         | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`                                                                                                                                                                                                                                                                             |
+| **Mark Property as Sold**   | `sold p/UUID...` <br><br> e.g. `sold p/1 p/2`                                                                                                                                                                                                                                                                                         |
+| **Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`                                                                                                                                                                                                                                                                                     |
+| **Link**                    | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`                                                                                                                                                                                                                                   |
+| **Unlink**                  | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`                                                                                                                                                                                                                                                          |
+| **List**                    | `list`                                                                                                                                                                                                                                                                                                                                |
+| **Clear**                   | `clear`                                                                                                                                                                                                                                                                                                                               |
+| **Help**                    | `help`                                                                                                                                                                                                                                                                                                                                |
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command Parameters
+This table shows every parameter and prefix used in TheRealDeal. 
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+If the command states that the prefix is optional e.g. <code>n/NAME [t/TAG]</code><br>
+an empty parameter will be the same as not having the prefix<br>
+e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
+</div>
+
+| Parameter      | Prefix  | Constraints                                                                |
+|----------------|---------|----------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces      |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long |
+| Email          | e/      | Should follow the format: name@example.com                                 |
+| Address        | a/      | Can take any value. Maximum of 200 characters                              |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord   |
+| Minimum Budget | min/    | Should be a non-negative integer                                           |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget          |
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                              |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                  |
+| Limit          | limit/  |                                                                            |
+| Offset         | offset/ |                                                                            |
+|                |         |                                                                            |
 
 ## Basic Command Terminal Navigation
 1. Determine the address of the folder where TheRealDeal is installed.
 2. Open "Powershell" on Windows or "Terminal" on MacOS and Linux.
 3. Type `cd ADDRESS`, where `ADDRESS` is the address where TheRealDeal is installed, and hit enter.
 4. Type `java -jar TheRealDeal.jar`, and hit enter, to run the application.
+
+## Glossary of Terms
+
+| Term         | Definition                                                                                                                                      |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| **CLI**      | Command Line Interface (CLI) is an interface where the user interacts with the application via directly typed commands.                         |
+| **GUI**      | Graphical User Interface (GUI) is a visual interface that users can interact with.                                                              |
+| **UUID**     | Universally unique identifier (UUID) of a contact or a property. It is generated by the application and can be referenced from the application. |
+| **Contact**  | A client whose details are stored in the system. The client can either be a buyer, seller, tenant or landlord.                                  |
+| **Property** | A building whose details are stored in the system. The building can either be a HDB, condominium, landed, apartment or office.                  |
+| **JSON**     | JavaScript Object Notation (JSON) is a text-based data storage format that is used to store the data of the application.                        |
