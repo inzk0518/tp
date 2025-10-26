@@ -126,8 +126,8 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
      */
     private void validateNoInvalidPrefixesPresent(ArgumentMultimap argMultimap) throws ParseException {
         for (Prefix prefix : argMultimap.getAllPrefixes()) {
-            // Skip checking for notes prefix, since '/' is valid in notes
-            if (prefix.equals(PREFIX_NOTES)) {
+            // Skip checking for notes or name prefix, since '/' is valid in notes and name
+            if (prefix.equals(PREFIX_NOTES) || prefix.equals(PREFIX_NAME)) {
                 continue;
             }
 

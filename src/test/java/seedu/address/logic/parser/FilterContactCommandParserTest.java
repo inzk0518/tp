@@ -147,11 +147,6 @@ public class FilterContactCommandParserTest {
     public void parse_valuesContainingPrefixLikeStrings_failure() {
         String prefixLikeValue = "abc/like";
 
-        // Name containing prefix-like value
-        assertParseFailure(parser,
-                " n/" + prefixLikeValue + " p/12345678",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
-
         // Phone containing prefix-like value
         assertParseFailure(parser,
                 " n/Alice p/" + prefixLikeValue,

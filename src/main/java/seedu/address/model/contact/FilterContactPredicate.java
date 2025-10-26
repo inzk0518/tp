@@ -96,9 +96,9 @@ public class FilterContactPredicate implements Predicate<Contact> {
                                         StringUtil.containsSubstringIgnoreCase(tag.tagName, k))))
                 .orElse(true)
 
-                && budgetMin.map(min -> Integer.parseInt(contact.getBudgetMin().value) <= min).orElse(true)
+                && budgetMin.map(min -> Float.parseFloat(contact.getBudgetMin().value) <= min).orElse(true)
 
-                && budgetMax.map(max -> Integer.parseInt(contact.getBudgetMax().value) >= max).orElse(true)
+                && budgetMax.map(max -> Float.parseFloat(contact.getBudgetMax().value) >= max).orElse(true)
 
                 && notes.map(list ->
                         list.stream().anyMatch(k ->

@@ -230,11 +230,6 @@ public class AddContactCommandParserTest {
     public void parse_valuesContainingPrefixLikeStrings_failure() {
         String prefixLikeValue = "abc/like";
 
-        // Name containing prefix-like value
-        assertParseFailure(parser,
-                NAME_DESC_BOB.replace(VALID_NAME_BOB, prefixLikeValue) + PHONE_DESC_BOB,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, Name.MESSAGE_CONSTRAINTS));
-
         // Phone containing prefix-like value
         assertParseFailure(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB.replace(VALID_PHONE_BOB, prefixLikeValue),
@@ -308,12 +303,15 @@ public class AddContactCommandParserTest {
     }
 
     @Test
-    public void validateNoInvalidPrefixesPresent_nameWithPrefix_failure() {
-        String prefixLikeValue = "John/Doe";
+    public void validateSonOf_present_success() {
+        String nameWithSonOf = "bob s/o alex";
+        Contact expectedContact = new ContactBuilderUtil(BOB)
+                .withName(nameWithSonOf)
+                .build();
 
-        assertParseFailure(parser,
-                " n/" + prefixLikeValue + PHONE_DESC_BOB,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, Name.MESSAGE_CONSTRAINTS));
+        assertParseSuccess(parser,
+                " n/" + nameWithSonOf + PHONE_DESC_BOB,
+                new AddContactCommand(expectedContact));
     }
 
     @Test
