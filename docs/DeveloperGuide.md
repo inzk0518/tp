@@ -144,23 +144,19 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### 2.4. Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" />
-
+<img src="images/ContactClassDiagram.png" width="450" />
+<img src="images/PropertyClassDiagram.png" width="450" />
 
 The `Model` component,
 
 * stores the address book data i.e., all `Contact` objects (which are contained in a `UniqueContactList` object).
-* stores the currently 'selected' `Contact` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Contact>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores the property book data i.e., all `Property` objects (which are contained in a `UniquePropertyList` object).
+* stores the currently 'selected' `Contact`/`Property` objects (e.g., results of a filter query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Contact>`/`ObservableList<Property>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores a `UserPrefs` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Contact` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Contact` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
 
 
 ### 2.5. Storage component
@@ -176,16 +172,55 @@ The `Storage` component,
 
 ### 2.6. Common classes
 
-Classes used by multiple components are in the `seedu.address.commons` package.
+Classes used by multiple components are in the `seedu.address.commons` package. These classes provide utility functions that are used in many classes such as `StringUtil`, `ToStringBuilder` etc.
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## 3. Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### 3.1. Contact management
+### 3.1. General Features
 
-The following subsections enumerate the currently implemented commands for managing contacts and core application behaviour. Detailed write-ups will be added as each feature stabilises.
+These features do not require any parameters and do not have a corresponding `Parser` class so is directly instantiated in `AddressBookParser`.
+
+#### Help Command (`help`)
+The `HelpCommand` opens up a separate window containing a link to the User Guide.
+
+##### Design Considerations
+We designed the `HelpCommand` to let the user copy and navigate to the User Guide link directly.
+
+#### List Command (`list`)
+The `ListCommand` shows all the contacts/properties stored in the application.
+
+##### Execution
+The `ListCommand` calls the `Model` component to update the `FilteredList<Contact>` and `FilteredList<Property>` to show all of the `Contact` and `Property` in the list. 
+
+##### Design Considerations
+We design the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. This is useful to revert the UI back to showing all contacts and properties after performing the commands `filtercontact` or `filterproperty`.
+
+#### Clear Command (`clear`)
+The `ClearCommand` allows users to delete all contacts/properties stored in the application
+
+##### Execution
+The `ClearCommand` sets the `Model` to be reference a new `AddressBook` and `PropertyBook` which effectively deletes all data that was previously stored.
+
+##### Design Considerations
+We designed the `ClearCommand` to let users easily remove any data stored in the application and start fresh.
+
+#### `ExitCommand` (`exit`)
+The `ExitCommand` allows users to close the application.
+
+##### Execution
+The `ExitCommand` invokes the `handleExit` method in the `MainWindow` class which closes the UI (including the help window). 
+
+##### Design Considerations
+We designed the `ExitCommand` so that users can exit the application using the CLI as TheRealDeal is a CLI-based application.
+
+### 3.2. Contact management
+
+All contacts are stored as `Contact` objects inside the `UniqueContactList` object under the `AdressBook` component. <br>
+There is also an additional `FilteredList<Contact>` inside the `ModelManager` that stores the `Contact` that are displayed on the UI which is updated whenever the user issues a command that changes the UI.
 
 #### Add Command (`addcontact`)
 The `addcontact` command is designed to add a new contact to the address book. 
@@ -218,8 +253,8 @@ Validation done:
 ##### Execution
 The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
 
-#### Delete Command (`delete`)
-The `delete` command is designed to delete an existing contact from the address book, identified by their UUID.
+#### Delete Command (`deletecontact`)
+The `deletecontact` command is designed to delete an existing contact from the address book, identified by their UUID.
 
 Compulsory fields:
 - UUID
@@ -228,8 +263,8 @@ Compulsory fields:
 The `DeleteContactCommandParser` class is responsible for parsing the command input.
 Documentation pending.
 
-#### Edit Command (`edit`)
-The `edit` command is designed to edit a contact in the address book, identified by their UUID.
+#### Edit Command (`editcontact`)
+The `editcontact` command is designed to edit a contact in the address book, identified by their UUID.
 
 Compulsory fields:
 - UUID
@@ -259,20 +294,10 @@ Validation done:
 ##### Execution
 The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
 
-
-#### `ListCommand` (`list`)
+#### `FilterContactCommand` (`filtercontact`)
 Documentation pending.
 
-#### `ClearCommand` (`clear`)
-Documentation pending.
-
-#### `HelpCommand` (`help`)
-Documentation pending.
-
-#### `ExitCommand` (`exit`)
-Documentation pending.
-
-### 3.2. Property management
+### 3.3. Property management
 
 #### `AddPropertyCommand` (`addproperty`)
 `AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
@@ -283,7 +308,7 @@ Documentation pending.
 #### `ShowPropertiesCommand` (`showproperties`)
 Documentation pending.
 
-### 3.3. Client–property linking
+### 3.4. Client–property linking
 
 #### `LinkCommand` (`link`)
 Documentation pending.
@@ -293,11 +318,6 @@ Documentation pending.
 
 #### `ShowClientsCommand` (`showclients`)
 Currently returns a placeholder message while property–client association storage is being developed.
-
-### 3.4. Contact filtering
-
-#### `FilterContactCommand` (`filtercontact`)
-Documentation pending.
 
 ### 3.5. Logging
 
@@ -668,6 +688,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 4a1. System displays "No properties found" message
 
       Use case ends
+  
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix D: Non-Functional Requirements
@@ -720,6 +741,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
+   
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix E: Glossary
@@ -738,6 +760,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Budget Range**: The minimum and maximum price range a buyer is willing to spend
 * **Type**: Category of property such as HDB, condo or landed
 * **Floor Area**: The size of a property measured in square feet
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix F: Instructions for Manual Testing
@@ -790,6 +813,7 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix G: Efforts
