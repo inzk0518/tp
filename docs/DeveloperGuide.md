@@ -27,13 +27,33 @@ title: Developer Guide
 8. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
 9. [Appendix E: Glossary](#appendix-e-glossary)
 10. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
-11. [Appendix G: Future Enhancements](#future-enhancements)
+11. [Appendix G: Planned Enhancements](#appendix-g-planned-enhancements)
+12. [Appendix H: Efforts](#appendix-h-effort)
+13. [Appendix I: Continuous Integration](#appendix-i-continuous-integration--continuous-deployment)
 
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Acknowledgements
 
 TheRealDeal is a greenfield group project that is based on AddressBook-Level3 created by [SE-EDU](https://se-education.org/).
+
+## Legend
+These boxes in the User Guide has additional information that you should take note of.
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+Highlights important details to be aware of.
+</div>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+Provides you with helpful advice like keyboard shortcuts to use the application more effectively.
+</div>
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+Warns you of potential issues to should watch out for.
+</div>
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -857,6 +877,33 @@ testers are expected to do more *exploratory* testing.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix G: Future Enhancements
+## Appendix G: Planned Enhancements
 
 To be updated.
+
+---------------------------------------------------------------------------------------------------------------------
+
+## Appendix H: Effort
+
+To be updated.
+
+---------------------------------------------------------------------------------------------------------------------
+
+## Appendix I: Continuous Integration / Continuous Deployment
+Continuous Integration / Continuous Deployment (CI/CD) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
+
+CI/CD has been carried out as follows:
+1. Unit Testing
+2. Integrated GitHub tests
+3. Code coverage reports
+
+#### Unit Testing
+Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test).
+
+#### Integrated GitHub tests
+We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu on every push or pull request. Through these tests, feature branches are tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed. 
+The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
+
+#### Code Coverage Reports
+Test coverage refers to the extent in which the code is tested and we have utilised [CodeCov](https://about.codecov.io/) to measure our code coverage. The code coverage can be seen [here](https://app.codecov.io/github/AY2526S1-CS2103T-W10-2/tp). <br> <br>
+As of v1.5, the test coverage is above 80%.
