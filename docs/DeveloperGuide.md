@@ -19,20 +19,16 @@ title: Developer Guide
    2. [Property management](#32-property-management)
    3. [Contact–property linking](#33-clientproperty-linking)
    4. [Contact filtering](#34-contact-filtering)
-   5. [Logging](#35-logging)
-   6. [Configuration](#36-configuration)
-   7. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
-   8. [Proposed data archiving](#38-proposed-data-archiving)
-4. [Documentation](#4-documentation)
-5. [Testing](#5-testing)
-6. [Dev Ops](#6-dev-ops)
-7. [Appendix A: Product Scope](#appendix-a-product-scope)
-8. [Appendix B: User Stories](#appendix-b-user-stories)
-9. [Appendix C: Use Cases](#appendix-c-use-cases)
-10. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
-11. [Appendix E: Glossary](#appendix-e-glossary)
-12. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
-13. [Appendix G: Efforts](#appendix-g-efforts)
+   5. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
+   6. [Proposed data archiving](#38-proposed-data-archiving)
+4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
+5. [Appendix A: Product Scope](#appendix-a-product-scope)
+6. [Appendix B: User Stories](#appendix-b-user-stories)
+7. [Appendix C: Use Cases](#appendix-c-use-cases)
+8. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
+9. [Appendix E: Glossary](#appendix-e-glossary)
+10. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
+11. [Appendix G: Efforts](#appendix-g-efforts)
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -319,28 +315,13 @@ Documentation pending.
 #### `ShowClientsCommand` (`showclients`)
 Currently returns a placeholder message while property–client association storage is being developed.
 
-### 3.5. Logging
+### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
-Refer to the [Logging guide](Logging.md) for instrumentation and diagnostic practices, including logger configuration and log file expectations.
-
-### 3.6. Configuration
-
-Refer to the [Configuration guide](Configuration.md) for configuration file structure, editing workflow, and supported keys.
-
-
-## 4. Documentation
-
-* [Documentation guide](Documentation.md)
-
-## 5. Testing
-
-* [Testing guide](Testing.md)
-
-## 6. Dev Ops
-
-* [Logging guide](Logging.md)
-* [Configuration guide](Configuration.md)
-* [DevOps guide](DevOps.md)
+[Documentation guide](Documentation.md)
+[Logging guide](Logging.md)
+[Testing guide](Testing.md)
+[Configuration guide](Configuration.md)
+[DevOps guide](DevOps.md)
 
 ## Appendix A: Product Scope
 
