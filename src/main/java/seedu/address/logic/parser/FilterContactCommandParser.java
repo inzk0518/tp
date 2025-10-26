@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CONTACTS;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,8 +20,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Model;
 import seedu.address.model.contact.FilterContactPredicate;
 
 /**
@@ -65,6 +68,19 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
                     MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
         }
 
+        // if command is only `filtercontact` reset all filters
+        if (!hasAnyFilterPrefixes(argMultimap)) {
+            return new FilterContactCommand(null) {
+                public static final String MESSAGE_SUCCESS_EMPTY_FILTER = "Listed all contacts";
+                @Override
+                public CommandResult execute(Model model) {
+                    model.updateFilteredContactList(PREDICATE_SHOW_ALL_CONTACTS);
+                    showContactsView();
+                    return new CommandResult(MESSAGE_SUCCESS_EMPTY_FILTER);
+                }
+            };
+        }
+
         // Check inside all values for invalid prefixes
         // Example invalid command: filtercontact a/bob abc/
         for (Prefix prefix : argMultimap.getAllPrefixes()) {
@@ -82,7 +98,6 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
 
         Optional<Integer> limit = parsePositiveInteger(argMultimap.getValue(PREFIX_LIMIT));
         Optional<Integer> offset = parseNonNegativeInteger(argMultimap.getValue(PREFIX_OFFSET));
-
 
         FilterContactPredicate predicate = new FilterContactPredicate(
                 getKeywords(argMultimap.getValue(PREFIX_NAME)),
@@ -164,5 +179,17 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
         } catch (NumberFormatException e) {
             throw new ParseException("Invalid number for offset: " + value);
         }
+    }
+
+    /**
+     * Checks if any valid filter prefixes are present with non-empty values.
+     *
+     * @param argMultimap The tokenized input arguments.
+     * @return True if there is at least one valid prefix with non-empty value; false otherwise.
+     */
+    private boolean hasAnyFilterPrefixes(ArgumentMultimap argMultimap) {
+        return VALID_PREFIXES.stream().anyMatch(
+                prefix -> argMultimap.getValue(prefix).filter(v -> !v.trim().isEmpty()).isPresent()
+        );
     }
 }

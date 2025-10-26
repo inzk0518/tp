@@ -22,19 +22,6 @@ public class FilterContactCommandParserTest {
     private final FilterContactCommandParser parser = new FilterContactCommandParser();
 
     @Test
-    public void parse_emptyArgs_returnsFilterContactCommand() {
-        FilterContactCommand expectedCommand =
-                new FilterContactCommand(new FilterContactPredicate(
-                        Optional.empty(), Optional.empty(), Optional.empty(),
-                        Optional.empty(), Optional.empty(), Optional.empty(),
-                        Optional.empty(), Optional.empty(), Optional.empty(),
-                        Optional.empty(), Optional.empty()));
-
-        assertParseSuccess(parser, "", expectedCommand);
-        assertParseSuccess(parser, "    ", expectedCommand);
-    }
-
-    @Test
     public void parse_validArgs_returnsFilterContactCommand() {
         FilterContactCommand expectedCommand =
                 new FilterContactCommand(new FilterContactPredicate(
