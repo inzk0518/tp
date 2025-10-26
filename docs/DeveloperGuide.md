@@ -27,7 +27,7 @@ title: Developer Guide
 8. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
 9. [Appendix E: Glossary](#appendix-e-glossary)
 10. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
-11. [Appendix G: Efforts](#appendix-g-efforts)
+11. [Appendix G: Future Enhancements](#future-enhancements)
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -195,7 +195,7 @@ The `ListCommand` shows all the contacts/properties stored in the application.
 The `ListCommand` calls the `Model` component to update the `FilteredList<Contact>` and `FilteredList<Property>` to show all of the `Contact` and `Property` in the list. 
 
 ##### Design Considerations
-We design the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. This is useful to revert the UI back to showing all contacts and properties after performing the commands `filtercontact` or `filterproperty`.
+We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. This is useful to revert the UI back to showing all contacts and properties after performing the commands `filtercontact` or `filterproperty`.
 
 #### <u>Clear Command</u> (`clear`)
 The `ClearCommand` allows users to delete all contacts/properties stored in the application
@@ -217,7 +217,7 @@ We designed the `ExitCommand` so that users can exit the application using the C
 
 ### 3.2. Contact management
 
-All contacts are stored as `Contact` objects inside the `UniqueContactList` object under the `AdressBook` component. <br>
+All contacts are stored as `Contact` objects inside the `UniqueContactList` object under the `AdressBook` component. <br><br>
 There is also an additional `FilteredList<Contact>` inside the `ModelManager` that stores the `Contact` that are displayed on the UI which is updated whenever the user issues a command that changes the UI.
 
 #### <u>Add Command</u> (`addcontact`)
@@ -309,7 +309,7 @@ Optional Fields:
 - Offset
 
 ##### Parsing and Validating User Input
-The `FilterContactCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc) <br>
+The `FilterContactCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc) <br><br>
 A `FilterContactPredicate` is created that encapsulates all the filter conditions and is used to test whether a contact matches the given filters.
 
 Validation done:
@@ -330,6 +330,40 @@ The UI is then updated based on which contacts that match the predicate.
 #### `ShowPropertiesCommand` (`showproperties`)
 Documentation pending.
 
+#### <u>Mark Property as Sold Command</u> (`sold`)
+The `sold` command finds properties by they UUID and changes the status of the property to unavailable.
+
+Compulsory fields:
+- UUID (`p/` prefix)
+
+##### Parsing and Validating User Input
+The `MarkSoldCommandParser` is responsible for parsing the command input.
+
+Validation done:
+- No duplicate UUID is given
+- No empty UUID is given
+- Property with the given UUID exists
+
+##### Execution
+The `MarkSoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
+
+#### <u>Mark Property as Unsold Command</u> (`unsold`)
+The `unsold` command finds properties by they UUID and changes the status of the property to unavailable.
+
+Compulsory fields:
+- UUID (`p/` prefix)
+
+##### Parsing and Validating User Input
+The `MarkUnsoldCommandParser` is responsible for parsing the command input.
+
+Validation done:
+- No duplicate UUID is given
+- No empty UUID is given
+- Property with the given UUID exists
+
+##### Execution
+The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
+
 ### 3.4. Client–property linking
 
 #### `LinkCommand` (`link`)
@@ -343,10 +377,10 @@ Currently returns a placeholder message while property–client association stor
 
 ### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
-[Documentation guide](Documentation.md)
-[Logging guide](Logging.md)
-[Testing guide](Testing.md)
-[Configuration guide](Configuration.md)
+[Documentation guide](Documentation.md)<br>
+[Logging guide](Logging.md)<br>
+[Testing guide](Testing.md)<br>
+[Configuration guide](Configuration.md)<br>
 [DevOps guide](DevOps.md)
 
 ## Appendix A: Product Scope
@@ -823,6 +857,6 @@ testers are expected to do more *exploratory* testing.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix G: Efforts
+## Appendix G: Future Enhancements
 
 To be updated.
