@@ -41,7 +41,7 @@ import seedu.address.model.uuid.Uuid;
  */
 public class EditContactCommand extends Command {
 
-    public static final String COMMAND_WORD = "edit";
+    public static final String COMMAND_WORD = "editcontact";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the contact identified "
             + "by their UUID. "
