@@ -2,7 +2,7 @@
 layout: page
 title: Developer Guide
 ---
-# TheRealDeal v1.0 - Developer Guide
+# TheRealDeal - Developer Guide
 
 ## Table of Contents
 
@@ -18,9 +18,8 @@ title: Developer Guide
    1. [Contact management](#31-contact-management)
    2. [Property management](#32-property-management)
    3. [Contact–property linking](#33-clientproperty-linking)
-   4. [Contact filtering](#34-contact-filtering)
-   5. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
-   6. [Proposed data archiving](#38-proposed-data-archiving)
+   4. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
+   5. [Proposed data archiving](#38-proposed-data-archiving)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
 5. [Appendix A: Product Scope](#appendix-a-product-scope)
 6. [Appendix B: User Stories](#appendix-b-user-stories)
@@ -34,7 +33,7 @@ title: Developer Guide
 
 ## Acknowledgements
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+TheRealDeal is a greenfield group project that is based on AddressBook-Level3 created by [SE-EDU](https://se-education.org/).
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -48,7 +47,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in the `docs/diagrams` folder. Click [here](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit the diagrams.
 </div>
 
 ### 2.1. Architecture
@@ -142,9 +141,9 @@ How the parsing works:
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
-<img src="images/ContactClassDiagram.png" width="450" />
-<img src="images/PropertyClassDiagram.png" width="450" />
+<img src="images/ModelClassDiagram.png" width="700" />
+<img src="images/ContactClassDiagram.png" width="700" />
+<img src="images/PropertyClassDiagram.png" width="700" />
 
 The `Model` component,
 
@@ -180,13 +179,16 @@ This section describes some noteworthy details on how certain features are imple
 
 These features do not require any parameters and do not have a corresponding `Parser` class so is directly instantiated in `AddressBookParser`.
 
-#### Help Command (`help`)
+#### <u> Help Command</u> (`help`) 
 The `HelpCommand` opens up a separate window containing a link to the User Guide.
 
-##### Design Considerations
-We designed the `HelpCommand` to let the user copy and navigate to the User Guide link directly.
+![help message](images/helpMessage.png)
 
-#### List Command (`list`)
+##### Design Considerations
+We designed the `HelpCommand` to let the user copy and navigate to the User Guide link directly. <br>
+Users are also able to use the `F1` key to open up the help window.
+
+#### <u> List Command</u> (`list`)
 The `ListCommand` shows all the contacts/properties stored in the application.
 
 ##### Execution
@@ -195,7 +197,7 @@ The `ListCommand` calls the `Model` component to update the `FilteredList<Contac
 ##### Design Considerations
 We design the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. This is useful to revert the UI back to showing all contacts and properties after performing the commands `filtercontact` or `filterproperty`.
 
-#### Clear Command (`clear`)
+#### <u>Clear Command</u> (`clear`)
 The `ClearCommand` allows users to delete all contacts/properties stored in the application
 
 ##### Execution
@@ -204,7 +206,7 @@ The `ClearCommand` sets the `Model` to be reference a new `AddressBook` and `Pro
 ##### Design Considerations
 We designed the `ClearCommand` to let users easily remove any data stored in the application and start fresh.
 
-#### `ExitCommand` (`exit`)
+#### <u>Exit Command</u> (`exit`)
 The `ExitCommand` allows users to close the application.
 
 ##### Execution
@@ -218,7 +220,7 @@ We designed the `ExitCommand` so that users can exit the application using the C
 All contacts are stored as `Contact` objects inside the `UniqueContactList` object under the `AdressBook` component. <br>
 There is also an additional `FilteredList<Contact>` inside the `ModelManager` that stores the `Contact` that are displayed on the UI which is updated whenever the user issues a command that changes the UI.
 
-#### Add Command (`addcontact`)
+#### <u>Add Command</u> (`addcontact`)
 The `addcontact` command is designed to add a new contact to the address book. 
 
 Compulsory fields:
@@ -249,7 +251,7 @@ Validation done:
 ##### Execution
 The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
 
-#### Delete Command (`deletecontact`)
+#### <u>Delete Command</u> (`deletecontact`)
 The `deletecontact` command is designed to delete an existing contact from the address book, identified by their UUID.
 
 Compulsory fields:
@@ -259,7 +261,7 @@ Compulsory fields:
 The `DeleteContactCommandParser` class is responsible for parsing the command input.
 Documentation pending.
 
-#### Edit Command (`editcontact`)
+#### <u>Edit Command</u> (`editcontact`)
 The `editcontact` command is designed to edit a contact in the address book, identified by their UUID.
 
 Compulsory fields:
@@ -290,8 +292,32 @@ Validation done:
 ##### Execution
 The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
 
-#### `FilterContactCommand` (`filtercontact`)
-Documentation pending.
+#### <u>Filter Contact Command</u> (`filtercontact`)
+The `filtercontact` command filters the contacts in the address book based on the criteria given. If no criteria is given, it will reset the address book back to its original state with every contact.
+
+Optional Fields:
+- Name
+- Phone Number
+- Address
+- Email
+- Minimum Budget
+- Maximum Budget
+- Tag
+- Notes
+- Status
+- Limit
+- Offset
+
+##### Parsing and Validating User Input
+The `FilterContactCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc) <br>
+A `FilterContactPredicate` is created that encapsulates all the filter conditions and is used to test whether a contact matches the given filters.
+
+Validation done:
+- Proper data types and formats for numeric fields (e.g. budget, limit, offset)
+
+##### Execution
+`FilterContactCommand` applies the `FilterContactPredicate` over the existing filtered contact list and produces a list of matching contacts. It is also changed based on the `limit` and `offset` given.
+The UI is then updated based on which contacts that match the predicate.
 
 ### 3.3. Property management
 
