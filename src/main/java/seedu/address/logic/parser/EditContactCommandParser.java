@@ -35,17 +35,9 @@ public class EditContactCommandParser implements Parser<EditContactCommand> {
      */
     public EditContactCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args,
-                PREFIX_NAME,
-                PREFIX_PHONE,
-                PREFIX_EMAIL,
-                PREFIX_ADDRESS,
-                PREFIX_TAG,
-                PREFIX_BUDGET_MIN,
-                PREFIX_BUDGET_MAX,
-                PREFIX_NOTES,
-                PREFIX_STATUS
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
+                                    PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_BUDGET_MIN,
+                                     PREFIX_BUDGET_MAX, PREFIX_NOTES, PREFIX_STATUS
         );
 
         String preamble = argMultimap.getPreamble().trim();

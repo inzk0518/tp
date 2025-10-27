@@ -16,7 +16,6 @@ public class Email {
             + "• It cannot start or end with a symbol\n"
             + "• The part after @ must be a valid domain (like example.com)\n"
             + "• The domain must end with at least 2 letters (like .com or .sg)\n"
-            + "• You can also leave the email field empty\n"
             + "• Emails can also be left empty";
     // alphanumeric characters except underscore
     private static final String ALPHANUMERIC_NO_UNDERSCORE = "[^\\W_]+";
