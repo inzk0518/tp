@@ -57,7 +57,7 @@ public class MarkUnsoldCommand extends Command {
         // Validate all IDs first
         for (Uuid id : propertyIds) {
             if (model.getPropertyById(id) == null) {
-                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
+                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, "Property " + id.getValue()));
             }
         }
 
