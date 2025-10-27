@@ -83,9 +83,9 @@ public class EditContactCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Contact> lastShownList = model.getFilteredContactList();
+        List<Contact> allContacts = model.getAddressBook().getContactList();
 
-        Contact contactToEdit = lastShownList.stream()
+        Contact contactToEdit = allContacts.stream()
                 .filter(p -> p.getUuid().equals(targetUuid))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(MESSAGE_CONTACT_NOT_FOUND));
@@ -97,7 +97,6 @@ public class EditContactCommand extends Command {
         }
 
         model.setContact(contactToEdit, editedContact);
-        model.updateFilteredContactList(PREDICATE_SHOW_ALL_CONTACTS);
 
         showContactsView();
 

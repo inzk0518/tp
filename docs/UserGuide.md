@@ -177,8 +177,9 @@ Examples:
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-You are only able to edit the contacts currently shown on the GUI (even if they are stored in the address book). <br>
-i.e. Do not filter then edit a contact that has been filtered out. Reset the filter before editing.
+You are able to edit valid contacts even if they are not currently shown on the GUI (but are stored in the address book). <br><br>
+i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>. <br>
+Use the <code>list</code> command to see the changes.
 </div>
 
 For more information on the parameters, click [here](#command-parameters).
