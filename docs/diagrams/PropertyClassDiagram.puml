@@ -20,7 +20,7 @@ Class Owner
 Class I #FFFFFF
 }
 
-Property *--> PropertyAddress
+Property *-left-> PropertyAddress
 Property *--> Bathroom
 Property *--> Bedroom
 Property *--> FloorArea
@@ -29,6 +29,6 @@ Property *--> Postal
 Property *--> Price
 Property *--> Status
 Property *--> Type
-Property *--> Owner
+Property *-right-> Owner
 
 @enduml

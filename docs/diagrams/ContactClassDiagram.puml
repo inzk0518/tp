@@ -19,8 +19,8 @@ Class ContactStatus
 Class I #FFFFFF
 }
 
-Contact *--> Name
-Contact *--> Phone
+Contact *-left-> Name
+Contact *-right-> Phone
 Contact *--> Email
 Contact *--> ContactAddress
 Contact *--> BudgetMin

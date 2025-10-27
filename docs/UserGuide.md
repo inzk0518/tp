@@ -59,6 +59,7 @@ Mac Users: <code>⌘ + F</code>
 ### GUI Overview
 
 TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
+
 ![GUI Overview](images/GUI-UI.png)
 
 * `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
@@ -123,14 +124,24 @@ Refer to [Command Summary](#command-summary) for the list of commands and their 
 
 ### Listing all contacts and properties: `list`
 
-Displays all contacts and properties in the app. It resets any active filters and shows the complete list.
+Resets any active filters and shows the complete list of contacts or properties.
 
-Both contact and property cards display an ID field which represents the `UUID` of that contact/property.
+Both contact and property cards display an ID field which represents the Universally Unique Identifier (`UUID`) of that contact or property.
 This `UUID` will be used for other commands.
 
 Format: `list`
 
-![list result](images/listResult.png)
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+To switch to the list of contacts type: <code>filtercontact</code><br>
+To switch to the list of properties type: <code>filterproperty</code>
+</div>
+
+**Contact List**
+![list result contacts](images/listResultContacts.png)
+
+**Property List**
+![list result property](images/listResultProperties.png)
 
 ### Adding a contact : `addcontact`
 
@@ -155,8 +166,7 @@ Edits an existing contact in the address book.
 
 Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
-* Edits the contact that has the UUID specified `UUID`.
-* The UUID refers to the ID number shown in the displayed contact list.
+* Edits the contact that has the `UUID` as specified which refers to the ID number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
 * When editing tags, the existing tags of the contact will be removed i.e adding of tags is not cumulative.
 * You can remove all the contact’s tags by typing `t/` without specifying any tags after it.
@@ -171,16 +181,17 @@ For more information on the parameters, click [here](#command-parameters).
 
 Filters the contacts based on the fields given
 
-Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
+Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min/AMOUNT] [max/AMOUNT] [t/TAG...] [notes/TEXT...] [s/STATUS...] [limit/LIMIT] [offset/OFFSET]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* Substring words will be matched e.g. `Han` will match `Hans`
+* The search is case-insensitive. e.g `hans` will match `Hans`.
+* Substring words will be matched e.g. `Bob` will match `Bobby`.
 * Contacts matching any one of the keyword will be shown (meeting only one of the criteria is enough).
-* Filtering is cumulative. Once you filter by name, you can also filter by address.
+* Filtering is cumulative. Once you filter by name, you can filter by address subsequently.
+* To filter multiple names e.g. `Bob` and `Alex`, you can type `filtercontact n/Bob Alex`.
 
 Examples:
 * `filtercontact a/yishun`
-* `filtercontact n/Tan s/active`
+* `filtercontact n/Tan s/active inactive`
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
@@ -365,7 +376,7 @@ Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**
-If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br><br>
 Furthermore, certain edits can cause the TheRealDeal to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
@@ -375,13 +386,13 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the application in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
-<br>
+<br><br>
 **Q**: Does TheRealDeal require internet connection?<br>
 **A**: The application will only require internet connection if you want to access the User Guide. Every other command works without internet connection.
-<br>
+<br><br>
 **Q**: Where is the data for TheRealDeal stored?<br>
 **A**: Refer to [this](#editing-the-data-file) section to learn more.
-<br>
+<br><br>
 **Q**: How do I back up my data?<br>
 **A**: You can save a copy of the `addressbook.json` and `propertybook.json` to a back up location.
 
@@ -398,10 +409,10 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 | Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add Contact**             | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                      |
+| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                                        |
 | **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                    |
 | **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                                                                                                      |
-| **Delete Contact**          | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                |
+| **Delete Contact**          | `deletecontact UUID`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                 |
 | **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
 | **Filter Property**         | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                            |
 | **Delete Property**         | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`                                                                                                                                                                                                                                                                             |

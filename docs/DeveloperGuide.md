@@ -15,30 +15,31 @@ title: Developer Guide
    5. [Storage component](#25-storage-component)
    6. [Common classes](#26-common-classes)
 3. [Implementation](#3-implementation)
-   1. [Contact management](#31-contact-management)
-   2. [Property management](#32-property-management)
-   3. [Contact–property linking](#33-clientproperty-linking)
-   4. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
-   5. [Proposed data archiving](#38-proposed-data-archiving)
+   1. [Contact management](#32-contact-management)
+   2. [Property management](#33-property-management)
+   3. [Contact–property linking](#34-clientproperty-linking)
+   4. [Proposed undo/redo feature](#38-proposed-undoredo-feature)
+   5. [Proposed data archiving](#39-proposed-data-archiving)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
-5. [Appendix A: Product Scope](#appendix-a-product-scope)
-6. [Appendix B: User Stories](#appendix-b-user-stories)
-7. [Appendix C: Use Cases](#appendix-c-use-cases)
-8. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
-9. [Appendix E: Glossary](#appendix-e-glossary)
-10. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
-11. [Appendix G: Planned Enhancements](#appendix-g-planned-enhancements)
-12. [Appendix H: Efforts](#appendix-h-effort)
-13. [Appendix I: Continuous Integration](#appendix-i-continuous-integration--continuous-deployment)
+5. [Appendix A: Command Parameters](#appendix-a-command-parameters)
+6. [Appendix B: Product Scope](#appendix-b-product-scope)
+7. [Appendix C: User Stories](#appendix-c-user-stories)
+8. [Appendix D: Use Cases](#appendix-d-use-cases)
+9. [Appendix E: Non-Functional Requirements](#appendix-e-non-functional-requirements)
+10. [Appendix F: Glossary](#appendix-f-glossary)
+11. [Appendix G: Instructions for Manual Testing](#appendix-g-instructions-for-manual-testing)
+12. [Appendix H: Planned Enhancements](#appendix-h-planned-enhancements)
+13. [Appendix I: Efforts](#appendix-i-effort)
+14. [Appendix J: Continuous Integration](#appendix-j-continuous-integration--continuous-deployment)
 
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Acknowledgements
 
-TheRealDeal is a greenfield group project that is based on AddressBook-Level3 created by [SE-EDU](https://se-education.org/).
+TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3) created by [SE-EDU](https://se-education.org/).
 
 ## Legend
-These boxes in the User Guide has additional information that you should take note of.
+These boxes in the Developer Guide has additional information that you should take note of.
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
@@ -67,7 +68,8 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in the `docs/diagrams` folder. Click [here](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit the diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in the `docs/diagrams` folder. <br>
+Click [here](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit the diagrams.
 </div>
 
 ### 2.1. Architecture
@@ -206,25 +208,35 @@ The `HelpCommand` opens up a separate window containing a link to the User Guide
 
 ##### Design Considerations
 We designed the `HelpCommand` to let the user copy and navigate to the User Guide link directly. <br>
-Users are also able to use the `F1` key to open up the help window.
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+Users can also press the <code>F1</code> key to open the help window
+</div>
 
 #### <u> List Command</u> (`list`)
-The `ListCommand` shows all the contacts/properties stored in the application.
+The `ListCommand` resets all current filters and displays all the contacts/properties stored in the application.
 
 ##### Execution
 The `ListCommand` calls the `Model` component to update the `FilteredList<Contact>` and `FilteredList<Property>` to show all of the `Contact` and `Property` in the list.
 
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+Users can switch to the list of contacts with: <code>filtercontact</code><br>
+Users can switch to the list of properties with: <code>filterproperty</code>
+</div>
+
 ##### Design Considerations
-We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. This is useful to revert the UI back to showing all contacts and properties after performing the commands `filtercontact` or `filterproperty`.
+We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. 
 
 #### <u>Clear Command</u> (`clear`)
-The `ClearCommand` allows users to delete all contacts/properties stored in the application
+The `ClearCommand` allows users to delete all contacts and properties stored in the application
 
 ##### Execution
 The `ClearCommand` sets the `Model` to be reference a new `AddressBook` and `PropertyBook` which effectively deletes all data that was previously stored.
 
 ##### Design Considerations
-We designed the `ClearCommand` to let users easily remove any data stored in the application and start fresh.
+We designed the `ClearCommand` to let users easily remove any data stored in the application and start afresh.
 
 #### <u>Exit Command</u> (`exit`)
 The `ExitCommand` allows users to close the application.
@@ -233,7 +245,7 @@ The `ExitCommand` allows users to close the application.
 The `ExitCommand` invokes the `handleExit` method in the `MainWindow` class which closes the UI (including the help window).
 
 ##### Design Considerations
-We designed the `ExitCommand` so that users can exit the application using the CLI as TheRealDeal is a CLI-based application.
+As TheRealDeal is a CLI-based application, the `ExitCommand` can be used to exit the application using the CLI.
 
 ### 3.2. Contact management
 
@@ -265,6 +277,7 @@ The parser constructs a new `Person` object that is wrapped inside a `AddContact
 Validation done:
 - Ensures compulsory fields are present
 - Ensures no duplicate fields are provided
+- Ensures each individual field meets the constraints of that field
 - Ensures Maximum Budget is not less than Minimum Budget
 - Unknown fields provided will throw a `ParseException`
 
@@ -403,7 +416,34 @@ Currently returns a placeholder message while property–client association stor
 [Configuration guide](Configuration.md)<br>
 [DevOps guide](DevOps.md)
 
-## Appendix A: Product Scope
+
+## Appendix A: Command Parameters
+This table shows every parameter and prefix used in TheRealDeal.
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+If the command states that the prefix is optional e.g. <code>n/NAME [t/TAG]</code><br>
+an empty parameter will be the same as not having the prefix<br>
+e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
+</div>
+
+| Parameter      | Prefix  | Constraints                                                                                                                 |
+|----------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                       |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                  |
+| Email          | e/      | Should follow the format: name@example.com                                                                                  |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                               |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                    |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                                |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000 |
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                               |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                   |
+| Limit          | limit/  |                                                                                                                             |
+| Offset         | offset/ |                                                                                                                             |
+|                |         |                                                                                                                             |
+
+
+## Appendix B: Product Scope
 
 **Target user profile**:
 
@@ -417,7 +457,7 @@ Currently returns a placeholder message while property–client association stor
 
 **Value proposition**: manage clients faster than a typical mouse/GUI driven app
 
-## Appendix B: User Stories
+## Appendix C: User Stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -449,7 +489,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
 | `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
 
-## Appendix C: Use Cases
+## Appendix D: Use Cases
 
 (For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
 
@@ -752,7 +792,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix D: Non-Functional Requirements
+## Appendix E: Non-Functional Requirements
 
 #### Business Rules
 
@@ -805,7 +845,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix E: Glossary
+## Appendix F: Glossary
 
 ### Glossary
 
@@ -824,7 +864,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix F: Instructions for Manual Testing
+## Appendix G: Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
 
@@ -877,19 +917,19 @@ testers are expected to do more *exploratory* testing.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix G: Planned Enhancements
+## Appendix H: Planned Enhancements
 
 To be updated.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix H: Effort
+## Appendix I: Effort
 
 To be updated.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix I: Continuous Integration / Continuous Deployment
+## Appendix J: Continuous Integration / Continuous Deployment
 Continuous Integration / Continuous Deployment (CI/CD) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
 
 CI/CD has been carried out as follows:
