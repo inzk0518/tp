@@ -186,7 +186,7 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
      * @throws ParseException If the string is not a valid positive integer.
      */
     Optional<Integer> parseLimit(Optional<String> value) throws ParseException {
-        if (value.isEmpty()) {
+        if (value.isEmpty() || value.get().isEmpty()) {
             return Optional.empty();
         }
         try {
@@ -206,7 +206,7 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
      * @throws ParseException If the string is not a valid non-negative integer.
      */
     Optional<Integer> parseOffset(Optional<String> value) throws ParseException {
-        if (value.isEmpty()) {
+        if (value.isEmpty() || value.get().isEmpty()) {
             return Optional.empty();
         }
         try {

@@ -95,10 +95,10 @@ public class FilterContactPredicate implements Predicate<Contact> {
                                 list.stream().anyMatch(k ->
                                         StringUtil.containsSubstringIgnoreCase(tag.tagName, k))))
                 .orElse(true)
-
-                && budgetMin.map(min -> Float.parseFloat(contact.getBudgetMin().value) <= min).orElse(true)
-
-                && budgetMax.map(max -> Float.parseFloat(contact.getBudgetMax().value) >= max).orElse(true)
+                // person minimum is more than or equals to input filter minimum
+                && budgetMin.map(min -> Float.parseFloat(contact.getBudgetMin().value) >= min).orElse(true)
+                // person maximum is less than or equals to input filter maximum
+                && budgetMax.map(max -> Float.parseFloat(contact.getBudgetMax().value) <= max).orElse(true)
 
                 && notes.map(list ->
                         list.stream().anyMatch(k ->

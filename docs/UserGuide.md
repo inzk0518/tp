@@ -188,7 +188,7 @@ For more information on the parameters, click [here](#command-parameters).
 
 Filters the contacts based on the fields given
 
-Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min/AMOUNT] [max/AMOUNT] [t/TAG...] [notes/TEXT...] [s/STATUS...] [limit/LIMIT] [offset/OFFSET]`
+Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min/AMOUNT] [max/AMOUNT] [t/TAG...] [notes/TEXT...] [status/STATUS...] [limit/LIMIT] [offset/OFFSET]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`.
 * Substring words will be matched e.g. `Bob` will match `Bobby`.
@@ -198,7 +198,7 @@ Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min
 
 Examples:
 * `filtercontact a/yishun`
-* `filtercontact n/Tan s/active inactive`
+* `filtercontact n/Tan status/active inactive`
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
@@ -424,9 +424,9 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 | Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                                        |
-| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                    |
-| **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                                                                                                      |
+| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer status/active notes/wants near school min/100000 max/300000`                                                                              |
+| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                               |
+| **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan status/active`                                                                                                                            |
 | **Delete Contact**          | `deletecontact UUID`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                 |
 | **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
 | **Filter Property**         | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                            |
