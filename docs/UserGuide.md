@@ -175,6 +175,12 @@ Examples:
 *  `editcontact 1 p/91234567 e/johndoe@example.com`
 *  `editcontact 2 n/Betsy Crower t/`
 
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+You are only able to edit the contacts currently shown on the GUI (even if they are stored in the address book). <br>
+i.e. Do not filter then edit a contact that has been filtered out. Reset the filter before editing.
+</div>
+
 For more information on the parameters, click [here](#command-parameters).
 
 ### Filtering contact : `filtercontact`
@@ -401,7 +407,15 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+
+2. **If you minimise the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimised, and no new Help Window will appear. The remedy is to manually restore the minimised Help Window.
+
+3. **Contact names do not support special characters.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). This becomes a drawback for property agents who wish to store their clients full name. The current workaround will be to only use alphanumeric characters (e.g. `son of` instead of `s/o`). Future improvements aim to support this functionality. 
+
+4. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). This becomes a drawback for property agents who communicate with international clients. Future improvements aim to support international phone number formats.
+
+5. **Lack of support for multiple phone numbers.** Currently, each contact can only store one phone number. This becomes a drawback for property agents who wish to store multiple numbers per person (e.g. Mobile, Home). Future improvements aim to support storing multing phone numbers per contact.
+
 
 --------------------------------------------------------------------------------------------------------------------
 

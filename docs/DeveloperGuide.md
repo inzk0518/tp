@@ -2,8 +2,6 @@
 layout: page
 title: Developer Guide
 ---
-# TheRealDeal - Developer Guide
-
 ## Table of Contents
 
 1. [Setting up](#1-setting-up)
@@ -18,25 +16,23 @@ title: Developer Guide
    1. [Contact management](#32-contact-management)
    2. [Property management](#33-property-management)
    3. [Contact–property linking](#34-clientproperty-linking)
-   4. [Proposed undo/redo feature](#38-proposed-undoredo-feature)
-   5. [Proposed data archiving](#39-proposed-data-archiving)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
-5. [Appendix A: Command Parameters](#appendix-a-command-parameters)
-6. [Appendix B: Product Scope](#appendix-b-product-scope)
-7. [Appendix C: User Stories](#appendix-c-user-stories)
-8. [Appendix D: Use Cases](#appendix-d-use-cases)
-9. [Appendix E: Non-Functional Requirements](#appendix-e-non-functional-requirements)
-10. [Appendix F: Glossary](#appendix-f-glossary)
-11. [Appendix G: Instructions for Manual Testing](#appendix-g-instructions-for-manual-testing)
-12. [Appendix H: Planned Enhancements](#appendix-h-planned-enhancements)
-13. [Appendix I: Efforts](#appendix-i-effort)
-14. [Appendix J: Continuous Integration](#appendix-j-continuous-integration--continuous-deployment)
+5. [Appendix: Command Parameters](#appendix-command-parameters)
+6. [Appendix: Product Scope](#appendix-product-scope)
+7. [Appendix: User Stories](#appendix-user-stories)
+8. [Appendix: Use Cases](#appendix-use-cases)
+9. [Appendix: Non-Functional Requirements](#appendix-non-functional-requirements)
+10. [Appendix: Glossary](#appendix-glossary)
+11. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
+12. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
+13. [Appendix: Efforts](#appendix-effort)
+14. [Appendix: Continuous Integration](#appendix-continuous-integration--continuous-deployment)
 
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Acknowledgements
 
-TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3) created by [SE-EDU](https://se-education.org/).
+TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3)(AB3) created by [SE-EDU](https://se-education.org/).
 
 ## Legend
 These boxes in the Developer Guide has additional information that you should take note of.
@@ -163,9 +159,9 @@ How the parsing works:
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="700" />
-<img src="images/ContactClassDiagram.png" width="700" />
-<img src="images/PropertyClassDiagram.png" width="700" />
+[ModelClassDiagram](images/ModelClassDiagram.png)
+[ContactClassDiagram](images/ContactClassDiagram.png)
+[PropertyClassDiagram](images/PropertyClassDiagram.png)
 
 The `Model` component,
 
@@ -277,9 +273,8 @@ The parser constructs a new `Person` object that is wrapped inside a `AddContact
 Validation done:
 - Ensures compulsory fields are present
 - Ensures no duplicate fields are provided
-- Ensures each individual field meets the constraints of that field
-- Ensures Maximum Budget is not less than Minimum Budget
-- Unknown fields provided will throw a `ParseException`
+- Ensures each individual field meets the constraints of that field (refer [here](#appendix-a-command-parameters) for the constraints)
+- Unknown parameters provided will throw a `ParseException`
 
 ##### Execution
 The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
@@ -319,6 +314,7 @@ The UUID is also validated and parsed.
 The parser creates an `EditPersonDescriptor` object that stores the newly edited fields.
 
 Validation done:
+- Same validation done as `addcontact`
 - At least one field must be edited
 - New person must not already be in the address book
 
@@ -326,7 +322,7 @@ Validation done:
 The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
 
 #### <u>Filter Contact Command</u> (`filtercontact`)
-The `filtercontact` command filters the contacts in the address book based on the criteria given. If no criteria is given, it will reset the address book back to its original state with every contact.
+The `filtercontact` command filters the contacts in the address book based on the criteria given.
 
 Optional Fields:
 - Name
@@ -346,6 +342,7 @@ The `FilterContactCommandParser` is responsible for parsing the command input. I
 A `FilterContactPredicate` is created that encapsulates all the filter conditions and is used to test whether a contact matches the given filters.
 
 Validation done:
+- Same validation done as `addcontact`
 - Proper data types and formats for numeric fields (e.g. budget, limit, offset)
 
 ##### Execution
@@ -367,7 +364,7 @@ Documentation pending.
 The `sold` command finds properties by they UUID and changes the status of the property to unavailable.
 
 Compulsory fields:
-- UUID (`p/` prefix)
+- UUID (using `p/` prefix)
 
 ##### Parsing and Validating User Input
 The `MarkSoldCommandParser` is responsible for parsing the command input.
@@ -384,15 +381,13 @@ The `MarkSoldCommand` executes by retrieving the `Property` object for each UUID
 The `unsold` command finds properties by they UUID and changes the status of the property to unavailable.
 
 Compulsory fields:
-- UUID (`p/` prefix)
+- UUID (using `p/` prefix)
 
 ##### Parsing and Validating User Input
 The `MarkUnsoldCommandParser` is responsible for parsing the command input.
 
 Validation done:
-- No duplicate UUID is given
-- No empty UUID is given
-- Property with the given UUID exists
+- Same validation done as `sold`
 
 ##### Execution
 The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
@@ -417,7 +412,7 @@ Currently returns a placeholder message while property–client association stor
 [DevOps guide](DevOps.md)
 
 
-## Appendix A: Command Parameters
+## Appendix: Command Parameters
 This table shows every parameter and prefix used in TheRealDeal.
 
 <div markdown="block" class="alert alert-info">
@@ -443,7 +438,7 @@ e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 |                |         |                                                                                                                             |
 
 
-## Appendix B: Product Scope
+## Appendix: Product Scope
 
 **Target user profile**:
 
@@ -457,7 +452,7 @@ e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 
 **Value proposition**: manage clients faster than a typical mouse/GUI driven app
 
-## Appendix C: User Stories
+## Appendix: User Stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -489,7 +484,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
 | `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
 
-## Appendix D: Use Cases
+## Appendix: Use Cases
 
 (For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
 
@@ -792,7 +787,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix E: Non-Functional Requirements
+## Appendix: Non-Functional Requirements
 
 #### Business Rules
 
@@ -845,7 +840,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix F: Glossary
+## Appendix: Glossary
 
 ### Glossary
 
@@ -864,7 +859,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix G: Instructions for Manual Testing
+## Appendix: Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
 
@@ -917,19 +912,40 @@ testers are expected to do more *exploratory* testing.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix H: Planned Enhancements
+## Appendix: Planned Enhancements
 
-To be updated.
+Team size: 5
+
+1. **Make command words and prefixes case-insensitive.** For example, `Addcontact` should be acceptable as a `addcontact` command and `N/` should be acceptable as a `Name` prefix. Users may make mistakes in the capitalisation of the commands and making the command words case-insensitive can help to save time.
+
+2. **Allow special characters to be used in contact names.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). Future improvements aim to support this functionality.
+
+3. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). Future improvements aim to support international phone number formats.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix I: Effort
+## Appendix: Effort
 
-To be updated.
+#### Difficulty Level and Effort Required
+This project was significantly harder and took more time that the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
+<br><br>
+Unlike AB3 which handles only `Contact`, this application handles both `Contact` and `Property` each with their distinct commands, models and UI components. This required a clear separation and linking between contacts and properties. Furthermore, this project was made significantly harder with the need of a comprehensive User Guide and Developer Guide.
+<br><br>
+A high proportion of effort was saved through reuse of AB3. Such examples include the `ReadOnlyPropertyBook` and `PropertyBook` which takes reference from `ReadOnlyAddressBook` and `AddressBook` which made it easier to implement the `Property` class as AB3 was easily extendable.
+
+#### Challenges Faced
+- More comprehensive input validation and testing because it is a CLI-based application
+- Coordinating and agreeing on the use case and format of a command as many changes were made week after week
+- Implementing complex parsers due to the presence of compulsory parameters, optional parameters or multi-word parameters
+
+#### Achievements of the Project
+- Extensive refactoring of AB3 with over 15,000 more lines of code with a high test coverage
+- Comprehensive features that extend AB3 into a real estate management application
+- Team collaboration and Software Engineering Principles (Git workflow, issue tracking, Single Level of Abstraction, logging)
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix J: Continuous Integration / Continuous Deployment
+## Appendix: Continuous Integration / Continuous Deployment
 Continuous Integration / Continuous Deployment (CI/CD) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
 
 CI/CD has been carried out as follows:
