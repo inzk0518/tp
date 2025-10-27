@@ -61,7 +61,7 @@ public class ShowPropertiesCommand extends Command {
         int numPropertiesFound = model.getFilteredPropertyList().size();
 
         if (numPropertiesFound == 0) {
-            return new CommandResult(String.format(MESSAGE_NO_PROPERTIES, contactUuid));
+            return new CommandResult(String.format(MESSAGE_NO_PROPERTIES, contactUuid.getValue()));
         }
 
         // Grammatically correct: "1 property" vs "2 properties"
