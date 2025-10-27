@@ -21,16 +21,16 @@ class PropertyBookParserTest {
 
     private static final String VALID_ADD_PROPERTY_COMMAND = String.join(" ",
             AddPropertyCommand.COMMAND_WORD,
-            "address/123 Main St 5",
-            "postal/123456",
+            "a/123 Main St 5",
+            "p/123456",
             "price/500000",
-            "type/HDB",
+            "t/HDB",
             "status/unavailable",
-            "bedroom/3",
-            "bathroom/2",
-            "floorarea/120",
-            "owner/owner123",
-            "listing/sale");
+            "bed/3",
+            "bath/2",
+            "f/120",
+            "o/owner123",
+            "l/sale");
 
     private static final String VALID_DELETE_PROPERTY_COMMAND = String.join(" ",
             DeletePropertyCommand.COMMAND_WORD,

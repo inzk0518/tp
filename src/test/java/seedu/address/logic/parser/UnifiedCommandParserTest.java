@@ -20,16 +20,16 @@ class UnifiedCommandParserTest {
 
     private static final String VALID_ADD_PROPERTY_COMMAND = String.join(" ",
             AddPropertyCommand.COMMAND_WORD,
-            "address/321 Market St 9",
-            "postal/654321",
+            "a/321 Market St 9",
+            "p/654321",
             "price/750000",
-            "type/Condo",
+            "t/Condo",
             "status/unavailable",
-            "bedroom/4",
-            "bathroom/3",
-            "floorarea/150",
-            "listing/rent",
-            "owner/owner321");
+            "bed/4",
+            "bath/3",
+            "f/150",
+            "l/rent",
+            "o/owner321");
 
     private final UnifiedCommandParser parser = new UnifiedCommandParser(List.of(
             new AddressBookParser(),
