@@ -904,11 +904,26 @@ testers are expected to do more *exploratory* testing.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+##### Missing data file
+To simulate:<br>
+Delete the `\data` folder and all `.json` files inside.
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+Expected:<br>
+Opening the application will generate sample data based on `SampleDataUtil.java`. Adding or editing any contacts/properties will save the data inside the `\data` folder.
 
-1. _{ more test cases …​ }_
+##### Corrupted data file
+To simulate:<br>
+Open `\data\addressbook.json` and add a `@` to `Contact` Name.
+
+Expected:<br>
+Opening the application will delete all contacts stored inside `addressbook.json`. No contacts will be shown on the GUI. Same steps can be carried out for `propertybook.json` by adding `abc` to `Property` Listing.
+
+##### Editing data file while application is open
+To simulate:<br>
+Open application and delete the `\data` folder and all `.json` files inside.
+
+Expected:<br>
+No change in the GUI and performing any command that adds or edits any contacts/properties will recreate the `\data` folder and the previously deleted `.json` files.
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -920,7 +935,7 @@ Team size: 5
 
 2. **Allow special characters to be used in contact names.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). Future improvements aim to support this functionality.
 
-3. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). Future improvements aim to support international phone number formats.
+3. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. `+60 123456789` or `(123)123-4567`). Future improvements aim to support international phone number formats.
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -941,7 +956,8 @@ A high proportion of effort was saved through reuse of AB3. Such examples includ
 #### Achievements of the Project
 - Extensive refactoring of AB3 with over 15,000 more lines of code with a high test coverage
 - Comprehensive features that extend AB3 into a real estate management application
-- Team collaboration and Software Engineering Principles (Git workflow, issue tracking, Single Level of Abstraction, logging)
+- Team collaboration and Software Engineering Principles (Git workflow, Issue tracking, Single Level of Abstraction, Logging)
+- Extensive User Guide and Developer Guide with the aid of (Unified Modelling Language) UML diagrams
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -957,7 +973,7 @@ CI/CD has been carried out as follows:
 Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test).
 
 #### Integrated GitHub tests
-We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu on every push or pull request. Through these tests, feature branches are tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed.
+We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu devices on every push or pull request. Through these tests, feature branches can be tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed.
 The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
 
 #### Code Coverage Reports
