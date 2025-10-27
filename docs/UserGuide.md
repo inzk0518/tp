@@ -324,7 +324,7 @@ Format: `clear`
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-<code>clear</code> will delete all the data in the system. Please use it carefully as you will not be able to retrieve the data back.
+<code>clear</code> is irreversible!. Please use it carefully as you will not be able to retrieve the data back.
 </div>
 
 ### Exiting the program : `exit`
@@ -363,7 +363,16 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
+**A**: Install the application in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
+<br>
+**Q**: Does TheRealDeal require internet connection?<br>
+**A**: The application will only require internet connection if you want to access the User Guide. Every other command works without internet connection.
+<br>
+**Q**: Where is the data for TheRealDeal stored?<br>
+**A**: Refer to [this](#editing-the-data-file) section to learn more.
+<br>
+**Q**: How do I back up my data?<br>
+**A**: You can save a copy of the `addressbook.json` and `propertybook.json` to a back up location.
 
 --------------------------------------------------------------------------------------------------------------------
 
