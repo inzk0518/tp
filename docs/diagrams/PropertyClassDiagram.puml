@@ -1,0 +1,34 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+Package Property as PropertyPackage <<Rectangle>>{
+Class Property
+Class PropertyAddress
+Class Bathroom
+Class Bedroom
+Class FloorArea
+Class Listing
+Class Postal
+Class Price
+Class Status
+Class Type
+Class Owner
+
+Class I #FFFFFF
+}
+
+Property *-left-> PropertyAddress
+Property *--> Bathroom
+Property *--> Bedroom
+Property *--> FloorArea
+Property *--> Listing
+Property *--> Postal
+Property *--> Price
+Property *--> Status
+Property *--> Type
+Property *-right-> Owner
+
+@enduml

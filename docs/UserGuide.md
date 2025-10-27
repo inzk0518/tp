@@ -41,7 +41,7 @@ Warns you of potential issues to should watch out for.
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the <br>
 `java -jar TheRealDeal.jar` command to run the application.<br><br>
 A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
-   
+
 ### to add picture ------------------------------
 
 
@@ -59,6 +59,7 @@ Mac Users: <code>⌘ + F</code>
 ### GUI Overview
 
 TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
+
 ![GUI Overview](images/GUI-UI.png)
 
 * `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
@@ -123,14 +124,24 @@ Refer to [Command Summary](#command-summary) for the list of commands and their 
 
 ### Listing all contacts and properties: `list`
 
-Displays all contacts and properties in the app. It resets any active filters and shows the complete list.
+Resets any active filters and shows the complete list of contacts or properties.
 
-Both contact and property cards display an ID field which represents the `UUID` of that contact/property.
+Both contact and property cards display an ID field which represents the Universally Unique Identifier (`UUID`) of that contact or property.
 This `UUID` will be used for other commands.
 
 Format: `list`
 
-![list result](images/listResult.png)
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+To switch to the list of contacts type: <code>filtercontact</code><br>
+To switch to the list of properties type: <code>filterproperty</code>
+</div>
+
+**Contact List**
+![list result contacts](images/listResultContacts.png)
+
+**Property List**
+![list result property](images/listResultProperties.png)
 
 ### Adding a contact : `addcontact`
 
@@ -142,6 +153,11 @@ Examples:
 * `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer status/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
 
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+By default, minimum budget will be $0 and maximum budget will be $200,000,000,000
+</div>
+
 For more information on the parameters, click [here](#command-parameters).
 
 ### Editing a contact : `editcontact`
@@ -150,15 +166,20 @@ Edits an existing contact in the address book.
 
 Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
-* Edits the contact that has the UUID specified `UUID`. 
-* The UUID refers to the ID number shown in the displayed contact list.
+* Edits the contact that has the `UUID` as specified which refers to the ID number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
 * When editing tags, the existing tags of the contact will be removed i.e adding of tags is not cumulative.
 * You can remove all the contact’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` 
-*  `edit 2 n/Betsy Crower t/`
+*  `editcontact 1 p/91234567 e/johndoe@example.com`
+*  `editcontact 2 n/Betsy Crower t/`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+You are only able to edit the contacts currently shown on the GUI (even if they are stored in the address book). <br>
+i.e. Do not filter then edit a contact that has been filtered out. Reset the filter before editing.
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -166,15 +187,22 @@ For more information on the parameters, click [here](#command-parameters).
 
 Filters the contacts based on the fields given
 
-Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`
+Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min/AMOUNT] [max/AMOUNT] [t/TAG...] [notes/TEXT...] [s/STATUS...] [limit/LIMIT] [offset/OFFSET]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* Substring words will be matched e.g. `Han` will match `Hans`
-* Contacts matching any one of the keyword will be shown. (meeting only one of the criteria is enough).
+* The search is case-insensitive. e.g `hans` will match `Hans`.
+* Substring words will be matched e.g. `Bob` will match `Bobby`.
+* Contacts matching any one of the keyword will be shown (meeting only one of the criteria is enough).
+* Filtering is cumulative. Once you filter by name, you can filter by address subsequently.
+* To filter multiple names e.g. `Bob` and `Alex`, you can type `filtercontact n/Bob Alex`.
 
 Examples:
 * `filtercontact a/yishun`
-* `filtercontact n/Tan s/active`
+* `filtercontact n/Tan s/active inactive`
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+To reset all filters, you can type <code>list</code>
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -324,7 +352,7 @@ Format: `clear`
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-<code>clear</code> will delete all the data in the system. Please use it carefully as you will not be able to retrieve the data back.
+<code>clear</code> is irreversible!. Please use it carefully as you will not be able to retrieve the data back.
 </div>
 
 ### Exiting the program : `exit`
@@ -346,7 +374,7 @@ TheRealDeal data is saved in the hard disk automatically after any command that 
 
 ### Editing the data file
 
-TheRealDeal data is saved automatically as two JSON files 
+TheRealDeal data is saved automatically as two JSON files
 1. `[JAR file location]/data/addressbook.json`
 2. `[JAR file location]/data/propertybook.json`
 
@@ -354,7 +382,7 @@ Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**
-If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+If your changes to the data file makes its format invalid, TheRealDeal will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br><br>
 Furthermore, certain edits can cause the TheRealDeal to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
@@ -363,14 +391,31 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
+**A**: Install the application in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TheRealDeal home folder.
+<br><br>
+**Q**: Does TheRealDeal require internet connection?<br>
+**A**: The application will only require internet connection if you want to access the User Guide. Every other command works without internet connection.
+<br><br>
+**Q**: Where is the data for TheRealDeal stored?<br>
+**A**: Refer to [this](#editing-the-data-file) section to learn more.
+<br><br>
+**Q**: How do I back up my data?<br>
+**A**: You can save a copy of the `addressbook.json` and `propertybook.json` to a back up location.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+
+2. **If you minimise the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimised, and no new Help Window will appear. The remedy is to manually restore the minimised Help Window.
+
+3. **Contact names do not support special characters.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). This becomes a drawback for property agents who wish to store their clients full name. The current workaround will be to only use alphanumeric characters (e.g. `son of` instead of `s/o`). Future improvements aim to support this functionality. 
+
+4. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). This becomes a drawback for property agents who communicate with international clients. Future improvements aim to support international phone number formats.
+
+5. **Lack of support for multiple phone numbers.** Currently, each contact can only store one phone number. This becomes a drawback for property agents who wish to store multiple numbers per person (e.g. Mobile, Home). Future improvements aim to support storing multing phone numbers per contact.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -378,10 +423,10 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 | Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add Contact**             | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                      |
-| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                           |
+| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                                        |
+| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                    |
 | **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                                                                                                      |
-| **Delete Contact**          | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                |
+| **Delete Contact**          | `deletecontact UUID`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                 |
 | **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
 | **Filter Property**         | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                            |
 | **Delete Property**         | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`                                                                                                                                                                                                                                                                             |
@@ -396,7 +441,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command Parameters
-This table shows every parameter and prefix used in TheRealDeal. 
+This table shows every parameter and prefix used in TheRealDeal.
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
@@ -405,20 +450,20 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter      | Prefix  | Constraints                                                                |
-|----------------|---------|----------------------------------------------------------------------------|
-| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces      |
-| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long |
-| Email          | e/      | Should follow the format: name@example.com                                 |
-| Address        | a/      | Can take any value. Maximum of 200 characters                              |
-| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord   |
-| Minimum Budget | min/    | Should be a non-negative integer                                           |
-| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget          |
-| Notes          | notes/  | Can take any value. Maximum of 500 characters                              |
-| Status         | status/ | Should only be these (case-insensitive): active, inactive                  |
-| Limit          | limit/  |                                                                            |
-| Offset         | offset/ |                                                                            |
-|                |         |                                                                            |
+| Parameter      | Prefix  | Constraints                                                                                                                 |
+|----------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                       |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                  |
+| Email          | e/      | Should follow the format: name@example.com                                                                                  |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                               |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                    |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                                |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000 |
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                               |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                   |
+| Limit          | limit/  |                                                                                                                             |
+| Offset         | offset/ |                                                                                                                             |
+|                |         |                                                                                                                             |
 
 ## Basic Command Terminal Navigation
 1. Determine the address of the folder where TheRealDeal is installed.
