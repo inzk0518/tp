@@ -29,7 +29,8 @@ public class MarkUnsoldCommand extends Command {
             + "Example: " + COMMAND_WORD + " p/7 p/33";
 
     public static final String MESSAGE_MARK_UNSOLD_SUCCESS = "Marked %d property(ies) as unsold.";
-    public static final String MESSAGE_PROPERTY_NOT_FOUND = "The properties with the following IDs were not found: ";
+    public static final String MESSAGE_PROPERTY_NOT_FOUND = "The properties with the following IDs were not found: %s\n"
+                                                             + "Command has been aborted.";
 
     private final Set<Uuid> propertyIds;
 
@@ -113,6 +114,6 @@ public class MarkUnsoldCommand extends Command {
                 .map(id -> String.valueOf(id.getValue()))
                 .reduce((a, b) -> a + ", " + b)
                 .orElse("");
-        return MESSAGE_PROPERTY_NOT_FOUND + idList;
+        return String.format(MESSAGE_PROPERTY_NOT_FOUND, idList);
     }
 }

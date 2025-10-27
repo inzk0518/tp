@@ -278,11 +278,19 @@ Examples:
 
 Marks the statuses of the properties given as unavailable.
 
-Format: `sold p/UUID...`
+Format: `sold p/PROPERTY_ID...`
+
+* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 
 Examples:
 * `sold p/1`
 * `sold p/2 p/3`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+If one of the <code>PROPERTY_ID</code> given is invalid, the whole command is aborted.
+The statuses of properties with valid <code>PROPERTY_ID</code> will not be changed.
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -290,11 +298,19 @@ For more information on the parameters, click [here](#command-parameters).
 
 Marks the statuses of the properties given as available.
 
-Format: `unsold p/UUID...`
+Format: `unsold p/PROPERTY_ID...`
+
+* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 
 Examples:
 * `unsold p/1`
 * `unsold p/2 p/3`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+If one of the <code>PROPERTY_ID</code> given is invalid, the whole command is aborted.
+The statuses of properties with valid <code>PROPERTY_ID</code> will not be changed.
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
