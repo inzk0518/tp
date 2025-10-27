@@ -3,11 +3,14 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.BUDGET_MAX_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.BUDGET_MIN_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
@@ -15,14 +18,22 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
+import static seedu.address.logic.commands.CommandTestUtil.STATUS_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_BUYER;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_TENANT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_BUDGET_MAX_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_BUDGET_MIN_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_STATUS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_TENANT;
+import static seedu.address.logic.parser.AddContactCommandParser.NAME_AND_PHONE_MISSING;
+import static seedu.address.logic.parser.AddContactCommandParser.NAME_MISSING;
+import static seedu.address.logic.parser.AddContactCommandParser.PHONE_MISSING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -37,7 +48,10 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddContactCommand;
+import seedu.address.model.contact.BudgetMax;
+import seedu.address.model.contact.BudgetMin;
 import seedu.address.model.contact.Contact;
+import seedu.address.model.contact.ContactStatus;
 import seedu.address.model.contact.Email;
 import seedu.address.model.contact.Name;
 import seedu.address.model.contact.Phone;
@@ -140,14 +154,18 @@ public class AddContactCommandParserTest {
     @Test
     public void parse_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
+        String expectedMissingName = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                "Name parameter (n/NAME) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
+        String expectedMissingPhone = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                "Phone parameter (p/PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
 
         // missing name prefix -> should fail
-        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
+        assertParseFailure(parser, PHONE_DESC_BOB + VALID_NAME_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
+                expectedMissingName);
 
         // missing phone prefix -> should fail
         assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
+                expectedMissingPhone);
 
         // missing email prefix -> should succeed, so test for success instead
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB,
@@ -193,7 +211,7 @@ public class AddContactCommandParserTest {
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + INVALID_TAG_DESC + VALID_TAG_BUYER, Tag.MESSAGE_CONSTRAINTS);
+                + INVALID_TAG_DESC, String.format(Tag.MESSAGE_CONSTRAINTS, INVALID_TAG));
 
         // one invalid value
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB,
@@ -211,7 +229,7 @@ public class AddContactCommandParserTest {
                 + " min/5000"
                 + " max/1000"; // max < min
         System.out.println(input);
-        assertParseFailure(parser, input, "Budget max cannot be less than budget min.");
+        assertParseFailure(parser, input, "Budget maximum cannot be lesser than budget minimum.");
     }
 
     @Test
@@ -221,28 +239,38 @@ public class AddContactCommandParserTest {
         // Name containing prefix-like value
         assertParseFailure(parser,
                 NAME_DESC_BOB.replace(VALID_NAME_BOB, prefixLikeValue) + PHONE_DESC_BOB,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+                        Name.MESSAGE_CONSTRAINTS);
 
         // Phone containing prefix-like value
         assertParseFailure(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB.replace(VALID_PHONE_BOB, prefixLikeValue),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+                        Phone.MESSAGE_CONSTRAINTS);
 
         // Email containing prefix-like value
         assertParseFailure(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB.replace(VALID_EMAIL_BOB, prefixLikeValue),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
-
-        // Address containing prefix-like value
-        assertParseFailure(parser,
-                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                        + ADDRESS_DESC_BOB.replace(VALID_ADDRESS_BOB, prefixLikeValue),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+                    Email.MESSAGE_CONSTRAINTS);
 
         // Tag containing prefix-like value
         assertParseFailure(parser,
-                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + " t/" + prefixLikeValue,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                        + TAG_DESC_BOB.replace(VALID_TAG_BUYER, prefixLikeValue),
+                        String.format(Tag.MESSAGE_CONSTRAINTS, prefixLikeValue));
+        // Budget Min containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB
+                        + BUDGET_MIN_DESC_BOB.replace(VALID_BUDGET_MIN_BOB, prefixLikeValue),
+                BudgetMin.MESSAGE_CONSTRAINTS);
+        // Budget Max containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB
+                        + BUDGET_MAX_DESC_BOB.replace(VALID_BUDGET_MAX_BOB, prefixLikeValue),
+                BudgetMax.MESSAGE_CONSTRAINTS);
+        // Status containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB
+                        + STATUS_DESC_BOB.replace(VALID_STATUS_BOB, prefixLikeValue),
+                String.format(ContactStatus.MESSAGE_CONSTRAINTS, prefixLikeValue));
     }
 
     @Test
@@ -254,5 +282,43 @@ public class AddContactCommandParserTest {
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + " " + PREFIX_NOTES + notesWithPrefixLike,
                 new AddContactCommand(expectedContact));
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_missingBothNameAndPhone_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                NAME_AND_PHONE_MISSING + AddContactCommand.MESSAGE_USAGE);
+
+        // Has email but missing both name and phone
+        assertParseFailure(parser, EMAIL_DESC_BOB + ADDRESS_DESC_BOB, expectedMessage);
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_missingNameOnly_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                NAME_MISSING + AddContactCommand.MESSAGE_USAGE);
+
+        // Has phone but missing name
+        assertParseFailure(parser, PHONE_DESC_BOB + EMAIL_DESC_BOB, expectedMessage);
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_missingPhoneOnly_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                PHONE_MISSING + AddContactCommand.MESSAGE_USAGE);
+
+        // Has name but missing phone
+        assertParseFailure(parser, NAME_DESC_BOB + EMAIL_DESC_BOB, expectedMessage);
+    }
+
+    @Test
+    public void validateRequiredPrefixesPresent_noParameters_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
+
+        // Empty input (no parameters at all)
+        assertParseFailure(parser, "", expectedMessage);
+
+        // Only whitespace
+        assertParseFailure(parser, "   ", expectedMessage);
     }
 }

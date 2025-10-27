@@ -32,7 +32,10 @@ import seedu.address.model.uuid.Uuid;
  * Parses input arguments and creates a new AddContactCommand object
  */
 public class AddContactCommandParser implements Parser<AddContactCommand> {
-
+    public static final String NAME_AND_PHONE_MISSING = "Name (n/NAME) and Phone (p/PHONE) parameters are missing.\n";
+    public static final String NAME_MISSING = "Name parameter (n/NAME) is missing.\n";
+    public static final String PHONE_MISSING = "Phone parameter (p/PHONE) is missing.\n";
+    public static final String BUDGET_MAX_MORE_THAN_MIN_ERROR = "Budget maximum cannot be lesser than budget minimum.";
     /**
      * Parses the given {@code String} of arguments in the context of the AddContactCommand
      * and returns an AddContactCommand object for execution.
@@ -46,24 +49,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
                                                                   PREFIX_BUDGET_MAX, PREFIX_NOTES,
                                                                   PREFIX_STATUS);
 
-        if (!argMultimap.arePrefixesPresent(PREFIX_NAME, PREFIX_PHONE) // only name and phone are compulsory prefixes
-                || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
-        }
-
-        // Check for any unrecognised prefixes inside values
-        for (Prefix prefix : argMultimap.getAllPrefixes()) {
-            // Skip checking for notes prefix, since '/' is valid in notes
-            if (prefix.equals(PREFIX_NOTES)) {
-                continue;
-            }
-            for (String value : argMultimap.getAllValues(prefix)) {
-                if (ParserUtil.looksLikePrefix(value)) {
-                    throw new ParseException(String.format(
-                            MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
-                }
-            }
-        }
+        validateRequiredPrefixesPresent(argMultimap);
 
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
@@ -84,7 +70,7 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
 
         // Validate budget range
         if (Long.parseLong(budgetMax.toString()) < Long.parseLong(budgetMin.toString())) {
-            throw new ParseException("Budget max cannot be less than budget min.");
+            throw new ParseException(BUDGET_MAX_MORE_THAN_MIN_ERROR);
         }
 
         // Correct UUID will be made in AddContactCommand
@@ -93,5 +79,40 @@ public class AddContactCommandParser implements Parser<AddContactCommand> {
                                    emptyBuyingPropertyIds, emptySellingPropertyIds);
 
         return new AddContactCommand(contact);
+    }
+
+    /**
+     * Validates that all required prefixes are present (PREFIX_NAME, PREFIX_PHONE)
+     * and that the preamble is empty.
+     *
+     * @param argMultimap The argument multimap containing parsed arguments.
+     * @throws ParseException if required prefixes (name and phone) are missing
+     *                        or if the preamble is not empty.
+     */
+    private void validateRequiredPrefixesPresent(ArgumentMultimap argMultimap) throws ParseException {
+        boolean hasName = argMultimap.arePrefixesPresent(PREFIX_NAME);
+        boolean hasPhone = argMultimap.arePrefixesPresent(PREFIX_PHONE);
+        boolean hasAnyParameter = argMultimap.getAllPrefixes()
+                                    .stream()
+                                    .anyMatch(prefix -> !prefix.getPrefix().isEmpty());
+
+        // Check if preamble is not empty
+        // for commands like addcontact abc
+        // If no parameters at all, show only the normal error
+        if (!argMultimap.getPreamble().isEmpty() || !hasAnyParameter) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE));
+        }
+
+        // Check for missing compulsory parameters
+        if (!hasName && !hasPhone) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    NAME_AND_PHONE_MISSING + AddContactCommand.MESSAGE_USAGE));
+        } else if (!hasName) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    NAME_MISSING + AddContactCommand.MESSAGE_USAGE));
+        } else if (!hasPhone) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    PHONE_MISSING + AddContactCommand.MESSAGE_USAGE));
+        }
     }
 }
