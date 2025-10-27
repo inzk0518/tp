@@ -142,6 +142,11 @@ Examples:
 * `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer status/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
 
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+By default, minimum budget will be $0 and maximum budget will be $200,000,000,000
+</div>
+
 For more information on the parameters, click [here](#command-parameters).
 
 ### Editing a contact : `editcontact`
@@ -157,8 +162,8 @@ Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] 
 * You can remove all the contact’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com`
-*  `edit 2 n/Betsy Crower t/`
+*  `editcontact 1 p/91234567 e/johndoe@example.com`
+*  `editcontact 2 n/Betsy Crower t/`
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -170,11 +175,17 @@ Format: `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [ma
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * Substring words will be matched e.g. `Han` will match `Hans`
-* Contacts matching any one of the keyword will be shown. (meeting only one of the criteria is enough).
+* Contacts matching any one of the keyword will be shown (meeting only one of the criteria is enough).
+* Filtering is cumulative. Once you filter by name, you can also filter by address.
 
 Examples:
 * `filtercontact a/yishun`
 * `filtercontact n/Tan s/active`
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+To reset all filters, you can type <code>list</code>
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -388,7 +399,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 | Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add Contact**             | `addcontact addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                                                                      |
-| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`edit 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                           |
+| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                    |
 | **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                                                                                                      |
 | **Delete Contact**          | `deletecontact INDEX`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                |
 | **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
@@ -414,20 +425,20 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter      | Prefix  | Constraints                                                                |
-|----------------|---------|----------------------------------------------------------------------------|
-| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces      |
-| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long |
-| Email          | e/      | Should follow the format: name@example.com                                 |
-| Address        | a/      | Can take any value. Maximum of 200 characters                              |
-| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord   |
-| Minimum Budget | min/    | Should be a non-negative integer                                           |
-| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget          |
-| Notes          | notes/  | Can take any value. Maximum of 500 characters                              |
-| Status         | status/ | Should only be these (case-insensitive): active, inactive                  |
-| Limit          | limit/  |                                                                            |
-| Offset         | offset/ |                                                                            |
-|                |         |                                                                            |
+| Parameter      | Prefix  | Constraints                                                                                                                 |
+|----------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                       |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                  |
+| Email          | e/      | Should follow the format: name@example.com                                                                                  |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                               |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                    |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                                |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000 |
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                               |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                   |
+| Limit          | limit/  |                                                                                                                             |
+| Offset         | offset/ |                                                                                                                             |
+|                |         |                                                                                                                             |
 
 ## Basic Command Terminal Navigation
 1. Determine the address of the folder where TheRealDeal is installed.
