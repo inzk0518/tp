@@ -286,9 +286,49 @@ Documentation pending.
 ### 3.3. Client–property linking
 
 #### `LinkCommand` (`link`)
+The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
+
+Compulsory fields:
+- Contact UUID
+- Property UUID
+- Relationship (buyer/seller)
+
+Optional fields:
+- Additional contact UUIDs
+- Additional property UUIDs
+
+##### Parsing and Validating User Input
+The `LinkCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_CONTACT_ID`, `PREFIX_PROPERTY_ID`, `PREFIX_LINK_RELATIONSHIP`)
+Each UUID is also validated and parsed.
+
+The parser creates an `LinkDescriptor` object that stores the parsed UUIDs and relationship.
+
+Validation done:
+- No duplicate relationship parameter
+
+##### Execution
 Documentation pending.
 
 #### `UnlinkCommand` (`unlink`)
+The `unlink` command is designed to unlink contacts in the address book from properties in the property book, each identified by their UUID.
+
+Compulsory fields:
+- Contact UUID
+- Property UUID
+
+Optional fields:
+- Additional contact UUIDs
+- Additional property UUIDs
+
+##### Parsing and Validating User Input
+The `UnlinkCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_CONTACT_ID`, `PREFIX_PROPERTY_ID`)
+Each UUID is also validated and parsed.
+
+The parser creates an `UnlinkDescriptor` object that stores the parsed UUIDs and relationship.
+
+##### Execution
 Documentation pending.
 
 #### `ShowClientsCommand` (`showclients`)
@@ -668,6 +708,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 4a1. System displays "No properties found" message
 
       Use case ends
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix D: Non-Functional Requirements
@@ -720,6 +761,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix E: Glossary
@@ -740,58 +782,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Floor Area**: The size of a property measured in square feet
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix F: Instructions for Manual Testing
-
-Given below are instructions to test the app manually.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
-
-</div>
-
-### Launch and shutdown
-
-1. Initial launch
-
-   1. Download the jar file and copy into an empty folder
-
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
-1. Saving window preferences
-
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-   1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
-
-1. _{ more test cases …​ }_
-
-### Deleting a contact
-
-1. Deleting a contact while all contacts are being shown
-
-   1. Prerequisites: List all contacts using the `list` command. Multiple contacts in the list.
-
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
-   1. Test case: `delete 0`<br>
-      Expected: No contact is deleted. Error details shown in the status message. Status bar remains the same.
-
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
-
-1. _{ more test cases …​ }_
-
-### Saving data
-
-1. Dealing with missing/corrupted data files
-
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-
-1. _{ more test cases …​ }_
----------------------------------------------------------------------------------------------------------------------
-
-## Appendix G: Efforts
+## Appendix F: Efforts
 
 To be updated.
