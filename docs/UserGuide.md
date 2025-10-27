@@ -292,9 +292,9 @@ Format: `link c/CONTACT_ID... p/PROPERTY_ID...`
 
 Displays all properties associated with a specific contact by their UUID.
 
-Format: `showproperties c/CONTACT_UUID`
+Format: `showproperties c/CONTACT_ID`
 
-* `CONTACT_UUID` refers to the UUID of the contact shown in the contact list.
+* `CONTACT_ID` refers to the UUID of the contact shown in the contact list.
 * The view automatically switches to show the property list.
 * If no properties are found, suggestions will be provided.
 
@@ -306,9 +306,9 @@ Examples:
 
 Displays all contacts associated with a specific property by their UUID.
 
-Format: `showcontacts p/PROPERTY_UUID`
+Format: `showcontacts p/PROPERTY_ID`
 
-* `PROPERTY_UUID` refers to the UUID of the property shown in the property list.
+* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 * The view automatically switches to show the contact list.
 * If no contacts are found, suggestions will be provided.
 
