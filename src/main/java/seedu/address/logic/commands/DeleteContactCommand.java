@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -31,7 +32,7 @@ public class DeleteContactCommand extends Command {
     public static final String MESSAGE_DELETE_CONTACT_SUCCESS = "Deleted Contact: %1$s";
     public static final String MESSAGE_CONTACT_NOT_FOUND = "No contact found with UUID: %s";
 
-    private static final Logger logger = Logger.getLogger(DeleteContactCommand.class.getName());
+    private static final Logger logger = LogsCenter.getLogger(DeleteContactCommand.class);
 
     private final Uuid targetUuid;
 
@@ -48,7 +49,10 @@ public class DeleteContactCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert targetUuid != null : "targetUuid should not be null";
+
         List<Contact> lastShownList = model.getFilteredContactList();
+        assert lastShownList != null : "Filtered contact list should not be null";
 
         Optional<Contact> contactToDelete = lastShownList.stream()
                 .filter(p -> p.getUuid().equals(targetUuid))

@@ -227,7 +227,7 @@ public class ParserUtil {
      */
     public static Notes parseNotes(String notes) throws ParseException {
         String trimmedNotes = sanitiseNull(notes, "").trim();
-        return new Notes(trimmedNotes); //TODO add exception?
+        return new Notes(trimmedNotes);
     }
 
     /**
