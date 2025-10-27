@@ -31,8 +31,7 @@ public class FilterContactCommand extends Command {
     public static final String COMMAND_WORD = "filtercontact";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters all contacts in the address book "
-            + "based on the given fields. All prefixes are optional. "
-            + "If no prefixes are given, the filter will be reset.\n"
+            + "based on the given fields. All prefixes are optional. \n"
             + "Parameters: "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
@@ -45,7 +44,7 @@ public class FilterContactCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]..."
             + "[" + PREFIX_LIMIT + "LIMIT]"
             + "[" + PREFIX_OFFSET + "OFFSET]...\n"
-            + "Example: " + COMMAND_WORD
+            + "Example: " + COMMAND_WORD + " "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 

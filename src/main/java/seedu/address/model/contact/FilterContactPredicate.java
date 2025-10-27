@@ -22,8 +22,8 @@ public class FilterContactPredicate implements Predicate<Contact> {
     private final Optional<List<String>> emails;
     private final Optional<List<String>> addresses;
     private final Optional<List<String>> tags;
-    private final Optional<Integer> budgetMin;
-    private final Optional<Integer> budgetMax;
+    private final Optional<Long> budgetMin;
+    private final Optional<Long> budgetMax;
     private final Optional<List<String>> notes;
     private final Optional<List<String>> status;
     private final Optional<Integer> limit;
@@ -49,8 +49,8 @@ public class FilterContactPredicate implements Predicate<Contact> {
                                   Optional<List<String>> emails,
                                   Optional<List<String>> addresses,
                                   Optional<List<String>> tags,
-                                  Optional<Integer> budgetMin,
-                                  Optional<Integer> budgetMax,
+                                  Optional<Long> budgetMin,
+                                  Optional<Long> budgetMax,
                                   Optional<List<String>> notes,
                                   Optional<List<String>> status,
                                   Optional<Integer> limit,
