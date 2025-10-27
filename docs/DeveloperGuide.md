@@ -199,7 +199,7 @@ This section describes some noteworthy details on how certain features are imple
 
 These features do not require any parameters and do not have a corresponding `Parser` class so is directly instantiated in `AddressBookParser`.
 
-#### <u> Help Command</u> (`help`) 
+#### <u> Help Command</u> (`help`)
 The `HelpCommand` opens up a separate window containing a link to the User Guide.
 
 ![help message](images/helpMessage.png)
@@ -212,7 +212,7 @@ Users are also able to use the `F1` key to open up the help window.
 The `ListCommand` shows all the contacts/properties stored in the application.
 
 ##### Execution
-The `ListCommand` calls the `Model` component to update the `FilteredList<Contact>` and `FilteredList<Property>` to show all of the `Contact` and `Property` in the list. 
+The `ListCommand` calls the `Model` component to update the `FilteredList<Contact>` and `FilteredList<Property>` to show all of the `Contact` and `Property` in the list.
 
 ##### Design Considerations
 We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. This is useful to revert the UI back to showing all contacts and properties after performing the commands `filtercontact` or `filterproperty`.
@@ -230,7 +230,7 @@ We designed the `ClearCommand` to let users easily remove any data stored in the
 The `ExitCommand` allows users to close the application.
 
 ##### Execution
-The `ExitCommand` invokes the `handleExit` method in the `MainWindow` class which closes the UI (including the help window). 
+The `ExitCommand` invokes the `handleExit` method in the `MainWindow` class which closes the UI (including the help window).
 
 ##### Design Considerations
 We designed the `ExitCommand` so that users can exit the application using the CLI as TheRealDeal is a CLI-based application.
@@ -241,10 +241,10 @@ All contacts are stored as `Contact` objects inside the `UniqueContactList` obje
 There is also an additional `FilteredList<Contact>` inside the `ModelManager` that stores the `Contact` that are displayed on the UI which is updated whenever the user issues a command that changes the UI.
 
 #### <u>Add Command</u> (`addcontact`)
-The `addcontact` command is designed to add a new contact to the address book. 
+The `addcontact` command is designed to add a new contact to the address book.
 
 Compulsory fields:
-- Name 
+- Name
 - Phone Number
 
 Optional Fields:
@@ -749,7 +749,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 4a1. System displays "No properties found" message
 
       Use case ends
-  
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix D: Non-Functional Requirements
@@ -802,7 +802,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. **Technical Constraints**
    * Must be developed using Java 17 and JavaFX for GUI components
    * Command-line interface must remain the primary interaction method
-   
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix E: Glossary
@@ -813,7 +813,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Client**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
 * **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
 * **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
-* **Client ID**: A unique identifier assigned to clients for precise identification 
+* **Client ID**: A unique identifier assigned to clients for precise identification
 * **Property ID**: A unique identifier assigned to properties for precise identification
 * **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
 * **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
@@ -901,7 +901,7 @@ CI/CD has been carried out as follows:
 Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test).
 
 #### Integrated GitHub tests
-We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu on every push or pull request. Through these tests, feature branches are tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed. 
+We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu on every push or pull request. Through these tests, feature branches are tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed.
 The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
 
 #### Code Coverage Reports

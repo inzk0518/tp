@@ -41,7 +41,7 @@ Warns you of potential issues to should watch out for.
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the <br>
 `java -jar TheRealDeal.jar` command to run the application.<br><br>
 A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
-   
+
 ### to add picture ------------------------------
 
 
@@ -150,14 +150,14 @@ Edits an existing contact in the address book.
 
 Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
-* Edits the contact that has the UUID specified `UUID`. 
+* Edits the contact that has the UUID specified `UUID`.
 * The UUID refers to the ID number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
 * When editing tags, the existing tags of the contact will be removed i.e adding of tags is not cumulative.
 * You can remove all the contact’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` 
+*  `edit 1 p/91234567 e/johndoe@example.com`
 *  `edit 2 n/Betsy Crower t/`
 
 For more information on the parameters, click [here](#command-parameters).
@@ -346,7 +346,7 @@ TheRealDeal data is saved in the hard disk automatically after any command that 
 
 ### Editing the data file
 
-TheRealDeal data is saved automatically as two JSON files 
+TheRealDeal data is saved automatically as two JSON files
 1. `[JAR file location]/data/addressbook.json`
 2. `[JAR file location]/data/propertybook.json`
 
@@ -396,7 +396,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command Parameters
-This table shows every parameter and prefix used in TheRealDeal. 
+This table shows every parameter and prefix used in TheRealDeal.
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
