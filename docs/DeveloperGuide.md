@@ -2,8 +2,6 @@
 layout: page
 title: Developer Guide
 ---
-# TheRealDeal v1.0 - Developer Guide
-
 ## Table of Contents
 
 1. [Setting up](#1-setting-up)
@@ -15,30 +13,44 @@ title: Developer Guide
    5. [Storage component](#25-storage-component)
    6. [Common classes](#26-common-classes)
 3. [Implementation](#3-implementation)
-   1. [Contact management](#31-contact-management)
-   2. [Property management](#32-property-management)
-   3. [Contact–property linking](#33-clientproperty-linking)
-   4. [Contact filtering](#34-contact-filtering)
-   5. [Logging](#35-logging)
-   6. [Configuration](#36-configuration)
-   7. [Proposed undo/redo feature](#37-proposed-undoredo-feature)
-   8. [Proposed data archiving](#38-proposed-data-archiving)
-4. [Documentation](#4-documentation)
-5. [Testing](#5-testing)
-6. [Dev Ops](#6-dev-ops)
-7. [Appendix A: Product Scope](#appendix-a-product-scope)
-8. [Appendix B: User Stories](#appendix-b-user-stories)
-9. [Appendix C: Use Cases](#appendix-c-use-cases)
-10. [Appendix D: Non-Functional Requirements](#appendix-d-non-functional-requirements)
-11. [Appendix E: Glossary](#appendix-e-glossary)
-12. [Appendix F: Instructions for Manual Testing](#appendix-f-instructions-for-manual-testing)
-13. [Appendix G: Efforts](#appendix-g-efforts)
+   1. [Contact management](#32-contact-management)
+   2. [Property management](#33-property-management)
+   3. [Contact–property linking](#34-clientproperty-linking)
+4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
+5. [Appendix: Command Parameters](#appendix-command-parameters)
+6. [Appendix: Product Scope](#appendix-product-scope)
+7. [Appendix: User Stories](#appendix-user-stories)
+8. [Appendix: Use Cases](#appendix-use-cases)
+9. [Appendix: Non-Functional Requirements](#appendix-non-functional-requirements)
+10. [Appendix: Glossary](#appendix-glossary)
+11. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
+12. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
+13. [Appendix: Efforts](#appendix-effort)
+14. [Appendix: Continuous Integration](#appendix-continuous-integration--continuous-deployment)
 
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Acknowledgements
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3)(AB3) created by [SE-EDU](https://se-education.org/).
+
+## Legend
+These boxes in the Developer Guide has additional information that you should take note of.
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+Highlights important details to be aware of.
+</div>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+Provides you with helpful advice like keyboard shortcuts to use the application more effectively.
+</div>
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+Warns you of potential issues to should watch out for.
+</div>
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -52,7 +64,8 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in the `docs/diagrams` folder. <br>
+Click [here](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit the diagrams.
 </div>
 
 ### 2.1. Architecture
@@ -144,23 +157,19 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### 2.4. Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
-
+[ModelClassDiagram](images/ModelClassDiagram.png)
+[ContactClassDiagram](images/ContactClassDiagram.png)
+[PropertyClassDiagram](images/PropertyClassDiagram.png)
 
 The `Model` component,
 
 * stores the address book data i.e., all `Contact` objects (which are contained in a `UniqueContactList` object).
-* stores the currently 'selected' `Contact` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Contact>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores the property book data i.e., all `Property` objects (which are contained in a `UniquePropertyList` object).
+* stores the currently 'selected' `Contact`/`Property` objects (e.g., results of a filter query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Contact>`/`ObservableList<Property>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores a `UserPrefs` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Contact` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Contact` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
 
 
 ### 2.5. Storage component
@@ -176,22 +185,74 @@ The `Storage` component,
 
 ### 2.6. Common classes
 
-Classes used by multiple components are in the `seedu.address.commons` package.
+Classes used by multiple components are in the `seedu.address.commons` package. These classes provide utility functions that are used in many classes such as `StringUtil`, `ToStringBuilder` etc.
+
 ---------------------------------------------------------------------------------------------------------------------
 
 ## 3. Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### 3.1. Contact management
+### 3.1. General Features
 
-The following subsections enumerate the currently implemented commands for managing contacts and core application behaviour. Detailed write-ups will be added as each feature stabilises.
+These features do not require any parameters and do not have a corresponding `Parser` class so is directly instantiated in `AddressBookParser`.
 
-#### Add Command (`addcontact`)
-The `addcontact` command is designed to add a new contact to the address book. 
+#### <u> Help Command</u> (`help`)
+The `HelpCommand` opens up a separate window containing a link to the User Guide.
+
+![help message](images/helpMessage.png)
+
+##### Design Considerations
+We designed the `HelpCommand` to let the user copy and navigate to the User Guide link directly. <br>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+Users can also press the <code>F1</code> key to open the help window
+</div>
+
+#### <u> List Command</u> (`list`)
+The `ListCommand` resets all current filters and displays all the contacts/properties stored in the application.
+
+##### Execution
+The `ListCommand` calls the `Model` component to update the `FilteredList<Contact>` and `FilteredList<Property>` to show all of the `Contact` and `Property` in the list.
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+Users can switch to the list of contacts with: <code>filtercontact</code><br>
+Users can switch to the list of properties with: <code>filterproperty</code>
+</div>
+
+##### Design Considerations
+We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. 
+
+#### <u>Clear Command</u> (`clear`)
+The `ClearCommand` allows users to delete all contacts and properties stored in the application
+
+##### Execution
+The `ClearCommand` sets the `Model` to be reference a new `AddressBook` and `PropertyBook` which effectively deletes all data that was previously stored.
+
+##### Design Considerations
+We designed the `ClearCommand` to let users easily remove any data stored in the application and start afresh.
+
+#### <u>Exit Command</u> (`exit`)
+The `ExitCommand` allows users to close the application.
+
+##### Execution
+The `ExitCommand` invokes the `handleExit` method in the `MainWindow` class which closes the UI (including the help window).
+
+##### Design Considerations
+As TheRealDeal is a CLI-based application, the `ExitCommand` can be used to exit the application using the CLI.
+
+### 3.2. Contact management
+
+All contacts are stored as `Contact` objects inside the `UniqueContactList` object under the `AdressBook` component. <br><br>
+There is also an additional `FilteredList<Contact>` inside the `ModelManager` that stores the `Contact` that are displayed on the UI which is updated whenever the user issues a command that changes the UI.
+
+#### <u>Add Command</u> (`addcontact`)
+The `addcontact` command is designed to add a new contact to the address book.
 
 Compulsory fields:
-- Name 
+- Name
 - Phone Number
 
 Optional Fields:
@@ -212,14 +273,14 @@ The parser constructs a new `Person` object that is wrapped inside a `AddContact
 Validation done:
 - Ensures compulsory fields are present
 - Ensures no duplicate fields are provided
-- Ensures Maximum Budget is not less than Minimum Budget
-- Unknown fields provided will throw a `ParseException`
+- Ensures each individual field meets the constraints of that field (refer [here](#appendix-a-command-parameters) for the constraints)
+- Unknown parameters provided will throw a `ParseException`
 
 ##### Execution
 The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
 
-#### Delete Command (`delete`)
-The `delete` command is designed to delete an existing contact from the address book, identified by their UUID.
+#### <u>Delete Command</u> (`deletecontact`)
+The `deletecontact` command is designed to delete an existing contact from the address book, identified by their UUID.
 
 Compulsory fields:
 - UUID
@@ -228,8 +289,8 @@ Compulsory fields:
 The `DeleteContactCommandParser` class is responsible for parsing the command input.
 Documentation pending.
 
-#### Edit Command (`edit`)
-The `edit` command is designed to edit a contact in the address book, identified by their UUID.
+#### <u>Edit Command</u> (`editcontact`)
+The `editcontact` command is designed to edit a contact in the address book, identified by their UUID.
 
 Compulsory fields:
 - UUID
@@ -253,26 +314,42 @@ The UUID is also validated and parsed.
 The parser creates an `EditPersonDescriptor` object that stores the newly edited fields.
 
 Validation done:
+- Same validation done as `addcontact`
 - At least one field must be edited
 - New person must not already be in the address book
 
 ##### Execution
 The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
 
+#### <u>Filter Contact Command</u> (`filtercontact`)
+The `filtercontact` command filters the contacts in the address book based on the criteria given.
 
-#### `ListCommand` (`list`)
-Documentation pending.
+Optional Fields:
+- Name
+- Phone Number
+- Address
+- Email
+- Minimum Budget
+- Maximum Budget
+- Tag
+- Notes
+- Status
+- Limit
+- Offset
 
-#### `ClearCommand` (`clear`)
-Documentation pending.
+##### Parsing and Validating User Input
+The `FilterContactCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc) <br><br>
+A `FilterContactPredicate` is created that encapsulates all the filter conditions and is used to test whether a contact matches the given filters.
 
-#### `HelpCommand` (`help`)
-Documentation pending.
+Validation done:
+- Same validation done as `addcontact`
+- Proper data types and formats for numeric fields (e.g. budget, limit, offset)
 
-#### `ExitCommand` (`exit`)
-Documentation pending.
+##### Execution
+`FilterContactCommand` applies the `FilterContactPredicate` over the existing filtered contact list and produces a list of matching contacts. It is also changed based on the `limit` and `offset` given.
+The UI is then updated based on which contacts that match the predicate.
 
-### 3.2. Property management
+### 3.3. Property management
 
 #### `AddPropertyCommand` (`addproperty`)
 `AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
@@ -283,7 +360,39 @@ Documentation pending.
 #### `ShowPropertiesCommand` (`showproperties`)
 Documentation pending.
 
-### 3.3. Client–property linking
+#### <u>Mark Property as Sold Command</u> (`sold`)
+The `sold` command finds properties by they UUID and changes the status of the property to unavailable.
+
+Compulsory fields:
+- UUID (using `p/` prefix)
+
+##### Parsing and Validating User Input
+The `MarkSoldCommandParser` is responsible for parsing the command input.
+
+Validation done:
+- No duplicate UUID is given
+- No empty UUID is given
+- Property with the given UUID exists
+
+##### Execution
+The `MarkSoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
+
+#### <u>Mark Property as Unsold Command</u> (`unsold`)
+The `unsold` command finds properties by they UUID and changes the status of the property to unavailable.
+
+Compulsory fields:
+- UUID (using `p/` prefix)
+
+##### Parsing and Validating User Input
+The `MarkUnsoldCommandParser` is responsible for parsing the command input.
+
+Validation done:
+- Same validation done as `sold`
+
+##### Execution
+The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
+
+### 3.4. Client–property linking
 
 #### `LinkCommand` (`link`)
 The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
@@ -334,35 +443,42 @@ Documentation pending.
 #### `ShowClientsCommand` (`showclients`)
 Currently returns a placeholder message while property–client association storage is being developed.
 
-### 3.4. Contact filtering
+### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
-#### `FilterContactCommand` (`filtercontact`)
-Documentation pending.
-
-### 3.5. Logging
-
-Refer to the [Logging guide](Logging.md) for instrumentation and diagnostic practices, including logger configuration and log file expectations.
-
-### 3.6. Configuration
-
-Refer to the [Configuration guide](Configuration.md) for configuration file structure, editing workflow, and supported keys.
+[Documentation guide](Documentation.md)<br>
+[Logging guide](Logging.md)<br>
+[Testing guide](Testing.md)<br>
+[Configuration guide](Configuration.md)<br>
+[DevOps guide](DevOps.md)
 
 
-## 4. Documentation
+## Appendix: Command Parameters
+This table shows every parameter and prefix used in TheRealDeal.
 
-* [Documentation guide](Documentation.md)
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+If the command states that the prefix is optional e.g. <code>n/NAME [t/TAG]</code><br>
+an empty parameter will be the same as not having the prefix<br>
+e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
+</div>
 
-## 5. Testing
+| Parameter      | Prefix  | Constraints                                                                                                                 |
+|----------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                       |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                  |
+| Email          | e/      | Should follow the format: name@example.com                                                                                  |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                               |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                    |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                                |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000 |
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                               |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                   |
+| Limit          | limit/  |                                                                                                                             |
+| Offset         | offset/ |                                                                                                                             |
+|                |         |                                                                                                                             |
 
-* [Testing guide](Testing.md)
 
-## 6. Dev Ops
-
-* [Logging guide](Logging.md)
-* [Configuration guide](Configuration.md)
-* [DevOps guide](DevOps.md)
-
-## Appendix A: Product Scope
+## Appendix: Product Scope
 
 **Target user profile**:
 
@@ -376,7 +492,7 @@ Refer to the [Configuration guide](Configuration.md) for configuration file stru
 
 **Value proposition**: manage clients faster than a typical mouse/GUI driven app
 
-## Appendix B: User Stories
+## Appendix: User Stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -408,7 +524,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
 | `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
 
-## Appendix C: Use Cases
+## Appendix: Use Cases
 
 (For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
 
@@ -711,7 +827,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix D: Non-Functional Requirements
+## Appendix: Non-Functional Requirements
 
 #### Business Rules
 
@@ -764,7 +880,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix E: Glossary
+## Appendix: Glossary
 
 ### Glossary
 
@@ -772,7 +888,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Client**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
 * **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
 * **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
-* **Client ID**: A unique identifier assigned to clients for precise identification 
+* **Client ID**: A unique identifier assigned to clients for precise identification
 * **Property ID**: A unique identifier assigned to properties for precise identification
 * **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
 * **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
@@ -780,9 +896,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Budget Range**: The minimum and maximum price range a buyer is willing to spend
 * **Type**: Category of property such as HDB, condo or landed
 * **Floor Area**: The size of a property measured in square feet
+
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix F: Instructions for Manual Testing
+## Appendix: Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
 
@@ -827,14 +944,78 @@ testers are expected to do more *exploratory* testing.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+##### Missing data file
+To simulate:<br>
+Delete the `\data` folder and all `.json` files inside.
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+Expected:<br>
+Opening the application will generate sample data based on `SampleDataUtil.java`. Adding or editing any contacts/properties will save the data inside the `\data` folder.
 
-1. _{ more test cases …​ }_
+##### Corrupted data file
+To simulate:<br>
+Open `\data\addressbook.json` and add a `@` to `Contact` Name.
+
+Expected:<br>
+Opening the application will delete all contacts stored inside `addressbook.json`. No contacts will be shown on the GUI. Same steps can be carried out for `propertybook.json` by adding `abc` to `Property` Listing.
+
+##### Editing data file while application is open
+To simulate:<br>
+Open application and delete the `\data` folder and all `.json` files inside.
+
+Expected:<br>
+No change in the GUI and performing any command that adds or edits any contacts/properties will recreate the `\data` folder and the previously deleted `.json` files.
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix G: Efforts
+## Appendix: Planned Enhancements
 
-To be updated.
+Team size: 5
+
+1. **Make command words and prefixes case-insensitive.** For example, `Addcontact` should be acceptable as a `addcontact` command and `N/` should be acceptable as a `Name` prefix. Users may make mistakes in the capitalisation of the commands and making the command words case-insensitive can help to save time.
+
+2. **Allow special characters to be used in contact names.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). Future improvements aim to support this functionality.
+
+3. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. `+60 123456789` or `(123)123-4567`). Future improvements aim to support international phone number formats.
+
+---------------------------------------------------------------------------------------------------------------------
+
+## Appendix: Effort
+
+#### Difficulty Level and Effort Required
+This project was significantly harder and took more time that the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
+<br><br>
+Unlike AB3 which handles only `Contact`, this application handles both `Contact` and `Property` each with their distinct commands, models and UI components. This required a clear separation and linking between contacts and properties. Furthermore, this project was made significantly harder with the need of a comprehensive User Guide and Developer Guide.
+<br><br>
+A high proportion of effort was saved through reuse of AB3. Such examples include the `ReadOnlyPropertyBook` and `PropertyBook` which takes reference from `ReadOnlyAddressBook` and `AddressBook` which made it easier to implement the `Property` class as AB3 was easily extendable.
+
+#### Challenges Faced
+- More comprehensive input validation and testing because it is a CLI-based application
+- Coordinating and agreeing on the use case and format of a command as many changes were made week after week
+- Implementing complex parsers due to the presence of compulsory parameters, optional parameters or multi-word parameters
+
+#### Achievements of the Project
+- Extensive refactoring of AB3 with over 15,000 more lines of code with a high test coverage
+- Comprehensive features that extend AB3 into a real estate management application
+- Team collaboration and Software Engineering Principles (Git workflow, Issue tracking, Single Level of Abstraction, Logging)
+- Extensive User Guide and Developer Guide with the aid of (Unified Modelling Language) UML diagrams
+
+---------------------------------------------------------------------------------------------------------------------
+
+## Appendix: Continuous Integration / Continuous Deployment
+Continuous Integration / Continuous Deployment (CI/CD) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
+
+CI/CD has been carried out as follows:
+1. Unit Testing
+2. Integrated GitHub tests
+3. Code coverage reports
+
+#### Unit Testing
+Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test).
+
+#### Integrated GitHub tests
+We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu devices on every push or pull request. Through these tests, feature branches can be tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed.
+The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
+
+#### Code Coverage Reports
+Test coverage refers to the extent in which the code is tested and we have utilised [CodeCov](https://about.codecov.io/) to measure our code coverage. The code coverage can be seen [here](https://app.codecov.io/github/AY2526S1-CS2103T-W10-2/tp). <br> <br>
+As of v1.5, the test coverage is above 80%.
