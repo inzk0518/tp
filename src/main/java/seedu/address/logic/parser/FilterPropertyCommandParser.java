@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
@@ -11,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import java.util.List;
 import java.util.Optional;
 
 import seedu.address.logic.commands.FilterPropertyCommand;
@@ -46,6 +48,27 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
                 PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
                 PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA, PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS,
                 PREFIX_PROPERTY_OWNER, PREFIX_PROPERTY_LISTING, PREFIX_LIMIT, PREFIX_OFFSET);
+
+
+        List<Prefix> validPrefixes = List.of(
+                PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
+                PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA, PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS,
+                PREFIX_PROPERTY_OWNER, PREFIX_PROPERTY_LISTING, PREFIX_LIMIT, PREFIX_OFFSET
+        );
+
+        // Check for invalid prefixes
+        if (!argMultimap.getAllPrefixes().isEmpty()) {
+            List<String> invalidPrefixes = argMultimap.getAllPrefixes().stream()
+                    .filter(p -> !p.getPrefix().isEmpty())
+                    .filter(p -> validPrefixes.stream().noneMatch(v -> v.getPrefix().equals(p.getPrefix())))
+                    .map(Prefix::getPrefix)
+                    .toList();
+
+            if (!invalidPrefixes.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        FilterPropertyCommand.MESSAGE_USAGE));
+            }
+        }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
@@ -146,20 +169,24 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
             builder.withListing(t);
         }
 
-        int limit = argMultimap.getValue(PREFIX_LIMIT)
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .orElse(20);
-        int offset = argMultimap.getValue(PREFIX_OFFSET)
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .orElse(0);
-
-        if (limit < 1) {
-            throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_LIMIT);
+        int limit = 20;
+        Optional<String> maybeLimit = argMultimap.getValue(PREFIX_LIMIT);
+        if (maybeLimit.isPresent()) {
+            String t = maybeLimit.get().trim();
+            if (!t.matches("^[1-9]\\d*$")) {
+                throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_LIMIT);
+            }
+            limit = Integer.parseInt(t);
         }
-        if (offset < 0) {
-            throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_OFFSET);
+
+        int offset = 0;
+        Optional<String> maybeOffset = argMultimap.getValue(PREFIX_OFFSET);
+        if (maybeOffset.isPresent()) {
+            String t = maybeOffset.get().trim();
+            if (!t.matches("^0|[1-9]\\d*$")) {
+                throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_OFFSET);
+            }
+            offset = Integer.parseInt(t);
         }
 
         return new FilterPropertyCommand(builder.build(), limit, offset);

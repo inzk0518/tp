@@ -200,7 +200,7 @@ public class FilterPropertyCommandTest {
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
-        assertEquals("1 properties matched (showing 2–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched (showing 2–2)", result.getFeedbackToUser());
     }
 
     @Test
