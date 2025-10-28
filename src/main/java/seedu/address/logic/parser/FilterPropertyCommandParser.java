@@ -59,8 +59,8 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         Optional<String> maybeAddress = argMultimap.getValue(PREFIX_PROPERTY_ADDRESS);
         if (maybeAddress.isPresent()) {
             String t = maybeAddress.get().trim();
-            if (!PropertyAddress.isValidPropertyAddress(t)) {
-                throw new ParseException("Invalid address. Provide 5-200 chars with at least one letter and one digit");
+            if (!t.matches("^(?=.*[A-Za-z]).{0,200}$")) {
+                throw new ParseException("Invalid address. Provide 1-200 chars with at least one letter");
             }
             builder.withAddress(t);
         }
@@ -115,7 +115,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybePrice.isPresent()) {
             String t = maybePrice.get().replace(",", "").trim();
             if (!Price.isValidPrice(t)) {
-                throw new ParseException("Error: Invalid price (digits only)");
+                throw new ParseException("Error: Invalid price (Use a positive integer ≤ 1,000,000,000,000.)");
             }
             builder.withPrice(t);
         }

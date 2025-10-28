@@ -63,7 +63,7 @@ public class FilterPropertyCommand extends Command {
         // Build “X properties matched (showing i–j)”
         int from = total == 0 ? 0 : start + 1;
         int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format("%d properties matched (showing %d–%d)", total, from, to);
+        String msg = String.format("%d properties matched (showing %d–%d)", Math.min(total - offset, limit), from, to);
 
         showPropertiesView();
 

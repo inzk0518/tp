@@ -251,6 +251,7 @@ Format: `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BE
 
 * The search is case-insensitive. e.g `clementi` will match `Clementi`
 * Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
+* Property with price less than the price filter will be returned
 * Property matching all the filter will be returned
 
 Examples:
