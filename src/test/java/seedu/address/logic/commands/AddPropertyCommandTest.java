@@ -56,8 +56,10 @@ class AddPropertyCommandTest {
         AddPropertyCommand command = new AddPropertyCommand(property);
 
         assertThrows(CommandException.class,
-                String.format(AddPropertyCommand.MESSAGE_OWNER_NOT_FOUND, property.getOwner().value),
-                () -> command.execute(modelStub));
+                String.format(
+                    AddPropertyCommand.MESSAGE_OWNER_NOT_FOUND, property.getOwner().value
+                    ), () ->
+                    command.execute(modelStub));
     }
 
     @Test
