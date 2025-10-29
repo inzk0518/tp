@@ -149,6 +149,9 @@ Adds a new contact into the system.
 
 Format: `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
+* Duplicate contacts (same name and phone number) will not be allowed to be added.
+* Each new contact is assigned a (Universally Uniquely Identifier) UUID automatically.
+
 Examples:
 * `addcontact n/Charlie p/91236789 a/982 Tampines Road t/buyer status/active`
 * `addcontact n/Xi Mi p/65738475 e/ximi@example.com min/800000 max/1000000`
@@ -165,12 +168,13 @@ For more information on the parameters, click [here](#command-parameters).
 
 Edits an existing contact in the address book.
 
-Format: `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
+Format: `editcontact CONTACT_ID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`
 
-* Edits the contact that has the `UUID` as specified which refers to the ID number shown in the displayed contact list.
+* Edits the contact that has the `CONTACT_ID` as specified which refers to the ID number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
 * When editing tags, the existing tags of the contact will be removed i.e adding of tags is not cumulative.
 * You can remove all the contact’s tags by typing `t/` without specifying any tags after it.
+* If the newly edited contact matches an existing contact (same name and phone number), it will be rejected.
 
 Examples:
 *  `editcontact 1 p/91234567 e/johndoe@example.com`
@@ -219,9 +223,9 @@ For more information on the parameters, click [here](#command-parameters).
 
 Deletes the specified contact from the address book.
 
-Format: `deletecontact UUID`
+Format: `deletecontact CONTACT_ID`
 
-* Deletes the contact with the specified `UUID`.
+* Deletes the contact with the specified `CONTACT_ID`.
 * The UUID refers to the ID number shown in the displayed contact list.
 * The command only works on contacts currently visible in the property list panel. <br>Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
@@ -239,21 +243,12 @@ Adds a property to the property list.
 
 Format: `addproperty a/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bed/BEDROOM bath/BATHROOM f/FLOOR_AREA l/LISTING o/CONTACT_ID`
 
-* `a/ADDRESS` must be 5-200 characters long and contain at least one letter and one digit.
-* `postal/POSTAL` must be a 6-digit Singapore postal code.
-* `price/PRICE` must be a positive integer up to 1,000,000,000,000.
-* `type/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
-* `status/STATUS` accepts `available` or `unavailable` (case-insensitive).
-* `bed/BEDROOM` and `bath/BATHROOM` accept integers from 0 to 20.
-* `f/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
-* `l/LISTING` accepts `sale` or `rent` (case-insensitive).
-* `o/CONTACT_ID` should be the UUID of an existing contact.
-* The command rejects properties that share both the same address and postal code as an existing property.
-* Each new property is assigned the next available UUID automatically; you do not provide an ID when adding it.
+* Duplicate properties (same address and postal code) will not be allowed to be added.
+* Each new property is assigned a (Universally Uniquely Identifier) UUID automatically.
 
 Examples:
-* `addproperty a/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bed/3 bath/2 f/1023 l/sale o/1`
-* `addproperty a/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bed/4 bath/2 f/1050 l/rent o/5`
+* `addproperty a/123 Orchard Rd postal/238888 price/1950000 type/condo status/unavailable bed/3 bath/2 f/1023 l/sale o/1`
+* `addproperty a/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/available bed/4 bath/2 f/1050 l/rent o/5`
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -265,7 +260,7 @@ Format: `filterproperty [a/ADDRESS] [postal/POSTAL] [type/TYPE] [bed/BEDROOM] [b
 
 * The search is case-insensitive. e.g `clementi` will match `Clementi`
 * Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
-* Property matching all the filter will be returned
+* Properties matching all the filters will be returned
 
 Examples:
 * `filterproperty a/yishun`
@@ -277,9 +272,9 @@ For more information on the parameters, click [here](#command-parameters).
 
 Deletes a property identified by its UUID.
 
-Format: `deleteproperty UUID`
+Format: `deleteproperty PROPERTY_ID`
 
-* Deletes the property with the specified `UUID`.
+* Deletes the property with the specified `PROPERTY_ID`.
 * The UUID refers to the ID number shown in the displayed property list.
 * The command only works on properties currently visible in the property list panel. Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
@@ -493,31 +488,31 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter                             | Prefix  | Constraints                                                                                                                                                                                                                                                                  |
-|---------------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Name                                  | n/      | Alphabetical characters (a-z, A-Z, 0-9) or spaces                                                                                                                                                                                                                            |
-| Phone Number                          | phone/  | Only numeric digits (0-9), and it should be at least 3 digits long                                                                                                                                                                                                           |
-| Email                                 | e/      | Should follow the format: name@example.com. The part before @ can contain letters, numbers, and the symbols `+`, `_`, `.`, `-` but cannot start or end with a symbol. The part after @ must be a valid alphanumeric domain and end with at least 2 characters after the `.`. |
-| Address (Contact or Property)         | a/      | Can take any character. Maximum of 200 characters                                                                                                                                                                                                                            |
-| Tag                                   | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                                                                                                                                                                     |
-| Minimum Budget (in Singapore Dollars) | min/    | Non-negative integer. If not provided, will have a default of $0                                                                                                                                                                                                             |
-| Maximum Budget (in Singapore Dollars) | max/    | Non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000                                                                                                                                                              |
-| Notes                                 | notes/  | Can take any character. Maximum of 500 characters                                                                                                                                                                                                                            |
-| Status (Contact)                      | s/      | Should only be these (case-insensitive): active, inactive                                                                                                                                                                                                                    |
-| Limit                                 | limit/  | An integer more than 0                                                                                                                                                                                                                                                       |
-| Offset                                | offset/ | An integer more than or equals to 0                                                                                                                                                                                                                                          |
-| Number of Bathrooms                   | bath/   | An integer more than 0                                                                                                                                                                                                                                                       |
-| Number of Bedrooms                    | bed/    | An integer more than 0                                                                                                                                                                                                                                                       |
-| Floor Area (square feet)              | f/      | An integer between 50 and 100,000 (inclusive)                                                                                                                                                                                                                                |
-| Listing                               | l/      | Should only be these (case-insensitive): sale, rent                                                                                                                                                                                                                          |
-| Postal Code                           | postal/ | A 6-digit Singapore postal code                                                                                                                                                                                                                                              |
-| Status (Property)                     | status/ | Should only be these (case-insensitive): available, unavailable                                                                                                                                                                                                              |
-| Owner                                 | o/      |                                                                                                                                                                                                                                                                              |
-| Price (in Singapore Dollars)          | price/  | An integer between 0 and 1,000,000,000,000 (inclusive)                                                                                                                                                                                                                       |
-| Type                                  | type/   | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                                                                                                                                                                                       |
-| Property ID                           | p/      | An integer more than 0 and must be an ID of an existing property                                                                                                                                                                                                             |
-| Contact ID                            | r/      | An integer more than 0 and must be an ID of an existing contact                                                                                                                                                                                                              |
-| Relationship                          | c/      | Should only be these (case-insensitive): buyer, seller                                                                                                                                                                                                                       |
+| Parameter                             | Prefix  | Constraints                                                                                                                                                                                                                                                                 |
+|---------------------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Name                                  | n/      | Alphabetical characters (a-z, A-Z, 0-9) or spaces                                                                                                                                                                                                                           |
+| Phone Number                          | phone/  | Only numeric digits (0-9), and it should be at least 3 digits long                                                                                                                                                                                                          |
+| Email                                 | e/      | Should follow the format: name@example.com. The part before @ can contain letters, numbers, and the symbols `+`, `_`, `.`, `-` but cannot start or end with a symbol. The part after @ must be a valid alphanumeric domain and end with at least 2 characters after the `.` |
+| Address (Contact or Property)         | a/      | For contacts: <br>Can take any character. Maximum of 200 characters.<br><br>For properties:<br>Can take any character with at least 1 letter and 1 digit. Must have 5 to 200 characters (inclusive)                                                                         |
+| Tag                                   | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                                                                                                                                                                    |
+| Minimum Budget (in Singapore Dollars) | min/    | Non-negative integer. If not provided, will have a default of $0                                                                                                                                                                                                            |
+| Maximum Budget (in Singapore Dollars) | max/    | Non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000                                                                                                                                                             |
+| Notes                                 | notes/  | Can take any character. Maximum of 500 characters                                                                                                                                                                                                                           |
+| Status (Contact)                      | s/      | Should only be these (case-insensitive): active, inactive                                                                                                                                                                                                                   |
+| Limit                                 | limit/  | An integer more than 0                                                                                                                                                                                                                                                      |
+| Offset                                | offset/ | An integer more than or equals to 0                                                                                                                                                                                                                                         |
+| Number of Bathrooms                   | bath/   | An integer more than 0                                                                                                                                                                                                                                                      |
+| Number of Bedrooms                    | bed/    | An integer more than 0                                                                                                                                                                                                                                                      |
+| Floor Area (square feet)              | f/      | An integer between 50 and 100,000 (inclusive)                                                                                                                                                                                                                               |
+| Listing                               | l/      | Should only be these (case-insensitive): sale, rent                                                                                                                                                                                                                         |
+| Postal Code                           | postal/ | A 6-digit Singapore postal code                                                                                                                                                                                                                                             |
+| Status (Property)                     | status/ | Should only be these (case-insensitive): available, unavailable                                                                                                                                                                                                             |
+| Owner                                 | o/      |                                                                                                                                                                                                                                                                             |
+| Price (in Singapore Dollars)          | price/  | An integer between 0 and 1,000,000,000,000 (inclusive)                                                                                                                                                                                                                      |
+| Type                                  | type/   | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                                                                                                                                                                                      |
+| Property ID                           | p/      | An integer more than 0 and must be an ID of an existing property                                                                                                                                                                                                            |
+| Contact ID                            | r/      | An integer more than 0 and must be an ID of an existing contact                                                                                                                                                                                                             |
+| Relationship                          | c/      | Should only be these (case-insensitive): buyer, seller                                                                                                                                                                                                                      |
 
 
 ## Basic Command Terminal Navigation
