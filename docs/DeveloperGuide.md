@@ -179,8 +179,8 @@ The `Model` component,
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* can save address book data, property book data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from all of `AddressBookStorage`, `PropertyBookStorage` and `UserPrefStorage`, which means it can be treated as any (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### 2.6. Common classes
@@ -395,9 +395,49 @@ The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UU
 ### 3.4. Client–property linking
 
 #### `LinkCommand` (`link`)
+The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
+
+Compulsory fields:
+- Contact UUID
+- Property UUID
+- Relationship (buyer/seller)
+
+Optional fields:
+- Additional contact UUIDs
+- Additional property UUIDs
+
+##### Parsing and Validating User Input
+The `LinkCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_CONTACT_ID`, `PREFIX_PROPERTY_ID`, `PREFIX_LINK_RELATIONSHIP`)
+Each UUID is also validated and parsed.
+
+The parser creates an `LinkDescriptor` object that stores the parsed UUIDs and relationship.
+
+Validation done:
+- No duplicate relationship parameter
+
+##### Execution
 Documentation pending.
 
 #### `UnlinkCommand` (`unlink`)
+The `unlink` command is designed to unlink contacts in the address book from properties in the property book, each identified by their UUID.
+
+Compulsory fields:
+- Contact UUID
+- Property UUID
+
+Optional fields:
+- Additional contact UUIDs
+- Additional property UUIDs
+
+##### Parsing and Validating User Input
+The `UnlinkCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_CONTACT_ID`, `PREFIX_PROPERTY_ID`)
+Each UUID is also validated and parsed.
+
+The parser creates an `UnlinkDescriptor` object that stores the parsed UUIDs and relationship.
+
+##### Execution
 Documentation pending.
 
 #### `ShowClientsCommand` (`showclients`)

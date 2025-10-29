@@ -30,7 +30,7 @@ public class DeleteContactCommand extends Command {
             + "Example: " + COMMAND_WORD + " 12";
 
     public static final String MESSAGE_DELETE_CONTACT_SUCCESS = "Deleted Contact: %1$s";
-    public static final String MESSAGE_CONTACT_NOT_FOUND = "No contact found with UUID: %s";
+    public static final String MESSAGE_CONTACT_NOT_FOUND = "No contact found with ID: %s";
 
     private static final Logger logger = LogsCenter.getLogger(DeleteContactCommand.class);
 

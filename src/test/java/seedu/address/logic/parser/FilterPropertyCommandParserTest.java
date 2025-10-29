@@ -15,7 +15,7 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessFirst() throws Exception {
-        String input = " type/condo bedroom/3 floorarea/100 status/available limit/5 offset/10";
+        String input = " t/condo bed/3 f/100 status/available limit/5 offset/10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -28,7 +28,7 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessSecond() throws Exception {
-        String input = " owner/alice";
+        String input = " o/alice";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -38,7 +38,7 @@ public class FilterPropertyCommandParserTest {
     }
     @Test
     public void parseValidArgsSuccessThird() throws Exception {
-        String input = " address/Geylang 18 postal/123000 bathroom/3 price/5000 listing/rent";
+        String input = " a/Geylang 18 p/123000 bath/3 price/5000 l/rent";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -50,31 +50,31 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseInvalidTagThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" owner/"));
+        assertThrows(ParseException.class, () -> parser.parse(" o/"));
     }
 
     @Test
     public void parseInvalidPostalThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" postal/1234567"));
+        assertThrows(ParseException.class, () -> parser.parse(" p/1234567"));
     }
     @Test
     public void parseDuplicateTagThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" type/condo type/hdb"));
+        assertThrows(ParseException.class, () -> parser.parse(" t/condo t/hdb"));
     }
 
     @Test
     public void parseInvalidBedroomThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" bedroom/22"));
+        assertThrows(ParseException.class, () -> parser.parse(" bed/22"));
     }
 
     @Test
     public void parseInvalidBathroomThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" bathroom/23"));
+        assertThrows(ParseException.class, () -> parser.parse(" bath/23"));
     }
 
     @Test
     public void parseInvalidFloorAreaThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" floorarea/23sqrft"));
+        assertThrows(ParseException.class, () -> parser.parse(" f/23sqrft"));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseInvalidListingThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" listing/free"));
+        assertThrows(ParseException.class, () -> parser.parse(" l/free"));
     }
 }
 

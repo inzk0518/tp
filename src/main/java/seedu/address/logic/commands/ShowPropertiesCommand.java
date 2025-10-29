@@ -21,16 +21,16 @@ public class ShowPropertiesCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows all properties associated with the specified contact.\n"
-            + "Parameters: c/CONTACT_UUID (must be a positive integer)\n"
+            + "Parameters: c/CONTACT_ID (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " c/123";
 
-    public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to contact UUID: %1$s";
+    public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to contact ID: %1$s";
 
     public static final String MESSAGE_NO_PROPERTIES =
-            "No properties found associated to contact UUID: %1$s\n"
+            "No properties found associated to contact ID: %1$s\n"
                     + "Possible reasons:\n"
                     + "  • The contact exists but is not linked to any properties yet\n"
-                    + "  • The contact UUID doesn't exist (use 'list' to verify)\n"
+                    + "  • The contact ID doesn't exist (use 'list' to verify)\n"
                     + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this contact.";
 
     private final Uuid contactUuid;
@@ -61,7 +61,7 @@ public class ShowPropertiesCommand extends Command {
         int numPropertiesFound = model.getFilteredPropertyList().size();
 
         if (numPropertiesFound == 0) {
-            return new CommandResult(String.format(MESSAGE_NO_PROPERTIES, contactUuid));
+            return new CommandResult(String.format(MESSAGE_NO_PROPERTIES, contactUuid.getValue()));
         }
 
         // Grammatically correct: "1 property" vs "2 properties"
