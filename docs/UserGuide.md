@@ -155,7 +155,8 @@ Examples:
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
-By default, minimum budget will be $0 and maximum budget will be $200,000,000,000
+If not provided, minimum budget will be $0 and maximum budget will be $200,000,000,000.<br><br>
+If not provided, the optional parameters will be empty.
 </div>
 
 For more information on the parameters, click [here](#command-parameters).
@@ -178,7 +179,7 @@ Examples:
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
 You are able to edit valid contacts even if they are not currently shown on the GUI (but are stored in the address book). <br><br>
-i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>. <br>
+i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>. <br><br>
 Use the <code>list</code> command to see the changes.
 </div>
 
@@ -194,7 +195,6 @@ Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min
 * Substring words will be matched e.g. `Bob` will match `Bobby`.
 * Contacts matching any one of the keyword will be shown (meeting only one of the criteria is enough).
 * Filtering is cumulative. Once you filter by name, you can filter by address subsequently.
-* To filter multiple names e.g. `Bob` and `Alex`, you can type `filtercontact n/Bob Alex`.
 
 Examples:
 * `filtercontact a/yishun`
@@ -203,6 +203,14 @@ Examples:
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
 To reset all filters, you can type <code>list</code>
+</div>
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip:**<br>
+To filter for the different parameters (Name contains `Tan` and `Alex`)<br>
+Type: `filtercontact n/Tan` followed by `filtercontact n/Alex`<br><br>
+To filter for different parameters at the same time (Name contains `Tan` or `Alex`)<br>
+Type: `filtercontact n/Tan Alex`
 </div>
 
 For more information on the parameters, click [here](#command-parameters).
@@ -219,6 +227,11 @@ Format: `deletecontact UUID`
 
 Examples:
 * `deletecontact 1`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+<code>deletecontact</code> is irreversible!. Please use it carefully as you will not be able to retrieve the contact back.
+</div>
 
 ### Adding a property: `addproperty`
 
@@ -273,6 +286,11 @@ Format: `deleteproperty UUID`
 Examples:
 * `deleteproperty 12`
 * `deleteproperty 3`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+<code>deleteproperty</code> is irreversible!. Please use it carefully as you will not be able to retrieve the property back.
+</div>
 
 ### Mark property as sold : `sold`
 
@@ -371,6 +389,9 @@ Format: `clear`
 :exclamation: **Caution:**<br>
 <code>clear</code> is irreversible!. Please use it carefully as you will not be able to retrieve the data back.
 </div>
+
+**Expected Output**
+![clear result](images/clearResult.png)
 
 ### Exiting the program : `exit`
 

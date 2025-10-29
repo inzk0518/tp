@@ -159,9 +159,9 @@ How the parsing works:
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-[ModelClassDiagram](images/ModelClassDiagram.png)
-[ContactClassDiagram](images/ContactClassDiagram.png)
-[PropertyClassDiagram](images/PropertyClassDiagram.png)
+![ModelClassDiagram](images/ModelClassDiagram.png)
+![ContactClassDiagram](images/ContactClassDiagram.png)
+![PropertyClassDiagram](images/PropertyClassDiagram.png)
 
 The `Model` component,
 
