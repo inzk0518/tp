@@ -25,7 +25,7 @@ public class MarkUnsoldCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks one or more properties as unsold.\n"
-            + "Parameters: p/PROPERTY_ID [p/PROPERTY_ID]...\n"
+            + "Parameters: p/UUID...\n"
             + "Example: " + COMMAND_WORD + " p/7 p/33";
 
     public static final String MESSAGE_MARK_UNSOLD_SUCCESS = "Marked %d property(ies) as unsold.";

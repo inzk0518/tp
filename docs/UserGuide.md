@@ -224,23 +224,23 @@ Examples:
 
 Adds a property to the property list.
 
-Format: `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/CONTACT_ID`
+Format: `addproperty a/ADDRESS p/POSTAL price/PRICE t/TYPE status/STATUS bed/BEDROOM bath/BATHROOM f/FLOOR_AREA l/LISTING o/CONTACT_ID`
 
-* `address/ADDRESS` must be 5-200 characters long and contain at least one letter and one digit.
-* `postal/POSTAL` must be a 6-digit Singapore postal code.
+* `a/ADDRESS` must be 5-200 characters long and contain at least one letter and one digit.
+* `p/POSTAL` must be a 6-digit Singapore postal code.
 * `price/PRICE` must be a positive integer up to 1,000,000,000,000.
-* `type/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
+* `t/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
 * `status/STATUS` accepts `available` or `unavailable` (case-insensitive).
-* `bedroom/BEDROOM` and `bathroom/BATHROOM` accept integers from 0 to 20.
-* `floorarea/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
-* `listing/LISTING` accepts `sale` or `rent` (case-insensitive). A property marked as `sold` cannot be listed for `rent`.
-* `owner/CONTACT_ID` should be the UUID of an existing contact.
+* `bed/BEDROOM` and `bath/BATHROOM` accept integers from 0 to 20.
+* `f/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
+* `l/LISTING` accepts `sale` or `rent` (case-insensitive). A property marked as `sold` cannot be listed for `rent`.
+* `o/CONTACT_ID` should be the UUID of an existing contact.
 * The command rejects properties that share both the same address and postal code as an existing property.
 * Each new property is assigned the next available UUID automatically; you do not provide an ID when adding it.
 
 Examples:
-* `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1`
-* `addproperty address/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/unsold bedroom/4 bathroom/2 floorarea/1050 listing/rent owner/5`
+* `addproperty a/123 Orchard Rd p/238888 price/1950000 t/condo status/sold bed/3 bath/2 f/1023 l/sale o/1`
+* `addproperty a/55 Pasir Ris Dr 1 p/519884 price/450000 t/hdb status/unsold bed/4 bath/2 f/1050 l/rent o/5`
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -248,15 +248,15 @@ For more information on the parameters, click [here](#command-parameters).
 
 Filters the properties based on the fields given.
 
-Format: `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`
+Format: `filterproperty [a/ADRESS] [p/POSTAL] [t/TYPE] [bed/BEDROOM] [bath/BATHROOM] [f/FLOORAREA] [status/STATUS] [price/PRICE] [l/LISTING] [o/OWNER] [limit/LIMIT] [offset/OFFSET]`
 
 * The search is case-insensitive. e.g `clementi` will match `Clementi`
 * Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
 * Property matching all the filter will be returned
 
 Examples:
-* `filterproperty address/yishun`
-* `filterproperty bedroom/2 floorarea/100`
+* `filterproperty a/yishun`
+* `filterproperty bed/2 f/100`
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -267,7 +267,7 @@ Deletes a property identified by its UUID.
 Format: `deleteproperty UUID`
 
 * Deletes the property with the specified `UUID`.
-* The UUID refers to the id number shown in the displayed property list.
+* The UUID refers to the ID number shown in the displayed property list.
 * The command only works on properties currently visible in the property list panel. Use the [list](#listing-all-contacts-and-properties-list) command first if needed.
 
 Examples:
@@ -337,9 +337,9 @@ Format: `link c/CONTACT_ID... p/PROPERTY_ID...`
 
 Displays all properties associated with a specific contact by their UUID.
 
-Format: `showproperties c/CONTACT_UUID`
+Format: `showproperties c/CONTACT_ID`
 
-* `CONTACT_UUID` refers to the UUID of the contact shown in the contact list.
+* `CONTACT_ID` refers to the UUID of the contact shown in the contact list.
 * The view automatically switches to show the property list.
 * If no properties are found, suggestions will be provided.
 
@@ -351,9 +351,9 @@ Examples:
 
 Displays all contacts associated with a specific property by their UUID.
 
-Format: `showcontacts p/PROPERTY_UUID`
+Format: `showcontacts p/PROPERTY_ID`
 
-* `PROPERTY_UUID` refers to the UUID of the property shown in the property list.
+* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 * The view automatically switches to show the contact list.
 * If no contacts are found, suggestions will be provided.
 
@@ -418,6 +418,9 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 <br><br>
 **Q**: How do I back up my data?<br>
 **A**: You can save a copy of the `addressbook.json` and `propertybook.json` to a back up location.
+<br><br>
+**Q**: Why isn't my command working for a contact/property that I have already input?<br>
+**A**: Ensure that the contact/property you are affecting with the command is visible on the GUI.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -437,23 +440,23 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
-
-| Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                      |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer status/active notes/wants near school min/100000 max/300000`                                                                              |
-| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                               |
-| **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan status/active`                                                                                                                            |
-| **Delete Contact**          | `deletecontact UUID`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                 |
-| **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/sold bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
-| **Filter Property**         | `filterproperty [address/ADRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                            |
-| **Delete Property**         | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`                                                                                                                                                                                                                                                                             |
-| **Mark Property as Sold**   | `sold p/UUID...` <br><br> e.g. `sold p/1 p/2`                                                                                                                                                                                                                                                                                         |
-| **Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`                                                                                                                                                                                                                                                                                     |
-| **Link**                    | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`                                                                                                                                                                                                                                   |
-| **Unlink**                  | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`                                                                                                                                                                                                                                                          |
-| **List**                    | `list`                                                                                                                                                                                                                                                                                                                                |
-| **Clear**                   | `clear`                                                                                                                                                                                                                                                                                                                               |
-| **Help**                    | `help`                                                                                                                                                                                                                                                                                                                                |
+                                                                                                                                                                                                                        |
+| Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                             |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer status/active notes/wants near school min/100000 max/300000`                                                                                     |
+| **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                                                                                                      |
+| **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [status/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan status/active`                                                                                                                                   |
+| **Delete Contact**          | `deletecontact UUID`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                                                                                                        |
+| **Add Property**            | `addproperty address/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bedroom/BEDROOM bathroom/BATHROOM floorarea/FLOOR_AREA listing/LISTING owner/OWNER_ID`<br> <br> e.g., `addproperty address/123 Orchard Rd postal/238888 price/1950000 type/condo status/unavailable bedroom/3 bathroom/2 floorarea/1023 listing/sale owner/1` |
+| **Filter Property**         | `filterproperty [address/ADDRESS] [postal/POSTAL] [type/TYPE] [bedroom/BEDROOM] [bathroom/BATHROOM] [floorarea/FLOORAREA] [status/STATUS] [price/PRICE] [listing/LISTING] [owner/OWNER] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g., `filterproperty bedroom/2 price/2000`                                                                  |
+| **Delete Property**         | `deleteproperty UUID`<br> <br>  e.g., `deleteproperty 12`                                                                                                                                                                                                                                                                                    |
+| **Mark Property as Sold**   | `sold p/UUID...` <br><br> e.g. `sold p/1 p/2`                                                                                                                                                                                                                                                                                                |
+| **Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`                                                                                                                                                                                                                                                                                            |
+| **Link**                    | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`                                                                                                                                                                                                                                          |
+| **Unlink**                  | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`                                                                                                                                                                                                                                                                 |
+| **List**                    | `list`                                                                                                                                                                                                                                                                                                                                       |
+| **Clear**                   | `clear`                                                                                                                                                                                                                                                                                                                                      |
+| **Help**                    | `help`                                                                                                                                                                                                                                                                                                                                       |
 
 --------------------------------------------------------------------------------------------------------------------
 

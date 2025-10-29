@@ -45,16 +45,16 @@ public class LogicManagerTest {
     private static final IOException DUMMY_AD_EXCEPTION = new AccessDeniedException("dummy access denied exception");
     private static final String ADD_PROPERTY_COMMAND = String.join(" ",
             AddPropertyCommand.COMMAND_WORD,
-            "address/123 Main St 5",
-            "postal/123456",
+            "a/123 Main St 5",
+            "p/123456",
             "price/500000",
-            "type/HDB",
+            "t/HDB",
             "status/unavailable",
-            "bedroom/3",
-            "bathroom/2",
-            "floorarea/120",
-            "listing/sale",
-            "owner/owner123");
+            "bed/3",
+            "bath/2",
+            "f/120",
+            "l/sale",
+            "o/owner123");
 
     @TempDir
     public Path temporaryFolder;

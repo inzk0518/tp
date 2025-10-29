@@ -67,7 +67,8 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = 'TheRealDeal.jar'
+    archiveBaseName = 'TheRealDeal'
+    archiveVersion = 'v1.5'
 }
 
 run {

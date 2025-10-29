@@ -26,7 +26,7 @@ public class MarkSoldCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks one or more properties as sold.\n"
-            + "Parameters: p/PROPERTY_ID [p/PROPERTY_ID]...\n"
+            + "Parameters: p/UUID...\n"
             + "Example: " + COMMAND_WORD + " p/14 p/27";
 
     public static final String MESSAGE_MARK_SOLD_SUCCESS = "Marked %d property(ies) as sold.";
@@ -57,6 +57,7 @@ public class MarkSoldCommand extends Command {
         String invalidIdsMessage = getInvalidPropertyIdsMessage(model, propertyIds);
         if (invalidIdsMessage != null) {
             throw new CommandException(invalidIdsMessage);
+
         }
 
         int count = 0;

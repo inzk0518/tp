@@ -28,10 +28,10 @@ public class UnlinkCommand extends Command {
 
     public static final String COMMAND_WORD = "unlink";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": unlinks properties from contacts. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": unlinks properties from contacts.\n"
             + "Parameters: "
-            + PREFIX_PROPERTY_ID + "PROPERTY_ID{1..} "
-            + PREFIX_CONTACT_ID + "CONTACT_ID{1..}"
+            + PREFIX_PROPERTY_ID + "PROPERTY_ID... "
+            + PREFIX_CONTACT_ID + "CONTACT_ID...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PROPERTY_ID + "2 "
             + PREFIX_PROPERTY_ID + "5 "
