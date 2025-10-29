@@ -18,19 +18,21 @@ public class StatusBarFooter extends UiPart<Region> {
     private Label filePath;
 
     /**
-     * Creates a {@code StatusBarFooter} with the given {@code Path}.
+     * Creates a {@code StatusBarFooter} with the given status message.
+     *
+     * @param statusMessage The status message to display at footer.
      */
-    public StatusBarFooter(Path saveLocation) {
+    public StatusBarFooter(String statusMessage) {
         super(FXML);
-        filePath.setText(Paths.get(".").resolve(saveLocation).toString());
+        filePath.setText(statusMessage);
     }
 
     /**
-     * Updates the file path text in the status bar.
+     * Updates the status message text in the status bar.
      *
-     * @param filePath the new file path to display.
+     * @param statusMessage the new status message to display.
      */
-    public void setFilePath(Path filePath) {
-        this.filePath.setText(Paths.get(".").resolve(filePath).toString());
+    public void setStatusMessage(String statusMessage) {
+        this.filePath.setText(statusMessage);
     }
 }

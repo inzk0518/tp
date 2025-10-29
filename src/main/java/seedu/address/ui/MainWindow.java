@@ -109,7 +109,7 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusBarFooter = new StatusBarFooter("Contacts List");
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -120,21 +120,21 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Switches to contacts view and updates the status bar to show the address book file path.
+     * Switches to contacts view and updates the status bar message.
      */
     public void showContactsView() {
         contentPlaceholder.getChildren().clear();
         contentPlaceholder.getChildren().add(contactListPanel.getRoot());
-        statusBarFooter.setFilePath(logic.getAddressBookFilePath());
+        statusBarFooter.setStatusMessage("Contacts List");
     }
 
     /**
-     * Switches to properties view and updates the status bar to show the property book file path.
+     * Switches to properties view and updates the status bar message.
      */
     public void showPropertiesView() {
         contentPlaceholder.getChildren().clear();
         contentPlaceholder.getChildren().add(propertyListPanel.getRoot());
-        statusBarFooter.setFilePath(logic.getPropertyBookFilePath());
+        statusBarFooter.setStatusMessage("Properties List");
     }
 
     /**

@@ -27,6 +27,22 @@ Provides you with helpful advice like keyboard shortcuts to use the application 
 Warns you of potential issues to should watch out for.
 </div>
 
+--------------------------------------------------------------------------------------------------------------------
+
+### GUI Overview
+
+TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
+
+![GUI Overview](images/GUI-UI.png)
+
+* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
+* `Command Box`: The main area where users can enter commands to interact with the app.
+* `Console Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command.
+* `List Card`: Displays key information about contacts or properties, depending on the user's command.
+* `Status Bar`: Displays whether contacts or properties are currently being shown.
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
@@ -39,15 +55,12 @@ Warns you of potential issues to should watch out for.
 3. Copy the file to the folder you want to use as the _home folder_ for TheRealDeal.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the <br>
-`java -jar TheRealDeal.jar` command to run the application.<br><br>
-A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
+   `java -jar TheRealDeal.jar` command to run the application.<br><br>
+   A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
 
-### to add picture ------------------------------
-
+![Sameple GUI Contacts](images/sampleGUIContacts.png)
 
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
-
-To see the detailed explanation of every feature, click [here](#features)<br>
 
 <div markdown="span" class="alert alert-primary">
 :bulb: **Tip:**<br>
@@ -56,32 +69,23 @@ Windows & Linux Users: <code>Ctrl + F</code><br>
 Mac Users: <code>⌘ + F</code>
 </div>
 
-### GUI Overview
-
-TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
-
-![GUI Overview](images/GUI-UI.png)
-
-* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
-* `Command Box`: The main area where users can enter commands to interact with the app.
-* `Result Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command. Situated below the `Command Box`.
-* `List Card`: Displays key information about contacts or listings, depending on the user's command. Situated below the `Result Display`.
-
-Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+Type a command in the command box and press Enter to execute it. e.g. typing `help` and pressing Enter will open the help window.<br>
 Some example commands you can try:
 
 * `list` : Lists all contacts.
 
-* `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+* `addcontact n/John Doe phone/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
 * `deletecontact 3` : Deletes the 3rd contact shown in the current list.
 
-* `clear` : Deletes all contacts.
+* `clear` : Deletes all contacts and properties.
 
 * `exit` : Exits the app.
 
---------------------------------------------------------------------------------------------------------------------
+To see the detailed explanation of every feature, click [here](#features)<br>
+To see the summary of every feature, click [here](#command-summary)
 
+--------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
