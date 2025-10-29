@@ -15,14 +15,22 @@ public class StatusBarFooter extends UiPart<Region> {
     private static final String FXML = "StatusBarFooter.fxml";
 
     @FXML
-    private Label saveLocationStatus;
+    private Label filePath;
 
     /**
      * Creates a {@code StatusBarFooter} with the given {@code Path}.
      */
     public StatusBarFooter(Path saveLocation) {
         super(FXML);
-        saveLocationStatus.setText(Paths.get(".").resolve(saveLocation).toString());
+        filePath.setText(Paths.get(".").resolve(saveLocation).toString());
     }
 
+    /**
+     * Updates the file path text in the status bar.
+     *
+     * @param filePath the new file path to display.
+     */
+    public void setFilePath(Path filePath) {
+        this.filePath.setText(Paths.get(".").resolve(filePath).toString());
+    }
 }
