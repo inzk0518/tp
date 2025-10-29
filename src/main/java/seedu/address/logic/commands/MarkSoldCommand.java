@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.Set;
 
@@ -25,8 +26,11 @@ public class MarkSoldCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks one or more properties as sold.\n"
-            + "Parameters: p/UUID...\n"
-            + "Example: " + COMMAND_WORD + " p/14 p/27";
+            + "Parameters: "
+            + PREFIX_PROPERTY_ID + "UUID...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_PROPERTY_ID + "14 "
+            + PREFIX_PROPERTY_ID + "27";
 
     public static final String MESSAGE_MARK_SOLD_SUCCESS = "Marked %d property(ies) as sold.";
     public static final String MESSAGE_PROPERTY_NOT_FOUND = "%s not found.";

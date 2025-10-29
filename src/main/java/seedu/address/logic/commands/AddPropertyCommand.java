@@ -26,7 +26,7 @@ public class AddPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "addproperty";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the property list. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the property list.\n"
             + "Parameters: "
             + PREFIX_PROPERTY_ADDRESS + "ADDRESS "
             + PREFIX_PROPERTY_POSTAL + "POSTAL "

@@ -26,7 +26,7 @@ public class DeleteContactCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the contact identified by their unique UUID.\n"
-            + "Parameters: UUID (must be a positive integer)\n"
+            + "Parameters: UUID\n"
             + "Example: " + COMMAND_WORD + " 12";
 
     public static final String MESSAGE_DELETE_CONTACT_SUCCESS = "Deleted Contact: %1$s";

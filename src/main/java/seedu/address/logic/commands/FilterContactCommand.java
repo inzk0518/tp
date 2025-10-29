@@ -2,6 +2,17 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_CONTACTS_LISTED_OVERVIEW;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BUDGET_MAX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BUDGET_MIN;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.List;
 
@@ -22,18 +33,22 @@ public class FilterContactCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters all contacts in the address book "
             + "based on the given fields. All prefixes are optional.\n"
             + "Parameters: "
-            + "[n/NAME_KEYWORDS] "
-            + "[p/PHONE_KEYWORDS] "
-            + "[e/EMAIL_KEYWORDS] "
-            + "[a/ADDRESS_KEYWORDS] "
-            + "[t/TAG_KEYWORDS] "
-            + "[min/MIN_BUDGET] "
-            + "[max/MAX_BUDGET] "
-            + "[notes/NOTES_KEYWORDS] "
-            + "[s/STATUS_KEYWORDS] "
-            + "[limit/LIMIT] "
-            + "[offset/OFFSET]\n"
-            + "Example: " + COMMAND_WORD + " n/Alice e/alice@example.com limit/10 offset/20";
+            + "[" + PREFIX_NAME + "NAME] "
+            + "[" + PREFIX_PHONE + "PHONE] "
+            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_BUDGET_MIN + "MIN_BUDGET] "
+            + "[" + PREFIX_BUDGET_MAX + "MAX_BUDGET] "
+            + "[" + PREFIX_TAG + "TAG]... "
+            + "[" + PREFIX_NOTES + "NOTES] "
+            + "[" + PREFIX_STATUS + "STATUS] "
+            + "[" + PREFIX_LIMIT + "LIMIT] "
+            + "[" + PREFIX_OFFSET + "OFFSET]\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "Alice "
+            + PREFIX_EMAIL + "alice@example.com "
+            + PREFIX_LIMIT + "10 "
+            + PREFIX_OFFSET + "20";
 
     private final FilterContactPredicate predicate;
 
