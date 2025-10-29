@@ -14,7 +14,7 @@ public class Email {
             "Emails should follow the format: name@example.com\n"
             + "• The part before @ can contain letters, numbers, and the symbols " + SPECIAL_CHARACTERS + "\n"
             + "• It cannot start or end with a symbol\n"
-            + "• The part after @ must be a valid domain (like example.com)\n"
+            + "• The part after @ must be a valid alphanumeric domain (like example.com)\n"
             + "• The domain must end with at least 2 letters (like .com or .sg)\n"
             + "• Emails can also be left empty";
     // alphanumeric characters except underscore
