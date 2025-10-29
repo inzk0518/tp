@@ -29,9 +29,9 @@ Warns you of potential issues to should watch out for.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### GUI Overview
+## GUI Overview
 
-TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
+TheRealDeal Graphical User Interface (GUI) is organised into **five** key components:
 
 ![GUI Overview](images/GUI-UI.png)
 
@@ -69,7 +69,7 @@ Windows & Linux Users: <code>Ctrl + F</code><br>
 Mac Users: <code>⌘ + F</code>
 </div>
 
-Type a command in the command box and press Enter to execute it. e.g. typing `help` and pressing Enter will open the help window.<br>
+Type a command in the command box and press Enter to execute it. e.g. typing `help` and pressing the `Enter` key on the keyboard will open the help window.<br>
 Some example commands you can try:
 
 * `list` : Lists all contacts.
@@ -460,7 +460,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
-
+To see the detailed explanation of every feature, click [here](#features)<br>
 
 | Action                      | Format, Examples                                                                                                                                                                                                                                                             |
 |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
