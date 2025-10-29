@@ -53,7 +53,7 @@ public class MarkSoldCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-      
+
         String invalidIdsMessage = getInvalidPropertyIdsMessage(model, propertyIds);
         if (invalidIdsMessage != null) {
             throw new CommandException(invalidIdsMessage);
