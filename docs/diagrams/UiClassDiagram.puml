@@ -13,6 +13,8 @@ Class HelpWindow
 Class ResultDisplay
 Class ContactListPanel
 Class ContactCard
+Class PropertyListPanel
+Class PropertyCard
 Class StatusBarFooter
 Class CommandBox
 }
@@ -33,25 +35,31 @@ UiManager -down-> "1" MainWindow
 MainWindow *-down->  "1" CommandBox
 MainWindow *-down-> "1" ResultDisplay
 MainWindow *-down-> "1" ContactListPanel
+MainWindow *-down-> "1" PropertyListPanel
 MainWindow *-down-> "1" StatusBarFooter
 MainWindow --> "0..1" HelpWindow
 
 ContactListPanel -down-> "*" ContactCard
+PropertyListPanel -down-> "*" PropertyCard
 
 MainWindow -left-|> UiPart
 
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
 ContactListPanel --|> UiPart
+PropertyListPanel --|> UiPart
 ContactCard --|> UiPart
+PropertyCard --|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
 
 ContactCard ..> Model
+PropertyCard ..> Model
 UiManager -right-> Logic
-MainWindow -left-> Logic
+MainWindow -right-> Logic
 
 ContactListPanel -[hidden]left- HelpWindow
+PropertyListPanel -[hidden]left- ContactListPanel
 HelpWindow -[hidden]left- CommandBox
 CommandBox -[hidden]left- ResultDisplay
 ResultDisplay -[hidden]left- StatusBarFooter
