@@ -461,7 +461,8 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
-                                                                                                                                                                                                                        |
+
+
 | Action                      | Format, Examples                                                                                                                                                                                                                                                             |
 |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`                               |
