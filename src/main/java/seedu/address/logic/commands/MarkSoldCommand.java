@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.MarkUnsoldCommand.getInvalidPropertyIdsMessage;
 
 import java.util.Set;
 
@@ -29,7 +30,6 @@ public class MarkSoldCommand extends Command {
             + "Example: " + COMMAND_WORD + " p/14 p/27";
 
     public static final String MESSAGE_MARK_SOLD_SUCCESS = "Marked %d property(ies) as sold.";
-    public static final String MESSAGE_PROPERTY_NOT_FOUND = "%s not found.";
 
     private final Set<Uuid> propertyIds;
 
@@ -53,12 +53,11 @@ public class MarkSoldCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+      
+        String invalidIdsMessage = getInvalidPropertyIdsMessage(model, propertyIds);
+        if (invalidIdsMessage != null) {
+            throw new CommandException(invalidIdsMessage);
 
-        // Validate all IDs first
-        for (Uuid id : propertyIds) {
-            if (model.getPropertyById(id) == null) {
-                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, "Property " + id.getValue()));
-            }
         }
 
         int count = 0;

@@ -10,7 +10,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CONTACTS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -41,7 +40,7 @@ import seedu.address.model.uuid.Uuid;
  */
 public class EditContactCommand extends Command {
 
-    public static final String COMMAND_WORD = "edit";
+    public static final String COMMAND_WORD = "editcontact";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the contact identified "
             + "by their UUID. "
@@ -83,9 +82,9 @@ public class EditContactCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Contact> lastShownList = model.getFilteredContactList();
+        List<Contact> allContacts = model.getAddressBook().getContactList();
 
-        Contact contactToEdit = lastShownList.stream()
+        Contact contactToEdit = allContacts.stream()
                 .filter(p -> p.getUuid().equals(targetUuid))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(MESSAGE_CONTACT_NOT_FOUND));
@@ -97,7 +96,6 @@ public class EditContactCommand extends Command {
         }
 
         model.setContact(contactToEdit, editedContact);
-        model.updateFilteredContactList(PREDICATE_SHOW_ALL_CONTACTS);
 
         showContactsView();
 
