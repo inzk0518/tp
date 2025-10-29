@@ -30,11 +30,11 @@ public class LinkCommand extends Command {
 
     public static final String COMMAND_WORD = "link";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to contacts. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to contacts.\n"
             + "Parameters: "
-            + PREFIX_PROPERTY_ID + "PROPERTY_ID{1..} "
+            + PREFIX_PROPERTY_ID + "PROPERTY_ID... "
             + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller')"
-            + PREFIX_CONTACT_ID + "CONTACT_ID{1..}"
+            + PREFIX_CONTACT_ID + "CONTACT_ID...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PROPERTY_ID + "2 "
             + PREFIX_LINK_RELATIONSHIP + "buyer "
