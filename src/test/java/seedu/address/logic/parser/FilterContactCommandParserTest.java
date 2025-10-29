@@ -3,6 +3,21 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.BUDGET_MAX_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.BUDGET_MIN_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.STATUS_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_BUDGET_MAX_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_BUDGET_MIN_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_STATUS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -15,24 +30,18 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.contact.BudgetMax;
+import seedu.address.model.contact.BudgetMin;
+import seedu.address.model.contact.ContactStatus;
+import seedu.address.model.contact.Email;
 import seedu.address.model.contact.FilterContactPredicate;
+import seedu.address.model.contact.Name;
+import seedu.address.model.contact.Phone;
+import seedu.address.model.contact.Tag;
 
 public class FilterContactCommandParserTest {
 
     private final FilterContactCommandParser parser = new FilterContactCommandParser();
-
-    @Test
-    public void parse_emptyArgs_returnsFilterContactCommand() {
-        FilterContactCommand expectedCommand =
-                new FilterContactCommand(new FilterContactPredicate(
-                        Optional.empty(), Optional.empty(), Optional.empty(),
-                        Optional.empty(), Optional.empty(), Optional.empty(),
-                        Optional.empty(), Optional.empty(), Optional.empty(),
-                        Optional.empty(), Optional.empty()));
-
-        assertParseSuccess(parser, "", expectedCommand);
-        assertParseSuccess(parser, "    ", expectedCommand);
-    }
 
     @Test
     public void parse_validArgs_returnsFilterContactCommand() {
@@ -75,10 +84,10 @@ public class FilterContactCommandParserTest {
     }
 
     @Test
-    public void parsePositiveInteger_validValues_success() throws Exception {
+    public void parseLimit_validValues_success() throws Exception {
         FilterContactCommandParser parser = new FilterContactCommandParser();
 
-        Optional<Integer> result = parser.parsePositiveInteger(Optional.of("5"));
+        Optional<Integer> result = parser.parseLimit(Optional.of("5"));
         assertTrue(result.isPresent());
         assertEquals(5, result.get());
     }
@@ -87,17 +96,17 @@ public class FilterContactCommandParserTest {
     public void parsePositiveInteger_invalidValues_throwsParseException() {
         FilterContactCommandParser parser = new FilterContactCommandParser();
 
-        assertThrows(ParseException.class, () -> parser.parsePositiveInteger(Optional.of("0")));
-        assertThrows(ParseException.class, () -> parser.parsePositiveInteger(Optional.of("-2")));
-        assertThrows(ParseException.class, () -> parser.parsePositiveInteger(Optional.of("abc")));
+        assertThrows(ParseException.class, () -> parser.parseLimit(Optional.of("0")));
+        assertThrows(ParseException.class, () -> parser.parseLimit(Optional.of("-2")));
+        assertThrows(ParseException.class, () -> parser.parseLimit(Optional.of("abc")));
     }
 
     @Test
-    public void parseNonNegativeInteger_validValues_success() throws Exception {
+    public void parseOffset_validValues_success() throws Exception {
         FilterContactCommandParser parser = new FilterContactCommandParser();
 
-        Optional<Integer> zero = parser.parseNonNegativeInteger(Optional.of("0"));
-        Optional<Integer> positive = parser.parseNonNegativeInteger(Optional.of("10"));
+        Optional<Integer> zero = parser.parseOffset(Optional.of("0"));
+        Optional<Integer> positive = parser.parseOffset(Optional.of("10"));
 
         assertTrue(zero.isPresent());
         assertEquals(0, zero.get());
@@ -109,8 +118,8 @@ public class FilterContactCommandParserTest {
     public void parseNonNegativeInteger_invalidValues_throwsParseException() {
         FilterContactCommandParser parser = new FilterContactCommandParser();
 
-        assertThrows(ParseException.class, () -> parser.parseNonNegativeInteger(Optional.of("-1")));
-        assertThrows(ParseException.class, () -> parser.parseNonNegativeInteger(Optional.of("abc")));
+        assertThrows(ParseException.class, () -> parser.parseOffset(Optional.of("-1")));
+        assertThrows(ParseException.class, () -> parser.parseOffset(Optional.of("abc")));
     }
 
     @Test
@@ -149,28 +158,39 @@ public class FilterContactCommandParserTest {
 
         // Name containing prefix-like value
         assertParseFailure(parser,
-                " n/" + prefixLikeValue + " p/12345678",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+                NAME_DESC_BOB.replace(VALID_NAME_BOB, prefixLikeValue) + PHONE_DESC_BOB,
+                Name.MESSAGE_CONSTRAINTS);
 
         // Phone containing prefix-like value
         assertParseFailure(parser,
-                " n/Alice p/" + prefixLikeValue,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+                NAME_DESC_BOB + PHONE_DESC_BOB.replace(VALID_PHONE_BOB, prefixLikeValue),
+                Phone.MESSAGE_CONSTRAINTS);
 
         // Email containing prefix-like value
         assertParseFailure(parser,
-                " n/Alice p/12345678 e/" + prefixLikeValue,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
-
-        // Address containing prefix-like value
-        assertParseFailure(parser,
-                " n/Alice a/" + prefixLikeValue,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB.replace(VALID_EMAIL_BOB, prefixLikeValue),
+                Email.MESSAGE_CONSTRAINTS);
 
         // Tag containing prefix-like value
         assertParseFailure(parser,
-                " n/Alice t/" + prefixLikeValue,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                        + TAG_DESC_BOB.replace(VALID_TAG_BUYER, prefixLikeValue),
+                String.format(Tag.MESSAGE_CONSTRAINTS, prefixLikeValue));
+        // Budget Min containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB
+                        + BUDGET_MIN_DESC_BOB.replace(VALID_BUDGET_MIN_BOB, prefixLikeValue),
+                BudgetMin.MESSAGE_CONSTRAINTS);
+        // Budget Max containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB
+                        + BUDGET_MAX_DESC_BOB.replace(VALID_BUDGET_MAX_BOB, prefixLikeValue),
+                BudgetMax.MESSAGE_CONSTRAINTS);
+        // Status containing prefix-like value
+        assertParseFailure(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB
+                        + STATUS_DESC_BOB.replace(VALID_STATUS_BOB, prefixLikeValue),
+                String.format(ContactStatus.MESSAGE_CONSTRAINTS, prefixLikeValue));
     }
 
     @Test

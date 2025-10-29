@@ -177,8 +177,9 @@ Examples:
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-You are only able to edit the contacts currently shown on the GUI (even if they are stored in the address book). <br>
-i.e. Do not filter then edit a contact that has been filtered out. Reset the filter before editing.
+You are able to edit valid contacts even if they are not currently shown on the GUI (but are stored in the address book). <br><br>
+i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>. <br>
+Use the <code>list</code> command to see the changes.
 </div>
 
 For more information on the parameters, click [here](#command-parameters).
@@ -187,7 +188,7 @@ For more information on the parameters, click [here](#command-parameters).
 
 Filters the contacts based on the fields given.
 
-Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min/AMOUNT] [max/AMOUNT] [t/TAG...] [notes/TEXT...] [s/STATUS...] [limit/LIMIT] [offset/OFFSET]`
+Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min/AMOUNT] [max/AMOUNT] [t/TAG...] [notes/TEXT...] [status/STATUS...] [limit/LIMIT] [offset/OFFSET]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`.
 * Substring words will be matched e.g. `Bob` will match `Bobby`.
@@ -197,7 +198,7 @@ Format: `filtercontact [n/NAME...] [p/PHONE...] [e/EMAIL...] [a/ADDRESS...] [min
 
 Examples:
 * `filtercontact a/yishun`
-* `filtercontact n/Tan s/active inactive`
+* `filtercontact n/Tan status/active inactive`
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
@@ -240,13 +241,18 @@ Filters the properties based on the fields given.
 
 Format: `filterproperty [a/ADDRESS] [p/POSTAL] [t/TYPE] [bed/BEDROOM] [bath/BATHROOM] [f/FLOORAREA] [status/STATUS] [price/PRICE] [l/LISTING] [o/CONTACT_ID] [limit/LIMIT] [offset/OFFSET]`
 
-* The search is case-insensitive. e.g `clementi` will match `Clementi`
-* Property with address with substring address will be matched e.g. `Clementi` will match `CLementi Avenue 8`
-* Property matching all the filter will be returned
+* The search is case-insensitive. e.g `clementi` will match `Clementi`.
+* Substring property addresses will be matched e.g. `Clementi` will match `CLementi Avenue 8`.
+* Properties matching all the filters will be returned.
 
 Examples:
 * `filterproperty a/yishun`
 * `filterproperty bed/2 f/100`
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+To reset all filters, you can type <code>list</code>
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -268,11 +274,19 @@ Examples:
 
 Marks the statuses of the properties given as unavailable.
 
-Format: `sold p/UUID...`
+Format: `sold p/PROPERTY_ID...`
+
+* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 
 Examples:
 * `sold p/1`
 * `sold p/2 p/3`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+If one of the <code>PROPERTY_ID</code> given is invalid, the whole command is aborted.
+The statuses of properties with valid <code>PROPERTY_ID</code> will not be changed.
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -280,11 +294,19 @@ For more information on the parameters, click [here](#command-parameters).
 
 Marks the statuses of the properties given as available.
 
-Format: `unsold p/UUID...`
+Format: `unsold p/PROPERTY_ID...`
+
+* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 
 Examples:
 * `unsold p/1`
 * `unsold p/2 p/3`
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**<br>
+If one of the <code>PROPERTY_ID</code> given is invalid, the whole command is aborted.
+The statuses of properties with valid <code>PROPERTY_ID</code> will not be changed.
+</div>
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -417,7 +439,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 | Action                      | Format, Examples                                                                                                                                                                                                                                              |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add Contact**             | `addcontact n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`         |
+| **Add Contact**             | `addcontact n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]` <br> <br> e.g., `addcontact n/Alex p/91423123 a/982 Yishun Road t/buyer s/active notes/wants near school min/100000 max/300000`         |
 | **Edit Contact**            | `editcontact UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS]`<br> <br> e.g.,`editcontact 2 n/Bobby a/Block 321 Punggol`                                                                            |
 | **Filter Contact**          | `filtercontact [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [min/AMOUNT] [max/AMOUNT] [t/TAG]... [notes/TEXT] [s/STATUS] [limit/LIMIT] [offset/OFFSET]`<br> <br> e.g.,`filtercontact n/Tan s/active`                                                              |
 | **Delete Contact**          | `deletecontact UUID`<br> <br> e.g., `deletecontact 3`                                                                                                                                                                                                         |
