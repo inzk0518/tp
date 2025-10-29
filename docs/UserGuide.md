@@ -60,7 +60,7 @@ Mac Users: <code>⌘ + F</code>
 
 TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
 
-![GUI Overview](images/GUI-UI.png)
+![GUI Overview](images/GUI.png)
 
 * `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
 * `Command Box`: The main area where users can enter commands to interact with the app.
@@ -337,29 +337,29 @@ Format: `link c/CONTACT_ID... p/PROPERTY_ID...`
 
 Displays all properties associated with a specific contact by their UUID.
 
-Format: `showproperties c/CONTACT_ID`
+Format: `showproperties CONTACT_UUID`
 
-* `CONTACT_ID` refers to the UUID of the contact shown in the contact list.
+* `CONTACT_UUID` refers to the UUID of the contact shown in the contact list.
 * The view automatically switches to show the property list.
 * If no properties are found, suggestions will be provided.
 
 Examples:
-* `showproperties c/1`
-* `showproperties c/123`
+* `showproperties 1`
+* `showproperties 123`
 
 ### Showing contacts associated with a property : `showcontacts`
 
 Displays all contacts associated with a specific property by their UUID.
 
-Format: `showcontacts p/PROPERTY_ID`
+Format: `showcontacts PROPERTY_UUID`
 
-* `PROPERTY_ID` refers to the UUID of the property shown in the property list.
+* `PROPERTY_UUID` refers to the UUID of the property shown in the property list.
 * The view automatically switches to show the contact list.
 * If no contacts are found, suggestions will be provided.
 
 Examples:
-* `showcontacts p/1`
-* `showcontacts p/12`
+* `showcontacts 1`
+* `showcontacts 12`
 
 ### Clearing all entries : `clear`
 
@@ -454,6 +454,8 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 | **Mark Property as Unsold** | `unsold p/UUID...` <br><br> e.g. `unsold p/2 p/3`                                                                                                                                                                                                                                                                                            |
 | **Link**                    | `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`<br> <br>  e.g., `link c/12 r/buyer p/12 p/4`                                                                                                                                                                                                                                          |
 | **Unlink**                  | `unlink c/CONTACT_ID... p/PROPERTY_ID...`<br> <br> e.g., `link c/1 p/14 c/2`                                                                                                                                                                                                                                                                 |
+| **Show Properties**         | `showproperties CONTACT_UUID`<br> <br> e.g., `showproperties 1`                                                                                                                                                                                                                                                                              |
+| **Show Contacts**           | `showcontacts PROPERTY_UUID`<br> <br> e.g., `showcontacts 12`                                                                                                                                                                                                                                                                                |
 | **List**                    | `list`                                                                                                                                                                                                                                                                                                                                       |
 | **Clear**                   | `clear`                                                                                                                                                                                                                                                                                                                                      |
 | **Help**                    | `help`                                                                                                                                                                                                                                                                                                                                       |

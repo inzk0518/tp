@@ -17,8 +17,8 @@ public class ShowContactsCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows all contacts associated with the specified property.\n"
-            + "Parameters: p/PROPERTY_ID (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " p/123";
+            + "Parameters: PROPERTY_UUID (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 123";
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d contact%3$s associated with property ID: %1$s";
 
