@@ -1,8 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_ID;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
@@ -140,7 +140,7 @@ public class UnlinkCommand extends Command {
                     .filter(contact -> contactIds.contains(contact.getUuid()))
                     .collect(Collectors.toList());
             if (contactsList.size() != contactIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_ID);
             }
             return contactsList;
         }
@@ -156,7 +156,7 @@ public class UnlinkCommand extends Command {
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID);
             }
             return propertiesList;
         }
