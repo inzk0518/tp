@@ -341,6 +341,8 @@ Format: `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
 * `CONTACT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `link` can link any number of properties and people at once (excluding none).
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Unlinking people and properties : `unlink`
 
 Unlinks people from properties as buyers and sellers, at the same time, by their UUIDs.
@@ -349,6 +351,8 @@ Format: `link c/CONTACT_ID... p/PROPERTY_ID...`
 
 * `CONTACT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `unlink` can unlink any number of properties and people at once (excluding none).
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Showing properties associated with a contact : `showproperties`
 
@@ -364,6 +368,8 @@ Examples:
 * `showproperties c/1`
 * `showproperties c/123`
 
+For more information on the parameters, click [here](#command-parameters).
+
 ### Showing contacts associated with a property : `showcontacts`
 
 Displays all contacts associated with a specific property by their UUID.
@@ -377,6 +383,8 @@ Format: `showcontacts p/PROPERTY_ID`
 Examples:
 * `showcontacts p/1`
 * `showcontacts p/12`
+
+For more information on the parameters, click [here](#command-parameters).
 
 ### Clearing all entries : `clear`
 
