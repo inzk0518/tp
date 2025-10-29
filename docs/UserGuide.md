@@ -233,7 +233,7 @@ Format: `addproperty a/ADDRESS p/POSTAL price/PRICE t/TYPE status/STATUS bed/BED
 * `status/STATUS` accepts `available` or `unavailable` (case-insensitive).
 * `bed/BEDROOM` and `bath/BATHROOM` accept integers from 0 to 20.
 * `f/FLOOR_AREA` accepts integers from 50 to 100000 (square feet).
-* `l/LISTING` accepts `sale` or `rent` (case-insensitive). A property marked as `sold` cannot be listed for `rent`.
+* `l/LISTING` accepts `sale` or `rent` (case-insensitive).
 * `o/CONTACT_ID` should be the UUID of an existing contact.
 * The command rejects properties that share both the same address and postal code as an existing property.
 * Each new property is assigned the next available UUID automatically; you do not provide an ID when adding it.
