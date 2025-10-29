@@ -2,8 +2,8 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
@@ -13,7 +13,6 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.MarkUnsoldCommand;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.uuid.Uuid;
 
@@ -71,7 +70,10 @@ public class MarkUnsoldCommandParserTest {
 
     @Test
     public void parse_duplicateIds_failure() {
-        String input = " " + PREFIX_PROPERTY_ID + "aaa " + PREFIX_PROPERTY_ID + "bbb " + PREFIX_PROPERTY_ID + "aaa"; // duplicate aaa
+        String input = " "
+                + PREFIX_PROPERTY_ID + "aaa "
+                + PREFIX_PROPERTY_ID + "bbb "
+                + PREFIX_PROPERTY_ID + "aaa"; // duplicate aaa
         ParseException exception = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals("Duplicate property ID detected: aaa", exception.getMessage());
     }

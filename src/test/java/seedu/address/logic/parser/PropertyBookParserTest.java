@@ -84,6 +84,7 @@ class PropertyBookParserTest {
 
     @Test
     public void parseCommand_filterProperty() throws Exception {
-        assertTrue(parser.parseCommand("filterproperty " + PREFIX_PROPERTY_TYPE + "hdb") instanceof FilterPropertyCommand);
+        assertTrue(parser.parseCommand("filterproperty " + PREFIX_PROPERTY_TYPE + "hdb")
+                instanceof FilterPropertyCommand);
     }
 }

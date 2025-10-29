@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
@@ -8,7 +9,6 @@ import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.ShowContactsCommand;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import seedu.address.model.uuid.Uuid;
 
 public class ShowContactsCommandParserTest {
@@ -74,7 +74,7 @@ public class ShowContactsCommandParserTest {
 
     @Test
     public void parse_invalidPrefixCase_throwsParseException() {
-        assertParseFailure(parser, " " + PREFIX_PROPERTY_ID + "1",
+        assertParseFailure(parser, " " + PREFIX_PROPERTY_ID.toString().toUpperCase() + "1",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowContactsCommand.MESSAGE_USAGE));
     }
 }

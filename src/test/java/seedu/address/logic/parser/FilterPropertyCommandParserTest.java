@@ -82,8 +82,8 @@ public class FilterPropertyCommandParserTest {
     }
     @Test
     public void parseDuplicateTagThrowsParseException() {
-        assertThrows(ParseException.class,
-                () -> parser.parse(" " + PREFIX_PROPERTY_TYPE + "condo " + PREFIX_PROPERTY_TYPE + "hdb"));
+        assertThrows(ParseException.class, () -> parser.parse(
+                " " + PREFIX_PROPERTY_TYPE + "condo " + PREFIX_PROPERTY_TYPE + "hdb"));
     }
 
     @Test

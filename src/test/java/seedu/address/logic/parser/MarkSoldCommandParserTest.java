@@ -70,7 +70,10 @@ public class MarkSoldCommandParserTest {
 
     @Test
     public void parse_duplicateIds_failure() {
-        String input = " " + PREFIX_PROPERTY_ID + "111 " + PREFIX_PROPERTY_ID + "222 " + PREFIX_PROPERTY_ID + "111"; // duplicate 111
+        String input = " "
+                + PREFIX_PROPERTY_ID + "111 "
+                + PREFIX_PROPERTY_ID + "222 "
+                + PREFIX_PROPERTY_ID + "111"; // duplicate 111
         ParseException exception = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals("Duplicate property ID detected: 111", exception.getMessage());
     }

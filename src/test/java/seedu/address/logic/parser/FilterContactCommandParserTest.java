@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.BUDGET_MAX_DESC_BOB;
@@ -20,8 +19,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STATUS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -33,8 +34,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FilterContactCommand;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.contact.BudgetMax;
 import seedu.address.model.contact.BudgetMin;
@@ -65,10 +64,18 @@ public class FilterContactCommandParserTest {
                         Optional.empty(), Optional.empty()
                 ));
 
-        assertParseSuccess(parser, " " + PREFIX_NAME + "Alice Bob " + PREFIX_PHONE + "12345678 " + PREFIX_EMAIL + "alice@example.com", expectedCommand);
+        assertParseSuccess(parser, " "
+                + PREFIX_NAME + "Alice Bob "
+                + PREFIX_PHONE + "12345678 "
+                + PREFIX_EMAIL + "alice@example.com",
+                expectedCommand);
 
         // Test with multiple prefixes and whitespace
-        assertParseSuccess(parser, " \n " + PREFIX_NAME + "Alice Bob \n " + PREFIX_PHONE + "12345678 \t " + PREFIX_EMAIL + "alice@example.com \t", expectedCommand);
+        assertParseSuccess(parser, " \n "
+                + PREFIX_NAME + "Alice Bob \n "
+                + PREFIX_PHONE + "12345678 \t "
+                + PREFIX_EMAIL + "alice@example.com \t",
+                expectedCommand);
     }
 
     @Test
@@ -141,7 +148,11 @@ public class FilterContactCommandParserTest {
         );
 
         FilterContactCommand expectedCommand = new FilterContactCommand(predicate);
-        assertParseSuccess(parser, " " + PREFIX_NAME + "Alice " + PREFIX_LIMIT + "5 " + PREFIX_OFFSET + "10", expectedCommand);
+        assertParseSuccess(parser, " "
+                + PREFIX_NAME + "Alice "
+                + PREFIX_LIMIT + "5 "
+                + PREFIX_OFFSET + "10",
+                expectedCommand);
     }
 
     @Test
@@ -201,7 +212,10 @@ public class FilterContactCommandParserTest {
 
     @Test
     public void parse_notesContainingPrefixLikeStrings_success() throws Exception {
-        String input = " " + PREFIX_NAME + "Alice " + PREFIX_PHONE + "12345678 " + PREFIX_NOTES + " some/note/with/slashes";
+        String input = " "
+                + PREFIX_NAME + "Alice "
+                + PREFIX_PHONE + "12345678 "
+                + PREFIX_NOTES + " some/note/with/slashes";
 
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.of(Arrays.asList("Alice")),

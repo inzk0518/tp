@@ -32,7 +32,7 @@ import seedu.address.model.uuid.Uuid;
  * Parses input arguments and creates a new AddContactCommand object
  */
 public class AddContactCommandParser implements Parser<AddContactCommand> {
-    public static final String NAME_AND_PHONE_MISSING = 
+    public static final String NAME_AND_PHONE_MISSING =
             "Name (" + PREFIX_NAME + "NAME) and Phone (" + PREFIX_PHONE + "PHONE) parameters are missing.\n";
     public static final String NAME_MISSING = "Name parameter (" + PREFIX_NAME + "NAME) is missing.\n";
     public static final String PHONE_MISSING = "Phone parameter (" + PREFIX_PHONE + "PHONE) is missing.\n";
