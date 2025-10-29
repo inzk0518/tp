@@ -458,6 +458,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 | **Clear**                   | `clear`                                                                                                                                                                                                                                                                                                                                      |
 | **Help**                    | `help`                                                                                                                                                                                                                                                                                                                                       |
 
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command Parameters
