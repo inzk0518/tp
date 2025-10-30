@@ -51,9 +51,10 @@ public class FilterPropertyCommandParserTest {
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
                                 .withOwner("alice").build(),
-                        20, 0);
+                        Integer.MAX_VALUE, 0);
         assertEquals(expected, parser.parse(input));
     }
+
     @Test
     public void parseValidArgsSuccessThird() throws Exception {
         String input = " "
@@ -67,7 +68,17 @@ public class FilterPropertyCommandParserTest {
                         new PropertyMatchesFilterPredicate.Builder()
                                 .withAddress("Geylang 18").withPostal("123000").withBathroom("3")
                                 .withPrice("5000").withListing("rent").build(),
-                        20, 0); // defaults
+                        Integer.MAX_VALUE, 0); // defaults
+        assertEquals(expected, parser.parse(input));
+    }
+
+    @Test
+    public void parseEmptyArgSuccessForth() throws Exception {
+        String input = "";
+        FilterPropertyCommand expected = new FilterPropertyCommand(
+                new PropertyMatchesFilterPredicate.Builder().build(),
+                Integer.MAX_VALUE,
+                0);
         assertEquals(expected, parser.parse(input));
     }
 
@@ -77,9 +88,20 @@ public class FilterPropertyCommandParserTest {
     }
 
     @Test
+    public void parseInvalidPrefixThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + "abc/123"));
+    }
+
+    @Test
     public void parseInvalidPostalThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_POSTAL + "1234567"));
     }
+
+    @Test
+    public void parseInvalidTypeThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_TYPE + "villa"));
+    }
+
     @Test
     public void parseDuplicateTagThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(
@@ -114,6 +136,16 @@ public class FilterPropertyCommandParserTest {
     @Test
     public void parseInvalidListingThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_LISTING + "free"));
+    }
+
+    @Test
+    public void parseInvalidLimitThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_LIMIT + "0"));
+    }
+
+    @Test
+    public void parseInvalidOffsetThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_OFFSET + "-1"));
     }
 }
 

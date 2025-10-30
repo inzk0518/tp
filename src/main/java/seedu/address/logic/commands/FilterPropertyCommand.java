@@ -50,9 +50,6 @@ public class FilterPropertyCommand extends Command {
             + PREFIX_PROPERTY_PRICE + "500000 "
             + PREFIX_PROPERTY_LISTING + "sale";
 
-    public static final String MESSAGE_INVALID_LIMIT = "Error: Invalid limit";
-    public static final String MESSAGE_INVALID_OFFSET = "Error: Invalid offset";
-
     private final PropertyMatchesFilterPredicate predicate;
     private final int limit;
     private final int offset;
@@ -70,28 +67,26 @@ public class FilterPropertyCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (limit < 1) {
-            throw new CommandException(MESSAGE_INVALID_LIMIT);
-        }
-        if (offset < 0) {
-            throw new CommandException(MESSAGE_INVALID_OFFSET);
-        }
-
         List<Property> allMatches = model.getFilteredPropertyList().stream()
                 .filter(predicate)
                 .toList();
 
         int total = allMatches.size();
+
+        //Check if there is input limit, else it will equal to total.
+        int limit = this.limit;
+        if (limit == Integer.MAX_VALUE) {
+            limit = total;
+        }
+
         int start = Math.min(offset, total);
         int endExclusive = Math.min(offset + limit, total);
         List<Property> page = allMatches.subList(start, endExclusive);
 
         model.updateFilteredPropertyList(page::contains);
 
-        // Build “X properties matched (showing i–j)”
-        int from = total == 0 ? 0 : start + 1;
-        int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format("%d properties matched (showing %d–%d)", total, from, to);
+        // Build “X properties matched”
+        String msg = String.format("%d properties matched", Math.min(limit, Math.max(total - offset, 0)));
 
         showPropertiesView();
 

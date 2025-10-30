@@ -82,13 +82,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withPostal("123000").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -96,13 +96,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withType("Condo").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -110,14 +110,14 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withStatus("available").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
         assertTrue(shown.contains(p3));
-        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -125,13 +125,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withBedroom("4").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p2));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -139,13 +139,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withFloorArea("100").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -153,13 +153,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withPrice("1000000").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -167,13 +167,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withOwner("carol").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p3));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -181,13 +181,13 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withListing("sale").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class FilterPropertyCommandTest {
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
-        assertEquals("2 properties matched (showing 2–2)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test

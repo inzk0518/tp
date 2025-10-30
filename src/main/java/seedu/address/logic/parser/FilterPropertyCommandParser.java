@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
@@ -13,6 +14,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import seedu.address.logic.commands.FilterPropertyCommand;
@@ -24,7 +27,6 @@ import seedu.address.model.property.Listing;
 import seedu.address.model.property.Owner;
 import seedu.address.model.property.Postal;
 import seedu.address.model.property.Price;
-import seedu.address.model.property.PropertyAddress;
 import seedu.address.model.property.Status;
 import seedu.address.model.property.Type;
 import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
@@ -42,24 +44,46 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
      */
     @Override
     public FilterPropertyCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
-                PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA, PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS,
-                PREFIX_PROPERTY_OWNER, PREFIX_PROPERTY_LISTING, PREFIX_LIMIT, PREFIX_OFFSET);
 
-        argMultimap.verifyNoDuplicatePrefixesFor(
+        if (args.trim().isEmpty()) {
+            return new FilterPropertyCommand(
+                    new PropertyMatchesFilterPredicate.Builder().build(),
+                    Integer.MAX_VALUE,
+                    0
+            );
+        }
+        //Look for all prefix
+        List<String> detectedPrefixes = Arrays.stream(args.split("\\s+"))
+                .filter(s -> s.contains("/") && !s.startsWith("/"))
+                .map(s -> s.substring(0, s.indexOf("/") + 1))
+                .toList();
+
+        List<Prefix> validPrefixes = List.of(
                 PREFIX_PROPERTY_ADDRESS, PREFIX_PROPERTY_POSTAL, PREFIX_PROPERTY_TYPE, PREFIX_PROPERTY_BEDROOM,
                 PREFIX_PROPERTY_BATHROOM, PREFIX_PROPERTY_FLOOR_AREA, PREFIX_PROPERTY_PRICE, PREFIX_PROPERTY_STATUS,
                 PREFIX_PROPERTY_OWNER, PREFIX_PROPERTY_LISTING, PREFIX_LIMIT, PREFIX_OFFSET
         );
+
+        List<String> invalidPrefixes = detectedPrefixes.stream()
+                .filter(p -> validPrefixes.stream().map(Prefix::getPrefix).noneMatch(x -> x.equals(p)))
+                .toList();
+
+        if (!invalidPrefixes.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    FilterPropertyCommand.MESSAGE_USAGE));
+        }
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, validPrefixes.toArray(new Prefix[0]));
+
+        argMultimap.verifyNoDuplicatePrefixesFor(validPrefixes.toArray(new Prefix[0]));
 
         PropertyMatchesFilterPredicate.Builder builder = new PropertyMatchesFilterPredicate.Builder();
 
         Optional<String> maybeAddress = argMultimap.getValue(PREFIX_PROPERTY_ADDRESS);
         if (maybeAddress.isPresent()) {
             String t = maybeAddress.get().trim();
-            if (!PropertyAddress.isValidPropertyAddress(t)) {
-                throw new ParseException("Invalid address. Provide 5-200 chars with at least one letter and one digit");
+            if (!t.matches("^(?=.*[A-Za-z]).{0,200}$")) {
+                throw new ParseException("Invalid address. Provide 1-200 chars with at least one letter");
             }
             builder.withAddress(t);
         }
@@ -68,7 +92,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybePostal.isPresent()) {
             String t = maybePostal.get().trim();
             if (!Postal.isValidPostal(t)) {
-                throw new ParseException("Error: Invalid postal code (Use a 6-digit postal code)");
+                throw new ParseException(Postal.MESSAGE_CONSTRAINTS);
             }
             builder.withPostal(t);
         }
@@ -77,8 +101,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeType.isPresent()) {
             String t = maybeType.get().trim();
             if (!Type.isValidType(t)) {
-                throw new ParseException("Error: Invalid type (Allowed: hdb, condo, "
-                        + "landed, apartment, office or others)");
+                throw new ParseException(Type.MESSAGE_CONSTRAINTS);
             }
             builder.withType(t);
         }
@@ -87,7 +110,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeBedroom.isPresent()) {
             String t = maybeBedroom.get().trim();
             if (!Bedroom.isValidBedroom(t)) {
-                throw new ParseException("Error: Invalid bedroom (0–20)");
+                throw new ParseException(Bedroom.MESSAGE_CONSTRAINTS);
             }
             builder.withBedroom(t);
         }
@@ -96,7 +119,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeBathroom.isPresent()) {
             String t = maybeBathroom.get().trim();
             if (!Bathroom.isValidBathroom(t)) {
-                throw new ParseException("Error: Invalid bathroom (0–20)");
+                throw new ParseException(Bathroom.MESSAGE_CONSTRAINTS);
             }
             builder.withBathroom(t);
         }
@@ -105,7 +128,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeFloorArea.isPresent()) {
             String t = maybeFloorArea.get().replace(",", "").trim();
             if (!FloorArea.isValidFloorArea(t)) {
-                throw new ParseException("Error: Invalid floor area (digits only)");
+                throw new ParseException(FloorArea.MESSAGE_CONSTRAINTS);
             }
             builder.withFloorArea(t);
         }
@@ -114,7 +137,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybePrice.isPresent()) {
             String t = maybePrice.get().replace(",", "").trim();
             if (!Price.isValidPrice(t)) {
-                throw new ParseException("Error: Invalid price (digits only)");
+                throw new ParseException(Price.MESSAGE_CONSTRAINTS);
             }
             builder.withPrice(t);
         }
@@ -123,7 +146,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeStatus.isPresent()) {
             String t = maybeStatus.get().trim().toLowerCase();
             if (!Status.isValidStatus(t)) {
-                throw new ParseException("Error: Invalid status");
+                throw new ParseException(Status.MESSAGE_CONSTRAINTS);
             }
             builder.withStatus(t);
         }
@@ -132,7 +155,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeOwner.isPresent()) {
             String t = maybeOwner.get().trim();
             if (!Owner.isValidOwner(t)) {
-                throw new ParseException("Error: Invalid owner");
+                throw new ParseException(Owner.MESSAGE_CONSTRAINTS);
             }
             builder.withOwner(t);
         }
@@ -141,25 +164,29 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeListing.isPresent()) {
             String t = maybeListing.get().trim().toLowerCase();
             if (!Listing.isValidListing(t)) {
-                throw new ParseException("Error: Invalid listing");
+                throw new ParseException(Listing.MESSAGE_CONSTRAINTS);
             }
             builder.withListing(t);
         }
 
-        int limit = argMultimap.getValue(PREFIX_LIMIT)
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .orElse(20);
-        int offset = argMultimap.getValue(PREFIX_OFFSET)
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .orElse(0);
-
-        if (limit < 1) {
-            throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_LIMIT);
+        int limit = Integer.MAX_VALUE;
+        Optional<String> maybeLimit = argMultimap.getValue(PREFIX_LIMIT);
+        if (maybeLimit.isPresent()) {
+            String t = maybeLimit.get().trim();
+            if (!t.matches("^[1-9]\\d*$")) {
+                throw new ParseException("Error: Invalid limit (Positive integer only)");
+            }
+            limit = Integer.parseInt(t);
         }
-        if (offset < 0) {
-            throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_OFFSET);
+
+        int offset = 0;
+        Optional<String> maybeOffset = argMultimap.getValue(PREFIX_OFFSET);
+        if (maybeOffset.isPresent()) {
+            String t = maybeOffset.get().trim();
+            if (!t.matches("^0|[1-9]\\d*$")) {
+                throw new ParseException("Error: Invalid offset (Non-negative integer only)");
+            }
+            offset = Integer.parseInt(t);
         }
 
         return new FilterPropertyCommand(builder.build(), limit, offset);
