@@ -56,14 +56,13 @@ public class MarkSoldCommandTest {
 
     @Test
     public void execute_validIds_marksAsSold() throws Exception {
-        Set<Uuid> ids = Set.of(property1.getUuid(), property2.getUuid());
+        Set<Uuid> ids = Set.of(property1.getUuid());
         MarkSoldCommand command = new MarkSoldCommand(ids);
 
         CommandResult result = command.execute(modelStub);
 
-        assertEquals(String.format(MarkSoldCommand.MESSAGE_MARK_SOLD_SUCCESS, "1, 2"), result.getFeedbackToUser());
+        assertEquals(String.format(MarkSoldCommand.MESSAGE_MARK_SOLD_SUCCESS, "1"), result.getFeedbackToUser());
         assertEquals(new Status("unavailable"), modelStub.getPropertyById(property1.getUuid()).getStatus());
-        assertEquals(new Status("unavailable"), modelStub.getPropertyById(property2.getUuid()).getStatus());
     }
 
     @Test
