@@ -278,7 +278,7 @@ Format: `filterproperty [a/ADDRESS] [p/POSTAL] [t/TYPE] [bed/BEDROOM] [bath/BATH
 Examples:
 * `filterproperty a/yishun`
 * `filterproperty bed/2 f/100`
-    
+  
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
 To reset all filters, you can type <code>list</code>

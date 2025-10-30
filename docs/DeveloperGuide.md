@@ -970,7 +970,22 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Listing Contacts
+### Filtering and Switching Contact List (`filtercontact`)
+
+##### Switching to contact list view
+
+Command: `filtercontact`
+
+To simulate:<br>
+- Run the command while on any list (e.g., property list).
+
+Expected:<br>
+- The view switches to the contact list.
+- Status message confirms the change.
+
+Variations:<br>
+- Run multiple times; the second run should have no visible change.
+- Switch from property to contact and back to confirm toggling works.
 
 ##### Listing the full contact list
 
@@ -989,22 +1004,51 @@ Variations:<br>
 - Try `list` after filtering to confirm it resets filters.
 - Repeat after editing or deleting a contact to confirm it reflects the latest state.
 
-### Switching to Contact List
+##### Filtering by name and email
 
-##### Switching to contact list view
-
-Command: `filtercontact`
+Command: `filtercontact n/Alice e/example.com`
 
 To simulate:<br>
-- Run the command while on any list (e.g., property list).
+- Ensure multiple contacts exist.
+- Run the command above.
 
 Expected:<br>
-- The view switches to the contact list.
-- Status message confirms the change.
+- Lists only contacts whose names include “Alice” and emails include “example.com.”
+- Status message shows number of contacts displayed.
 
 Variations:<br>
-- Run multiple times; the second run should have no visible change.
-- Switch from property to contact and back to confirm toggling works.
+- Add more conditions (e.g., `t/buyer`) to confirm multi-prefix filtering.
+- Test with mixed casing (e.g., `n/aLiCe`) to confirm case-insensitive matching.
+
+##### Filtering by tag with limits
+Command: `filtercontact t/buyer limit/10 offset/1`
+
+To simulate:<br>
+- Ensure contact list contains multiple tagged `buyer`.
+- Run the command above.
+
+Expected:<br>
+- Shows up to 10 contacts, skipping the first one.
+- Status message indicates count and offset.
+
+Variations:<br>
+- Change limit/offset values to confirm pagination.
+- Use invalid tags to confirm error messages.
+
+##### Invalid filter command
+
+Command: `filtercontact abc/Apple`
+
+To simulate:<br>
+- Run the command with an invalid prefix.
+
+Expected:<br>
+- Error message displayed stating invalid parameter.
+- Contact list remains unchanged.
+
+Variations:<br>
+- Run `filtercontact abc` to confirm same outcome.
+- Run `filtercontact` alone — no change to list.
 
 ### Adding a contact
 
@@ -1059,7 +1103,7 @@ Variations:<br>
 
 ##### Editing a contact’s phone number
 
-Command: `edit 1 p/99272757`
+Command: `editcontact 1 p/99272757`
 
 To simulate:<br>
 - Run `list` to show all contacts.
@@ -1076,7 +1120,7 @@ Variations:<br>
 
 ##### Missing field in edit command
 
-Command: `edit 1`
+Command: `editcontact 1`
 
 To simulate:<br>
 - Run the command with no additional fields.
@@ -1086,8 +1130,8 @@ Expected:<br>
 - Error message indicates missing field(s).
 
 Variations:<br>
-- Run `edit` alone to observe the same error.
-- Try invalid indexes (e.g., `edit 0`, `edit 999`) to confirm error handling.
+- Run `editcontact` alone to observe the same error.
+- Try invalid indexes (e.g., `editcontact 0`, `editcontact 999`) to confirm error handling.
 
 ### Deleting a contact
 
@@ -1123,55 +1167,22 @@ Variations:<br>
 - Run `deletecontact` without arguments to observe the invalid command format error.
 - Run `deletecontact abc` to see the invalid UUID message.
 
-### Filtering Contacts
+### Filtering and Switching Property List (`filterproperty`)
 
-##### Filtering by name and email
+##### Switching to property list view
 
-Command: `filtercontact n/Alice e/example.com`
-
-To simulate:<br>
-- Ensure multiple contacts exist.
-- Run the command above.
-
-Expected:<br>
-- Lists only contacts whose names include “Alice” and emails include “example.com.”
-- Status message shows number of contacts displayed.
-
-Variations:<br>
-- Add more conditions (e.g., `t/buyer`) to confirm multi-prefix filtering.
-- Test with mixed casing (e.g., `n/aLiCe`) to confirm case-insensitive matching.
-
-##### Filtering by tag with limits
-Command: `filtercontact t/buyer limit/10 offset/1`
+Command: `filterproperty`
 
 To simulate:<br>
-- Ensure contact list contains multiple tagged `buyer`.
-- Run the command above.
+- Run from any list, e.g., contact list.
 
 Expected:<br>
-- Shows up to 10 contacts, skipping the first one.
-- Status message indicates count and offset.
+- View switches to show property list.
+- Status message confirms switch.
 
 Variations:<br>
-- Change limit/offset values to confirm pagination.
-- Use invalid tags to confirm error messages.
-
-##### Invalid filter command
-
-Command: `filtercontact abc/Apple`
-
-To simulate:<br>
-- Run the command with an invalid prefix.
-
-Expected:<br>
-- Error message displayed stating invalid parameter.
-- Contact list remains unchanged.
-
-Variations:<br>
-- Run `filtercontact abc` to confirm same outcome.
-- Run `filtercontact` alone — no change to list.
-
-### Listing Properties
+- Run repeatedly — should not duplicate effect.
+- Switch back and forth between `filtercontact` and `filterproperty`.
 
 ##### Listing the full property list
 
@@ -1190,22 +1201,35 @@ Variations:<br>
 - Run after filtering to ensure it resets view.
 - Repeat after add/delete operations to confirm accuracy.
 
-### Switching to Property List
+##### Filtering by address and bedrooms
 
-##### Switching to property list view
-
-Command: `filterproperty`
+Command: `filterproperty a/Geylang bed/3`
 
 To simulate:<br>
-- Run from any list, e.g., contact list.
+- Display multiple properties.
+- Execute command.
 
 Expected:<br>
-- View switches to show property list.
-- Status message confirms switch.
+- Lists only properties in “Geylang” with 3 bedrooms.
+- Status shows number listed.
 
 Variations:<br>
-- Run repeatedly — should not duplicate effect.
-- Switch back and forth between `filtercontact` and `filterproperty`.
+- Include more prefixes (e.g., `type`/`condo`) to confirm multi-criteria filtering.
+- Use case variations to test matching.
+
+##### Invalid filterproperty command
+
+Command: `filterproperty abc/Apple`
+
+To simulate:<br>
+- Run the command with an unrecognized prefix.
+
+Expected:<br>
+- Error message shown.
+- Property list unchanged.
+
+Variations:<br>
+- Run `filterproperty` abc or empty command to verify same behavior.
 
 ### Adding a property
 
@@ -1291,38 +1315,6 @@ Expected:<br>
 Variations:<br>
 - Run `deleteproperty` with no arguments to observe the invalid command format error.
 - Run `deleteproperty abc` to see the invalid UUID message.
-
-### Filtering Properties
-
-##### Filtering by address and bedrooms
-
-Command: `filterproperty a/Geylang bed/3`
-
-To simulate:<br>
-- Display multiple properties.
-- Execute command.
-
-Expected:<br>
-- Lists only properties in “Geylang” with 3 bedrooms.
-- Status shows number listed.
-
-Variations:<br>
-- Include more prefixes (e.g., `type`/`condo`) to confirm multi-criteria filtering.
-- Use case variations to test matching.
-
-##### Invalid filterproperty command
-
-Command: `filterproperty abc/Apple`
-
-To simulate:<br>
-- Run the command with an unrecognized prefix.
-
-Expected:<br>
-- Error message shown.
-- Property list unchanged.
-
-Variations:<br>
-- Run `filterproperty` abc or empty command to verify same behavior.
 
 ### Viewing help
 
