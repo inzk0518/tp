@@ -40,7 +40,7 @@ public class UnlinkCommand extends Command {
             + PREFIX_CONTACT_ID + "3";
 
     public static final String MESSAGE_UNLINK_SUCCESS =
-            "Unlinked Property IDs: %1$s with Contact IDs: %2$s";
+            "Unlinked Property IDs: [%1$s] with Contact IDs: [%2$s]";
 
     private static final Logger logger = Logger.getLogger(UnlinkCommand.class.getName());
 
@@ -75,8 +75,9 @@ public class UnlinkCommand extends Command {
 
         logger.log(Level.FINER, "Successfully unlinked contacts and properties");
 
-        return new CommandResult(String.format(MESSAGE_UNLINK_SUCCESS, unlinkDescriptor.getPropertyIds(),
-                    unlinkDescriptor.getContactIds()));
+        return new CommandResult(String.format(MESSAGE_UNLINK_SUCCESS,
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getContactIds())));
     }
 
     @Override

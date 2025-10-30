@@ -24,11 +24,11 @@ public class Messages {
     public static final String MESSAGE_INVALID_RELATIONSHIP = "The relationship provided is invalid";
     public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_ID = "A property id provided is invalid";
     public static final String MESSAGE_LINKING_ALREADY_LINKED_BUYER =
-            "A Contact is already linked to one of the properties as buyer";
+            "A contact is already linked to one of the properties as buyer";
     public static final String MESSAGE_LINKING_ALREADY_LINKED_SELLER =
-            "A Contact is already linked to one of the properties as seller";
+            "A contact is already linked to one of the properties as seller";
     public static final String MESSAGE_UNLINKING_ALREADY_UNLINKED =
-            "A Contact is not linked to any of the properties";
+            "A contact is not linked to any of the properties";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
