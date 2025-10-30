@@ -501,9 +501,6 @@ Related commands: [`addproperty`](#adding-a-property-addproperty), [`filterprope
 | Listing        | l/      | Should only be these (case-insensitive): sale, rent                                                               |
 | Owner ID       | o/      | Should be a valid Contact UUID                                                                                    |
 
-* `a/ADDRESS` must be 5-200 characters long and contain at least one letter and one digit.
-* `t/TYPE` accepts `hdb`, `condo`, `landed`, `apartment`, `office`, or `others` (case-insensitive).
-
 ### Others
 These are prefixes that are used over multiple commands.
 Related commands: [`filtercontact`](#filtering-contacts--filtercontact), [`filterproperty`](#filtering-properties--filterproperty), [`sold`](#mark-property-as-sold--sold), [`unsold`](#mark-property-as-unsold--unsold), [`link`](#linking-people-and-properties--link), [`unlink`](#unlinking-people-and-properties--unlink), [`showproperties`](#showing-properties-associated-with-a-contact--showproperties), [`showcontacts`](#showing-contacts-associated-with-a-property--showcontacts)
