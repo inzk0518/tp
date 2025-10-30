@@ -1,13 +1,14 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_ID;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -42,9 +43,9 @@ public class LinkCommand extends Command {
             + PREFIX_CONTACT_ID + "5";
 
     public static final String MESSAGE_LINK_BUYER_SUCCESS =
-            "Linked Property IDs: %1$s with Contact IDs: %2$s as buyer";
+            "Linked Property IDs: [%1$s] with Contact IDs: [%2$s] as buyer";
     public static final String MESSAGE_LINK_SELLER_SUCCESS =
-            "Linked Property IDs: %1$s with Contact IDs: %2$s as seller";
+            "Linked Property IDs: [%1$s] with Contact IDs: [%2$s] as seller";
 
     private static final Logger logger = Logger.getLogger(LinkCommand.class.getName());
 
@@ -64,6 +65,8 @@ public class LinkCommand extends Command {
         List<Contact> lastShownContactList = model.getFilteredContactList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
 
+        linkDescriptor.throwExceptionIfLinked(lastShownContactList, lastShownPropertyList);
+
         List<Contact> targetContacts = linkDescriptor.getContactsInList(lastShownContactList);
         List<Property> targetProperties = linkDescriptor.getPropertiesInList(lastShownPropertyList);
 
@@ -80,11 +83,13 @@ public class LinkCommand extends Command {
 
         switch (linkDescriptor.getRelationship()) {
         case "buyer":
-            return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS, linkDescriptor.getPropertyIds(),
-                    linkDescriptor.getContactIds()));
+            return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS,
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds())));
         case "seller":
-            return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS, linkDescriptor.getPropertyIds(),
-                    linkDescriptor.getContactIds()));
+            return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS,
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds())));
         default:
             logger.log(Level.WARNING, "Linking failed due to invalid relationship");
             throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
@@ -166,7 +171,7 @@ public class LinkCommand extends Command {
                     .filter(contact -> contactIds.contains(contact.getUuid()))
                     .collect(Collectors.toList());
             if (contactsList.size() != contactIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_ID);
             }
             return contactsList;
         }
@@ -182,7 +187,7 @@ public class LinkCommand extends Command {
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID);
             }
             return propertiesList;
         }
@@ -245,6 +250,29 @@ public class LinkCommand extends Command {
                         .collect(Collectors.toList());
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
+            }
+        }
+
+        /**
+         * @throws CommandException if any of the related contacts and properties are already linked.
+         */
+        public void throwExceptionIfLinked(List<Contact> contactList, List<Property> propertyList)
+                throws CommandException {
+            List<Contact> filteredContacts = new ArrayList<>(getContactsInList(contactList));
+            List<Property> filteredProperties = new ArrayList<>(getPropertiesInList(propertyList));
+            boolean hasAnyContactLinkedAsBuyer = filteredContacts.stream()
+                    .anyMatch(contact -> !Collections.disjoint(propertyIds, contact.getBuyingPropertyIds()));
+            boolean hasAnyContactLinkedAsSeller = filteredContacts.stream()
+                    .anyMatch(contact -> !Collections.disjoint(propertyIds, contact.getSellingPropertyIds()));
+            boolean hasAnyPropertyLinkedByBuyer = filteredProperties.stream()
+                    .anyMatch(property -> !Collections.disjoint(contactIds, property.getBuyingContactIds()));
+            boolean hasAnyPropertyLinkedBySeller = filteredProperties.stream()
+                    .anyMatch(property -> !Collections.disjoint(contactIds, property.getSellingContactIds()));
+            if (hasAnyContactLinkedAsBuyer || hasAnyPropertyLinkedByBuyer) {
+                throw new CommandException(Messages.MESSAGE_LINKING_ALREADY_LINKED_BUYER);
+            }
+            if (hasAnyContactLinkedAsSeller || hasAnyPropertyLinkedBySeller) {
+                throw new CommandException(Messages.MESSAGE_LINKING_ALREADY_LINKED_SELLER);
             }
         }
 

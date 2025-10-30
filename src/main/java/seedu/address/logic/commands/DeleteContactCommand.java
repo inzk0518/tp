@@ -26,7 +26,7 @@ public class DeleteContactCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the contact identified by their unique UUID.\n"
-            + "Parameters: UUID (must be a positive integer)\n"
+            + "Parameters: UUID\n"
             + "Example: " + COMMAND_WORD + " 12";
 
     public static final String MESSAGE_DELETE_CONTACT_SUCCESS = "Deleted Contact: %1$s";
@@ -51,10 +51,10 @@ public class DeleteContactCommand extends Command {
         requireNonNull(model);
         assert targetUuid != null : "targetUuid should not be null";
 
-        List<Contact> lastShownList = model.getFilteredContactList();
-        assert lastShownList != null : "Filtered contact list should not be null";
+        List<Contact> allContacts = model.getAddressBook().getContactList();
+        assert allContacts != null : "Contact list should not be null";
 
-        Optional<Contact> contactToDelete = lastShownList.stream()
+        Optional<Contact> contactToDelete = allContacts.stream()
                 .filter(p -> p.getUuid().equals(targetUuid))
                 .findFirst();
 

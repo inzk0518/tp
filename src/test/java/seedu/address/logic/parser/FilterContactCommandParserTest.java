@@ -18,7 +18,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STATUS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_BUYER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -59,10 +64,18 @@ public class FilterContactCommandParserTest {
                         Optional.empty(), Optional.empty()
                 ));
 
-        assertParseSuccess(parser, " n/Alice Bob p/12345678 e/alice@example.com", expectedCommand);
+        assertParseSuccess(parser, " "
+                + PREFIX_NAME + "Alice Bob "
+                + PREFIX_PHONE + "12345678 "
+                + PREFIX_EMAIL + "alice@example.com",
+                expectedCommand);
 
         // Test with multiple prefixes and whitespace
-        assertParseSuccess(parser, " \n n/Alice Bob \n p/12345678 \t e/alice@example.com \t", expectedCommand);
+        assertParseSuccess(parser, " \n "
+                + PREFIX_NAME + "Alice Bob \n "
+                + PREFIX_PHONE + "12345678 \t "
+                + PREFIX_EMAIL + "alice@example.com \t",
+                expectedCommand);
     }
 
     @Test
@@ -70,13 +83,13 @@ public class FilterContactCommandParserTest {
         assertParseFailure(parser, " abc/foo",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
 
-        assertParseFailure(parser, "n/Bob abc/",
+        assertParseFailure(parser, PREFIX_NAME + "Bob abc/",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_extraPreamble_throwsParseException() {
-        assertParseFailure(parser, "extra n/Bob",
+        assertParseFailure(parser, "extra " + PREFIX_NAME + "Bob",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterContactCommand.MESSAGE_USAGE));
 
         assertParseFailure(parser, "randomtext",
@@ -135,7 +148,11 @@ public class FilterContactCommandParserTest {
         );
 
         FilterContactCommand expectedCommand = new FilterContactCommand(predicate);
-        assertParseSuccess(parser, " n/Alice limit/5 offset/10", expectedCommand);
+        assertParseSuccess(parser, " "
+                + PREFIX_NAME + "Alice "
+                + PREFIX_LIMIT + "5 "
+                + PREFIX_OFFSET + "10",
+                expectedCommand);
     }
 
     @Test
@@ -143,13 +160,13 @@ public class FilterContactCommandParserTest {
         FilterContactCommandParser parser = new FilterContactCommandParser();
 
         // invalid limit
-        assertParseFailure(parser, " limit/0", "Limit must be greater than 0.");
-        assertParseFailure(parser, " limit/-1", "Limit must be greater than 0.");
-        assertParseFailure(parser, " limit/abc", "Invalid number for limit: Optional[abc]");
+        assertParseFailure(parser, " " + PREFIX_LIMIT + "0", "Limit must be greater than 0.");
+        assertParseFailure(parser, " " + PREFIX_LIMIT + "-1", "Limit must be greater than 0.");
+        assertParseFailure(parser, " " + PREFIX_LIMIT + "abc", "Invalid number for limit: Optional[abc]");
 
         // invalid offset
-        assertParseFailure(parser, " offset/-5", "Offset cannot be negative.");
-        assertParseFailure(parser, " offset/xyz", "Invalid number for offset: Optional[xyz]");
+        assertParseFailure(parser, " " + PREFIX_OFFSET + "-5", "Offset cannot be negative.");
+        assertParseFailure(parser, " " + PREFIX_OFFSET + "xyz", "Invalid number for offset: Optional[xyz]");
     }
 
     @Test
@@ -195,7 +212,10 @@ public class FilterContactCommandParserTest {
 
     @Test
     public void parse_notesContainingPrefixLikeStrings_success() throws Exception {
-        String input = " n/Alice p/12345678 " + PREFIX_NOTES + " some/note/with/slashes";
+        String input = " "
+                + PREFIX_NAME + "Alice "
+                + PREFIX_PHONE + "12345678 "
+                + PREFIX_NOTES + " some/note/with/slashes";
 
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.of(Arrays.asList("Alice")),

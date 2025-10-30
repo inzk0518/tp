@@ -22,10 +22,17 @@
                 <Label fx:id="propertyAddress" styleClass="cell_property_address" text="\$address" />
             </HBox>
             <Label fx:id="propertyUuid" styleClass="cell_small_label" text="\$uuid" />
-            <Label fx:id="details" styleClass="cell_small_label" text="\$details" />
+            <Label fx:id="postal" styleClass="cell_small_label" text="\$postal" />
+            <Label fx:id="type" styleClass="cell_small_label" text="\$type" />
+            <Label fx:id="bedroom" styleClass="cell_small_label" text="\$bedroom" />
+            <Label fx:id="bathroom" styleClass="cell_small_label" text="\$bathroom" />
+            <Label fx:id="floorArea" styleClass="cell_small_label" text="\$floorArea" />
             <Label fx:id="price" styleClass="cell_small_label" text="\$price" />
+            <Label fx:id="status" styleClass="cell_small_label" text="\$status" />
+            <Label fx:id="listing" styleClass="cell_small_label" text="\$listing" />
             <Label fx:id="owner" styleClass="cell_small_label" text="\$owner" />
-            <Label fx:id="linkedIds" styleClass="cell_small_label" text="\$linkedIds" />
+            <Label fx:id="buyerIds" styleClass="cell_small_label" text="\$buyerIds" />
+            <Label fx:id="sellerIds" styleClass="cell_small_label" text="\$sellerIds" />
         </VBox>
     </GridPane>
 </HBox>

@@ -1,13 +1,18 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_ALICE_PROPERTY_ALPHA;
 import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_AMY_PROPERTY_ALPHA;
+import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_BENSON_PROPERTY_BETA;
 import static seedu.address.logic.commands.CommandTestUtil.UNLINK_DESC_BOB_PROPERTY_BETA;
 import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.BENSON;
 import static seedu.address.testutil.TypicalContacts.getTypicalContacts;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 import static seedu.address.testutil.TypicalProperties.getTypicalProperties;
 
 import java.util.ArrayList;
@@ -39,12 +44,53 @@ public class UnlinkDescriptorTest {
     @Test
     public void getPropertiesInList_duplicatePropertyIds_throwsCommandException() {
 
-        List<Property> contactList = new ArrayList<>(getTypicalProperties());
-        contactList.add(PROPERTY_ALPHA);
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        propertyList.add(PROPERTY_ALPHA);
         UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
 
-        assertThrows(CommandException.class, () -> unlinkDescriptor.getPropertiesInList(contactList));
+        assertThrows(CommandException.class, () -> unlinkDescriptor.getPropertiesInList(propertyList));
+    }
+
+    @Test
+    public void throwExceptionIfUnlinked_linkedAsBuyer_noException() {
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+
+        propertyList.set(propertyList.indexOf(PROPERTY_ALPHA),
+                PROPERTY_ALPHA.duplicateWithNewBuyingContactIds(Set.of(ALICE.getUuid())));
+        contactList.set(contactList.indexOf(ALICE),
+                ALICE.duplicateWithNewBuyingPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())));
+
+        UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptor(UNLINK_DESC_ALICE_PROPERTY_ALPHA);
+
+        assertDoesNotThrow(() -> unlinkDescriptor.throwExceptionIfUnlinked(contactList, propertyList));
+    }
+
+    @Test
+    public void throwExceptionIfUnlinked_linkedAsSeller_noException() {
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+
+        propertyList.set(propertyList.indexOf(PROPERTY_BETA),
+                PROPERTY_BETA.duplicateWithNewSellingContactIds(Set.of(BENSON.getUuid())));
+        contactList.set(contactList.indexOf(BENSON),
+                BENSON.duplicateWithNewSellingPropertyIds(Set.of(PROPERTY_BETA.getUuid())));
+
+        UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptor(UNLINK_DESC_BENSON_PROPERTY_BETA);
+
+        assertDoesNotThrow(() -> unlinkDescriptor.throwExceptionIfUnlinked(contactList, propertyList));
+    }
+
+    @Test
+    public void throwExceptionIfUnlinked_unlinked_throwsCommandException() {
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+
+        UnlinkDescriptor unlinkDescriptor = new UnlinkDescriptor(UNLINK_DESC_ALICE_PROPERTY_ALPHA);
+
+        assertThrows(CommandException.class, () -> unlinkDescriptor
+                .throwExceptionIfUnlinked(contactList, propertyList));
     }
 
     @Test
