@@ -1117,7 +1117,7 @@ To simulate:<br>
 - Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
 
 Expected:<br>
-- Displays the following success message:<br>`Linked Property IDs: [PROPERTY_ID] with Contact IDs: [CONTACT_ID] as seller`
+- Displays the following success message:<br>`Linked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]] as seller`
 - The property with UUID input to the command should have its `Seller IDs` include the UUID of the contact input.
 - The contact with UUID input to the command should have its `Selling IDs` include the UUID of the property input.
 
@@ -1189,7 +1189,7 @@ To simulate:<br>
 - Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
 
 Expected:<br>
-- Displays the following success message:<br>`Unlinked Property IDs: [PROPERTY_ID] with Contact IDs: [CONTACT_ID]`
+- Displays the following success message:<br>`Unlinked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]]`
 - The property with UUID input to the command should have its `Seller IDs` exclude the UUID of the contact input.
 - The property with UUID input to the command should have its `Buyer IDs` exclude the UUID of the contact input.
 - The contact with UUID input to the command should have its `Buying IDs` exclude the UUID of the property input.
@@ -1273,7 +1273,7 @@ To simulate:<br>
 - Run the above command with PROPERTY_ID replaced with the UUID of a property not in the property list.
 
 Expected:<br>
-- Displays the following error message:<br>`No contacts found associated with property ID: [PROPERTY_ID]`<br>`Possible reasons:`<br>`  • The property exists but has no linked contacts yet`<br>`  • The property ID doesn't exist (use 'list' & 'filtercontact' to verify)`<br>`Tip: Use 'link p/2 c/CONTACT_ID r/RELATIONSHIP' to associate contacts with this property.`
+- Displays the following error message:<br>`No contacts found associated with property ID: [PROPERTY_ID]`<br>`Possible reasons:`<br>`  • The property exists but has no linked contacts yet`<br>`  • The property ID doesn't exist (use 'list' & 'filtercontact' to verify)`<br>`Tip: Use 'link p/[PROPERTY_ID] c/CONTACT_ID r/RELATIONSHIP' to associate contacts with this property.`
 - No change to the GUI.
 
 Variations:<br>
@@ -1288,7 +1288,7 @@ To simulate: <br>
 - Run `showcontacts` with any other parameters.
 
 Expected:<br>
-- Displays the following error message:<br>`Invalid command format!`<br>`showcontacts: Shows all contacts associated with the specified property.`<br>`Parameters: PROPERTY_ID`<br>`Example: showcontacts 123`
+- Displays the following error message:<br>`Invalid command format!`<br>`showcontacts: Shows all contacts associated with the specified property.`<br>`Parameters: PROPERTY_UUID (must be a positive integer)`<br>`Example: showcontacts 123`
 - No change to the GUI.
 
 ### Show properties linked to or owned by contacts
@@ -1316,7 +1316,7 @@ To simulate:<br>
 - Run the above command with CONTACT_ID replaced with the UUID of a contact not in the property list.
 
 Expected:<br>
-- Displays the following error message:<br>`No properties found associated to contact ID: [CONTACT_ID]`<br>`Possible reasons:`<br>`  • The contact exists but is not linked to any properties yet`<br>`  • The contact ID doesn't exist (use 'list' & 'filterproperty' to verify)`<br>`Tip: Use 'addproperty ... o/12' to add a property for this contact.`
+- Displays the following error message:<br>`No properties found associated to contact ID: [CONTACT_ID]`<br>`Possible reasons:`<br>`  • The contact exists but is not linked to any properties yet`<br>`  • The contact ID doesn't exist (use 'list' & 'filterproperty' to verify)`<br>`Tip: Use 'addproperty ... o/[CONTACT_ID]' to add a property for this contact.`
 - No change to the GUI.
 
 Variations:<br>
@@ -1331,7 +1331,7 @@ To simulate: <br>
 - Run `showproperties` with any other parameters.
 
 Expected:<br>
-- Displays the following error message:<br>`Invalid command format!`<br>`showproperties: Shows all properties associated with the specified contact.`<br>`Parameters: CONTACT_ID`<br>`Example: showproperties 123`
+- Displays the following error message:<br>`Invalid command format!`<br>`showproperties: Shows all properties associated with the specified contact.`<br>`Parameters: CONTACT_UUID (must be a positive integer)`<br>`Example: showproperties 123`
 - No change to the GUI.
 
 ### Saving data
