@@ -137,12 +137,16 @@ public class Property {
     /**
      * Checks if the given contact UUID is a buyer of this property.
      */
-    public boolean hasBuyer(Uuid contactUuid) { return buyingContactIds.contains(contactUuid); }
+    public boolean hasBuyer(Uuid contactUuid) {
+        return buyingContactIds.contains(contactUuid);
+    }
 
     /**
      * Checks if the given contact UUID is a seller of this property.
      */
-    public boolean hasSeller(Uuid contactUuid) { return sellingContactIds.contains(contactUuid); }
+    public boolean hasSeller(Uuid contactUuid) {
+        return sellingContactIds.contains(contactUuid);
+    }
 
     /**
      * Checks if this property is associated with the given contact UUID.

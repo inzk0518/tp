@@ -74,7 +74,7 @@ Some example commands you can try:
 
 * `list` : Lists all contacts.
 
-* `addcontact n/John Doe phone/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+* `addcontact n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
 * `deletecontact 3` : Deletes the 3rd contact shown in the current list.
 
@@ -225,7 +225,7 @@ For more information on the parameters, click [here](#command-parameters).
 
 ### Deleting a contact : `deletecontact`
 
-Deletes a contact identified by its UUID.
+Deletes the specified contact from the address book.
 
 Format: `deletecontact CONTACT_ID`
 
@@ -250,16 +250,16 @@ Use the <code>list</code> command to see the changes.
 
 ### Adding a property: `addproperty`
 
-Adds a new property to the system.
+Adds a property to the property list.
 
-Format: `addproperty a/ADDRESS postal/POSTAL price/PRICE type/TYPE status/STATUS bed/BEDROOM bath/BATHROOM f/FLOOR_AREA l/LISTING o/CONTACT_ID`
+Format: `addproperty a/ADDRESS p/POSTAL price/PRICE t/TYPE status/STATUS bed/BEDROOM bath/BATHROOM f/FLOOR_AREA l/LISTING o/CONTACT_ID`
 
 * Duplicate properties (same address and postal code) will not be allowed to be added.
 * Each new property is assigned a (Universally Uniquely Identifier) UUID automatically.
 
 Examples:
-* `addproperty a/123 Orchard Rd postal/238888 price/1950000 type/condo status/unavailable bed/3 bath/2 f/1023 l/sale o/1`
-* `addproperty a/55 Pasir Ris Dr 1 postal/519884 price/450000 type/hdb status/available bed/4 bath/2 f/1050 l/rent o/5`
+* `addproperty a/123 Orchard Rd p/238888 price/1950000 t/condo status/unavailable bed/3 bath/2 f/1023 l/sale o/1`
+* `addproperty a/55 Pasir Ris Dr 1 p/519884 price/450000 t/hdb status/available bed/4 bath/2 f/1050 l/rent o/5`
 
 For more information on the parameters, click [here](#command-parameters).
 
@@ -370,31 +370,29 @@ For more information on the parameters, click [here](#command-parameters).
 
 Displays all properties associated with a specific contact by their UUID.
 
-Format: `showproperties c/CONTACT_ID`
+Format: `showproperties CONTACT_ID`
 
 * `CONTACT_ID` refers to the UUID of the contact shown in the contact list.
 * The view automatically switches to show the property list.
 * If no properties are found, suggestions will be provided.
 
 Examples:
-* `showproperties c/1`
-* `showproperties c/123`
-
-For more information on the parameters, click [here](#command-parameters).
+* `showproperties 1`
+* `showproperties 123`
 
 ### Showing contacts associated with a property : `showcontacts`
 
 Displays all contacts associated with a specific property by their UUID.
 
-Format: `showcontacts p/PROPERTY_ID`
+Format: `showcontacts PROPERTY_ID`
 
 * `PROPERTY_ID` refers to the UUID of the property shown in the property list.
 * The view automatically switches to show the contact list.
 * If no contacts are found, suggestions will be provided.
 
 Examples:
-* `showcontacts p/1`
-* `showcontacts p/12`
+* `showcontacts 1`
+* `showcontacts 12`
 
 For more information on the parameters, click [here](#command-parameters).
 
