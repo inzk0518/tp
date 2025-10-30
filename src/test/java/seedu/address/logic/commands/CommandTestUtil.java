@@ -11,7 +11,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalContacts.ALICE;
 import static seedu.address.testutil.TypicalContacts.AMY;
+import static seedu.address.testutil.TypicalContacts.BENSON;
 import static seedu.address.testutil.TypicalContacts.BOB;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
@@ -82,9 +84,13 @@ public class CommandTestUtil {
 
     public static final LinkCommand.LinkDescriptor LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
     public static final LinkCommand.LinkDescriptor LINK_DESC_BOB_SELLER_PROPERTY_BETA;
+    public static final LinkCommand.LinkDescriptor LINK_DESC_ALICE_BUYER_PROPERTY_ALPHA;
+    public static final LinkCommand.LinkDescriptor LINK_DESC_BENSON_SELLER_PROPERTY_BETA;
 
     public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_AMY_PROPERTY_ALPHA;
     public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_BOB_PROPERTY_BETA;
+    public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_ALICE_PROPERTY_ALPHA;
+    public static final UnlinkCommand.UnlinkDescriptor UNLINK_DESC_BENSON_PROPERTY_BETA;
 
     static {
         DESC_AMY = new EditContactDescriptorBuilder().withName(VALID_NAME_AMY)
@@ -98,10 +104,18 @@ public class CommandTestUtil {
                 .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
         LINK_DESC_BOB_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withContactIds(Set.of(BOB.getUuid()))
                 .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
+        LINK_DESC_ALICE_BUYER_PROPERTY_ALPHA = new LinkDescriptorBuilder().withContactIds(Set.of(ALICE.getUuid()))
+                .withRelationship("buyer").withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
+        LINK_DESC_BENSON_SELLER_PROPERTY_BETA = new LinkDescriptorBuilder().withContactIds(Set.of(BENSON.getUuid()))
+                .withRelationship("seller").withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
 
         UNLINK_DESC_AMY_PROPERTY_ALPHA = new UnlinkDescriptorBuilder().withContactIds(Set.of(AMY.getUuid()))
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
         UNLINK_DESC_BOB_PROPERTY_BETA = new UnlinkDescriptorBuilder().withContactIds(Set.of(BOB.getUuid()))
+                .withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
+        UNLINK_DESC_ALICE_PROPERTY_ALPHA = new UnlinkDescriptorBuilder().withContactIds(Set.of(ALICE.getUuid()))
+                .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
+        UNLINK_DESC_BENSON_PROPERTY_BETA = new UnlinkDescriptorBuilder().withContactIds(Set.of(BENSON.getUuid()))
                 .withPropertyIds(Set.of(PROPERTY_BETA.getUuid())).build();
     }
 
