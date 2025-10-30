@@ -54,6 +54,7 @@ public class FilterPropertyCommandParserTest {
                         Integer.MAX_VALUE, 0);
         assertEquals(expected, parser.parse(input));
     }
+
     @Test
     public void parseValidArgsSuccessThird() throws Exception {
         String input = " "
@@ -72,14 +73,35 @@ public class FilterPropertyCommandParserTest {
     }
 
     @Test
+    public void parseEmptyArgSuccessForth() throws Exception {
+        String input = "";
+        FilterPropertyCommand expected = new FilterPropertyCommand(
+                new PropertyMatchesFilterPredicate.Builder().build(),
+                Integer.MAX_VALUE,
+                0);
+        assertEquals(expected, parser.parse(input));
+    }
+
+    @Test
     public void parseInvalidTagThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_OWNER));
+    }
+
+    @Test
+    public void parseInvalidPrefixThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + "abc/123"));
     }
 
     @Test
     public void parseInvalidPostalThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_POSTAL + "1234567"));
     }
+
+    @Test
+    public void parseInvalidTypeThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_TYPE + "villa"));
+    }
+
     @Test
     public void parseDuplicateTagThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(
@@ -114,6 +136,16 @@ public class FilterPropertyCommandParserTest {
     @Test
     public void parseInvalidListingThrowsParseException() {
         assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_LISTING + "free"));
+    }
+
+    @Test
+    public void parseInvalidLimitThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_LIMIT + "0"));
+    }
+
+    @Test
+    public void parseInvalidOffsetThrowsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_OFFSET + "-1"));
     }
 }
 

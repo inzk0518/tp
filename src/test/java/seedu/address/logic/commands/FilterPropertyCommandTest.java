@@ -82,7 +82,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withPostal("123000").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -96,7 +96,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withType("Condo").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -110,7 +110,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withStatus("available").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -125,7 +125,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withBedroom("4").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -139,7 +139,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withFloorArea("100").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -153,7 +153,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withPrice("1000000").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -167,7 +167,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withOwner("carol").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
@@ -181,7 +181,7 @@ public class FilterPropertyCommandTest {
         PropertyMatchesFilterPredicate predicate =
                 new PropertyMatchesFilterPredicate.Builder().withListing("sale").build();
 
-        FilterPropertyCommand command = new FilterPropertyCommand(predicate, 20, 0);
+        FilterPropertyCommand command = new FilterPropertyCommand(predicate, Integer.MAX_VALUE, 0);
         CommandResult result = command.execute(model);
 
         List<Property> shown = model.getFilteredPropertyList();
