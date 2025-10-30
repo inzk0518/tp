@@ -566,302 +566,236 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ## Appendix: Use Cases
 
-(For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
+For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise.
 
-#### Use case: Add contact
+#### Use case: UC00 - Input Details
+
+**Guarantee:**<br>
+The input details will meet the required format and constraints for that command
+
+**Main Success Scenario:**
+1. User inputs details
+2. System successfully parses the input details
+
+   Use case ends
+
+**Extensions**
+
+* 1a. System detects a missing compulsory prefix
+  * 1a1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1b. System detects a duplicate prefix
+  * 1b1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1c. System detects an invalid prefix
+  * 1c1. System displays an error message and requests for new inputs
+    
+    Use case resumes at step 1<br><br>
+    
+* 1d. System detects a parameter not meeting required constraints
+  * 1d1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1e. System detects an invalid format
+  * 1e1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1f. System detects duplicate details
+    * 1e1. System displays an error message and requests for new inputs
+
+      Use case resumes at step 1<br><br>
+
+#### Use case: UC01 - Help Command
+
+**Guarantee:**<br>
+Separate help window will pop up
+
+**Main Success Scenario:**
+1. User enters the help command
+2. System displays main help window
+
+    Use case ends
+
+#### Use case: UC02 - Exit Command
+
+**Guarantee:**<br>
+All application windows are closed
+
+**Main Success Scenario:**
+1. User enters the exit command
+2. System closes all windows
+
+   Use case ends
+
+#### Use case: UC03 - List Command
+
+**Guarantee:**<br>
+Unfilter list of contacts or properties
+
+**Main Success Scenario:**
+1. User enters the list command
+2. System will unfilter contacts and properties 
+
+   Use case ends
+
+#### Use case: UC04 - Clear Command
+
+**Guarantee:**<br>
+Deletes all contacts and properties
+
+**Main Success Scenario:**
+1. User enters the clear command
+2. System will delete all contact and property data
+
+   Use case ends
+
+#### Use case: UC05 - Add a contact
 
 **Main Success Scenario:**
 
-1.  User chooses to add a new contact
-2.  System requests contact details (name, phone number, email, etc.)
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
+1.  User chooses to add a contact and <u>enters the required inputs (UC0)</u>
+2.  System stores the required information
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC06 - Edit a contact
+
+**Precondition:** The contact exists in the System
+
+**Main Success Scenario:**
+
+1.  User chooses to edit a contact and <u>enters the required inputs (UC0)</u>
+2.  System updates the contact with the new details
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC07 - Filter all contacts
+
+**Main Success Scenario:**
+
+1.  User chooses to filter contacts and <u>enters the required inputs (UC0)</u>
+2.  System filters the contacts based on the details
+3.  System displays new contact list
+
+    Use case ends
+
+#### Use case: UC08 - Delete a contact
+
+**Main Success Scenario:**
+
+1.  User chooses to delete a contact and <u>enters the required inputs (UC0)</u>
+2.  System deletes the contact specified
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC09 - Add a property
+
+**Main Success Scenario:**
+
+1.  User chooses to add a property and <u>enters the required inputs (UC0)</u>
+2. System stores the required information
+3. System displays a success message
+
+    Use case ends
+
+#### Use case: UC10 - Filter all properties
+
+**Main Success Scenario:**
+
+1.  User chooses to filter properties and <u>enters the required inputs (UC0)</u>
+2.  System filters the properties based on the details
+3.  System displays new property list
+
+    Use case ends
+
+#### Use case: UC11 - Delete a property
+
+**Main Success Scenario:**
+
+1.  User chooses to delete a property and <u>enters the required inputs (UC0)</u>
+2.  System deletes the property specified
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC12 - Mark properties as sold
+
+**Main Success Scenario:**
+
+1.  User chooses to mark properties as sold and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties as sold
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC13 - Mark properties as unsold
+
+**Main Success Scenario:**
+
+1.  User chooses to mark properties as unsold and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties as unsold
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC14 - Link properties to clients
+
+**Main Success Scenario:**
+
+1.  User chooses to link properties to clients and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties and clients
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC15 - Unlink properties from clients
+
+**Main Success Scenario:**
+
+1.  User chooses to unlink properties from clients and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties and clients
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC16 - Find clients linked to a property
+
+**Main Success Scenario:**
+
+1.  User chooses to find clients linked with a property and <u>enters the required inputs (UC0)</u>
+2.  System displays a result information
 
     Use case ends
 
 **Extensions**
 
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-#### Use case: Delete contact
-
-**Main Success Scenario:**
-
-1.  User chooses to delete a contact
-2.  System requests for which contact to delete
-3.  User enters the contact to be deleted
-4.  System removes the contact from the storage
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Filter contact
-
-**Main Success Scenario:**
-
-1.  User chooses to filter contacts by contact details
-2.  System requests contact details (name, phone number, email, etc.)
-3.  User enters the required information
-4.  System retrieves information and displays the contacts
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no contacts matching the properties
-    * 4a1. System displays "No contacts found" message
+* 1a. System finds no clients associated to the property
+    * 1a1. System displays error message
 
       Use case ends
 
-#### Use case: Add property
+#### Use case: UC17 - Find properties linked to a client
 
 **Main Success Scenario:**
 
-1.  User chooses to add a new property
-2.  System requests property details (address, no. of bedrooms, etc.)
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
+1.  User chooses to find properties linked to a client and <u>enters the required inputs (UC0)</u>
+2.  System displays a result information
 
     Use case ends
 
 **Extensions**
 
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Delete property
-
-**Main Success Scenario:**
-
-1.  User chooses to delete a property
-2.  System requests for which property to delete
-3.  User enters the property to be deleted
-4.  System removes the property from the storage
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Filter property
-
-**Main Success Scenario:**
-
-1.  User chooses to filter properties by property details
-2.  System requests property details (address, no. of bedrooms, etc.)
-3.  User enters the required information
-4.  System retrieves information and displays the properties
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no properties matching the properties
-    * 4a1. System displays "No properties found" message
-
-      Use case ends
-
-#### Use case: Associate property to contact
-
-**Main Success Scenario:**
-
-1.  User chooses to associate property to contact
-2.  System requests property details and contact details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Unassociate property contact
-
-**Main Success Scenario:**
-
-1.  User chooses to unassociate property to contact
-2.  System requests property details and contact details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Mark property as sold
-
-**Main Success Scenario:**
-
-1.  User chooses to mark property as sold
-2.  System requests property details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Mark property as unsold
-
-**Main Success Scenario:**
-
-1.  User chooses to mark property as unsold
-2.  System requests property details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Find contacts associated to property
-
-**Main Success Scenario:**
-
-1.  User chooses to find contacts associated to a specific property
-2.  System requests property details
-3.  User enters the required information
-4.  System retrieves information and displays the contacts
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no contacts associated to the property
-    * 4a1. System displays "No contacts found" message
-
-      Use case ends
-
-#### Use case: Find properties associated to contact
-
-**Main Success Scenario:**
-
-1.  User chooses to find properties associated to a specific contact
-2.  System requests contact details
-3.  User enters the required information
-4.  System retrieves information and displays the properties
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no properties associated to the contact
-    * 4a1. System displays "No properties found" message
+* 1a. System finds no properties linked to a client
+    * 1a1. System displays error message
 
       Use case ends
 
@@ -1374,7 +1308,7 @@ Team size: 5
 ## Appendix: Effort
 
 #### Difficulty Level and Effort Required
-This project was significantly harder and took more time that the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
+This project was significantly harder and took more time than the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
 <br><br>
 Unlike AB3 which handles only `Contact`, this application handles both `Contact` and `Property` each with their distinct commands, models and UI components. This required a clear separation and linking between contacts and properties. Furthermore, this project was made significantly harder with the need of a comprehensive User Guide and Developer Guide.
 <br><br>
@@ -1382,7 +1316,7 @@ A high proportion of effort was saved through reuse of AB3. Such examples includ
 
 #### Challenges Faced
 - More comprehensive input validation and testing because it is a CLI-based application
-- Coordinating and agreeing on the use case and format of a command as many changes were made week after week
+- Coordinating and agreeing on a use case and format of a command as many changes were made week after week
 - Implementing complex parsers due to the presence of compulsory parameters, optional parameters or multi-word parameters
 
 #### Achievements of the Project
@@ -1411,4 +1345,4 @@ We have utilised _**GitHub Actions**_ to carry out automated testing on Windows,
 The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
 
 #### Version Control (GitHub)
-We have carried out version control in the form of GitHub Releases and can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
+We have carried out version control in the form of GitHub Releases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
