@@ -1113,13 +1113,13 @@ Expected:<br>
 Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
 
 To simulate:<br>
-- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in their `Buying IDs`/`Buyer IDs` or `Selling IDs`/`Seller IDs` data.
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
 - Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
 
 Expected:<br>
 - Displays the following success message:<br>`Linked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]] as seller`
 - The property with UUID input to the command should have its `Seller IDs` include the UUID of the contact input.
-- The contact with UUID input to the command should have its `Selling IDs` include the UUID of the property input.
+- The contact with UUID input to the command should have its `Selling Property IDs` include the UUID of the property input.
 
 Variations:<br>
 - Change relationship from buyer to seller.
@@ -1132,7 +1132,7 @@ Variations:<br>
 Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
 
 To simulate:<br>
-- Have at least 1 contact and 1 property in the current filtered contact and property list that has any of each others' UUIDs in their `Buying IDs`/`Buyer IDs` or `Selling IDs`/`Seller IDs` data.
+- Have at least 1 contact and 1 property in the current filtered contact and property list that has any of each others' UUIDs in their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
 - Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
 
 Expected:<br>
@@ -1185,15 +1185,15 @@ Expected:<br>
 Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
 
 To simulate:<br>
-- Have at least 1 contact and 1 property in the current filtered contact and property list all have each others' UUIDs in either their `Buying IDs`/`Buyer IDs` or `Selling IDs`/`Seller IDs` data.
+- Have at least 1 contact and 1 property in the current filtered contact and property list all have each others' UUIDs in either their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
 - Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
 
 Expected:<br>
 - Displays the following success message:<br>`Unlinked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]]`
 - The property with UUID input to the command should have its `Seller IDs` exclude the UUID of the contact input.
 - The property with UUID input to the command should have its `Buyer IDs` exclude the UUID of the contact input.
-- The contact with UUID input to the command should have its `Buying IDs` exclude the UUID of the property input.
-- The contact with UUID input to the command should have its `Selling IDs` exclude the UUID of the property input.
+- The contact with UUID input to the command should have its `Buying Property IDs` exclude the UUID of the property input.
+- The contact with UUID input to the command should have its `Selling Property IDs` exclude the UUID of the property input.
 
 Variations:<br>
 - Add more parameters with prefix p/ with UUIDs of properties that are linked to input contacts as buyers or sellers.
@@ -1205,7 +1205,7 @@ Variations:<br>
 Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
 
 To simulate:<br>
-- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in both their `Buying IDs`/`Buyer IDs` and `Selling IDs`/`Seller IDs` data.
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in both their `Buying Property IDs`/`Buyer IDs` and `Selling Property IDs`/`Seller IDs` data.
 - Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
 
 Expected:<br>
