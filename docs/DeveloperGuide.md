@@ -15,7 +15,7 @@ title: Developer Guide
 3. [Implementation](#3-implementation)
    1. [Contact management](#32-contact-management)
    2. [Property management](#33-property-management)
-   3. [Contact–property linking](#34-clientproperty-linking)
+   3. [Contact–property linking](#34-contactproperty-linking)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Command Parameters](#appendix-command-parameters)
 6. [Appendix: Product Scope](#appendix-product-scope)
@@ -197,7 +197,7 @@ This section describes some noteworthy details on how certain features are imple
 
 These features do not require any parameters and do not have a corresponding `Parser` class so is directly instantiated in `AddressBookParser`.
 
-#### <u> Help Command</u> (`help`)
+#### <u>Help Command</u> (`help`)
 The `HelpCommand` opens up a separate window containing a link to the User Guide.
 
 ![help message](images/helpMessage.png)
@@ -210,7 +210,7 @@ We designed the `HelpCommand` to let the user copy and navigate to the User Guid
 Users can also press the <code>F1</code> key to open the help window
 </div>
 
-#### <u> List Command</u> (`list`)
+#### <u>List Command</u> (`list`)
 The `ListCommand` resets all current filters and displays all the contacts/properties stored in the application.
 
 ##### Execution
@@ -268,7 +268,7 @@ Optional Fields:
 The `AddContactCommandParser` class is responsible for parsing the command input.
 It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
 
-The parser constructs a new `Person` object that is wrapped inside a `AddContactCommand`.
+The parser constructs a new `Contact` object that is wrapped inside a `AddContactCommand`.
 
 Validation done:
 - Ensures compulsory fields are present
@@ -277,7 +277,7 @@ Validation done:
 - Unknown parameters provided will throw a `ParseException`
 
 ##### Execution
-The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
+The `AddContactCommand` class generates the UUID for the `Contact` object and checks for duplicates in the address book before adding the new contact.
 
 #### <u>Delete Command</u> (`deletecontact`)
 The `deletecontact` command is designed to delete an existing contact from the address book, identified by their UUID.
@@ -311,15 +311,15 @@ The `EditContactCommandParser` class is responsible for parsing the command inpu
 It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
 The UUID is also validated and parsed.
 
-The parser creates an `EditPersonDescriptor` object that stores the newly edited fields.
+The parser creates an `EditContactDescriptor` object that stores the newly edited fields.
 
 Validation done:
 - Same validation done as `addcontact`
 - At least one field must be edited
-- New person must not already be in the address book
+- New contact must not already be in the address book
 
 ##### Execution
-The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
+The `EditContactCommand` executes by finding the target contact based on their UUID, creating an edited `Contact` object and updating the contact in the address book with the new details.
 
 #### <u>Filter Contact Command</u> (`filtercontact`)
 The `filtercontact` command filters the contacts in the address book based on the criteria given.
@@ -351,13 +351,13 @@ The UI is then updated based on which contacts that match the predicate.
 
 ### 3.3. Property management
 
-#### `AddPropertyCommand` (`addproperty`)
+#### <u>Add Property Command</u> (`addproperty`)
 `AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
 
-#### `DeletePropertyCommand` (`deleteproperty`)
+#### <u>Delete Property Command</u> (`deleteproperty`)
 `DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
 
-#### `ShowPropertiesCommand` (`showproperties`)
+#### <u>Filter Property Command</u> (`filterproperty`)
 Documentation pending.
 
 #### <u>Mark Property as Sold Command</u> (`sold`)
@@ -392,9 +392,9 @@ Validation done:
 ##### Execution
 The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
 
-### 3.4. Client–property linking
+### 3.4. Contact–property linking
 
-#### `LinkCommand` (`link`)
+#### <u>Link Command</u> (`link`)
 The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
 
 Compulsory fields:
@@ -417,9 +417,13 @@ Validation done:
 - No duplicate relationship parameter
 
 ##### Execution
-Documentation pending.
+The `LinkCommand` executes by:
+1. Finding the target contacts and properties based on their UUIDs
+2. Ensuring none of the targets are already linked
+3. Creating new edited `Contact` and `Property` objects with the updated relationship
+4. Updating the contacts and properties in the address and property book with the new details.
 
-#### `UnlinkCommand` (`unlink`)
+#### <u>Unlink Command</u> (`unlink`)
 The `unlink` command is designed to unlink contacts in the address book from properties in the property book, each identified by their UUID.
 
 Compulsory fields:
@@ -438,10 +442,17 @@ Each UUID is also validated and parsed.
 The parser creates an `UnlinkDescriptor` object that stores the parsed UUIDs and relationship.
 
 ##### Execution
-Documentation pending.
+The `LinkCommand` executes by:
+1. Finding the target contacts and properties based on their UUIDs
+2. Ensuring all of the targets were previously linked
+3. Creating new edited `Contact` and `Property` objects with buyer and seller relationships removed
+4. Updating the contacts and properties in the address and property book with the new details.
 
-#### `ShowClientsCommand` (`showclients`)
-Currently returns a placeholder message while property–client association storage is being developed.
+#### <u>Show Contacts Command</u> (`showcontacts`)
+Currently returns a placeholder message while property–contact association storage is being developed.
+
+#### <u>Show Properties Command</u> (`showproperties`)
+Documentation pending.
 
 ### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
@@ -462,46 +473,64 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter                             | Prefix  | Constraints                                                                                                                                                                                                                                                                  |
-|---------------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Name                                  | n/      | Alphabetical characters (a-z, A-Z, 0-9) or spaces                                                                                                                                                                                                                            |
-| Phone Number                          | phone/  | Only numeric digits (0-9), and it should be at least 3 digits long                                                                                                                                                                                                           |
-| Email                                 | e/      | Should follow the format: name@example.com. The part before @ can contain letters, numbers, and the symbols `+`, `_`, `.`, `-` but cannot start or end with a symbol. The part after @ must be a valid alphanumeric domain and end with at least 2 characters after the `.`. |
-| Address (Contact or Property)         | a/      | Can take any character. Maximum of 200 characters                                                                                                                                                                                                                            |
-| Tag                                   | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                                                                                                                                                                     |
-| Minimum Budget (in Singapore Dollars) | min/    | Non-negative integer. If not provided, will have a default of $0                                                                                                                                                                                                             |
-| Maximum Budget (in Singapore Dollars) | max/    | Non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000                                                                                                                                                              |
-| Notes                                 | notes/  | Can take any character. Maximum of 500 characters                                                                                                                                                                                                                            |
-| Status (Contact)                      | s/      | Should only be these (case-insensitive): active, inactive                                                                                                                                                                                                                    |
-| Limit                                 | limit/  | An integer more than 0                                                                                                                                                                                                                                                       |
-| Offset                                | offset/ | An integer more than or equals to 0                                                                                                                                                                                                                                          |
-| Number of Bathrooms                   | bath/   | An integer more than 0                                                                                                                                                                                                                                                       |
-| Number of Bedrooms                    | bed/    | An integer more than 0                                                                                                                                                                                                                                                       |
-| Floor Area (square feet)              | f/      | An integer between 50 and 100,000 (inclusive)                                                                                                                                                                                                                                |
-| Listing                               | l/      | Should only be these (case-insensitive): sale, rent                                                                                                                                                                                                                          |
-| Postal Code                           | postal/ | A 6-digit Singapore postal code                                                                                                                                                                                                                                              |
-| Status (Property)                     | status/ | Should only be these (case-insensitive): available, unavailable                                                                                                                                                                                                              |
-| Owner                                 | o/      |                                                                                                                                                                                                                                                                              |
-| Price (in Singapore Dollars)          | price/  | An integer between 0 and 1,000,000,000,000 (inclusive)                                                                                                                                                                                                                       |
-| Type                                  | type/   | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                                                                                                                                                                                       |
-| Property ID                           | p/      | An integer more than 0 and must be an ID of an existing property                                                                                                                                                                                                             |
-| Contact ID                            | r/      | An integer more than 0 and must be an ID of an existing contact                                                                                                                                                                                                              |
-| Relationship                          | c/      | Should only be these (case-insensitive): buyer, seller                                                                                                                                                                                                                       |
+### Contact Management
+These are prefixes for purely contact related commands.
+Related commands: [`addcontact`](#add-command-addcontact), [`filtercontact`](#filter-contact-command-filtercontact), [`editcontact`](#filter-contact-command-filtercontact)
 
+| Parameter      | Prefix  | Constraints                                                                                                                |
+|----------------|---------|----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                      |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                 |
+| Email          | e/      | Should follow the format: name@example.com                                                                                 |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                              |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                   |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                               |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000|
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                              |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                  |
+
+### Property Management
+These are prefixes for purely property related commands.
+Related commands: [`addproperty`](#addpropertycommand-addproperty), [`filterproperty`](#filter-property-command-filterproperty)
+
+| Parameter      | Prefix  | Constraints                                                                                                       |
+|----------------|---------|-------------------------------------------------------------------------------------------------------------------|
+| Address        | a/      | Should only contain alphabetical 5 to 200 characters (a-z, A-Z, 0-9) or spaces, with at least 1 letter and 1 digit|
+| Postal code    | p/      | Should only contain numbers (0-9), and it should be exactly least 6 digits long. (Singaporean Postal Code)        |
+| Price          | price/  | Should be an integer from 1 to 1,000,000,000,000                                                                  |
+| Type           | t/      | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                            |
+| Status         | status/ | Should only be these (case-insensitive): available, unavailable                                                   |
+| Bedroom count  | bed/    | Should be an integer from 0 to 20                                                                                 |
+| Bathroom count | bath/   | Should be an integer from 0 to 20                                                                                 |
+| Floor area     | f/      | Should be an integer from 50 to 100,000                                                                           |
+| Listing        | l/      | Should only be these (case-insensitive): sale, rent                                                               |
+| Owner ID       | o/      | Should be a valid Contact UUID                                                                                    |
+
+### Others
+These are prefixes that are used over multiple commands.
+Related commands: [`filtercontact`](#filter-contact-command-filtercontact), [`filterproperty`](#filter-property-command-filterproperty), [`sold`](#mark-property-as-sold-command-sold), [`unsold`](#mark-property-as-unsold-command-unsold), [`link`](#linkcommand-link), [`unlink`](#unlinkcommand-unlink), [`showproperties`](#showpropertiescommand-showproperties), [`showcontacts`](#showcontactscommand-showcontacts)
+
+| Parameter      | Prefix  | Constraints                                            |
+|----------------|---------|--------------------------------------------------------|
+| Limit          | limit/  | An integer more than 0                                 |
+| Offset         | offset/ | An integer more than or equals to 0                    |
+| Contact UUID   | c/      | Should be a valid Contact UUID                         |
+| Property UUID  | p/      | Should be a valid Property UUID                        |
+| Relationship   | r/      | Should only be these (case-insensitive): buyer, seller |
 
 ## Appendix: Product Scope
 
 **Target user profile**:
 
 * real estate agents
-* has to manage a lot of clients with different informations
+* has to manage a lot of contacts with different informations
 * has to manage large property list
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage clients faster than a typical mouse/GUI driven app
+**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
 ## Appendix: User Stories
 
@@ -509,31 +538,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a…                        | I want to…                                       | So that I can…                                                           |
 | -------- | ---------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------ |
-| `* * *`  | user                         | add contacts                                     | keep track of my clients                                                 |
+| `* * *`  | user                         | add contacts                                     | keep track of my contacts                                                 |
 | `* * *`  | user                         | store properties                                 | keep track of my advertising properties                                  |
 | `* * *`  | user                         | delete contacts                                  | remove contacts that I no longer need                                    |
 | `* * *`  | user                         | delete properties                                | remove properties that I no longer need                                  |
-| `* * *`  | user                         | filter my contacts by their details              | find and prioritise clients easily                                       |
-| `* * *`  | user                         | filter my properties by criteria                    | find my properties for my clients easily and better match client's needs |
-| `* * *`  | user                         | track client associations to properties          | easily cross-reference clients                                           |
+| `* * *`  | user                         | filter my contacts by their details              | find and prioritise contacts easily                                       |
+| `* * *`  | user                         | filter my properties by criteria                 | find my properties for my contacts easily and better match contact's needs |
+| `* * *`  | user                         | track contact associations to properties          | easily cross-reference contacts                                           |
 | `* * *`  | user                         | track when properties are sold                   | filter them from searches                                                |
-| `* * *`  | detail-oriented user         | view a client’s full profile details             | prepare before meeting or calling them                                   |
+| `* * *`  | detail-oriented user         | view a contact’s full profile details             | prepare before meeting or calling them                                   |
 | `* *`    | user                         | edit stored information                          | avoid manually deleting and adding data back when something changes      |
 | `* *`    | collaborating user           | import Excel contact lists into the system       | avoid adding contacts one by one                                         |
-| `* *`    | user                         | record the dates of client property visits       | maintain a clear history of interactions                                 |
+| `* *`    | user                         | record the dates of contact property visits       | maintain a clear history of interactions                                 |
 | `* *`    | collaborating user           | export data of contacts                          | pass the information to associated contacts                              |
-| `* *`    | user                         | draft messages based on client profiles          | provide updates quickly and professionally                               |
-| `* *`    | user                         | mark clients as “active” or “inactive”           |                                                                          |
+| `* *`    | user                         | draft messages based on contact profiles          | provide updates quickly and professionally                               |
+| `* *`    | user                         | mark contacts as “active” or “inactive”           |                                                                          |
 | `* *`    | user                         | store signed contracts                           | quickly retrieve them if disputes or clarifications arise                |
 | `* *`    | user                         | generate reports                                 | analyze performance and opportunities                                    |
-| `* *`    | user                         | tag clients with labels                          | organise them better                                                     |
+| `* *`    | user                         | tag contacts with labels                          | organise them better                                                     |
 | `* *`    | user                         | track commission earned from each deal           | measure my performance                                                   |
 | `* *`    | user                         | have a recent contact list                       |                                                                          |
 | `*`      | user dealing with complaints | see the whole interaction history                | understand the context fully and manage the situation well               |
 | `*`      | forgetful user               | set automatic reminders for contract expirations | avoid missing key dates                                                  |
 | `*`      | user                         | mark and track the negotiation stage of a deal   | see deal progress                                                        |
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
-| `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
+| `*`      | forgetful user               | set reminders for follow-ups with contacts        | avoid forgetting to contact them at the right time                       |
 
 ## Appendix: Use Cases
 
@@ -782,7 +811,7 @@ Deletes all contacts and properties
    * Error messages should be domain-specific and actionable for real estate scenarios
 
 2. **Data Integrity**
-   * No duplicate clients or properties should be allowed based on unique identifiers
+   * No duplicate contacts or properties should be allowed based on unique identifiers
 
 #### Technical Requirements
 
@@ -797,7 +826,7 @@ Deletes all contacts and properties
 
 3. **User Interface**
    * CLI commands should follow consistent patterns across all operations
-   * Display should clearly distinguish between clients, properties, and associations
+   * Display should clearly distinguish between contacts, properties, and associations
    * Must support standard copy-paste operations for data entry
 
 #### Performance Requirements
@@ -806,8 +835,8 @@ Deletes all contacts and properties
    * The system should respond to each command within 3 seconds under normal load
 
 2. **Scalability**
-   * The system should be able to hold up to 10,000 properties and 10,000 clients
-   * Should efficiently handle relationships between clients and properties
+   * The system should be able to hold up to 10,000 properties and 10,000 contacts
+   * Should efficiently handle relationships between contacts and properties
 
 3. **Resource Efficiency**
    * Memory usage should not exceed 512MB during normal operation
@@ -830,13 +859,13 @@ Deletes all contacts and properties
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Client**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
+* **Contact**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
 * **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
-* **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
-* **Client ID**: A unique identifier assigned to clients for precise identification
+* **Association**: A relationship link between a contact and property indicating the contact's interest (as buyer) or ownership (as seller)
+* **Contact ID**: A unique identifier assigned to contacts for precise identification
 * **Property ID**: A unique identifier assigned to properties for precise identification
-* **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
-* **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
+* **Role**: The relation of the contact to the property (buyer, seller, tenant, landlord)
+* **Status**: The current state of a contact (lead/active/archived) or property (listed/sold/rented/off-market)
 * **Listing**: Whether a property is available for sale or rent
 * **Budget Range**: The minimum and maximum price range a buyer is willing to spend
 * **Type**: Category of property such as HDB, condo or landed
@@ -886,6 +915,358 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Marking properties as sold
+
+##### Marking unsold as sold
+
+Command: `sold p/UUID`
+
+To simulate:<br>
+- Have at least 1 *available* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *available* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following success message:<br>`Marked 1 property(ies) as sold.`
+- GUI should display property book.
+- The property with UUID input to the command should have its *status* set to *unavailable*.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of *available* properties.
+- Add arbitrary whitespace.
+
+##### Marking sold as sold
+
+Command: `sold p/UUID`
+
+To simulate: <br>
+- Have at least 1 *unavailable* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *unavailable* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`TBA`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as one property input is *unavailable*.
+- Add arbitrary whitespace.
+
+##### Marking invalid properties as sold
+
+Command: `sold p/UUID`
+
+To simulate: <br>
+- Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid or invalid property UUIDs.<br>A similar output should display as long as one property UUID cannot be found.
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Marking as sold with unknown parameters
+
+Command: `sold ...`
+
+To simulate: <br>
+- Run `sold` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`sold: Marks one or more properties as sold.`<br>`Parameters: p/UUID...`<br>`Example: sold p/14 p/27`
+- No change to the GUI.
+
+### Marking properties as unsold
+
+##### Marking sold as unsold
+
+Command: `unsold p/UUID`
+
+To simulate:<br>
+- Have at least 1 *unavailable* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *unavailable* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following success message:<br>`Marked 1 property(ies) as unsold.`
+- GUI should display property book.
+- The property with UUID input to the command should have its *status* set to *available*.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of *unavailable* properties.
+- Add arbitrary whitespace.
+
+##### Marking unsold as unsold
+
+Command: `unsold p/UUID`
+
+To simulate: <br>
+- Have at least 1 *available* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *available* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`TBA`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as one property input is *available*.
+- Add arbitrary whitespace.
+
+##### Marking invalid properties as unsold
+
+Command: `unsold p/UUID`
+
+To simulate: <br>
+- Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid or invalid property UUIDs.<br>A similar output should display as long as one property UUID cannot be found.
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Marking as unsold with unknown parameters
+
+Command: `unsold ...`
+
+To simulate: <br>
+- Run `unsold` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`unsold: Marks one or more properties as unsold`<br>`Parameters: p/UUID...`<br>`Example: unsold p/7 p/33`
+- No change to the GUI.
+
+### Linking contacts to properties
+
+##### Linking unlinked contacts and properties
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Linked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]] as seller`
+- The property with UUID input to the command should have its `Seller IDs` include the UUID of the contact input.
+- The contact with UUID input to the command should have its `Selling Property IDs` include the UUID of the property input.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with UUIDs of properties that are not linked to input contacts as buyers or sellers.
+- Add more parameters with prefix c/ with UUIDs of contacts that are not linked to input properties as buyers or sellers.
+- Add arbitrary whitespace.
+
+##### Linking linked contacts and properties
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that has any of each others' UUIDs in their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A contact is already linked to one of the properties as RELATIONSHIP`
+- No change to the GUI.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as any contact and property input are already linked with specified relationship.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as any contact and property input are already linked with specified relationship.
+- Add arbitrary whitespace.
+
+##### Linking invalid parameters
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact in the current filtered contact list.
+- Have at least 1 property not in the current filtered property list.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A property id provided is invalid`
+- No change to the GUI.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Repeat with valid PROPERTY_ID but not present CONTACT_ID.<br>Alternate error message:<br>`A contact id provided is invalid`
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Using a RELATIONSHIP other than `buyer` or `seller`.<br>Alternate error message:<br>`The relationship provided is invalid`
+- Add arbitrary whitespace.
+
+##### Linking with unknown parameters
+
+Command: `link ...`
+
+To simulate: <br>
+- Run `link` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`link: Links properties to contacts.`<br>`Parameters: p/PROPERTY_ID... r/RELATIONSHIP (must be either 'buyer' or 'seller') c/CONTACT_ID...`<br>`Example: link p/2 r/buyer c/3 c/5`
+- No change to the GUI.
+
+### Unlinking contacts from properties
+
+##### Uninking linked contacts and properties
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list all have each others' UUIDs in either their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Unlinked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]]`
+- The property with UUID input to the command should have its `Seller IDs` exclude the UUID of the contact input.
+- The property with UUID input to the command should have its `Buyer IDs` exclude the UUID of the contact input.
+- The contact with UUID input to the command should have its `Buying Property IDs` exclude the UUID of the property input.
+- The contact with UUID input to the command should have its `Selling Property IDs` exclude the UUID of the property input.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of properties that are linked to input contacts as buyers or sellers.
+- Add more parameters with prefix c/ with UUIDs of contacts that are linked to input properties as buyers or sellers.
+- Add arbitrary whitespace.
+
+##### Unlinking unlinked contacts and properties
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in both their `Buying Property IDs`/`Buyer IDs` and `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A contact is not linked to any of the properties`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as any contact and property input are not linked.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as any contact and property input are not linked.
+- Add arbitrary whitespace.
+
+##### Unlinking invalid parameters
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact in the current filtered contact list.
+- Have at least 1 property not in the current filtered property list.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A property id provided is invalid`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Repeat with valid PROPERTY_ID but not present CONTACT_ID.<br>Alternate error message:<br>`A contact id provided is invalid`
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Unlinking with unknown parameters
+
+Command: `unlink ...`
+
+To simulate: <br>
+- Run `unlink` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`unlink: unlinks properties from contacts.`<br>`Parameters: p/PROPERTY_ID... c/CONTACT_ID...`<br>`Example: unlink p/2 p/5 c/3`
+- No change to the GUI.
+
+### Show contacts linked to or owners of properties
+
+##### Show contacts linked to or owners of property
+
+Command: `showcontacts PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list where the contact is linked as buyer or seller, or is the owner of said property.
+- Run the above command with PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Listed 1 contact associated with property ID: [PROPERTY_ID]`
+- GUI should display address book with only contacts linked or owning the input property. 
+
+Variations:<br>
+- Add arbitrary whitespace.
+
+##### Show contacts with invalid parameters
+
+Command: `showcontacts PROPERTY_ID`
+
+To simulate:<br>
+- Run the above command with PROPERTY_ID replaced with the UUID of a property not in the property list.
+
+Expected:<br>
+- Displays the following error message:<br>`No contacts found associated with property ID: [PROPERTY_ID]`<br>`Possible reasons:`<br>`  • The property exists but has no linked contacts yet`<br>`  • The property ID doesn't exist (use 'list' & 'filtercontact' to verify)`<br>`Tip: Use 'link p/[PROPERTY_ID] c/CONTACT_ID r/RELATIONSHIP' to associate contacts with this property.`
+- No change to the GUI.
+
+Variations:<br>
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Show contacts with unknown parameters
+
+Command: `showcontacts ...`
+
+To simulate: <br>
+- Run `showcontacts` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`showcontacts: Shows all contacts associated with the specified property.`<br>`Parameters: PROPERTY_UUID (must be a positive integer)`<br>`Example: showcontacts 123`
+- No change to the GUI.
+
+### Show properties linked to or owned by contacts
+
+##### Show properties linked to or owned by contact
+
+Command: `showproperties CONTACT_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list where the property is linked as buying or selling, or is the owned by said contact.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact.
+
+Expected:<br>
+- Displays the following success message:<br>`Listed 1 property associated with contact ID: [CONTACT_ID]`
+- GUI should display property book with only properties linked or owned by the input contact. 
+
+Variations:<br>
+- Add arbitrary whitespace.
+
+##### Show properties with invalid parameters
+
+Command: `showproperties CONTACT_ID`
+
+To simulate:<br>
+- Run the above command with CONTACT_ID replaced with the UUID of a contact not in the property list.
+
+Expected:<br>
+- Displays the following error message:<br>`No properties found associated to contact ID: [CONTACT_ID]`<br>`Possible reasons:`<br>`  • The contact exists but is not linked to any properties yet`<br>`  • The contact ID doesn't exist (use 'list' & 'filterproperty' to verify)`<br>`Tip: Use 'addproperty ... o/[CONTACT_ID]' to add a property for this contact.`
+- No change to the GUI.
+
+Variations:<br>
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Show properties with unknown parameters
+
+Command: `showproperties ...`
+
+To simulate: <br>
+- Run `showproperties` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`showproperties: Shows all properties associated with the specified contact.`<br>`Parameters: CONTACT_UUID (must be a positive integer)`<br>`Example: showproperties 123`
+- No change to the GUI.
 
 ### Saving data
 

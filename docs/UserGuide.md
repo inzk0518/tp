@@ -353,6 +353,12 @@ Format: `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
 * `CONTACT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `link` can link any number of properties and people at once (excluding none).
 
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+A contact cannot be linked to a property as both a buyer and seller.<br>
+An error will be thrown if this is attempted!
+</div>
+
 For more information on the parameters, click [here](#command-parameters).
 
 ### Unlinking people and properties : `unlink`
@@ -468,11 +474,11 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 2. **If you minimise the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimised, and no new Help Window will appear. The remedy is to manually restore the minimised Help Window.
 
-3. **Contact names do not support special characters.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). This becomes a drawback for property agents who wish to store their clients full name. The current workaround will be to only use alphanumeric characters (e.g. `son of` instead of `s/o`). Future improvements aim to support this functionality. 
+3. **Contact names do not support special characters.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). This becomes a drawback for property agents who wish to store their contacts full name. The current workaround will be to only use alphanumeric characters (e.g. `son of` instead of `s/o`). Future improvements aim to support this functionality. 
 
-4. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). This becomes a drawback for property agents who communicate with international clients. Future improvements aim to support international phone number formats.
+4. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). This becomes a drawback for property agents who communicate with international contacts. Future improvements aim to support international phone number formats.
 
-5. **Lack of support for multiple phone numbers.** Currently, each contact can only store one phone number. This becomes a drawback for property agents who wish to store multiple numbers per person (e.g. Mobile, Home). Future improvements aim to support storing multing phone numbers per contact.
+5. **Lack of support for multiple phone numbers.** Currently, each contact can only store one phone number. This becomes a drawback for property agents who wish to store multiple numbers per contact (e.g. Mobile, Home). Future improvements aim to support storing multing phone numbers per contact.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -550,8 +556,8 @@ Related commands: [`filtercontact`](#filtering-contacts--filtercontact), [`filte
 
 | Parameter      | Prefix  | Constraints                                            |
 |----------------|---------|--------------------------------------------------------|
-| Limit          | limit/  | *TBA*                                                  |
-| Offset         | offset/ | *TBA*                                                  |
+| Limit          | limit/  | An integer more than 0                                 |
+| Offset         | offset/ | An integer more than or equals to 0                    |
 | Contact UUID   | c/      | Should be a valid Contact UUID                         |
 | Property UUID  | p/      | Should be a valid Property UUID                        |
 | Relationship   | r/      | Should only be these (case-insensitive): buyer, seller |
@@ -569,6 +575,6 @@ Related commands: [`filtercontact`](#filtering-contacts--filtercontact), [`filte
 | **CLI**      | Command Line Interface (CLI) is an interface where the user interacts with the application via directly typed commands.                         |
 | **GUI**      | Graphical User Interface (GUI) is a visual interface that users can interact with.                                                              |
 | **UUID**     | Universally unique identifier (UUID) of a contact or a property. It is generated by the application and can be referenced from the application. |
-| **Contact**  | A client whose details are stored in the system. The client can either be a buyer, seller, tenant or landlord.                                  |
+| **Contact**  | A contact whose details are stored in the system. The contact can either be a buyer, seller, tenant or landlord.                                  |
 | **Property** | A building whose details are stored in the system. The building can either be a HDB, condominium, landed, apartment or office.                  |
 | **JSON**     | JavaScript Object Notation (JSON) is a text-based data storage format that is used to store the data of the application.                        |
