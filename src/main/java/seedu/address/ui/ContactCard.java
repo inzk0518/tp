@@ -90,8 +90,8 @@ public class ContactCard extends UiPart<Region> {
         setTagsIfNotEmpty(contact);
 
         // Property IDs
-        setIdsIfNotEmpty(buyingIds, "Buying IDs: ", contact.getBuyingPropertyIds());
-        setIdsIfNotEmpty(sellingIds, "Selling IDs: ", contact.getSellingPropertyIds());
+        setIdsIfNotEmpty(buyingIds, "Buying Property IDs: ", contact.getBuyingPropertyIds());
+        setIdsIfNotEmpty(sellingIds, "Selling Property IDs: ", contact.getSellingPropertyIds());
     }
 
     /**
