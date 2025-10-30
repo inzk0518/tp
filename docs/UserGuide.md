@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TheRealDeal is a **desktop app for real estate agents, optimised for use via a Command Line Interface** (CLI) to streamline contact management by providing **quick access to contact preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
+TheRealDeal is a **desktop app for real estate agents in Singapore, optimised for use via a Command Line Interface** (CLI) to streamline contact management by providing **quick access to contact preferences and available properties** within the local market. Dealing with Singaporean properties and clients, the app enables you to work efficiently - the faster you type, the faster TheRealDeal can help you find exactly what you need.
 
 * Table of Contents
 {:toc}
@@ -410,7 +410,7 @@ Format: `clear`
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-<code>clear</code> is irreversible!. Please use it carefully as you will not be able to retrieve the data back.
+<code>clear</code> is irreversible! Please use it carefully as you will not be able to retrieve the data back.
 </div>
 
 **Expected Output**
