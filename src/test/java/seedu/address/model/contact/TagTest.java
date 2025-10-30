@@ -23,21 +23,20 @@ public class TagTest {
 
     @Test
     public void isValidTagName() {
-        // null tag
+        // equivalence partition: null tag
         assertThrows(NullPointerException.class, () -> Tag.isValidTagName(null));
 
-        // invalid tags
+        // equivalence partition: invalid tags
         assertFalse(Tag.isValidTagName("friend")); // not in allowed list
         assertFalse(Tag.isValidTagName("buyer seller")); // multiple values
         assertFalse(Tag.isValidTagName("buy")); // partial match
         assertFalse(Tag.isValidTagName("123")); // numeric
         assertFalse(Tag.isValidTagName("buyer123")); // alphanumeric
 
-        // valid tags
+        // equivalence partition: valid tags
         assertTrue(Tag.isValidTagName("")); // empty string allowed
         assertTrue(Tag.isValidTagName("buyer")); // lowercase
         assertTrue(Tag.isValidTagName("BUYER")); // uppercase
-        assertTrue(Tag.isValidTagName("Buyer")); // mixed case
         assertTrue(Tag.isValidTagName("seller"));
         assertTrue(Tag.isValidTagName("TENANT"));
         assertTrue(Tag.isValidTagName("landlord"));

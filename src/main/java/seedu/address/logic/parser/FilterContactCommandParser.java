@@ -35,6 +35,12 @@ import seedu.address.model.contact.FilterContactPredicate;
  */
 public class FilterContactCommandParser implements Parser<FilterContactCommand> {
 
+    private static final String INTEGER_PARSE_ERROR = "Invalid prefix for integer parsing: ";
+    private static final String INVALID_LIMIT_ERROR = "Limit must be greater than 0.";
+    private static final String LIMIT_PARSE_ERROR = "Invalid number for limit: ";
+    private static final String INVALID_OFFSET_ERROR = "Offset cannot be negative.";
+    private static final String OFFSET_PARSE_ERROR = "Invalid number for offset: ";
+
     // Define the set of allowed prefixes
     private static final Set<Prefix> VALID_PREFIXES = new HashSet<>(Arrays.asList(
             PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
@@ -176,7 +182,7 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
             return Long.parseLong(ParserUtil.parseBudgetMax(value).toString());
 
         default:
-            throw new ParseException("Invalid prefix for integer parsing: " + prefix);
+            throw new ParseException(INTEGER_PARSE_ERROR + prefix);
         }
     }
 
@@ -192,11 +198,11 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
         try {
             int num = Integer.parseInt(value.get().trim());
             if (num <= 0) {
-                throw new ParseException("Limit must be greater than 0.");
+                throw new ParseException(INVALID_LIMIT_ERROR);
             }
             return Optional.of(num);
         } catch (NumberFormatException e) {
-            throw new ParseException("Invalid number for limit: " + value);
+            throw new ParseException(LIMIT_PARSE_ERROR + value);
         }
     }
 
@@ -212,11 +218,11 @@ public class FilterContactCommandParser implements Parser<FilterContactCommand> 
         try {
             int num = Integer.parseInt(value.get().trim());
             if (num < 0) {
-                throw new ParseException("Offset cannot be negative.");
+                throw new ParseException(INVALID_OFFSET_ERROR);
             }
             return Optional.of(num);
         } catch (NumberFormatException e) {
-            throw new ParseException("Invalid number for offset: " + value);
+            throw new ParseException(OFFSET_PARSE_ERROR + value);
         }
     }
 }

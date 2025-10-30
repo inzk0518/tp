@@ -15,7 +15,7 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessFirst() throws Exception {
-        String input = " t/condo bed/3 f/100 status/available limit/5 offset/10";
+        String input = " type/condo bed/3 f/100 status/available limit/5 offset/10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -38,7 +38,7 @@ public class FilterPropertyCommandParserTest {
     }
     @Test
     public void parseValidArgsSuccessThird() throws Exception {
-        String input = " a/Geylang 18 p/123000 bath/3 price/5000 l/rent";
+        String input = " a/Geylang 18 postal/123000 bath/3 price/5000 l/rent";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -55,11 +55,11 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseInvalidPostalThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" p/1234567"));
+        assertThrows(ParseException.class, () -> parser.parse(" postal/1234567"));
     }
     @Test
     public void parseDuplicateTagThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" t/condo t/hdb"));
+        assertThrows(ParseException.class, () -> parser.parse(" type/condo type/hdb"));
     }
 
     @Test
