@@ -58,7 +58,7 @@ TheRealDeal Graphical User Interface (GUI) is organised into **five** key compon
    `java -jar TheRealDeal.jar` command to run the application.<br><br>
    A window similar to the picture below should appear in a few seconds. Note how the app contains some sample data.<br>
 
-![Sameple GUI Contacts](images/sampleGUIContacts.png)
+![Sample GUI Contacts](images/sampleGUIContacts.png)
 
 *Confused? Refer to [**Basic Command Terminal Navigation**](#basic-command-terminal-navigation) at the bottom of the user guide.*
 
@@ -184,10 +184,10 @@ Examples:
 *  `editcontact 1 p/91234567 e/johndoe@example.com`
 *  `editcontact 2 n/Betsy Crower t/`
 
-<div markdown="span" class="alert alert-warning">
-:exclamation: **Caution:**<br>
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
 You are able to edit valid contacts even if they are not currently shown on the GUI (but are stored in the address book). <br><br>
-i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>. <br><br>
+i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>.<br><br>
 Use the <code>list</code> command to see the changes.
 </div>
 

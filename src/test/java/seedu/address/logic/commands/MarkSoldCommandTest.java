@@ -61,7 +61,7 @@ public class MarkSoldCommandTest {
 
         CommandResult result = command.execute(modelStub);
 
-        assertEquals(String.format(MarkSoldCommand.MESSAGE_MARK_SOLD_SUCCESS, 2), result.getFeedbackToUser());
+        assertEquals(String.format(MarkSoldCommand.MESSAGE_MARK_SOLD_SUCCESS, "1, 2"), result.getFeedbackToUser());
         assertEquals(new Status("unavailable"), modelStub.getPropertyById(property1.getUuid()).getStatus());
         assertEquals(new Status("unavailable"), modelStub.getPropertyById(property2.getUuid()).getStatus());
     }
