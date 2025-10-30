@@ -25,13 +25,27 @@ public class PropertyCard extends UiPart<Region> {
     @FXML
     private Label propertyAddress;
     @FXML
-    private Label details;
-    @FXML
     private Label price;
     @FXML
-    private Label linkedIds;
+    private Label postal;
+    @FXML
+    private Label type;
+    @FXML
+    private Label bedroom;
+    @FXML
+    private Label bathroom;
+    @FXML
+    private Label floorArea;
+    @FXML
+    private Label status;
+    @FXML
+    private Label listing;
     @FXML
     private Label owner;
+    @FXML
+    private Label buyerIds;
+    @FXML
+    private Label sellerIds;
 
     /**
      * Creates a {@code PropertyCard} with the given {@code Property} and index to display.
@@ -42,26 +56,37 @@ public class PropertyCard extends UiPart<Region> {
         propertyIndex.setText(displayedIndex + ".");
         propertyAddress.setText(property.getPropertyAddress().value);
         propertyUuid.setText("id: " + property.getUuid().getValue());
+        postal.setText("Postal Code: " + property.getPostal().value);
+        type.setText("Type: " + property.getType().value);
+        bedroom.setText("Bedrooms: " + property.getBedroom().value);
+        bathroom.setText("Bathrooms: " + property.getBathroom().value);
+        floorArea.setText("Floor Area: " + property.getFloorArea().value + " sqft");
+        price.setText("Price: $" + String.format("%,d", Integer.parseInt(property.getPrice().value)));
+        status.setText("Status: " + property.getStatus().value);
+        listing.setText("Listing: " + property.getListing().value);
+        owner.setText("Owner ID: " + property.getOwner().value);
 
-        // Format: "type • beds beds • baths baths • sqft sqft"
-        details.setText(String.format("%s • %s beds • %s baths • %s sqft",
-                property.getType().value,
-                property.getBedroom().value,
-                property.getBathroom().value,
-                property.getFloorArea().value));
+        setIdsIfNotEmpty(buyerIds, "Buyer IDs: ", property.getBuyingContactIds());
+        setIdsIfNotEmpty(sellerIds, "Seller IDs: ", property.getSellingContactIds());
+    }
 
-        // Format price with commas and status
-        String formattedPrice = String.format("$%,d • %s • %s",
-                Integer.parseInt(property.getPrice().value),
-                property.getStatus().value,
-                property.getListing().value);
-        price.setText(formattedPrice);
 
-        owner.setText("Owner: " + property.getOwner().value);
+    /**
+     * Hides a label by making it invisible and unmanaged.
+     */
+    private void hideLabel(Label label) {
+        label.setVisible(false);
+        label.setManaged(false);
+    }
 
-        String formattedLinkedIds = String.format("Buyer Ids: %s • Seller Ids: %s",
-                Uuid.getGuiSetDisplayAsString(property.getBuyingContactIds()),
-                Uuid.getGuiSetDisplayAsString(property.getSellingContactIds()));
-        linkedIds.setText(formattedLinkedIds);
+    /**
+     * Sets property IDs if not empty, otherwise hides the label.
+     */
+    private void setIdsIfNotEmpty(Label label, String prefix, java.util.Set<Uuid> ids) {
+        if (ids.isEmpty()) {
+            hideLabel(label);
+        } else {
+            label.setText(prefix + Uuid.getGuiSetDisplayAsString(ids));
+        }
     }
 }
