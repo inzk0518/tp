@@ -114,7 +114,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ContactListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ContactListPanel`, `PropertyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -123,7 +123,7 @@ The `UI` component,
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Contact` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays `Contact` and `Property` object residing in the `Model`.
 
 ### 2.3. Logic component
 
@@ -223,7 +223,7 @@ Users can switch to the list of properties with: <code>filterproperty</code>
 </div>
 
 ##### Design Considerations
-We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. 
+We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`.
 
 #### <u>Clear Command</u> (`clear`)
 The `ClearCommand` allows users to delete all contacts and properties stored in the application
@@ -631,27 +631,27 @@ The input details will meet the required format and constraints for that command
   * 1a1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1b. System detects a duplicate prefix
   * 1b1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1c. System detects an invalid prefix
   * 1c1. System displays an error message and requests for new inputs
-    
+
     Use case resumes at step 1<br><br>
-    
+
 * 1d. System detects a parameter not meeting required constraints
   * 1d1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1e. System detects an invalid format
   * 1e1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1f. System detects duplicate details
     * 1e1. System displays an error message and requests for new inputs
 
@@ -686,7 +686,7 @@ Unfilter list of contacts or properties
 
 **Main Success Scenario:**
 1. User enters the list command
-2. System will unfilter contacts and properties 
+2. System will unfilter contacts and properties
 
    Use case ends
 
@@ -1219,7 +1219,7 @@ To simulate: <br>
 - Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
 
 Expected:<br>
-- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.`
 - No change to the GUI.
 
 Variations:<br>
@@ -1281,7 +1281,7 @@ To simulate: <br>
 - Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
 
 Expected:<br>
-- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.`
 - No change to the GUI.
 
 Variations:<br>
@@ -1454,7 +1454,7 @@ To simulate:<br>
 
 Expected:<br>
 - Displays the following success message:<br>`Listed 1 contact associated with property ID: [PROPERTY_ID]`
-- GUI should display address book with only contacts linked or owning the input property. 
+- GUI should display address book with only contacts linked or owning the input property.
 
 Variations:<br>
 - Add arbitrary whitespace.
@@ -1497,7 +1497,7 @@ To simulate:<br>
 
 Expected:<br>
 - Displays the following success message:<br>`Listed 1 property associated with contact ID: [CONTACT_ID]`
-- GUI should display property book with only properties linked or owned by the input contact. 
+- GUI should display property book with only properties linked or owned by the input contact.
 
 Variations:<br>
 - Add arbitrary whitespace.
