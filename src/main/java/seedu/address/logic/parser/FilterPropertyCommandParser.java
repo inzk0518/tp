@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Bathroom;
