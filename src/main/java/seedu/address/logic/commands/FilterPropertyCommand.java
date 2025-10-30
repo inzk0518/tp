@@ -28,7 +28,7 @@ public class FilterPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "filterproperty";
 
-public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters all properties in the property book "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters all properties in the property book "
             + "based on the given fields. All prefixes are optional.\n"
             + "Parameters: "
             + "[" + PREFIX_PROPERTY_ADDRESS + "ADDRESS] "
