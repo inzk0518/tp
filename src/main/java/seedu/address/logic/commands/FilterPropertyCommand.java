@@ -44,6 +44,13 @@ public class FilterPropertyCommand extends Command {
                 .toList();
 
         int total = allMatches.size();
+
+        //Check if there is input limit, else it will equal to total.
+        int limit = this.limit;
+        if (limit == Integer.MAX_VALUE) {
+            limit = total;
+        }
+
         int start = Math.min(offset, total);
         int endExclusive = Math.min(offset + limit, total);
         List<Property> page = allMatches.subList(start, endExclusive);
@@ -51,7 +58,7 @@ public class FilterPropertyCommand extends Command {
         model.updateFilteredPropertyList(page::contains);
 
         // Build “X properties matched”
-        String msg = String.format("%d properties matched", Math.min(limit, total - offset));
+        String msg = String.format("%d properties matched", Math.min(limit, Math.max(total - offset, 0)));
 
         showPropertiesView();
 
