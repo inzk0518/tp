@@ -51,10 +51,10 @@ public class DeleteContactCommand extends Command {
         requireNonNull(model);
         assert targetUuid != null : "targetUuid should not be null";
 
-        List<Contact> lastShownList = model.getFilteredContactList();
-        assert lastShownList != null : "Filtered contact list should not be null";
+        List<Contact> allContacts = model.getAddressBook().getContactList();
+        assert allContacts != null : "Contact list should not be null";
 
-        Optional<Contact> contactToDelete = lastShownList.stream()
+        Optional<Contact> contactToDelete = allContacts.stream()
                 .filter(p -> p.getUuid().equals(targetUuid))
                 .findFirst();
 
