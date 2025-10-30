@@ -238,7 +238,7 @@ Examples:
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-<code>deletecontact</code> is irreversible!. Please use it carefully as you will not be able to retrieve the contact back.
+<code>deletecontact</code> is irreversible! Please use it carefully as you will not be able to retrieve the contact back.
 </div>
 
 <div markdown="block" class="alert alert-info">
@@ -300,7 +300,7 @@ Examples:
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-<code>deleteproperty</code> is irreversible!. Please use it carefully as you will not be able to retrieve the property back.
+<code>deleteproperty</code> is irreversible! Please use it carefully as you will not be able to retrieve the property back.
 </div>
 
 ### Mark property as sold : `sold`
@@ -317,7 +317,7 @@ Examples:
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-If one of the <code>PROPERTY_ID</code> given is invalid, the whole command is aborted.
+If one of the <code>PROPERTY_ID</code> given is invalid or the property is already marked as sold, the whole command is aborted.
 The statuses of properties with valid <code>PROPERTY_ID</code> will not be changed.
 </div>
 
@@ -337,7 +337,7 @@ Examples:
 
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
-If one of the <code>PROPERTY_ID</code> given is invalid, the whole command is aborted.
+If one of the <code>PROPERTY_ID</code> given is invalid or the property is already marked as unsold, the whole command is aborted.
 The statuses of properties with valid <code>PROPERTY_ID</code> will not be changed.
 </div>
 
@@ -474,12 +474,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 
 2. **If you minimise the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimised, and no new Help Window will appear. The remedy is to manually restore the minimised Help Window.
 
-3. **Contact names do not support special characters.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). This becomes a drawback for property agents who wish to store their contacts full name. The current workaround will be to only use alphanumeric characters (e.g. `son of` instead of `s/o`). Future improvements aim to support this functionality. 
-
-4. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. +60123456789 or (123)123-4567). This becomes a drawback for property agents who communicate with international contacts. Future improvements aim to support international phone number formats.
-
-5. **Lack of support for multiple phone numbers.** Currently, each contact can only store one phone number. This becomes a drawback for property agents who wish to store multiple numbers per contact (e.g. Mobile, Home). Future improvements aim to support storing multing phone numbers per contact.
-
+3. **Contact names do not support special characters.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). This becomes a drawback for property agents who wish to store their contacts full name. The current workaround will be to only use alphanumeric characters (e.g. `son of` instead of `s/o`). Future improvements aim to support this functionality.
 
 --------------------------------------------------------------------------------------------------------------------
 
