@@ -37,13 +37,13 @@ public class FilterContactCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_BUDGET_MIN + "BUDGET_MIN] "
-            + "[" + PREFIX_BUDGET_MAX + "BUDGET_MAX] "
+            + "[" + PREFIX_BUDGET_MIN + "MIN_BUDGET] "
+            + "[" + PREFIX_BUDGET_MAX + "MAX_BUDGET] "
+            + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_NOTES + "NOTES] "
             + "[" + PREFIX_STATUS + "STATUS] "
-            + "[" + PREFIX_TAG + "TAG]..."
-            + "[" + PREFIX_LIMIT + "LIMIT]"
-            + "[" + PREFIX_OFFSET + "OFFSET]...\n"
+            + "[" + PREFIX_LIMIT + "LIMIT] "
+            + "[" + PREFIX_OFFSET + "OFFSET]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
@@ -85,11 +85,8 @@ public class FilterContactCommand extends Command {
         List<Contact> page = allMatches.subList(start, endExclusive);
         model.updateFilteredContactList(page::contains);
 
-        // Build output message (e.g., “12 properties matched (showing 6–10)”)
-        int from = total == 0 ? 0 : start + 1;
-        int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW,
-                Math.min(limit, total - offset), from, to);
+        // Build output message (e.g., “12 properties matched”)
+        String msg = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW, page.size());
 
         showContactsView();
 

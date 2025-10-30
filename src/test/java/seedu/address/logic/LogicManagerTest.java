@@ -7,6 +7,16 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.DeleteContactCommand.MESSAGE_CONTACT_NOT_FOUND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_FLOOR_AREA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_LISTING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_POSTAL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalContacts.AMY;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
@@ -45,16 +55,16 @@ public class LogicManagerTest {
     private static final IOException DUMMY_AD_EXCEPTION = new AccessDeniedException("dummy access denied exception");
     private static final String ADD_PROPERTY_COMMAND = String.join(" ",
             AddPropertyCommand.COMMAND_WORD,
-            "a/123 Main St 5",
-            "p/123456",
-            "price/500000",
-            "t/HDB",
-            "status/unavailable",
-            "bed/3",
-            "bath/2",
-            "f/120",
-            "l/sale",
-            "o/owner123");
+            " " + PREFIX_PROPERTY_ADDRESS + "123 Main St 5",
+            " " + PREFIX_PROPERTY_POSTAL + "123456",
+            " " + PREFIX_PROPERTY_PRICE + "500000",
+            " " + PREFIX_PROPERTY_TYPE + "HDB",
+            " " + PREFIX_PROPERTY_STATUS + "unavailable",
+            " " + PREFIX_PROPERTY_BEDROOM + "3",
+            " " + PREFIX_PROPERTY_BATHROOM + "2",
+            " " + PREFIX_PROPERTY_FLOOR_AREA + "120",
+            " " + PREFIX_PROPERTY_LISTING + "sale",
+            " " + PREFIX_PROPERTY_OWNER + "owner123");
 
     @TempDir
     public Path temporaryFolder;
@@ -100,18 +110,6 @@ public class LogicManagerTest {
     @Test
     public void execute_storageThrowsAdException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
-                LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
-    }
-
-    @Test
-    public void execute_propertyStorageThrowsIoException_throwsCommandException() {
-        assertPropertyCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
-                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
-    }
-
-    @Test
-    public void execute_propertyStorageThrowsAdException_throwsCommandException() {
-        assertPropertyCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
     }
 

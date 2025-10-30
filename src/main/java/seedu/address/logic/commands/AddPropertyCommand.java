@@ -16,6 +16,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
 
@@ -26,7 +27,7 @@ public class AddPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "addproperty";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the property list. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the property list.\n"
             + "Parameters: "
             + PREFIX_PROPERTY_ADDRESS + "ADDRESS "
             + PREFIX_PROPERTY_POSTAL + "POSTAL "
@@ -52,6 +53,8 @@ public class AddPropertyCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New property added: %1$s";
     public static final String MESSAGE_DUPLICATE_PROPERTY = "This property already exists in the property list";
+    public static final String MESSAGE_OWNER_NOT_FOUND =
+            "Owner contact ID must match an existing contact (received: %s).";
 
     private final Property toAdd;
 
@@ -71,6 +74,8 @@ public class AddPropertyCommand extends Command {
         Uuid uuid = model.getPropertyBook().generateNextUuid();
         Property propertyWithUuid = toAdd.duplicateWithNewUuid(uuid);
 
+        ensureOwnerExists(model, propertyWithUuid);
+
         if (model.hasProperty(propertyWithUuid)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
@@ -80,6 +85,25 @@ public class AddPropertyCommand extends Command {
         showPropertiesView();
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(propertyWithUuid)));
+    }
+
+    private void ensureOwnerExists(Model model, Property property) throws CommandException {
+        String ownerId = property.getOwner().value;
+        int ownerUuid;
+        try {
+            ownerUuid = Integer.parseInt(ownerId);
+        } catch (NumberFormatException e) {
+            throw new CommandException(String.format(MESSAGE_OWNER_NOT_FOUND, ownerId));
+        }
+
+        boolean ownerExists = model.getAddressBook().getContactList().stream()
+                .map(Contact::getUuid)
+                .filter(uuid -> uuid != null)
+                .anyMatch(uuid -> uuid.getValue() == ownerUuid);
+
+        if (!ownerExists) {
+            throw new CommandException(String.format(MESSAGE_OWNER_NOT_FOUND, ownerId));
+        }
     }
 
     @Override

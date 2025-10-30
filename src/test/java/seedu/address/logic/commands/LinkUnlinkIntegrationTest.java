@@ -16,6 +16,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.LinkDescriptorBuilder;
 import seedu.address.testutil.UnlinkDescriptorBuilder;
 
@@ -37,8 +38,10 @@ public class LinkUnlinkIntegrationTest {
 
         String expectedMessage =
                 String.format(LinkCommand.MESSAGE_LINK_BUYER_SUCCESS + "\n" + UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                linkDescriptor.getPropertyIds(), linkDescriptor.getContactIds(),
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
+                Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds()),
+                Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getPropertyIds()),
+                Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getContactIds()));
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 

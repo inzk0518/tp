@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.property.AssociatedWithContactPredicate;
+import seedu.address.model.property.predicates.AssociatedWithContactPredicate;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.ui.MainWindow;
 
@@ -21,8 +21,8 @@ public class ShowPropertiesCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows all properties associated with the specified contact.\n"
-            + "Parameters: c/CONTACT_ID (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " c/123";
+            + "Parameters: CONTACT_UUID (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 123";
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to contact ID: %1$s";
 
@@ -67,7 +67,7 @@ public class ShowPropertiesCommand extends Command {
         // Grammatically correct: "1 property" vs "2 properties"
         String propertyWord = numPropertiesFound == 1 ? "y" : "ies";
         return new CommandResult(
-                String.format(MESSAGE_SUCCESS, contactUuid, numPropertiesFound, propertyWord));
+                String.format(MESSAGE_SUCCESS, contactUuid.getValue(), numPropertiesFound, propertyWord));
     }
 
     @Override

@@ -17,8 +17,8 @@ public class ShowContactsCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows all contacts associated with the specified property.\n"
-            + "Parameters: p/PROPERTY_ID (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " p/123";
+            + "Parameters: PROPERTY_UUID (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 123";
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d contact%3$s associated with property ID: %1$s";
 
@@ -56,11 +56,12 @@ public class ShowContactsCommand extends Command {
         int numContactsFound = model.getFilteredContactList().size();
 
         if (numContactsFound == 0) {
-            return new CommandResult(String.format(MESSAGE_NO_CONTACTS, propertyUuid));
+            return new CommandResult(String.format(MESSAGE_NO_CONTACTS, propertyUuid.getValue()));
         }
 
         String pluralSuffix = numContactsFound == 1 ? "" : "s";
-        return new CommandResult(String.format(MESSAGE_SUCCESS, propertyUuid, numContactsFound, pluralSuffix));
+        return new CommandResult(
+                String.format(MESSAGE_SUCCESS, propertyUuid.getValue(), numContactsFound, pluralSuffix));
     }
 
     @Override

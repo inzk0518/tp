@@ -1,8 +1,5 @@
 package seedu.address.ui;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -15,14 +12,24 @@ public class StatusBarFooter extends UiPart<Region> {
     private static final String FXML = "StatusBarFooter.fxml";
 
     @FXML
-    private Label saveLocationStatus;
+    private Label filePath;
 
     /**
-     * Creates a {@code StatusBarFooter} with the given {@code Path}.
+     * Creates a {@code StatusBarFooter} with the given status message.
+     *
+     * @param statusMessage The status message to display at footer.
      */
-    public StatusBarFooter(Path saveLocation) {
+    public StatusBarFooter(String statusMessage) {
         super(FXML);
-        saveLocationStatus.setText(Paths.get(".").resolve(saveLocation).toString());
+        filePath.setText(statusMessage);
     }
 
+    /**
+     * Updates the status message text in the status bar.
+     *
+     * @param statusMessage the new status message to display.
+     */
+    public void setStatusMessage(String statusMessage) {
+        this.filePath.setText(statusMessage);
+    }
 }

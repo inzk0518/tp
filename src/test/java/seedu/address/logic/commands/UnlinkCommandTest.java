@@ -26,6 +26,7 @@ import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.ContactBuilderUtil;
 import seedu.address.testutil.PropertyBuilderUtil;
 import seedu.address.testutil.UnlinkDescriptorBuilder;
@@ -80,7 +81,8 @@ public class UnlinkCommandTest {
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
 
         String expectedMessage = String.format(UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getContactIds()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
@@ -122,7 +124,8 @@ public class UnlinkCommandTest {
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
 
         String expectedMessage = String.format(UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getContactIds()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
@@ -158,7 +161,8 @@ public class UnlinkCommandTest {
         UnlinkCommand unlinkCommand = new UnlinkCommand(unlinkDescriptor);
 
         String expectedMessage = String.format(UnlinkCommand.MESSAGE_UNLINK_SUCCESS,
-                unlinkDescriptor.getPropertyIds(), unlinkDescriptor.getContactIds());
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(unlinkDescriptor.getContactIds()));
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalPropertyBook(), new UserPrefs());
 

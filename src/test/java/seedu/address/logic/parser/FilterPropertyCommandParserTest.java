@@ -2,6 +2,18 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_FLOOR_AREA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_LISTING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_POSTAL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +27,13 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessFirst() throws Exception {
-        String input = " t/condo bed/3 f/100 status/available limit/5 offset/10";
+        String input = " "
+                + PREFIX_PROPERTY_TYPE + "condo "
+                + PREFIX_PROPERTY_BEDROOM + "3 "
+                + PREFIX_PROPERTY_FLOOR_AREA + "100 "
+                + PREFIX_PROPERTY_STATUS + "available "
+                + PREFIX_LIMIT + "5 "
+                + PREFIX_OFFSET + "10";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -28,7 +46,7 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseValidArgsSuccessSecond() throws Exception {
-        String input = " o/alice";
+        String input = " " + PREFIX_PROPERTY_OWNER + "alice";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -38,7 +56,12 @@ public class FilterPropertyCommandParserTest {
     }
     @Test
     public void parseValidArgsSuccessThird() throws Exception {
-        String input = " a/Geylang 18 p/123000 bath/3 price/5000 l/rent";
+        String input = " "
+                + PREFIX_PROPERTY_ADDRESS + "Geylang 18 "
+                + PREFIX_PROPERTY_POSTAL + "123000 "
+                + PREFIX_PROPERTY_BATHROOM + "3 "
+                + PREFIX_PROPERTY_PRICE + "5000 "
+                + PREFIX_PROPERTY_LISTING + "rent";
         FilterPropertyCommand expected =
                 new FilterPropertyCommand(
                         new PropertyMatchesFilterPredicate.Builder()
@@ -50,46 +73,47 @@ public class FilterPropertyCommandParserTest {
 
     @Test
     public void parseInvalidTagThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" o/"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_OWNER));
     }
 
     @Test
     public void parseInvalidPostalThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" p/1234567"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_POSTAL + "1234567"));
     }
     @Test
     public void parseDuplicateTagThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" t/condo t/hdb"));
+        assertThrows(ParseException.class, () -> parser.parse(
+                " " + PREFIX_PROPERTY_TYPE + "condo " + PREFIX_PROPERTY_TYPE + "hdb"));
     }
 
     @Test
     public void parseInvalidBedroomThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" bed/22"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_BEDROOM + "22"));
     }
 
     @Test
     public void parseInvalidBathroomThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" bath/23"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_BATHROOM + "23"));
     }
 
     @Test
     public void parseInvalidFloorAreaThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" f/23sqrft"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_FLOOR_AREA + "23sqrft"));
     }
 
     @Test
     public void parseInvalidPriceThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" price/5000dollar"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_PRICE + "5000dollar"));
     }
 
     @Test
     public void parseInvalidStatusThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" status/listed"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_STATUS + "listed"));
     }
 
     @Test
     public void parseInvalidListingThrowsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse(" l/free"));
+        assertThrows(ParseException.class, () -> parser.parse(" " + PREFIX_PROPERTY_LISTING + "free"));
     }
 }
 

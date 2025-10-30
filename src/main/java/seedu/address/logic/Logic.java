@@ -41,6 +41,12 @@ public interface Logic {
      * Returns the user prefs' address book file path.
      */
     Path getAddressBookFilePath();
+    /**
+     * Returns the user prefs' property book file path.
+     *
+     * @return Path of the property book file.
+     */
+    Path getPropertyBookFilePath();
 
     /**
      * Returns the user prefs' GUI settings.
