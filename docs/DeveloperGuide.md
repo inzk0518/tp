@@ -32,7 +32,7 @@ title: Developer Guide
 
 ## Acknowledgements
 
-TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3)(AB3) created by [SE-EDU](https://se-education.org/).
+TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3) (AB3) created by [SE-EDU](https://se-education.org/).
 
 ## Legend
 These boxes in the Developer Guide has additional information that you should take note of.
