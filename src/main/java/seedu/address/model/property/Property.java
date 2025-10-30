@@ -127,6 +127,31 @@ public class Property {
     }
 
     /**
+     * Checks if this property is owned by the given contact UUID.
+     */
+    public boolean isOwnedBy(Uuid contactUuid) {
+        return owner != null
+                && owner.value.equals(String.valueOf(contactUuid.getValue()));
+    }
+
+    /**
+     * Checks if the given contact UUID is a buyer of this property.
+     */
+    public boolean hasBuyer(Uuid contactUuid) { return buyingContactIds.contains(contactUuid); }
+
+    /**
+     * Checks if the given contact UUID is a seller of this property.
+     */
+    public boolean hasSeller(Uuid contactUuid) { return sellingContactIds.contains(contactUuid); }
+
+    /**
+     * Checks if this property is associated with the given contact UUID.
+     */
+    public boolean isAssociatedWith(Uuid contactUuid) {
+        return isOwnedBy(contactUuid) || hasBuyer(contactUuid) || hasSeller(contactUuid);
+    }
+
+    /**
      * Duplicates Property with the new BuyingContactIds.
      * Used for updating Property when linking or unlinking.
      */
