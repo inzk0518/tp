@@ -223,7 +223,7 @@ Users can switch to the list of properties with: <code>filterproperty</code>
 </div>
 
 ##### Design Considerations
-We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`. 
+We designed the `ListCommand` to provide users with a quick and easy way to view all `Contact` and `Property`.
 
 #### <u>Clear Command</u> (`clear`)
 The `ClearCommand` allows users to delete all contacts and properties stored in the application
@@ -631,27 +631,27 @@ The input details will meet the required format and constraints for that command
   * 1a1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1b. System detects a duplicate prefix
   * 1b1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1c. System detects an invalid prefix
   * 1c1. System displays an error message and requests for new inputs
-    
+
     Use case resumes at step 1<br><br>
-    
+
 * 1d. System detects a parameter not meeting required constraints
   * 1d1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1e. System detects an invalid format
   * 1e1. System displays an error message and requests for new inputs
 
     Use case resumes at step 1<br><br>
-  
+
 * 1f. System detects duplicate details
     * 1e1. System displays an error message and requests for new inputs
 
@@ -686,7 +686,7 @@ Unfilter list of contacts or properties
 
 **Main Success Scenario:**
 1. User enters the list command
-2. System will unfilter contacts and properties 
+2. System will unfilter contacts and properties
 
    Use case ends
 
@@ -1219,7 +1219,7 @@ To simulate: <br>
 - Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
 
 Expected:<br>
-- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.`
 - No change to the GUI.
 
 Variations:<br>
@@ -1281,7 +1281,7 @@ To simulate: <br>
 - Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
 
 Expected:<br>
-- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.`
 - No change to the GUI.
 
 Variations:<br>
@@ -1454,7 +1454,7 @@ To simulate:<br>
 
 Expected:<br>
 - Displays the following success message:<br>`Listed 1 contact associated with property ID: [PROPERTY_ID]`
-- GUI should display address book with only contacts linked or owning the input property. 
+- GUI should display address book with only contacts linked or owning the input property.
 
 Variations:<br>
 - Add arbitrary whitespace.
@@ -1497,7 +1497,7 @@ To simulate:<br>
 
 Expected:<br>
 - Displays the following success message:<br>`Listed 1 property associated with contact ID: [CONTACT_ID]`
-- GUI should display property book with only properties linked or owned by the input contact. 
+- GUI should display property book with only properties linked or owned by the input contact.
 
 Variations:<br>
 - Add arbitrary whitespace.
