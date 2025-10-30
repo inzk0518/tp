@@ -16,9 +16,9 @@ public class FilterPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "filterproperty";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": "
             + "Filters properties using optional fields.\n"
-            + "Available tags:\n"
+            + "Available tags: "
             + "address/ postal/ type/ bedroom/ bathroom/ floorarea/ price/ status/ owner/ listing/ limit/ offset/\n"
             + "Example: " + COMMAND_WORD + " postal/123000 bedroom/2 bathroom/3 price/500000 listing/sale";
 
