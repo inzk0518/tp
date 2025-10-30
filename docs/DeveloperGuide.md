@@ -982,6 +982,358 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Marking properties as sold
+
+##### Marking unsold as sold
+
+Command: `sold p/UUID`
+
+To simulate:<br>
+- Have at least 1 *available* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *available* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following success message:<br>`Marked 1 property(ies) as sold.`
+- GUI should display property book.
+- The property with UUID input to the command should have its *status* set to *unavailable*.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of *available* properties.
+- Add arbitrary whitespace.
+
+##### Marking sold as sold
+
+Command: `sold p/UUID`
+
+To simulate: <br>
+- Have at least 1 *unavailable* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *unavailable* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`TBA`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as one property input is *unavailable*.
+- Add arbitrary whitespace.
+
+##### Marking invalid properties as sold
+
+Command: `sold p/UUID`
+
+To simulate: <br>
+- Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid or invalid property UUIDs.<br>A similar output should display as long as one property UUID cannot be found.
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Marking as sold with unknown parameters
+
+Command: `sold ...`
+
+To simulate: <br>
+- Run `sold` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`sold: Marks one or more properties as sold.`<br>`Parameters: p/UUID...`<br>`Example: sold p/14 p/27`
+- No change to the GUI.
+
+### Marking properties as unsold
+
+##### Marking sold as unsold
+
+Command: `unsold p/UUID`
+
+To simulate:<br>
+- Have at least 1 *unavailable* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *unavailable* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following success message:<br>`Marked 1 property(ies) as unsold.`
+- GUI should display property book.
+- The property with UUID input to the command should have its *status* set to *available*.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of *unavailable* properties.
+- Add arbitrary whitespace.
+
+##### Marking unsold as unsold
+
+Command: `unsold p/UUID`
+
+To simulate: <br>
+- Have at least 1 *available* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *available* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`TBA`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as one property input is *available*.
+- Add arbitrary whitespace.
+
+##### Marking invalid properties as unsold
+
+Command: `unsold p/UUID`
+
+To simulate: <br>
+- Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid or invalid property UUIDs.<br>A similar output should display as long as one property UUID cannot be found.
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Marking as unsold with unknown parameters
+
+Command: `unsold ...`
+
+To simulate: <br>
+- Run `unsold` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`unsold: Marks one or more properties as unsold`<br>`Parameters: p/UUID...`<br>`Example: unsold p/7 p/33`
+- No change to the GUI.
+
+### Linking contacts to properties
+
+##### Linking unlinked contacts and properties
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in their `Buying IDs`/`Buyer IDs` or `Selling IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Linked Property IDs: [PROPERTY_ID] with Contact IDs: [CONTACT_ID] as seller`
+- The property with UUID input to the command should have its `Seller IDs` include the UUID of the contact input.
+- The contact with UUID input to the command should have its `Selling IDs` include the UUID of the property input.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with UUIDs of properties that are not linked to input contacts as buyers or sellers.
+- Add more parameters with prefix c/ with UUIDs of contacts that are not linked to input properties as buyers or sellers.
+- Add arbitrary whitespace.
+
+##### Linking linked contacts and properties
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that has any of each others' UUIDs in their `Buying IDs`/`Buyer IDs` or `Selling IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A contact is already linked to one of the properties as RELATIONSHIP`
+- No change to the GUI.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as any contact and property input are already linked with specified relationship.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as any contact and property input are already linked with specified relationship.
+- Add arbitrary whitespace.
+
+##### Linking invalid parameters
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact in the current filtered contact list.
+- Have at least 1 property not in the current filtered property list.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A property id provided is invalid`
+- No change to the GUI.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Repeat with valid PROPERTY_ID but not present CONTACT_ID.<br>Alternate error message:<br>`A contact id provided is invalid`
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Using a RELATIONSHIP other than `buyer` or `seller`.<br>Alternate error message:<br>`The relationship provided is invalid`
+- Add arbitrary whitespace.
+
+##### Linking with unknown parameters
+
+Command: `link ...`
+
+To simulate: <br>
+- Run `link` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`link: Links properties to contacts.`<br>`Parameters: p/PROPERTY_ID... r/RELATIONSHIP (must be either 'buyer' or 'seller') c/CONTACT_ID...`<br>`Example: link p/2 r/buyer c/3 c/5`
+- No change to the GUI.
+
+### Unlinking contacts from properties
+
+##### Uninking linked contacts and properties
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list all have each others' UUIDs in either their `Buying IDs`/`Buyer IDs` or `Selling IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Unlinked Property IDs: [PROPERTY_ID] with Contact IDs: [CONTACT_ID]`
+- The property with UUID input to the command should have its `Seller IDs` exclude the UUID of the contact input.
+- The property with UUID input to the command should have its `Buyer IDs` exclude the UUID of the contact input.
+- The contact with UUID input to the command should have its `Buying IDs` exclude the UUID of the property input.
+- The contact with UUID input to the command should have its `Selling IDs` exclude the UUID of the property input.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of properties that are linked to input contacts as buyers or sellers.
+- Add more parameters with prefix c/ with UUIDs of contacts that are linked to input properties as buyers or sellers.
+- Add arbitrary whitespace.
+
+##### Unlinking unlinked contacts and properties
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in both their `Buying IDs`/`Buyer IDs` and `Selling IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A contact is not linked to any of the properties`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as any contact and property input are not linked.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as any contact and property input are not linked.
+- Add arbitrary whitespace.
+
+##### Unlinking invalid parameters
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact in the current filtered contact list.
+- Have at least 1 property not in the current filtered property list.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A property id provided is invalid`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Repeat with valid PROPERTY_ID but not present CONTACT_ID.<br>Alternate error message:<br>`A contact id provided is invalid`
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Unlinking with unknown parameters
+
+Command: `unlink ...`
+
+To simulate: <br>
+- Run `unlink` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`unlink: unlinks properties from contacts.`<br>`Parameters: p/PROPERTY_ID... c/CONTACT_ID...`<br>`Example: unlink p/2 p/5 c/3`
+- No change to the GUI.
+
+### Show contacts linked to or owners of properties
+
+##### Show contacts linked to or owners of property
+
+Command: `showcontacts PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list where the contact is linked as buyer or seller, or is the owner of said property.
+- Run the above command with PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Listed 1 contact associated with property ID: [PROPERTY_ID]`
+- GUI should display address book with only contacts linked or owning the input property. 
+
+Variations:<br>
+- Add arbitrary whitespace.
+
+##### Show contacts with invalid parameters
+
+Command: `showcontacts PROPERTY_ID`
+
+To simulate:<br>
+- Run the above command with PROPERTY_ID replaced with the UUID of a property not in the property list.
+
+Expected:<br>
+- Displays the following error message:<br>`No contacts found associated with property ID: [PROPERTY_ID]`<br>`Possible reasons:`<br>`  • The property exists but has no linked contacts yet`<br>`  • The property ID doesn't exist (use 'list' & 'filtercontact' to verify)`<br>`Tip: Use 'link p/2 c/CONTACT_ID r/RELATIONSHIP' to associate contacts with this property.`
+- No change to the GUI.
+
+Variations:<br>
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Show contacts with unknown parameters
+
+Command: `showcontacts ...`
+
+To simulate: <br>
+- Run `showcontacts` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`showcontacts: Shows all contacts associated with the specified property.`<br>`Parameters: PROPERTY_ID`<br>`Example: showcontacts 123`
+- No change to the GUI.
+
+### Show properties linked to or owned by contacts
+
+##### Show properties linked to or owned by contact
+
+Command: `showproperties CONTACT_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list where the property is linked as buying or selling, or is the owned by said contact.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact.
+
+Expected:<br>
+- Displays the following success message:<br>`Listed 1 property associated with contact ID: [CONTACT_ID]`
+- GUI should display property book with only properties linked or owned by the input contact. 
+
+Variations:<br>
+- Add arbitrary whitespace.
+
+##### Show properties with invalid parameters
+
+Command: `showproperties CONTACT_ID`
+
+To simulate:<br>
+- Run the above command with CONTACT_ID replaced with the UUID of a contact not in the property list.
+
+Expected:<br>
+- Displays the following error message:<br>`No properties found associated to contact ID: [CONTACT_ID]`<br>`Possible reasons:`<br>`  • The contact exists but is not linked to any properties yet`<br>`  • The contact ID doesn't exist (use 'list' & 'filterproperty' to verify)`<br>`Tip: Use 'addproperty ... o/12' to add a property for this contact.`
+- No change to the GUI.
+
+Variations:<br>
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Show properties with unknown parameters
+
+Command: `showproperties ...`
+
+To simulate: <br>
+- Run `showproperties` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`showproperties: Shows all properties associated with the specified contact.`<br>`Parameters: CONTACT_ID`<br>`Example: showproperties 123`
+- No change to the GUI.
+
 ### Saving data
 
 ##### Missing data file
