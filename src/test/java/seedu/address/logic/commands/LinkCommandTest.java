@@ -27,6 +27,7 @@ import seedu.address.model.PropertyBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
+import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.ContactBuilderUtil;
 import seedu.address.testutil.LinkDescriptorBuilder;
 import seedu.address.testutil.PropertyBuilderUtil;
@@ -51,7 +52,8 @@ public class LinkCommandTest {
         LinkCommand linkCommand = new LinkCommand(linkDescriptor);
 
         String expectedMessage = String.format(LinkCommand.MESSAGE_LINK_SELLER_SUCCESS,
-                linkDescriptor.getPropertyIds(), linkDescriptor.getContactIds());
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());
@@ -79,7 +81,8 @@ public class LinkCommandTest {
         LinkCommand linkCommand = new LinkCommand(linkDescriptor);
 
         String expectedMessage = String.format(LinkCommand.MESSAGE_LINK_BUYER_SUCCESS,
-                linkDescriptor.getPropertyIds(), linkDescriptor.getContactIds());
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new PropertyBook(model.getPropertyBook()), new UserPrefs());

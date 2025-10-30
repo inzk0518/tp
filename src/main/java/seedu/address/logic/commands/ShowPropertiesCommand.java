@@ -67,7 +67,7 @@ public class ShowPropertiesCommand extends Command {
         // Grammatically correct: "1 property" vs "2 properties"
         String propertyWord = numPropertiesFound == 1 ? "y" : "ies";
         return new CommandResult(
-                String.format(MESSAGE_SUCCESS, contactUuid, numPropertiesFound, propertyWord));
+                String.format(MESSAGE_SUCCESS, contactUuid.getValue(), numPropertiesFound, propertyWord));
     }
 
     @Override

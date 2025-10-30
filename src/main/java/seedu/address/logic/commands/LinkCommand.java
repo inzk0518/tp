@@ -43,9 +43,9 @@ public class LinkCommand extends Command {
             + PREFIX_CONTACT_ID + "5";
 
     public static final String MESSAGE_LINK_BUYER_SUCCESS =
-            "Linked Property IDs: %1$s with Contact IDs: %2$s as buyer";
+            "Linked Property IDs: [%1$s] with Contact IDs: [%2$s] as buyer";
     public static final String MESSAGE_LINK_SELLER_SUCCESS =
-            "Linked Property IDs: %1$s with Contact IDs: %2$s as seller";
+            "Linked Property IDs: [%1$s] with Contact IDs: [%2$s] as seller";
 
     private static final Logger logger = Logger.getLogger(LinkCommand.class.getName());
 
@@ -83,11 +83,13 @@ public class LinkCommand extends Command {
 
         switch (linkDescriptor.getRelationship()) {
         case "buyer":
-            return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS, linkDescriptor.getPropertyIds(),
-                    linkDescriptor.getContactIds()));
+            return new CommandResult(String.format(MESSAGE_LINK_BUYER_SUCCESS,
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds())));
         case "seller":
-            return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS, linkDescriptor.getPropertyIds(),
-                    linkDescriptor.getContactIds()));
+            return new CommandResult(String.format(MESSAGE_LINK_SELLER_SUCCESS,
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getPropertyIds()),
+                    Uuid.getGuiSetDisplayAsString(linkDescriptor.getContactIds())));
         default:
             logger.log(Level.WARNING, "Linking failed due to invalid relationship");
             throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);

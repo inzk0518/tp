@@ -56,11 +56,12 @@ public class ShowContactsCommand extends Command {
         int numContactsFound = model.getFilteredContactList().size();
 
         if (numContactsFound == 0) {
-            return new CommandResult(String.format(MESSAGE_NO_CONTACTS, propertyUuid));
+            return new CommandResult(String.format(MESSAGE_NO_CONTACTS, propertyUuid.getValue()));
         }
 
         String pluralSuffix = numContactsFound == 1 ? "" : "s";
-        return new CommandResult(String.format(MESSAGE_SUCCESS, propertyUuid, numContactsFound, pluralSuffix));
+        return new CommandResult(
+                String.format(MESSAGE_SUCCESS, propertyUuid.getValue(), numContactsFound, pluralSuffix));
     }
 
     @Override
