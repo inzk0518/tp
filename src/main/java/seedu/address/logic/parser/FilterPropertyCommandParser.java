@@ -52,6 +52,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
                     0
             );
         }
+
         //Look for all prefix
         List<String> detectedPrefixes = Arrays.stream(args.split("\\s+"))
                 .filter(s -> s.contains("/") && !s.startsWith("/"))
