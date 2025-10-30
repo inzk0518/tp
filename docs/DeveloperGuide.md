@@ -352,10 +352,56 @@ The UI is then updated based on which contacts that match the predicate.
 ### 3.3. Property management
 
 #### <u>Add Property Command</u> (`addproperty`)
-`AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
+The `addproperty` command adds a new property to the property book and links it to an existing owner contact.
+
+Compulsory fields:
+- Address (`a/`)
+- Postal code (`postal/`)
+- Price (`price/`)
+- Type (`type/`)
+- Status (`status/`)
+- Bedroom count (`bed/`)
+- Bathroom count (`bath/`)
+- Floor area (`f/`)
+- Listing type (`l/`)
+- Owner UUID (`o/`)
+
+Optional Fields:
+- None
+
+##### Parsing and Validating User Input
+The `AddPropertyCommandParser` tokenises the raw arguments with `ArgumentTokenizer`, ensuring every compulsory prefix appears exactly once.
+Each value is parsed via `ParserUtil` into the corresponding domain object (e.g. `PropertyAddress`, `Postal`, `Price`, `Owner`).
+
+Validation done:
+- Rejects missing or duplicate compulsory prefixes, raising a `ParseException` with `MESSAGE_USAGE`.
+- Ensures each field satisfies its domain constraints (such as postal format, positive price and valid owner identifier).
+- Trims surrounding whitespace so that inputs like `a/ 21 Sunset Way` are accepted.
+
+##### Execution
+`AddPropertyCommand#execute` requests a fresh UUID from `PropertyBook#generateNextUuid()`. It verifies the specified owner exists in the address book; if not, a `CommandException` with `MESSAGE_OWNER_NOT_FOUND` is thrown.
+
+A duplicate check is then performed, which compares address and postal pairs.
+When all checks pass, the property is added, the UI shifts to the property view, and a success message (including the assigned UUID) is returned.
 
 #### <u>Delete Property Command</u> (`deleteproperty`)
-`DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
+The `deleteproperty` command removes an existing property identified by its UUID from the property book.
+
+Compulsory fields:
+- Property UUID
+
+##### Parsing and Validating User Input
+`DeletePropertyCommandParser` converts the supplied argument into a `Uuid` using `ParserUtil.parsePropertyId`.
+
+Validation done:
+- Rejects blank input or extraneous tokens, wrapping the error with `MESSAGE_USAGE`.
+- Ensures the UUID is a positive integer within bounds expected by the application.
+
+##### Execution
+`DeletePropertyCommand#execute` consults `Model#getFilteredPropertyList()`, which always reflects the latest property filtering applied in the UI (e.g. `list`, `filterproperty`).
+
+For example, after running `filterproperty type/condo`, only the condo subset is searched—even if you subsequently switch to the contacts tab—until another property-filtering command updates the list.
+If the supplied UUID is absent from that subset the command throws `MESSAGE_INVALID_PROPERTY_DISPLAYED_ID`; otherwise it deletes the property`, and update the UI accordingly.
 
 #### <u>Filter Property Command</u> (`filterproperty`)
 Documentation pending.
@@ -899,22 +945,238 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding a contact
+
+##### Adding a contact with unique details
+
+Command: `addcontact n/Zara Lim p/91234567 e/zara.lim@example.com a/11 Green Lane t/buyer s/active notes/Prefers email`
+
+To simulate:<br>
+- Run `list` to show all contacts and confirm the sample data does not already contain the details above.
+- Execute the command.
+
+Expected:<br>
+- Success message `New contact added:` appears.
+- The contacts panel shows a new `Zara Lim` card appended with a newly generated UUID (note it for later tests).
+
+Variations:<br>
+- Reorder optional prefixes or include additional tags to ensure the command still succeeds.
+- Repeat the command with extra whitespace around prefixes to confirm parsing tolerance.
+
+##### Duplicate contact rejected
+
+Command: `addcontact n/Zara Lim p/91234567 e/zara.lim@example.com a/11 Green Lane t/buyer s/active notes/Prefers email`
+
+To simulate:<br>
+- Ensure the contact from the previous scenario still exists.
+- Rerun the command above.
+
+Expected:<br>
+- Command fails with `This contact already exists in the address book`.
+- Contact list remains unchanged.
+
+Variations:<br>
+- Vary capitalisation while keeping values identical and observe the same rejection.
+- Attempt the command after filtering the contact list to verify the error message still appears.
+
+##### Missing compulsory addcontact field
+
+Command: `addcontact n/Zara Lim`
+
+To simulate:<br>
+- Run the command above.
+
+Expected:<br>
+- Command fails with an error stating that the phone parameter is missing and the usage message is displayed.
+- No new contact appears.
+
+Variations:<br>
+- Try `addcontact` with no arguments to observe the generic usage error.
+- Try `addcontact n/Zara Lim p/91234567 p/98765432` to see the duplicate prefix error.
+
 ### Deleting a contact
 
-1. Deleting a contact while all contacts are being shown
+##### Deleting a contact by UUID
 
-   1. Prerequisites: List all contacts using the `list` command. Multiple contacts in the list.
+Command: `deletecontact <CONTACT_UUID>`
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+To simulate:<br>
+- Run `list` and identify the UUID printed on the `Zara Lim` card (or another contact to delete).
+- Replace `<CONTACT_UUID>` with the exact UUID and run the command.
 
-   1. Test case: `delete 0`<br>
-      Expected: No contact is deleted. Error details shown in the status message. Status bar remains the same.
+Expected:<br>
+- Result box shows `Deleted Contact:` followed by the contact details.
+- The selected contact is removed and the status bar timestamp updates.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+Variations:<br>
+- Delete a different contact to confirm behaviour is consistent.
+- Perform the command after filtering the contact list to ensure deletion uses the displayed UUID.
 
-1. _{ more test cases …​ }_
+##### Invalid contact UUID
+
+Command: `deletecontact 9999`
+
+To simulate:<br>
+- Ensure no contact currently has the UUID `9999`.
+- Run the command above.
+
+Expected:<br>
+- Command fails with `No contact found with ID: 9999`.
+- Contact list stays the same.
+
+Variations:<br>
+- Run `deletecontact` without arguments to observe the invalid command format error.
+- Run `deletecontact abc` to see the invalid UUID message.
+
+### Adding a property
+
+##### Adding a property linked to an existing owner
+
+Command: `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/1`
+
+To simulate:<br>
+- Run `list` to show both contacts and properties.
+- Note the UUID of an existing owner contact (e.g. `1` for Alex Yeoh in sample data) and replace `o/1` with that value.
+- Execute the command.
+
+Expected:<br>
+- Success message `New property added:` appears.
+- Properties panel shows a new entry with the supplied details and a freshly generated UUID.
+
+Variations:<br>
+- Adjust optional fields (e.g. number of bedrooms) to verify they are captured correctly.
+- Repeat with additional whitespace between prefixes to confirm parsing tolerance.
+
+##### Owner contact does not exist
+
+Command: `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/9999`
+
+To simulate:<br>
+- Ensure no contact currently has the UUID `9999`.
+- Run the command above.
+
+Expected:<br>
+- Command fails with `Owner contact ID must match an existing contact (received: 9999).`
+- Property list remains unchanged.
+
+Variations:<br>
+- Replace `9999` with other non-existent UUIDs to see the same error.
+- Try negative UUID values to observe the invalid format message.
+
+##### Invalid addproperty commands
+
+Command: `addproperty`
+
+To simulate:<br>
+- Run the command above with no parameters.
+- Repeat with `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/` to omit the owner ID.
+
+Expected:<br>
+- Command fails with invalid format or constraint messages explaining the missing or malformed prefixes.
+- No properties are added.
+
+Variations:<br>
+- Provide duplicate prefixes (e.g. two `price/` values) to observe the corresponding error message.
+- Mix upper- and lower-case prefixes to ensure only the documented format is accepted.
+
+### Deleting a property
+
+##### Deleting a property by UUID
+
+Command: `deleteproperty <PROPERTY_UUID>`
+
+To simulate:<br>
+- Run `list` and identify the UUID of the property added earlier (or any property to delete).
+- Replace `<PROPERTY_UUID>` with the actual UUID and execute the command.
+
+Expected:<br>
+- Result box shows `Deleted property:` followed by the property details.
+- Property is removed from the list and the status bar timestamp updates.
+
+Variations:<br>
+- Delete a property from a filtered list to confirm behaviour is consistent.
+- Attempt deletion immediately after adding a property to verify the UUID remains valid.
+
+##### Invalid property UUID
+
+Command: `deleteproperty 9999`
+
+To simulate:<br>
+- Ensure no property currently has the UUID `9999`.
+- Run the command above.
+
+Expected:<br>
+- Command fails with `The property's id provided is invalid`.
+- Property list remains unchanged.
+
+Variations:<br>
+- Run `deleteproperty` with no arguments to observe the invalid command format error.
+- Run `deleteproperty abc` to see the invalid UUID message.
+
+### Viewing help
+
+##### Opening the help window via command box
+
+Command: `help`
+
+To simulate:<br>
+- Run the command above from the command box.
+
+Expected:<br>
+- Result box shows `Opened help window.`
+- The Help window pops up and the command box is cleared.
+
+Variations:<br>
+- Invoke the command repeatedly to ensure the Help window re-focuses without duplicating.
+- Trigger the command after switching between tabs to confirm consistent behaviour.
+
+##### Extraneous parameters ignored
+
+Command: `help 123`
+
+To simulate:<br>
+- Run the command above while the application is open.
+
+Expected:<br>
+- Same behaviour as `help`.
+- Existing Help window is brought to the front (or remains minimised if previously minimised).
+
+Variations:<br>
+- Replace `123` with other tokens (e.g. `/foo`) to ensure they are ignored.
+- Issue the command while the Help window is already focused.
+
+### Exiting the program
+
+##### Exiting from the main window
+
+Command: `exit`
+
+To simulate:<br>
+- Run the command above from the main window.
+
+Expected:<br>
+- Result box shows `Exiting Address Book as requested ...`.
+- Both the main GUI and any Help window close.
+
+Variations:<br>
+- Exit immediately after launching to ensure no confirmation dialog appears.
+- Execute `exit` after filtering the contact list to confirm unsaved filters do not block shutdown.
+
+##### Exiting while the Help window is open
+
+Command: `exit`
+
+To simulate:<br>
+- Run `help` to open the Help window.
+- Run the command above.
+
+Expected:<br>
+- Both the main GUI and Help window close.
+- Application can be relaunched to continue testing.
+
+Variations:<br>
+- Trigger `exit` from the Help window's focus to ensure the main window still closes.
+- Repeat after moving the Help window to another monitor.
 
 ### Marking properties as sold
 
