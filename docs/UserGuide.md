@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TheRealDeal is a **desktop app for real estate agents, optimised for use via a Command Line Interface** (CLI) to streamline contact management by providing **quick access to contact preferences and available properties**. The faster you type, the faster TheRealDeal can help you find what you need.
+TheRealDeal is a **desktop app for real estate agents in Singapore, optimised for use via a Command Line Interface** (CLI) to streamline contact management by providing **quick access to contact preferences and available properties** within the local market. Designed with the assumption that users primarily deal with Singaporean properties and clients, the app enables you to work efficiently - the faster you type, the faster TheRealDeal can help you find exactly what you need.
 
 * Table of Contents
 {:toc}
