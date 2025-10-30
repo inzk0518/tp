@@ -15,7 +15,7 @@ title: Developer Guide
 3. [Implementation](#3-implementation)
    1. [Contact management](#32-contact-management)
    2. [Property management](#33-property-management)
-   3. [Contact–property linking](#34-clientproperty-linking)
+   3. [Contact–property linking](#34-contactproperty-linking)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Command Parameters](#appendix-command-parameters)
 6. [Appendix: Product Scope](#appendix-product-scope)
@@ -268,7 +268,7 @@ Optional Fields:
 The `AddContactCommandParser` class is responsible for parsing the command input.
 It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
 
-The parser constructs a new `Person` object that is wrapped inside a `AddContactCommand`.
+The parser constructs a new `Contact` object that is wrapped inside a `AddContactCommand`.
 
 Validation done:
 - Ensures compulsory fields are present
@@ -277,7 +277,7 @@ Validation done:
 - Unknown parameters provided will throw a `ParseException`
 
 ##### Execution
-The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
+The `AddContactCommand` class generates the UUID for the `Contact` object and checks for duplicates in the address book before adding the new contact.
 
 #### <u>Delete Command</u> (`deletecontact`)
 The `deletecontact` command is designed to delete an existing contact from the address book, identified by their UUID.
@@ -311,15 +311,15 @@ The `EditContactCommandParser` class is responsible for parsing the command inpu
 It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
 The UUID is also validated and parsed.
 
-The parser creates an `EditPersonDescriptor` object that stores the newly edited fields.
+The parser creates an `EditContactDescriptor` object that stores the newly edited fields.
 
 Validation done:
 - Same validation done as `addcontact`
 - At least one field must be edited
-- New person must not already be in the address book
+- New contact must not already be in the address book
 
 ##### Execution
-The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
+The `EditContactCommand` executes by finding the target contact based on their UUID, creating an edited `Contact` object and updating the contact in the address book with the new details.
 
 #### <u>Filter Contact Command</u> (`filtercontact`)
 The `filtercontact` command filters the contacts in the address book based on the criteria given.
@@ -357,6 +357,9 @@ The UI is then updated based on which contacts that match the predicate.
 #### <u>DeletePropertyCommand</u> (`deleteproperty`)
 `DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
 
+#### <u>Filter Property Command</u> (`filterproperty`)
+Documentation pending.
+
 #### <u>ShowPropertiesCommand</u> (`showproperties`)
 Documentation pending.
 
@@ -392,7 +395,7 @@ Validation done:
 ##### Execution
 The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
 
-### 3.4. Client–property linking
+### 3.4. Contact–property linking
 
 #### <u>LinkCommand</u> (`link`)
 The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
@@ -440,8 +443,8 @@ The parser creates an `UnlinkDescriptor` object that stores the parsed UUIDs and
 ##### Execution
 Documentation pending.
 
-#### <u>ShowClientsCommand</u> (`showclients`)
-Currently returns a placeholder message while property–client association storage is being developed.
+#### <u>ShowContactsCommand</u> (`showcontacts`)
+Currently returns a placeholder message while property–contact association storage is being developed.
 
 ### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
@@ -462,46 +465,64 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter                             | Prefix  | Constraints                                                                                                                                                                                                                                                                  |
-|---------------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Name                                  | n/      | Alphabetical characters (a-z, A-Z, 0-9) or spaces                                                                                                                                                                                                                            |
-| Phone Number                          | phone/  | Only numeric digits (0-9), and it should be at least 3 digits long                                                                                                                                                                                                           |
-| Email                                 | e/      | Should follow the format: name@example.com. The part before @ can contain letters, numbers, and the symbols `+`, `_`, `.`, `-` but cannot start or end with a symbol. The part after @ must be a valid alphanumeric domain and end with at least 2 characters after the `.`. |
-| Address (Contact or Property)         | a/      | Can take any character. Maximum of 200 characters                                                                                                                                                                                                                            |
-| Tag                                   | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                                                                                                                                                                     |
-| Minimum Budget (in Singapore Dollars) | min/    | Non-negative integer. If not provided, will have a default of $0                                                                                                                                                                                                             |
-| Maximum Budget (in Singapore Dollars) | max/    | Non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000                                                                                                                                                              |
-| Notes                                 | notes/  | Can take any character. Maximum of 500 characters                                                                                                                                                                                                                            |
-| Status (Contact)                      | s/      | Should only be these (case-insensitive): active, inactive                                                                                                                                                                                                                    |
-| Limit                                 | limit/  | An integer more than 0                                                                                                                                                                                                                                                       |
-| Offset                                | offset/ | An integer more than or equals to 0                                                                                                                                                                                                                                          |
-| Number of Bathrooms                   | bath/   | An integer more than 0                                                                                                                                                                                                                                                       |
-| Number of Bedrooms                    | bed/    | An integer more than 0                                                                                                                                                                                                                                                       |
-| Floor Area (square feet)              | f/      | An integer between 50 and 100,000 (inclusive)                                                                                                                                                                                                                                |
-| Listing                               | l/      | Should only be these (case-insensitive): sale, rent                                                                                                                                                                                                                          |
-| Postal Code                           | postal/ | A 6-digit Singapore postal code                                                                                                                                                                                                                                              |
-| Status (Property)                     | status/ | Should only be these (case-insensitive): available, unavailable                                                                                                                                                                                                              |
-| Owner                                 | o/      |                                                                                                                                                                                                                                                                              |
-| Price (in Singapore Dollars)          | price/  | An integer between 0 and 1,000,000,000,000 (inclusive)                                                                                                                                                                                                                       |
-| Type                                  | type/   | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                                                                                                                                                                                       |
-| Property ID                           | p/      | An integer more than 0 and must be an ID of an existing property                                                                                                                                                                                                             |
-| Contact ID                            | r/      | An integer more than 0 and must be an ID of an existing contact                                                                                                                                                                                                              |
-| Relationship                          | c/      | Should only be these (case-insensitive): buyer, seller                                                                                                                                                                                                                       |
+### Contact Management
+These are prefixes for purely contact related commands.
+Related commands: [`addcontact`](#add-command-addcontact), [`filtercontact`](#filter-contact-command-filtercontact), [`editcontact`](#filter-contact-command-filtercontact)
 
+| Parameter      | Prefix  | Constraints                                                                                                                |
+|----------------|---------|----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                      |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                 |
+| Email          | e/      | Should follow the format: name@example.com                                                                                 |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                              |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                   |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                               |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000|
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                              |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                  |
+
+### Property Management
+These are prefixes for purely property related commands.
+Related commands: [`addproperty`](#addpropertycommand-addproperty), [`filterproperty`](#filter-property-command-filterproperty)
+
+| Parameter      | Prefix  | Constraints                                                                                                       |
+|----------------|---------|-------------------------------------------------------------------------------------------------------------------|
+| Address        | a/      | Should only contain alphabetical 5 to 200 characters (a-z, A-Z, 0-9) or spaces, with at least 1 letter and 1 digit|
+| Postal code    | p/      | Should only contain numbers (0-9), and it should be exactly least 6 digits long. (Singaporean Postal Code)        |
+| Price          | price/  | Should be an integer from 1 to 1,000,000,000,000                                                                  |
+| Type           | t/      | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                            |
+| Status         | status/ | Should only be these (case-insensitive): available, unavailable                                                   |
+| Bedroom count  | bed/    | Should be an integer from 0 to 20                                                                                 |
+| Bathroom count | bath/   | Should be an integer from 0 to 20                                                                                 |
+| Floor area     | f/      | Should be an integer from 50 to 100,000                                                                           |
+| Listing        | l/      | Should only be these (case-insensitive): sale, rent                                                               |
+| Owner ID       | o/      | Should be a valid Contact UUID                                                                                    |
+
+### Others
+These are prefixes that are used over multiple commands.
+Related commands: [`filtercontact`](#filter-contact-command-filtercontact), [`filterproperty`](#filter-property-command-filterproperty), [`sold`](#mark-property-as-sold-command-sold), [`unsold`](#mark-property-as-unsold-command-unsold), [`link`](#linkcommand-link), [`unlink`](#unlinkcommand-unlink), [`showproperties`](#showpropertiescommand-showproperties), [`showcontacts`](#showcontactscommand-showcontacts)
+
+| Parameter      | Prefix  | Constraints                                            |
+|----------------|---------|--------------------------------------------------------|
+| Limit          | limit/  | An integer more than 0                                 |
+| Offset         | offset/ | An integer more than or equals to 0                    |
+| Contact UUID   | c/      | Should be a valid Contact UUID                         |
+| Property UUID  | p/      | Should be a valid Property UUID                        |
+| Relationship   | r/      | Should only be these (case-insensitive): buyer, seller |
 
 ## Appendix: Product Scope
 
 **Target user profile**:
 
 * real estate agents
-* has to manage a lot of clients with different informations
+* has to manage a lot of contacts with different informations
 * has to manage large property list
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage clients faster than a typical mouse/GUI driven app
+**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
 ## Appendix: User Stories
 
@@ -509,31 +530,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a…                        | I want to…                                       | So that I can…                                                           |
 | -------- | ---------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------ |
-| `* * *`  | user                         | add contacts                                     | keep track of my clients                                                 |
+| `* * *`  | user                         | add contacts                                     | keep track of my contacts                                                 |
 | `* * *`  | user                         | store properties                                 | keep track of my advertising properties                                  |
 | `* * *`  | user                         | delete contacts                                  | remove contacts that I no longer need                                    |
 | `* * *`  | user                         | delete properties                                | remove properties that I no longer need                                  |
-| `* * *`  | user                         | filter my contacts by their details              | find and prioritise clients easily                                       |
-| `* * *`  | user                         | filter my properties by criteria                    | find my properties for my clients easily and better match client's needs |
-| `* * *`  | user                         | track client associations to properties          | easily cross-reference clients                                           |
+| `* * *`  | user                         | filter my contacts by their details              | find and prioritise contacts easily                                       |
+| `* * *`  | user                         | filter my properties by criteria                 | find my properties for my contacts easily and better match contact's needs |
+| `* * *`  | user                         | track contact associations to properties          | easily cross-reference contacts                                           |
 | `* * *`  | user                         | track when properties are sold                   | filter them from searches                                                |
-| `* * *`  | detail-oriented user         | view a client’s full profile details             | prepare before meeting or calling them                                   |
+| `* * *`  | detail-oriented user         | view a contact’s full profile details             | prepare before meeting or calling them                                   |
 | `* *`    | user                         | edit stored information                          | avoid manually deleting and adding data back when something changes      |
 | `* *`    | collaborating user           | import Excel contact lists into the system       | avoid adding contacts one by one                                         |
-| `* *`    | user                         | record the dates of client property visits       | maintain a clear history of interactions                                 |
+| `* *`    | user                         | record the dates of contact property visits       | maintain a clear history of interactions                                 |
 | `* *`    | collaborating user           | export data of contacts                          | pass the information to associated contacts                              |
-| `* *`    | user                         | draft messages based on client profiles          | provide updates quickly and professionally                               |
-| `* *`    | user                         | mark clients as “active” or “inactive”           |                                                                          |
+| `* *`    | user                         | draft messages based on contact profiles          | provide updates quickly and professionally                               |
+| `* *`    | user                         | mark contacts as “active” or “inactive”           |                                                                          |
 | `* *`    | user                         | store signed contracts                           | quickly retrieve them if disputes or clarifications arise                |
 | `* *`    | user                         | generate reports                                 | analyze performance and opportunities                                    |
-| `* *`    | user                         | tag clients with labels                          | organise them better                                                     |
+| `* *`    | user                         | tag contacts with labels                          | organise them better                                                     |
 | `* *`    | user                         | track commission earned from each deal           | measure my performance                                                   |
 | `* *`    | user                         | have a recent contact list                       |                                                                          |
 | `*`      | user dealing with complaints | see the whole interaction history                | understand the context fully and manage the situation well               |
 | `*`      | forgetful user               | set automatic reminders for contract expirations | avoid missing key dates                                                  |
 | `*`      | user                         | mark and track the negotiation stage of a deal   | see deal progress                                                        |
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
-| `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
+| `*`      | forgetful user               | set reminders for follow-ups with contacts        | avoid forgetting to contact them at the right time                       |
 
 ## Appendix: Use Cases
 
@@ -688,12 +709,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends
 
-#### Use case: Associate property to client
+#### Use case: Associate property to contact
 
 **Main Success Scenario:**
 
-1.  User chooses to associate property to client
-2.  System requests property details and client details
+1.  User chooses to associate property to contact
+2.  System requests property details and contact details
 3.  User enters the required information
 4.  System stores the required information
 5.  System displays a success message
@@ -711,12 +732,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 4
 
-#### Use case: Unassociate property client
+#### Use case: Unassociate property contact
 
 **Main Success Scenario:**
 
-1.  User chooses to unassociate property to client
-2.  System requests property details and client details
+1.  User chooses to unassociate property to contact
+2.  System requests property details and contact details
 3.  User enters the required information
 4.  System stores the required information
 5.  System displays a success message
@@ -780,14 +801,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 4
 
-#### Use case: Find clients associated to property
+#### Use case: Find contacts associated to property
 
 **Main Success Scenario:**
 
-1.  User chooses to find clients associated to a specific property
+1.  User chooses to find contacts associated to a specific property
 2.  System requests property details
 3.  User enters the required information
-4.  System retrieves information and displays the clients
+4.  System retrieves information and displays the contacts
 
     Use case ends
 
@@ -803,17 +824,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case resumes at step 4
 
 
-* 4a. System finds no clients associated to the property
-    * 4a1. System displays "No clients found" message
+* 4a. System finds no contacts associated to the property
+    * 4a1. System displays "No contacts found" message
 
       Use case ends
 
-#### Use case: Find properties associated to client
+#### Use case: Find properties associated to contact
 
 **Main Success Scenario:**
 
-1.  User chooses to find properties associated to a specific client
-2.  System requests client details
+1.  User chooses to find properties associated to a specific contact
+2.  System requests contact details
 3.  User enters the required information
 4.  System retrieves information and displays the properties
 
@@ -831,7 +852,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case resumes at step 4
 
 
-* 4a. System finds no properties associated to the client
+* 4a. System finds no properties associated to the contact
     * 4a1. System displays "No properties found" message
 
       Use case ends
@@ -848,7 +869,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    * Error messages should be domain-specific and actionable for real estate scenarios
 
 2. **Data Integrity**
-   * No duplicate clients or properties should be allowed based on unique identifiers
+   * No duplicate contacts or properties should be allowed based on unique identifiers
 
 #### Technical Requirements
 
@@ -863,7 +884,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 3. **User Interface**
    * CLI commands should follow consistent patterns across all operations
-   * Display should clearly distinguish between clients, properties, and associations
+   * Display should clearly distinguish between contacts, properties, and associations
    * Must support standard copy-paste operations for data entry
 
 #### Performance Requirements
@@ -872,8 +893,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    * The system should respond to each command within 3 seconds under normal load
 
 2. **Scalability**
-   * The system should be able to hold up to 10,000 properties and 10,000 clients
-   * Should efficiently handle relationships between clients and properties
+   * The system should be able to hold up to 10,000 properties and 10,000 contacts
+   * Should efficiently handle relationships between contacts and properties
 
 3. **Resource Efficiency**
    * Memory usage should not exceed 512MB during normal operation
@@ -896,13 +917,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Client**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
+* **Contact**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
 * **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
-* **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
-* **Client ID**: A unique identifier assigned to clients for precise identification
+* **Association**: A relationship link between a contact and property indicating the contact's interest (as buyer) or ownership (as seller)
+* **Contact ID**: A unique identifier assigned to contacts for precise identification
 * **Property ID**: A unique identifier assigned to properties for precise identification
-* **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
-* **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
+* **Role**: The relation of the contact to the property (buyer, seller, tenant, landlord)
+* **Status**: The current state of a contact (lead/active/archived) or property (listed/sold/rented/off-market)
 * **Listing**: Whether a property is available for sale or rent
 * **Budget Range**: The minimum and maximum price range a buyer is willing to spend
 * **Type**: Category of property such as HDB, condo or landed
