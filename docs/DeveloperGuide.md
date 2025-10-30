@@ -351,10 +351,10 @@ The UI is then updated based on which contacts that match the predicate.
 
 ### 3.3. Property management
 
-#### <u>AddPropertyCommand</u> (`addproperty`)
+#### <u>Add Property Command</u> (`addproperty`)
 `AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
 
-#### <u>DeletePropertyCommand</u> (`deleteproperty`)
+#### <u>Delete Property Command</u> (`deleteproperty`)
 `DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
 
 #### <u>Filter Property Command</u> (`filterproperty`)
@@ -394,7 +394,7 @@ The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UU
 
 ### 3.4. Contact–property linking
 
-#### <u>LinkCommand</u> (`link`)
+#### <u>Link Command</u> (`link`)
 The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
 
 Compulsory fields:
@@ -423,7 +423,7 @@ The `LinkCommand` executes by:
 3. Creating new edited `Contact` and `Property` objects with the updated relationship
 4. Updating the contacts and properties in the address and property book with the new details.
 
-#### <u>UnlinkCommand</u> (`unlink`)
+#### <u>Unlink Command</u> (`unlink`)
 The `unlink` command is designed to unlink contacts in the address book from properties in the property book, each identified by their UUID.
 
 Compulsory fields:
@@ -448,10 +448,10 @@ The `LinkCommand` executes by:
 3. Creating new edited `Contact` and `Property` objects with buyer and seller relationships removed
 4. Updating the contacts and properties in the address and property book with the new details.
 
-#### <u>ShowContactsCommand</u> (`showcontacts`)
+#### <u>Show Contacts Command</u> (`showcontacts`)
 Currently returns a placeholder message while property–contact association storage is being developed.
 
-#### <u>ShowPropertiesCommand</u> (`showproperties`)
+#### <u>Show Properties Command</u> (`showproperties`)
 Documentation pending.
 
 ### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
