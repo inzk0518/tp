@@ -936,22 +936,104 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding a contact
+
+1. Adding a contact with unique details
+
+   1. Prerequisites: Run the `list` command to show all contacts and confirm the sample data does not already contain the details below.
+
+   1. Test case: `addcontact n/Zara Lim p/91234567 e/zara.lim@example.com a/11 Green Lane t/buyer s/active notes/Prefers email`<br>
+      Expected: Success message `New contact added:` appears. The contacts panel shows a new `Zara Lim` card appended to the list with a newly generated UUID. Note the UUID for later tests.
+
+1. Duplicate contact rejected
+
+   1. Test case: Re-enter the exact command above.<br>
+      Expected: Command fails with `This contact already exists in the address book`. Contact list remains unchanged.
+
+1. Missing compulsory field
+
+   1. Test case: `addcontact n/Zara Lim`<br>
+      Expected: Command fails with an error stating that the phone parameter is missing and the usage message is displayed. No new contact appears.
+
+1. Other incorrect add commands to try: `addcontact`, `addcontact n/Zara Lim p/91234567 p/98765432`<br>
+   Expected: Similar failures citing invalid command format or duplicate prefixes.
+
 ### Deleting a contact
 
-1. Deleting a contact while all contacts are being shown
+1. Deleting a contact by UUID
 
-   1. Prerequisites: List all contacts using the `list` command. Multiple contacts in the list.
+   1. Prerequisites: Run the `list` command. Identify the UUID printed on the `Zara Lim` card (or any other contact to delete).
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   1. Test case: `deletecontact <CONTACT_UUID>` (replace `<CONTACT_UUID>` with the exact UUID printed on the contact card)<br>
+      Expected: Contact is removed from the list. Result box shows `Deleted Contact:` followed by the contact details. Status bar timestamp updates.
 
-   1. Test case: `delete 0`<br>
-      Expected: No contact is deleted. Error details shown in the status message. Status bar remains the same.
+1. Invalid contact UUID
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+   1. Test case: `deletecontact 9999`<br>
+      Expected: Command fails with `No contact found with ID: 9999`. Contact list stays the same.
 
-1. _{ more test cases …​ }_
+1. Other incorrect delete commands to try: `deletecontact`, `deletecontact abc`<br>
+   Expected: Command fails with an invalid command format error.
+
+### Adding a property
+
+1. Adding a property linked to an existing owner
+
+   1. Prerequisites: Run `list` to show both contacts and properties. Note the UUID of an existing owner contact (e.g. `1` for Alex Yeoh in sample data).
+
+   1. Test case: `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/1` (replace `1` with the chosen owner UUID)<br>
+      Expected: Success message `New property added:` appears. Properties panel shows a new entry with the supplied details and a fresh UUID.
+
+1. Owner contact does not exist
+
+   1. Test case: `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/9999`<br>
+      Expected: Command fails with `Owner contact ID must match an existing contact (received: 9999).` Property list remains unchanged.
+
+1. Other incorrect add commands to try: `addproperty`, `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/`<br>
+   Expected: Command fails with invalid format or constraint messages.
+
+### Deleting a property
+
+1. Deleting a property by UUID
+
+   1. Prerequisites: Run `list`. Identify the UUID of the property added above (or any property to delete).
+
+   1. Test case: `deleteproperty <PROPERTY_UUID>` (replace `<PROPERTY_UUID>` with the UUID shown on the property card)<br>
+      Expected: Property is removed from the list. Result box shows `Deleted property:` followed by the property details. Status bar timestamp updates.
+
+1. Invalid property UUID
+
+   1. Test case: `deleteproperty 9999`<br>
+      Expected: Command fails with `The property's id provided is invalid`. Property list remains unchanged.
+
+1. Other incorrect delete commands to try: `deleteproperty`, `deleteproperty abc`<br>
+   Expected: Command fails with an invalid command format error.
+
+### Viewing help
+
+1. Opening the help window via command box
+
+   1. Test case: `help`<br>
+      Expected: Result box shows `Opened help window.` and the Help window pops up. Command box is cleared.
+
+1. Extraneous parameters ignored
+
+   1. Test case: `help 123`<br>
+      Expected: Same behaviour as `help`. Existing Help window is brought to the front (or remains minimised if you previously minimised it).
+
+### Exiting the program
+
+1. Exiting from the main window
+
+   1. Test case: `exit`<br>
+      Expected: Result box shows `Exiting Address Book as requested ...`. The application window closes, and any Help window closes as well.
+
+1. Exiting while the Help window is open
+
+   1. Prerequisites: Run `help` to open the Help window.
+
+   1. Test case: `exit`<br>
+      Expected: Both the main GUI and Help window close. Relaunch the app before continuing manual tests.
 
 ### Saving data
 
