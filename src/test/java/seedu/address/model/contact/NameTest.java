@@ -23,10 +23,10 @@ public class NameTest {
 
     @Test
     public void isValidName() {
-        // null name
+        // equivalence partition: null name
         assertThrows(NullPointerException.class, () -> Name.isValidName(null));
 
-        // invalid name
+        // equivalence partition: invalid name
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName("  ")); // spaces only
         assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
@@ -34,7 +34,7 @@ public class NameTest {
         assertFalse(Name.isValidName("12345")); // numbers only
         assertFalse(Name.isValidName("peter the 2nd")); // alphanumeric characters
 
-        // valid name
+        // equivalence partition: valid name
         assertTrue(Name.isValidName("peter jack")); // alphabets only
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr")); // long names
