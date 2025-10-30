@@ -352,10 +352,56 @@ The UI is then updated based on which contacts that match the predicate.
 ### 3.3. Property management
 
 #### <u>Add Property Command</u> (`addproperty`)
-`AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
+The `addproperty` command adds a new property to the property book and links it to an existing owner contact.
+
+Compulsory fields:
+- Address (`a/`)
+- Postal code (`postal/`)
+- Price (`price/`)
+- Type (`type/`)
+- Status (`status/`)
+- Bedroom count (`bed/`)
+- Bathroom count (`bath/`)
+- Floor area (`f/`)
+- Listing type (`l/`)
+- Owner UUID (`o/`)
+
+Optional Fields:
+- None
+
+##### Parsing and Validating User Input
+The `AddPropertyCommandParser` tokenises the raw arguments with `ArgumentTokenizer`, ensuring every compulsory prefix appears exactly once.
+Each value is parsed via `ParserUtil` into the corresponding domain object (e.g. `PropertyAddress`, `Postal`, `Price`, `Owner`).
+
+Validation done:
+- Rejects missing or duplicate compulsory prefixes, raising a `ParseException` with `MESSAGE_USAGE`.
+- Ensures each field satisfies its domain constraints (such as postal format, positive price and valid owner identifier).
+- Trims surrounding whitespace so that inputs like `a/ 21 Sunset Way` are accepted.
+
+##### Execution
+`AddPropertyCommand#execute` requests a fresh UUID from `PropertyBook#generateNextUuid()`. It verifies the specified owner exists in the address book; if not, a `CommandException` with `MESSAGE_OWNER_NOT_FOUND` is thrown.
+
+A duplicate check is then performed, which compares address and postal pairs.
+When all checks pass, the property is added, the UI shifts to the property view, and a success message (including the assigned UUID) is returned.
 
 #### <u>Delete Property Command</u> (`deleteproperty`)
-`DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
+The `deleteproperty` command removes an existing property identified by its UUID from the property book.
+
+Compulsory fields:
+- Property UUID
+
+##### Parsing and Validating User Input
+`DeletePropertyCommandParser` converts the supplied argument into a `Uuid` using `ParserUtil.parsePropertyId`.
+
+Validation done:
+- Rejects blank input or extraneous tokens, wrapping the error with `MESSAGE_USAGE`.
+- Ensures the UUID is a positive integer within bounds expected by the application.
+
+##### Execution
+`DeletePropertyCommand#execute` consults `Model#getFilteredPropertyList()`, which always reflects the latest property filtering applied in the UI (e.g. `list`, `filterproperty`).
+
+For example, after running `filterproperty type/condo`, only the condo subset is searched—even if you subsequently switch to the contacts tab—until another property-filtering command updates the list.
+If the supplied UUID is absent from that subset the command throws `MESSAGE_INVALID_PROPERTY_DISPLAYED_ID`; otherwise it deletes the property`, and update the UI accordingly.
 
 #### <u>Filter Property Command</u> (`filterproperty`)
 Documentation pending.
