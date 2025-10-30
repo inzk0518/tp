@@ -135,16 +135,16 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
+![Interactions Inside the Logic Component for the `deletecontact 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteContactCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it hands the raw text to a `UnifiedCommandParser`, which delegates to feature-specific parsers (e.g. `PropertyBookParser`) until one recognises the syntax (such as `FilterPropertyCommandParser`).
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `FilterPropertyCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to update the filtered property list).<br>
+1. When `Logic` is called upon to execute a command, it hands the raw text to a `UnifiedCommandParser`, which delegates to feature-specific parsers (e.g. `PropertyBookParser`) until one recognises the syntax (such as `DeleteContactCommandParser`).
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteContactCommand`) which is executed by the `LogicManager`.
+1. The command can communicate with the `Model` when it is executed (e.g. to delete a contact).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -153,8 +153,9 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <img src="images/ParserClasses.png" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+* When called upon to parse a user command, assuming the command is valid, the `UnifiedCommandParser` class will pass the command to the responsible parser from the two parser, `AddressBookParser` class and `PropertyBookParser` class.
+* The selected parser class will create an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
+* All `XYZCommandParser` classes (e.g., `AddContactCommandParser`, `DeleteContactCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
@@ -356,6 +357,35 @@ The UI is then updated based on which contacts that match the predicate.
 
 #### `DeletePropertyCommand` (`deleteproperty`)
 `DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
+
+#### <u>Filter Property Command</u> (`filterproperty`)
+The `filterproperty` command filters the properties in the property book based on the criteria given.
+
+Optional Fields:
+- Address
+- Postal
+- Price
+- Type
+- Status
+- Bedroom
+- Bathroom
+- Floor Area
+- Listing
+- Owner
+- Limit
+- Offset
+
+##### Parsing and Validating User Input
+The `FilterPropertyCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_PROPERTY_ADDRESS`, `PREFIX_PROPERTY_POSTAL`, etc) <br><br>
+A `PropertyMatchesFilterPredicate` is created that encapsulates all the filter conditions and is used to test whether a property matches the given filters.
+
+Validation done:
+- Same validation done as `addproperty`
+- Proper data types and formats for numeric fields (e.g. price, limit, offset)
+
+##### Execution
+`FilterPropertyCommand` applies the `PropertyMatchesFilterPredicate` over the existing filtered contact list and produces a list of matching contacts. It is also changed based on the `limit` and `offset` given.
+The UI is then updated based on which properties that match the predicate.
 
 #### `ShowPropertiesCommand` (`showproperties`)
 Documentation pending.
@@ -934,7 +964,57 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+
+### Listing contact list
+
+1. Listing the full contact list
+
+    1. Prerequisites: On contact list page. If you are not, use command `filtercontact` to do so.
+   
+    1. Test case: `list`<br>
+       Expected: The full existing contact list will be shown. Success message will be shown in status message.
+
+### Switching to contact list
+
+1. Switching the list to contact list
+
+    1. Test case: `filtercontact`
+       Expected: The list will switch to display the contact list.
+
+### Editing a contact
+
+1. Editing a contact detail while all contacts are being shown
+
+    1. Prerequisites: List all contacts using the `list` command. Multiple contacts in the list.
+
+    1. Test case: `edit 1 p/99272757`<br>
+       Expected: Phone number of contact with id 1 will change to 99272757. Details of the edited contact shown in the status message.
+    1. Test case: `edit 1`<br>
+       Expected: No contact is edited. Error details shown in the status message stating missing field.
+    1. Test case: `edit 0`<br>
+       Expected: No contact is edited. Error details shown in the status message.
+
+    1. Other incorrect delete commands to try: `edit`<br>
+       Expected: Similar to previous.
+
+### Filtering contacts
+
+1. Filtering contacts from the displaying contact list
+
+    1. Prerequisites: Contact list with multiple contacts is displayed. If you are on property list, switch to contact list using command `filtercontact`.
+
+    1. Test case: `filtercontact n/Alice e/example.com`<br>
+       Expected: Contacts with name containing word 'Alice' and email containing 'example.com' will be listed. Number of contact listed shown in the status message.
+    1. Test case: `filtercontact t/buyer limit/10 offset/1`<br>
+       Expected: Contacts with tag 'buyer' starting from second will be listed. The list size will not be more than 10.
+    1. Test case: `filtercontact`<br>
+       Expected: No change to the contact list.
+    1. Test case: `filtercontact abc/Apple`<br>
+       Expected: No change to the contact list. Error details shown in the status message.
+
+    1. Other incorrect filtercontact command to try: `filtercontact abc`<br>
+       Expected: Similar to previous.
+
 
 ### Deleting a contact
 
@@ -950,6 +1030,54 @@ testers are expected to do more *exploratory* testing.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
+
+### Listing property list
+
+1. Listing the full property list
+
+    1. Prerequisites: On property list page. If you are not, use command `filterproperty` to do so.
+
+    1. Test case: `list`<br>
+       Expected: The full existing property list will be shown. Success message shown in status message.
+
+### Switching to property list
+
+1. Switching the list to property list
+
+    1. Test case: `filterproperty`
+       Expected: The list will switch to display the property list.
+
+### Filtering properties
+
+1. Filtering properties from the displaying property list
+
+    1. Prerequisites: Property list with multiple properties is displayed. If you are on contact list, switch to property list using command `filterproperty`.
+
+    1. Test case: `filterproperty a/Geylang bed/3`<br>
+       Expected: Properties with address containing word 'Geylang' and 3 bedroom will be listed. Number of property listed shown in the status message.
+    1. Test case: `filtercontact t/condo limit/10 offset/1`<br>
+       Expected: Contact with type condo starting from second will be listed. The list size will not be more than 10.
+    1. Test case: `filterproperty`<br>
+       Expected: No change to the property list.
+    1. Test case: `filterproperty abc/Apple`<br>
+       Expected: No change to the property list. Error details shown in the status message.
+    1. Test case: `filterproperty abc`<br>
+       Expected: No change to the property list.
+
+### Clearing all entries
+
+1. Clearing ALL contacts and properties from the application.
+
+    1. Test case: `clear`<br>
+       Expected: All contacts and properties are cleared from the list. Success message shown in status message.
+
+### Exiting the program
+
+1. Exiting the program
+
+    1. Test case: `exit`<br>
+       Expected: The app shut down.
+
 
 1. _{ more test cases …​ }_
 
