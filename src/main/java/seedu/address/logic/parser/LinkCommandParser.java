@@ -36,7 +36,7 @@ public class LinkCommandParser implements Parser<LinkCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_LINK_RELATIONSHIP);
 
-        String relationship = argMultimap.getValue(PREFIX_LINK_RELATIONSHIP).get();
+        String relationship = argMultimap.getValue(PREFIX_LINK_RELATIONSHIP).get().toLowerCase();
         if (!relationship.equals("buyer") && !relationship.equals("seller")) {
             throw new ParseException(String.format(MESSAGE_INVALID_RELATIONSHIP, LinkCommand.MESSAGE_USAGE));
         }

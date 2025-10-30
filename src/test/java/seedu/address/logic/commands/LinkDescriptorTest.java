@@ -1,13 +1,18 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_ALICE_BUYER_PROPERTY_ALPHA;
 import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_AMY_BUYER_PROPERTY_ALPHA;
+import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_BENSON_SELLER_PROPERTY_BETA;
 import static seedu.address.logic.commands.CommandTestUtil.LINK_DESC_BOB_SELLER_PROPERTY_BETA;
 import static seedu.address.testutil.TypicalContacts.ALICE;
+import static seedu.address.testutil.TypicalContacts.BENSON;
 import static seedu.address.testutil.TypicalContacts.getTypicalContacts;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_ALPHA;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 import static seedu.address.testutil.TypicalProperties.getTypicalProperties;
 
 import java.util.ArrayList;
@@ -38,12 +43,12 @@ public class LinkDescriptorTest {
     @Test
     public void getPropertiesInList_duplicatePropertyIds_throwsCommandException() {
 
-        List<Property> contactList = new ArrayList<>(getTypicalProperties());
-        contactList.add(PROPERTY_ALPHA);
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        propertyList.add(PROPERTY_ALPHA);
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())).build();
 
-        assertThrows(CommandException.class, () -> linkDescriptor.getPropertiesInList(contactList));
+        assertThrows(CommandException.class, () -> linkDescriptor.getPropertiesInList(propertyList));
     }
 
     @Test
@@ -61,13 +66,53 @@ public class LinkDescriptorTest {
     @Test
     public void getUpdatedProperties_unknownRelationship_throwsCommandException() {
 
-        List<Property> contactList = new ArrayList<>(getTypicalProperties());
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
         LinkDescriptor linkDescriptor = new LinkDescriptorBuilder()
                 .withPropertyIds(Set.of(PROPERTY_ALPHA.getUuid()))
                 .withRelationship("tenant")
                 .build();
 
-        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedProperties(contactList));
+        assertThrows(CommandException.class, () -> linkDescriptor.getUpdatedProperties(propertyList));
+    }
+
+    @Test
+    public void throwExceptionIfLinked_linkedAsBuyer_throwsCommandException() {
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+
+        propertyList.set(propertyList.indexOf(PROPERTY_ALPHA),
+                PROPERTY_ALPHA.duplicateWithNewBuyingContactIds(Set.of(ALICE.getUuid())));
+        contactList.set(contactList.indexOf(ALICE),
+                ALICE.duplicateWithNewBuyingPropertyIds(Set.of(PROPERTY_ALPHA.getUuid())));
+
+        LinkDescriptor linkDescriptor = new LinkDescriptor(LINK_DESC_ALICE_BUYER_PROPERTY_ALPHA);
+
+        assertThrows(CommandException.class, () -> linkDescriptor.throwExceptionIfLinked(contactList, propertyList));
+    }
+
+    @Test
+    public void throwExceptionIfLinked_linkedAsSeller_throwsCommandException() {
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+
+        propertyList.set(propertyList.indexOf(PROPERTY_BETA),
+                PROPERTY_BETA.duplicateWithNewSellingContactIds(Set.of(BENSON.getUuid())));
+        contactList.set(contactList.indexOf(BENSON),
+                BENSON.duplicateWithNewSellingPropertyIds(Set.of(PROPERTY_BETA.getUuid())));
+
+        LinkDescriptor linkDescriptor = new LinkDescriptor(LINK_DESC_BENSON_SELLER_PROPERTY_BETA);
+
+        assertThrows(CommandException.class, () -> linkDescriptor.throwExceptionIfLinked(contactList, propertyList));
+    }
+
+    @Test
+    public void throwExceptionIfLinked_unlinked_noException() {
+        List<Property> propertyList = new ArrayList<>(getTypicalProperties());
+        List<Contact> contactList = new ArrayList<>(getTypicalContacts());
+
+        LinkDescriptor linkDescriptor = new LinkDescriptor(LINK_DESC_ALICE_BUYER_PROPERTY_ALPHA);
+
+        assertDoesNotThrow(() -> linkDescriptor.throwExceptionIfLinked(contactList, propertyList));
     }
 
     @Test

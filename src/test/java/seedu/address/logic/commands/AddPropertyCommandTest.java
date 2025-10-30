@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.PropertyBook;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -27,6 +28,8 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.contact.Contact;
 import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
+import seedu.address.testutil.ContactBuilderUtil;
+import seedu.address.testutil.PropertyBuilderUtil;
 
 class AddPropertyCommandTest {
 
@@ -38,7 +41,7 @@ class AddPropertyCommandTest {
     @Test
     void execute_propertyAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingPropertyAdded modelStub = new ModelStubAcceptingPropertyAdded();
-        Property validProperty = PROPERTY_ALPHA;
+        Property validProperty = new PropertyBuilderUtil(PROPERTY_ALPHA).withOwner("1").build();
 
         CommandResult commandResult = new AddPropertyCommand(validProperty).execute(modelStub);
         assertEquals(String.format(AddPropertyCommand.MESSAGE_SUCCESS, Messages.format(validProperty)),
@@ -47,8 +50,34 @@ class AddPropertyCommandTest {
     }
 
     @Test
+    void execute_ownerMissing_throwsCommandException() {
+        ModelStubWithoutOwner modelStub = new ModelStubWithoutOwner();
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA).withOwner("999").build();
+        AddPropertyCommand command = new AddPropertyCommand(property);
+
+        assertThrows(CommandException.class,
+                String.format(
+                    AddPropertyCommand.MESSAGE_OWNER_NOT_FOUND, property.getOwner().value
+                    ), () ->
+                    command.execute(modelStub));
+    }
+
+    @Test
+    void execute_ownerIdNotNumeric_throwsCommandException() {
+        ModelStubAcceptingPropertyAdded modelStub = new ModelStubAcceptingPropertyAdded();
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA).withOwner("abc").build();
+        AddPropertyCommand command = new AddPropertyCommand(property);
+
+        assertThrows(CommandException.class,
+                String.format(
+                    AddPropertyCommand.MESSAGE_OWNER_NOT_FOUND, property.getOwner().value
+                    ), () ->
+                    command.execute(modelStub));
+    }
+
+    @Test
     void execute_duplicateProperty_throwsCommandException() {
-        Property property = PROPERTY_ALPHA;
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA).withOwner("1").build();
         AddPropertyCommand addPropertyCommand = new AddPropertyCommand(property);
         ModelStub modelStub = new ModelStubWithProperty(property);
 
@@ -206,10 +235,13 @@ class AddPropertyCommandTest {
 
     private static class ModelStubWithProperty extends ModelStub {
         private final Property property;
+        private final AddressBook addressBook;
 
         ModelStubWithProperty(Property property) {
             requireNonNull(property);
             this.property = property;
+            this.addressBook = new AddressBook();
+            this.addressBook.addContact(new ContactBuilderUtil().withUuid(1).build());
         }
 
         @Override
@@ -217,10 +249,21 @@ class AddPropertyCommandTest {
             requireNonNull(property);
             return this.property.isSameProperty(property);
         }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return addressBook;
+        }
     }
 
     private static class ModelStubAcceptingPropertyAdded extends ModelStub {
         final List<Property> propertiesAdded = new ArrayList<>();
+        private final AddressBook addressBook;
+
+        private ModelStubAcceptingPropertyAdded() {
+            addressBook = new AddressBook();
+            addressBook.addContact(new ContactBuilderUtil().withUuid(1).build());
+        }
 
         @Override
         public boolean hasProperty(Property property) {
@@ -232,6 +275,30 @@ class AddPropertyCommandTest {
         public void addProperty(Property property) {
             requireNonNull(property);
             propertiesAdded.add(property);
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return addressBook;
+        }
+    }
+
+    private static class ModelStubWithoutOwner extends ModelStub {
+        private final AddressBook addressBook = new AddressBook();
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return addressBook;
+        }
+
+        @Override
+        public boolean hasProperty(Property property) {
+            return false;
+        }
+
+        @Override
+        public void addProperty(Property property) {
+            // no-op for test
         }
     }
 }

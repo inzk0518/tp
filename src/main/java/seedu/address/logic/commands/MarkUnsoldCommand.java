@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.Set;
 
@@ -25,11 +26,15 @@ public class MarkUnsoldCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks one or more properties as unsold.\n"
-            + "Parameters: p/PROPERTY_ID [p/PROPERTY_ID]...\n"
-            + "Example: " + COMMAND_WORD + " p/7 p/33";
+            + "Parameters: "
+            + PREFIX_PROPERTY_ID + "UUID...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_PROPERTY_ID + "7 "
+            + PREFIX_PROPERTY_ID + "33";
 
     public static final String MESSAGE_MARK_UNSOLD_SUCCESS = "Marked %d property(ies) as unsold.";
-    public static final String MESSAGE_PROPERTY_NOT_FOUND = "%s not found.";
+    public static final String MESSAGE_PROPERTY_NOT_FOUND = "The properties with the following IDs were not found: %s\n"
+                                                             + "Command has been aborted.";
 
     private final Set<Uuid> propertyIds;
 
@@ -54,11 +59,9 @@ public class MarkUnsoldCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Validate all IDs first
-        for (Uuid id : propertyIds) {
-            if (model.getPropertyById(id) == null) {
-                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
-            }
+        String invalidIdsMessage = getInvalidPropertyIdsMessage(model, propertyIds);
+        if (invalidIdsMessage != null) {
+            throw new CommandException(invalidIdsMessage);
         }
 
         int count = 0;
@@ -93,5 +96,28 @@ public class MarkUnsoldCommand extends Command {
         return other == this
                 || (other instanceof MarkUnsoldCommand
                 && propertyIds.equals(((MarkUnsoldCommand) other).propertyIds));
+    }
+
+    /**
+     * Returns an error message listing all property IDs that could not be found in the model.
+     *
+     * @param model The model containing property data.
+     * @param propertyIds The set of property IDs to validate.
+     * @return The full error message listing missing property IDs, or {@code null} if all IDs are valid.
+     */
+    public static String getInvalidPropertyIdsMessage(Model model, Set<Uuid> propertyIds) {
+        Set<Uuid> invalidIds = propertyIds.stream()
+                .filter(id -> model.getPropertyById(id) == null)
+                .collect(java.util.stream.Collectors.toSet());
+
+        if (invalidIds.isEmpty()) {
+            return null;
+        }
+
+        String idList = invalidIds.stream()
+                .map(id -> String.valueOf(id.getValue()))
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("");
+        return String.format(MESSAGE_PROPERTY_NOT_FOUND, idList);
     }
 }
