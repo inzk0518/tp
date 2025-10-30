@@ -63,6 +63,19 @@ class AddPropertyCommandTest {
     }
 
     @Test
+    void execute_ownerIdNotNumeric_throwsCommandException() {
+        ModelStubAcceptingPropertyAdded modelStub = new ModelStubAcceptingPropertyAdded();
+        Property property = new PropertyBuilderUtil(PROPERTY_ALPHA).withOwner("abc").build();
+        AddPropertyCommand command = new AddPropertyCommand(property);
+
+        assertThrows(CommandException.class,
+                String.format(
+                    AddPropertyCommand.MESSAGE_OWNER_NOT_FOUND, property.getOwner().value
+                    ), () ->
+                    command.execute(modelStub));
+    }
+
+    @Test
     void execute_duplicateProperty_throwsCommandException() {
         Property property = new PropertyBuilderUtil(PROPERTY_ALPHA).withOwner("1").build();
         AddPropertyCommand addPropertyCommand = new AddPropertyCommand(property);
