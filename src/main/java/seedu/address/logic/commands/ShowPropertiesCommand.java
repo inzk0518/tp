@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -21,17 +23,22 @@ public class ShowPropertiesCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows all properties associated with the specified contact.\n"
-            + "Parameters: c/CONTACT_ID (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " c/123";
+            + "Parameters: "
+            + PREFIX_CONTACT_ID + "CONTACT_ID\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_CONTACT_ID + "123";
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d propert%3$s associated to contact ID: %1$s";
 
-    public static final String MESSAGE_NO_PROPERTIES =
-            "No properties found associated to contact ID: %1$s\n"
-                    + "Possible reasons:\n"
-                    + "  • The contact exists but is not linked to any properties yet\n"
-                    + "  • The contact ID doesn't exist (use 'list' to verify)\n"
-                    + "Tip: Use 'addproperty ... owner/%1$s' to add a property for this contact.";
+    public static final String MESSAGE_NO_PROPERTIES = "No properties found associated to contact ID: %1$s\n"
+            + "Possible reasons:\n"
+            + "  • The contact exists but is not linked to any properties yet\n"
+            + "  • The contact ID doesn't exist (use '"
+            + ListCommand.COMMAND_WORD + "' & '"
+            + FilterPropertyCommand.COMMAND_WORD + "' to verify)\n"
+            + "Tip: Use '"
+            + AddPropertyCommand.COMMAND_WORD + " ... "
+            + PREFIX_PROPERTY_OWNER + "%1$s' to add a property for this contact.";
 
     private final Uuid contactUuid;
 

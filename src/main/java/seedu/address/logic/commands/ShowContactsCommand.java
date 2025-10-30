@@ -1,6 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -17,17 +20,24 @@ public class ShowContactsCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Shows all contacts associated with the specified property.\n"
-            + "Parameters: p/PROPERTY_ID (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " p/123";
+            + "Parameters: "
+            + PREFIX_PROPERTY_ID + "PROPERTY_ID\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_PROPERTY_ID + "123";
 
     public static final String MESSAGE_SUCCESS = "Listed %2$d contact%3$s associated with property ID: %1$s";
 
-    public static final String MESSAGE_NO_CONTACTS =
-            "No contacts found associated with property ID: %1$s\n"
-                    + "Possible reasons:\n"
-                    + "  • The property exists but has no linked contacts yet\n"
-                    + "  • The property ID doesn't exist (use 'listproperties' to verify)\n"
-                    + "Tip: Use 'link p/%1$s c/CONTACT_ID r/RELATIONSHIP' to associate contacts with this property.";
+    public static final String MESSAGE_NO_CONTACTS = "No contacts found associated with property ID: %1$s\n"
+            + "Possible reasons:\n"
+            + "  • The property exists but has no linked contacts yet\n"
+            + "  • The property ID doesn't exist (use '"
+            + ListCommand.COMMAND_WORD + "' & '"
+            + FilterContactCommand.COMMAND_WORD + "' to verify)\n"
+            + "Tip: Use '"
+            + LinkCommand.COMMAND_WORD + " "
+            + PREFIX_PROPERTY_ID + "%1$s "
+            + PREFIX_CONTACT_ID + "CONTACT_ID "
+            + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP' to associate contacts with this property.";
 
     private final Uuid propertyUuid;
 

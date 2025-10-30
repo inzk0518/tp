@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.model.uuid.Uuid.StoredItem.PROPERTY;
@@ -24,7 +25,7 @@ public class MarkSoldCommandParserTest {
 
     @Test
     public void parse_validSingleId_success() {
-        String userInput = " p/123";
+        String userInput = " " + PREFIX_PROPERTY_ID + "123";
         Set<Uuid> expectedIds = Set.of(new Uuid(123, PROPERTY));
         MarkSoldCommand expectedCommand = new MarkSoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -32,7 +33,7 @@ public class MarkSoldCommandParserTest {
 
     @Test
     public void parse_validMultipleIds_success() {
-        String userInput = " p/10 p/20 p/30";
+        String userInput = " " + PREFIX_PROPERTY_ID + "10 " + PREFIX_PROPERTY_ID + "20 " + PREFIX_PROPERTY_ID + "30";
         Set<Uuid> expectedIds = Set.of(new Uuid(10, PROPERTY), new Uuid(20, PROPERTY), new Uuid(30, PROPERTY));
         MarkSoldCommand expectedCommand = new MarkSoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -54,14 +55,14 @@ public class MarkSoldCommandParserTest {
 
     @Test
     public void parse_onlyPrefixNoValue_failure() {
-        String userInput = " p/ ";
+        String userInput = " " + PREFIX_PROPERTY_ID + " ";
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkSoldCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_withExtraSpaces_success() {
-        String userInput = "   p/5    p/42   ";
+        String userInput = "   " + PREFIX_PROPERTY_ID + "5    " + PREFIX_PROPERTY_ID + "42   ";
         Set<Uuid> expectedIds = Set.of(new Uuid(5, PROPERTY), new Uuid(42, PROPERTY));
         MarkSoldCommand expectedCommand = new MarkSoldCommand(expectedIds);
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -69,7 +70,10 @@ public class MarkSoldCommandParserTest {
 
     @Test
     public void parse_duplicateIds_failure() {
-        String input = " p/111 p/222 p/111"; // duplicate 111
+        String input = " "
+                + PREFIX_PROPERTY_ID + "111 "
+                + PREFIX_PROPERTY_ID + "222 "
+                + PREFIX_PROPERTY_ID + "111"; // duplicate 111
         ParseException exception = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals("Duplicate property ID detected: 111", exception.getMessage());
     }
