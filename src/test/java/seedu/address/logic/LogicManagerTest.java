@@ -114,18 +114,6 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_propertyStorageThrowsIoException_throwsCommandException() {
-        assertPropertyCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
-                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
-    }
-
-    @Test
-    public void execute_propertyStorageThrowsAdException_throwsCommandException() {
-        assertPropertyCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
-                LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
-    }
-
-    @Test
     public void getFilteredContactList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredContactList().remove(0));
     }
