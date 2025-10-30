@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import seedu.address.logic.commands.FilterContactCommand;
 import seedu.address.logic.commands.FilterPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.property.Bathroom;
@@ -52,6 +53,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
                     0
             );
         }
+
         //Look for all prefix
         List<String> detectedPrefixes = Arrays.stream(args.split("\\s+"))
                 .filter(s -> s.contains("/") && !s.startsWith("/"))
@@ -74,6 +76,12 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         }
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, validPrefixes.toArray(new Prefix[0]));
+
+        String preamble = argMultimap.getPreamble();
+        if (!preamble.isEmpty()) {
+            throw new ParseException(String.format(
+                    MESSAGE_INVALID_COMMAND_FORMAT, FilterPropertyCommand.MESSAGE_USAGE));
+        }
 
         argMultimap.verifyNoDuplicatePrefixesFor(validPrefixes.toArray(new Prefix[0]));
 
