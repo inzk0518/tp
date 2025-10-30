@@ -360,9 +360,6 @@ The UI is then updated based on which contacts that match the predicate.
 #### <u>Filter Property Command</u> (`filterproperty`)
 Documentation pending.
 
-#### <u>ShowPropertiesCommand</u> (`showproperties`)
-Documentation pending.
-
 #### <u>Mark Property as Sold Command</u> (`sold`)
 The `sold` command finds properties by they UUID and changes the status of the property to unavailable.
 
@@ -453,6 +450,9 @@ The `LinkCommand` executes by:
 
 #### <u>ShowContactsCommand</u> (`showcontacts`)
 Currently returns a placeholder message while property–contact association storage is being developed.
+
+#### <u>ShowPropertiesCommand</u> (`showproperties`)
+Documentation pending.
 
 ### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
