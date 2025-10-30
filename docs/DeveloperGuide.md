@@ -135,16 +135,16 @@ Here's a (partial) class diagram of the `Logic` component:
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
-![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
+![Interactions Inside the Logic Component for the `deletecontact 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteContactCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </div>
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it hands the raw text to a `UnifiedCommandParser`, which delegates to feature-specific parsers (e.g. `PropertyBookParser`) until one recognises the syntax (such as `FilterPropertyCommandParser`).
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `FilterPropertyCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to update the filtered property list).<br>
+1. When `Logic` is called upon to execute a command, it hands the raw text to a `UnifiedCommandParser`, which delegates to feature-specific parsers (e.g. `PropertyBookParser`) until one recognises the syntax (such as `DeleteContactCommandParser`).
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteContactCommand`) which is executed by the `LogicManager`.
+1. The command can communicate with the `Model` when it is executed (e.g. to delete a contact).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -153,8 +153,9 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <img src="images/ParserClasses.png" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
-* All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
+* When called upon to parse a user command, assuming the command is valid, the `UnifiedCommandParser` class will pass the command to the responsible parser from the two parser, `AddressBookParser` class and `PropertyBookParser` class.
+* The selected parser class will create an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
+* All `XYZCommandParser` classes (e.g., `AddContactCommandParser`, `DeleteContactCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
@@ -404,7 +405,33 @@ For example, after running `filterproperty type/condo`, only the condo subset is
 If the supplied UUID is absent from that subset the command throws `MESSAGE_INVALID_PROPERTY_DISPLAYED_ID`; otherwise it deletes the property`, and update the UI accordingly.
 
 #### <u>Filter Property Command</u> (`filterproperty`)
-Documentation pending.
+The `filterproperty` command filters the properties in the property book based on the criteria given.
+
+Optional Fields:
+- Address
+- Postal
+- Price
+- Type
+- Status
+- Bedroom
+- Bathroom
+- Floor Area
+- Listing
+- Owner
+- Limit
+- Offset
+
+##### Parsing and Validating User Input
+The `FilterPropertyCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_PROPERTY_ADDRESS`, `PREFIX_PROPERTY_POSTAL`, etc) <br><br>
+A `PropertyMatchesFilterPredicate` is created that encapsulates all the filter conditions and is used to test whether a property matches the given filters.
+
+Validation done:
+- Same validation done as `addproperty`
+- Proper data types and formats for numeric fields (e.g. price, limit, offset)
+
+##### Execution
+`FilterPropertyCommand` applies the `PropertyMatchesFilterPredicate` over the existing filtered contact list and produces a list of matching contacts. It is also changed based on the `limit` and `offset` given.
+The UI is then updated based on which properties that match the predicate.
 
 #### <u>Mark Property as Sold Command</u> (`sold`)
 The `sold` command finds properties by they UUID and changes the status of the property to unavailable.
@@ -943,6 +970,86 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Filtering and Switching Contact List (`filtercontact`)
+
+##### Switching to contact list view
+
+Command: `filtercontact`
+
+To simulate:<br>
+- Run the command while on any list (e.g., property list).
+
+Expected:<br>
+- The view switches to the contact list.
+- Status message confirms the change.
+
+Variations:<br>
+- Run multiple times; the second run should have no visible change.
+- Switch from property to contact and back to confirm toggling works.
+
+##### Listing the full contact list
+
+Command: `list`
+
+To simulate:<br>
+- Ensure you are on the contact list page.
+- If not, run `filtercontact` to switch to the contact list.
+- Run `list`.
+
+Expected:<br>
+- The full contact list is displayed.
+- Status message shows success.
+
+Variations:<br>
+- Try `list` after filtering to confirm it resets filters.
+- Repeat after editing or deleting a contact to confirm it reflects the latest state.
+
+##### Filtering by name and email
+
+Command: `filtercontact n/Alice e/example.com`
+
+To simulate:<br>
+- Ensure multiple contacts exist.
+- Run the command above.
+
+Expected:<br>
+- Lists only contacts whose names include “Alice” and emails include “example.com.”
+- Status message shows number of contacts displayed.
+
+Variations:<br>
+- Add more conditions (e.g., `t/buyer`) to confirm multi-prefix filtering.
+- Test with mixed casing (e.g., `n/aLiCe`) to confirm case-insensitive matching.
+
+##### Filtering by tag with limits
+Command: `filtercontact t/buyer limit/10 offset/1`
+
+To simulate:<br>
+- Ensure contact list contains multiple tagged `buyer`.
+- Run the command above.
+
+Expected:<br>
+- Shows up to 10 contacts, skipping the first one.
+- Status message indicates count and offset.
+
+Variations:<br>
+- Change limit/offset values to confirm pagination.
+- Use invalid tags to confirm error messages.
+
+##### Invalid filter command
+
+Command: `filtercontact abc/Apple`
+
+To simulate:<br>
+- Run the command with an invalid prefix.
+
+Expected:<br>
+- Error message displayed stating invalid parameter.
+- Contact list remains unchanged.
+
+Variations:<br>
+- Run `filtercontact abc` to confirm same outcome.
+- Run `filtercontact` alone — no change to list.
+
 ### Adding a contact
 
 ##### Adding a contact with unique details
@@ -992,6 +1099,40 @@ Variations:<br>
 - Try `addcontact` with no arguments to observe the generic usage error.
 - Try `addcontact n/Zara Lim p/91234567 p/98765432` to see the duplicate prefix error.
 
+### Editing a Contact
+
+##### Editing a contact’s phone number
+
+Command: `editcontact 1 p/99272757`
+
+To simulate:<br>
+- Run `list` to show all contacts.
+- Choose a contact with ID 1.
+- Execute the command above.
+
+Expected:<br>
+- The contact with ID `1` has its phone updated to `99272757`.
+- Details of the updated contact appear in the status message.
+
+Variations:<br>
+- Change multiple fields (e.g., add `e/alice@newmail.com`) to confirm updates apply correctly.
+- Include extra whitespace between prefixes to confirm parsing tolerance.
+
+##### Missing field in edit command
+
+Command: `editcontact 1`
+
+To simulate:<br>
+- Run the command with no additional fields.
+
+Expected:<br>
+- No contact is edited.
+- Error message indicates missing field(s).
+
+Variations:<br>
+- Run `editcontact` alone to observe the same error.
+- Try invalid indexes (e.g., `editcontact 0`, `editcontact 999`) to confirm error handling.
+
 ### Deleting a contact
 
 ##### Deleting a contact by UUID
@@ -1025,6 +1166,70 @@ Expected:<br>
 Variations:<br>
 - Run `deletecontact` without arguments to observe the invalid command format error.
 - Run `deletecontact abc` to see the invalid UUID message.
+
+### Filtering and Switching Property List (`filterproperty`)
+
+##### Switching to property list view
+
+Command: `filterproperty`
+
+To simulate:<br>
+- Run from any list, e.g., contact list.
+
+Expected:<br>
+- View switches to show property list.
+- Status message confirms switch.
+
+Variations:<br>
+- Run repeatedly — should not duplicate effect.
+- Switch back and forth between `filtercontact` and `filterproperty`.
+
+##### Listing the full property list
+
+Command: `list`
+
+To simulate:<br>
+- Ensure you are on the property list page.
+- If not, run `filterproperty`.
+- Execute `list`.
+
+Expected:<br>
+- All properties are displayed.
+- Success message appears.
+
+Variations:<br>
+- Run after filtering to ensure it resets view.
+- Repeat after add/delete operations to confirm accuracy.
+
+##### Filtering by address and bedrooms
+
+Command: `filterproperty a/Geylang bed/3`
+
+To simulate:<br>
+- Display multiple properties.
+- Execute command.
+
+Expected:<br>
+- Lists only properties in “Geylang” with 3 bedrooms.
+- Status shows number listed.
+
+Variations:<br>
+- Include more prefixes (e.g., `type`/`condo`) to confirm multi-criteria filtering.
+- Use case variations to test matching.
+
+##### Invalid filterproperty command
+
+Command: `filterproperty abc/Apple`
+
+To simulate:<br>
+- Run the command with an unrecognized prefix.
+
+Expected:<br>
+- Error message shown.
+- Property list unchanged.
+
+Variations:<br>
+- Run `filterproperty` abc or empty command to verify same behavior.
 
 ### Adding a property
 
@@ -1142,6 +1347,25 @@ Expected:<br>
 Variations:<br>
 - Replace `123` with other tokens (e.g. `/foo`) to ensure they are ignored.
 - Issue the command while the Help window is already focused.
+
+### Clearing All Entries
+
+##### Clearing contacts and properties
+
+Command: `clear`
+
+To simulate:<br>
+- Run `list` to confirm data presence.
+- Execute the command above. 
+
+Expected:<br>
+- All contacts and properties are removed.
+- Success message shown in status.
+- Lists are empty.
+
+Variations:<br>
+- Add new contact/property, then rerun `clear` to confirm both lists reset.
+- Confirm no partial deletion occurs.
 
 ### Exiting the program
 
