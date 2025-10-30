@@ -187,7 +187,7 @@ Examples:
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
 You are able to edit valid contacts even if they are not currently shown on the GUI (but are stored in the address book). <br><br>
-i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using the <code>editcommand</code>.<br><br>
+i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still edit that person using <code>editcontact</code>.<br><br>
 Use the <code>list</code> command to see the changes.
 </div>
 
@@ -239,6 +239,13 @@ Examples:
 <div markdown="span" class="alert alert-warning">
 :exclamation: **Caution:**<br>
 <code>deletecontact</code> is irreversible!. Please use it carefully as you will not be able to retrieve the contact back.
+</div>
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+You are able to edit delete contacts even if they are not currently shown on the GUI (but are stored in the address book). <br><br>
+i.e. If you use <code>filtercontact</code> to remove a person from the GUI, you can still delete that person using <code>deletecontact</code>.<br><br>
+Use the <code>list</code> command to see the changes.
 </div>
 
 ### Adding a property: `addproperty`
