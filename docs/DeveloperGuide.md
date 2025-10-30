@@ -405,7 +405,33 @@ For example, after running `filterproperty type/condo`, only the condo subset is
 If the supplied UUID is absent from that subset the command throws `MESSAGE_INVALID_PROPERTY_DISPLAYED_ID`; otherwise it deletes the property`, and update the UI accordingly.
 
 #### <u>Filter Property Command</u> (`filterproperty`)
-Documentation pending.
+The `filterproperty` command filters the properties in the property book based on the criteria given.
+
+Optional Fields:
+- Address
+- Postal
+- Price
+- Type
+- Status
+- Bedroom
+- Bathroom
+- Floor Area
+- Listing
+- Owner
+- Limit
+- Offset
+
+##### Parsing and Validating User Input
+The `FilterPropertyCommandParser` is responsible for parsing the command input. It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_PROPERTY_ADDRESS`, `PREFIX_PROPERTY_POSTAL`, etc) <br><br>
+A `PropertyMatchesFilterPredicate` is created that encapsulates all the filter conditions and is used to test whether a property matches the given filters.
+
+Validation done:
+- Same validation done as `addproperty`
+- Proper data types and formats for numeric fields (e.g. price, limit, offset)
+
+##### Execution
+`FilterPropertyCommand` applies the `PropertyMatchesFilterPredicate` over the existing filtered contact list and produces a list of matching contacts. It is also changed based on the `limit` and `offset` given.
+The UI is then updated based on which properties that match the predicate.
 
 #### <u>Mark Property as Sold Command</u> (`sold`)
 The `sold` command finds properties by they UUID and changes the status of the property to unavailable.
