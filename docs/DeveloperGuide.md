@@ -927,7 +927,7 @@ Team size: 5
 ## Appendix: Effort
 
 #### Difficulty Level and Effort Required
-This project was significantly harder and took more time that the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
+This project was significantly harder and took more time than the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
 <br><br>
 Unlike AB3 which handles only `Contact`, this application handles both `Contact` and `Property` each with their distinct commands, models and UI components. This required a clear separation and linking between contacts and properties. Furthermore, this project was made significantly harder with the need of a comprehensive User Guide and Developer Guide.
 <br><br>
@@ -935,7 +935,7 @@ A high proportion of effort was saved through reuse of AB3. Such examples includ
 
 #### Challenges Faced
 - More comprehensive input validation and testing because it is a CLI-based application
-- Coordinating and agreeing on the use case and format of a command as many changes were made week after week
+- Coordinating and agreeing on a use case and format of a command as many changes were made week after week
 - Implementing complex parsers due to the presence of compulsory parameters, optional parameters or multi-word parameters
 
 #### Achievements of the Project
@@ -964,4 +964,4 @@ We have utilised _**GitHub Actions**_ to carry out automated testing on Windows,
 The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
 
 #### Version Control (GitHub)
-We have carried out version control in the form of GitHub Releases and can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
+We have carried out version control in the form of GitHub Releases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).
