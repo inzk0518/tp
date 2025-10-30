@@ -94,12 +94,6 @@ public class ShowContactsCommandTest {
     }
 
     @Test
-    public void execute_multipleContactsFound_usesPluralForm() throws Exception {
-        // mock model with 2 linked contacts for this property
-        // verify message contains "contacts"
-    }
-
-    @Test
     public void execute_nullModel_throwsNullPointerException() {
         ShowContactsCommand command = new ShowContactsCommand(new Uuid(1, PROPERTY));
         assertThrows(NullPointerException.class, () -> command.execute(null));
