@@ -346,6 +346,12 @@ Format: `link c/CONTACT_ID... r/RELATIONSHIP p/PROPERTY_ID...`
 * `CONTACT_ID` and `PROPERTY_ID` refer to the UUIDs of the people and properties being linked respectively.
 * `link` can link any number of properties and people at once (excluding none).
 
+<div markdown="block" class="alert alert-info">
+**:information_source: Important:**<br>
+A contact cannot be linked to a property as both a buyer and seller.<br>
+An error will be thrown if this is attempted!
+</div>
+
 For more information on the parameters, click [here](#command-parameters).
 
 ### Unlinking people and properties : `unlink`
