@@ -4,30 +4,48 @@
 !include <office/Users/user>
 !include style.puml
 
-Package " "<<Rectangle>>{
+left to right direction
+skinparam linetype ortho
+skinparam ArrowThickness 1.2
+
+package "AddressBook App" as App <<Rectangle>> {
     Class UI UI_COLOR
     Class Logic LOGIC_COLOR
     Class Storage STORAGE_COLOR
     Class Model MODEL_COLOR
-    Class Main #grey
     Class Commons LOGIC_COLOR_T2
+    Class Main #7E7E7E
 }
 
-Class "<$user>" as User MODEL_COLOR_T2
-Class "<$documents>" as File UI_COLOR_T1
+Class "<$user>" as User USER_COLOR
+Class "<$documents>" as File STORAGE_COLOR_T1
 
+' Layout helpers
+UI -[hidden]-> Logic
+Logic -[hidden]-> Storage
+UI -down[hidden]-> Model
+Storage -down[hidden]-> Model
+Commons -down[hidden]-> Main
+Model -down[hidden]-> Main
 
-UI -[#green]> Logic
-UI -right[#green]-> Model
-Logic -[#blue]-> Storage
-Logic -down[#blue]-> Model
-Main -[#grey]-> UI
-Main -[#grey]-> Logic
-Main -[#grey]-> Storage
-Main -up[#grey]-> Model
-Main -down[hidden]-> Commons
+' Primary flows
+User -[#UI_COLOR]-> UI : interacts
+UI -[#UI_COLOR]-> Logic : forwards commands
+Logic -[#LOGIC_COLOR]-> Model : mutates state
+Model ..[#MODEL_COLOR_T1]> UI : publishes updates
+Logic -[#LOGIC_COLOR]-> Storage : persists data
+Storage ..[#STORAGE_COLOR_T1]> Model : serialises schema
+Storage ..[#STORAGE_COLOR]> File : JSON files
 
-Storage -up[STORAGE_COLOR].> Model
-Storage .right[STORAGE_COLOR].>File
-User ..> UI
+' Application bootstrap
+Main -[#7E7E7E]-> UI
+Main -[#7E7E7E]-> Logic
+Main -[#7E7E7E]-> Model
+Main -[#7E7E7E]-> Storage
+
+' Shared utilities
+Commons ..[#LOGIC_COLOR_T1]> UI
+Commons ..[#LOGIC_COLOR_T1]> Logic
+Commons ..[#LOGIC_COLOR_T1]> Model
+
 @enduml
