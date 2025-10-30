@@ -1,12 +1,13 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_ID;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.contact.Contact;
@@ -57,6 +59,8 @@ public class UnlinkCommand extends Command {
         requireNonNull(model);
         List<Contact> lastShownContactList = model.getFilteredContactList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
+
+        unlinkDescriptor.throwExceptionIfUnlinked(lastShownContactList, lastShownPropertyList);
 
         List<Contact> targetContacts = unlinkDescriptor.getContactsInList(lastShownContactList);
         List<Property> targetProperties = unlinkDescriptor.getPropertiesInList(lastShownPropertyList);
@@ -140,7 +144,7 @@ public class UnlinkCommand extends Command {
                     .filter(contact -> contactIds.contains(contact.getUuid()))
                     .collect(Collectors.toList());
             if (contactsList.size() != contactIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_ID);
             }
             return contactsList;
         }
@@ -156,7 +160,7 @@ public class UnlinkCommand extends Command {
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID);
             }
             return propertiesList;
         }
@@ -191,6 +195,24 @@ public class UnlinkCommand extends Command {
                     propertyToEdit.getSellingContactIds().stream().filter(id -> !contactIds.contains(id))
                     .collect(Collectors.toSet())))
                     .collect(Collectors.toList());
+        }
+
+        /**
+         * @throws CommandException if any of the related contacts and properties are already unlinked.
+         */
+        public void throwExceptionIfUnlinked(List<Contact> contactList, List<Property> propertyList)
+                throws CommandException {
+            List<Contact> filteredContacts = new ArrayList<>(getContactsInList(contactList));
+            List<Property> filteredProperties = new ArrayList<>(getPropertiesInList(propertyList));
+            boolean hasAnyContactUnlinked = filteredContacts.stream()
+                    .anyMatch(contact -> Collections.disjoint(propertyIds, contact.getBuyingPropertyIds())
+                            && Collections.disjoint(propertyIds, contact.getSellingPropertyIds()));
+            boolean hasAnyPropertyUnlinked = filteredProperties.stream()
+                    .anyMatch(property -> Collections.disjoint(contactIds, property.getBuyingContactIds())
+                            && Collections.disjoint(contactIds, property.getSellingContactIds()));
+            if (hasAnyContactUnlinked || hasAnyPropertyUnlinked) {
+                throw new CommandException(Messages.MESSAGE_UNLINKING_ALREADY_UNLINKED);
+            }
         }
 
         @Override

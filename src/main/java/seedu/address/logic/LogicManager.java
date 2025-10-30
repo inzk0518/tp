@@ -94,6 +94,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public Path getPropertyBookFilePath() {
+        return model.getPropertyBookFilePath();
+    }
+
+    @Override
     public GuiSettings getGuiSettings() {
         return model.getGuiSettings();
     }

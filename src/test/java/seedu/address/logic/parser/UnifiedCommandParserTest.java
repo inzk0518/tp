@@ -3,6 +3,16 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_FLOOR_AREA;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_LISTING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_OWNER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_POSTAL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_TYPE;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_GAMMA;
 
@@ -20,16 +30,16 @@ class UnifiedCommandParserTest {
 
     private static final String VALID_ADD_PROPERTY_COMMAND = String.join(" ",
             AddPropertyCommand.COMMAND_WORD,
-            "a/321 Market St 9",
-            "p/654321",
-            "price/750000",
-            "t/Condo",
-            "status/unavailable",
-            "bed/4",
-            "bath/3",
-            "f/150",
-            "l/rent",
-            "o/owner321");
+            " " + PREFIX_PROPERTY_ADDRESS + "321 Market St 9",
+            " " + PREFIX_PROPERTY_POSTAL + "654321",
+            " " + PREFIX_PROPERTY_PRICE + "750000",
+            " " + PREFIX_PROPERTY_TYPE + "Condo",
+            " " + PREFIX_PROPERTY_STATUS + "unavailable",
+            " " + PREFIX_PROPERTY_BEDROOM + "4",
+            " " + PREFIX_PROPERTY_BATHROOM + "3",
+            " " + PREFIX_PROPERTY_FLOOR_AREA + "150",
+            " " + PREFIX_PROPERTY_LISTING + "rent",
+            " " + PREFIX_PROPERTY_OWNER + "owner321");
 
     private final UnifiedCommandParser parser = new UnifiedCommandParser(List.of(
             new AddressBookParser(),

@@ -78,7 +78,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -93,7 +93,7 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact when a user runs `addproperty address/123 Orchard Rd postal/238888 ...` to add a new listing.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -110,7 +110,7 @@ The sections below give more details of each component.
 
 ### 2.2. UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
@@ -127,7 +127,7 @@ The `UI` component,
 
 ### 2.3. Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -142,9 +142,9 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a contact).<br>
+1. When `Logic` is called upon to execute a command, it hands the raw text to a `UnifiedCommandParser`, which delegates to feature-specific parsers (e.g. `PropertyBookParser`) until one recognises the syntax (such as `FilterPropertyCommandParser`).
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `FilterPropertyCommand`) which is executed by the `LogicManager`.
+1. The command can communicate with the `Model` when it is executed (e.g. to update the filtered property list).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -159,9 +159,9 @@ How the parsing works:
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-[ModelClassDiagram](images/ModelClassDiagram.png)
-[ContactClassDiagram](images/ContactClassDiagram.png)
-[PropertyClassDiagram](images/PropertyClassDiagram.png)
+![ModelClassDiagram](images/ModelClassDiagram.png)
+![ContactClassDiagram](images/ContactClassDiagram.png)
+![PropertyClassDiagram](images/PropertyClassDiagram.png)
 
 The `Model` component,
 
@@ -174,7 +174,7 @@ The `Model` component,
 
 ### 2.5. Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -462,20 +462,31 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter      | Prefix  | Constraints                                                                                                                 |
-|----------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
-| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                       |
-| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                  |
-| Email          | e/      | Should follow the format: name@example.com                                                                                  |
-| Address        | a/      | Can take any value. Maximum of 200 characters                                                                               |
-| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                    |
-| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                                |
-| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000 |
-| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                               |
-| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                   |
-| Limit          | limit/  |                                                                                                                             |
-| Offset         | offset/ |                                                                                                                             |
-|                |         |                                                                                                                             |
+| Parameter                             | Prefix  | Constraints                                                                                                                                                                                                                                                                  |
+|---------------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Name                                  | n/      | Alphabetical characters (a-z, A-Z, 0-9) or spaces                                                                                                                                                                                                                            |
+| Phone Number                          | phone/  | Only numeric digits (0-9), and it should be at least 3 digits long                                                                                                                                                                                                           |
+| Email                                 | e/      | Should follow the format: name@example.com. The part before @ can contain letters, numbers, and the symbols `+`, `_`, `.`, `-` but cannot start or end with a symbol. The part after @ must be a valid alphanumeric domain and end with at least 2 characters after the `.`. |
+| Address (Contact or Property)         | a/      | Can take any character. Maximum of 200 characters                                                                                                                                                                                                                            |
+| Tag                                   | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                                                                                                                                                                     |
+| Minimum Budget (in Singapore Dollars) | min/    | Non-negative integer. If not provided, will have a default of $0                                                                                                                                                                                                             |
+| Maximum Budget (in Singapore Dollars) | max/    | Non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000                                                                                                                                                              |
+| Notes                                 | notes/  | Can take any character. Maximum of 500 characters                                                                                                                                                                                                                            |
+| Status (Contact)                      | s/      | Should only be these (case-insensitive): active, inactive                                                                                                                                                                                                                    |
+| Limit                                 | limit/  | An integer more than 0                                                                                                                                                                                                                                                       |
+| Offset                                | offset/ | An integer more than or equals to 0                                                                                                                                                                                                                                          |
+| Number of Bathrooms                   | bath/   | An integer more than 0                                                                                                                                                                                                                                                       |
+| Number of Bedrooms                    | bed/    | An integer more than 0                                                                                                                                                                                                                                                       |
+| Floor Area (square feet)              | f/      | An integer between 50 and 100,000 (inclusive)                                                                                                                                                                                                                                |
+| Listing                               | l/      | Should only be these (case-insensitive): sale, rent                                                                                                                                                                                                                          |
+| Postal Code                           | postal/ | A 6-digit Singapore postal code                                                                                                                                                                                                                                              |
+| Status (Property)                     | status/ | Should only be these (case-insensitive): available, unavailable                                                                                                                                                                                                              |
+| Owner                                 | o/      |                                                                                                                                                                                                                                                                              |
+| Price (in Singapore Dollars)          | price/  | An integer between 0 and 1,000,000,000,000 (inclusive)                                                                                                                                                                                                                       |
+| Type                                  | type/   | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                                                                                                                                                                                       |
+| Property ID                           | p/      | An integer more than 0 and must be an ID of an existing property                                                                                                                                                                                                             |
+| Contact ID                            | r/      | An integer more than 0 and must be an ID of an existing contact                                                                                                                                                                                                              |
+| Relationship                          | c/      | Should only be these (case-insensitive): buyer, seller                                                                                                                                                                                                                       |
 
 
 ## Appendix: Product Scope
@@ -1001,21 +1012,22 @@ A high proportion of effort was saved through reuse of AB3. Such examples includ
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix: Continuous Integration / Continuous Deployment
-Continuous Integration / Continuous Deployment (CI/CD) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
+## Appendix: Software Engineering Practices
+Common Software Engineering Practices (SEP) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
 
-CI/CD has been carried out as follows:
-1. Unit Testing
-2. Integrated GitHub tests
-3. Code coverage reports
+SEP has been carried out as follows:
+1. Unit Testing and Test Coverage Analysis
+2. Integrated GitHub tests (Continuous Integration / Continuous Deployment)
+3. Version Control (GitHub)
 
-#### Unit Testing
-Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test).
+#### Unit Testing and Test Coverage Analysis
+Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test). <br> <br>
+Test coverage refers to the extent in which the code is tested, and we have utilised [CodeCov](https://about.codecov.io/) to measure our code coverage. The code coverage can be seen [here](https://app.codecov.io/github/AY2526S1-CS2103T-W10-2/tp). <br> <br>
+As of v1.5, the test coverage is above 80%.
 
-#### Integrated GitHub tests
+#### Integrated GitHub tests (Continuous Integration / Continuous Deployment)
 We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu devices on every push or pull request. Through these tests, feature branches can be tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed.
 The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
 
-#### Code Coverage Reports
-Test coverage refers to the extent in which the code is tested and we have utilised [CodeCov](https://about.codecov.io/) to measure our code coverage. The code coverage can be seen [here](https://app.codecov.io/github/AY2526S1-CS2103T-W10-2/tp). <br> <br>
-As of v1.5, the test coverage is above 80%.
+#### Version Control (GitHub)
+We have carried out version control in the form of GitHub Releases and can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).

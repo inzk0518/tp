@@ -27,6 +27,22 @@ Provides you with helpful advice like keyboard shortcuts to use the application 
 Warns you of potential issues to should watch out for.
 </div>
 
+--------------------------------------------------------------------------------------------------------------------
+
+## GUI Overview
+
+TheRealDeal Graphical User Interface (GUI) is organised into **five** key components:
+
+![GUI Overview](images/GUI-UI.png)
+
+* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
+* `Command Box`: The main area where users can enter commands to interact with the app.
+* `Console Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command.
+* `List Card`: Displays key information about contacts or properties, depending on the user's command.
+* `Status Bar`: Displays whether contacts or properties are currently being shown.
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
@@ -56,18 +72,7 @@ Windows & Linux Users: <code>Ctrl + F</code><br>
 Mac Users: <code>⌘ + F</code>
 </div>
 
-### GUI Overview
-
-TheRealDeal Graphical User Interface (GUI) is organised into **four** key components:
-
-![GUI Overview](images/GUI.png)
-
-* `Menu Bar`: Located at the top left, this includes options such as `File` and `Help` for managing settings and accessing support.
-* `Command Box`: The main area where users can enter commands to interact with the app.
-* `Result Display`: Provides immediate feedback, displaying success or failure messages based on the user’s command. Situated below the `Command Box`.
-* `List Card`: Displays key information about contacts or listings, depending on the user's command. Situated below the `Result Display`.
-
-Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+Type a command in the command box and press Enter to execute it. e.g. typing `help` and pressing the `Enter` key on the keyboard will open the help window.<br>
 Some example commands you can try:
 
 * `list` : Lists all contacts.
@@ -440,6 +445,7 @@ Furthermore, certain edits can cause the TheRealDeal to behave in unexpected way
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
+To see the detailed explanation of every feature, click [here](#features)<br>
                                                                                                                                                                                                                         |
 | Action                      | Format, Examples                                                                                                                                                                                                                                                                                                                             |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

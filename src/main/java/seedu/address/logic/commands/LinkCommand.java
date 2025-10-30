@@ -1,13 +1,14 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_CONTACT_DISPLAYED_ID;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK_RELATIONSHIP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class LinkCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links properties to contacts.\n"
             + "Parameters: "
             + PREFIX_PROPERTY_ID + "PROPERTY_ID... "
-            + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller')"
+            + PREFIX_LINK_RELATIONSHIP + "RELATIONSHIP (must be either 'buyer' or 'seller') "
             + PREFIX_CONTACT_ID + "CONTACT_ID...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PROPERTY_ID + "2 "
@@ -63,6 +64,8 @@ public class LinkCommand extends Command {
         requireNonNull(model);
         List<Contact> lastShownContactList = model.getFilteredContactList();
         List<Property> lastShownPropertyList = model.getFilteredPropertyList();
+
+        linkDescriptor.throwExceptionIfLinked(lastShownContactList, lastShownPropertyList);
 
         List<Contact> targetContacts = linkDescriptor.getContactsInList(lastShownContactList);
         List<Property> targetProperties = linkDescriptor.getPropertiesInList(lastShownPropertyList);
@@ -166,7 +169,7 @@ public class LinkCommand extends Command {
                     .filter(contact -> contactIds.contains(contact.getUuid()))
                     .collect(Collectors.toList());
             if (contactsList.size() != contactIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_CONTACT_DISPLAYED_ID);
             }
             return contactsList;
         }
@@ -182,7 +185,7 @@ public class LinkCommand extends Command {
                     .filter(property -> propertyIds.contains(property.getUuid()))
                     .collect(Collectors.toList());
             if (propertiesList.size() != propertyIds.size()) {
-                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+                throw new CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID);
             }
             return propertiesList;
         }
@@ -245,6 +248,29 @@ public class LinkCommand extends Command {
                         .collect(Collectors.toList());
             default:
                 throw new CommandException(Messages.MESSAGE_INVALID_RELATIONSHIP);
+            }
+        }
+
+        /**
+         * @throws CommandException if any of the related contacts and properties are already linked.
+         */
+        public void throwExceptionIfLinked(List<Contact> contactList, List<Property> propertyList)
+                throws CommandException {
+            List<Contact> filteredContacts = new ArrayList<>(getContactsInList(contactList));
+            List<Property> filteredProperties = new ArrayList<>(getPropertiesInList(propertyList));
+            boolean hasAnyContactLinkedAsBuyer = filteredContacts.stream()
+                    .anyMatch(contact -> !Collections.disjoint(propertyIds, contact.getBuyingPropertyIds()));
+            boolean hasAnyContactLinkedAsSeller = filteredContacts.stream()
+                    .anyMatch(contact -> !Collections.disjoint(propertyIds, contact.getSellingPropertyIds()));
+            boolean hasAnyPropertyLinkedByBuyer = filteredProperties.stream()
+                    .anyMatch(property -> !Collections.disjoint(contactIds, property.getBuyingContactIds()));
+            boolean hasAnyPropertyLinkedBySeller = filteredProperties.stream()
+                    .anyMatch(property -> !Collections.disjoint(contactIds, property.getSellingContactIds()));
+            if (hasAnyContactLinkedAsBuyer || hasAnyPropertyLinkedByBuyer) {
+                throw new CommandException(Messages.MESSAGE_LINKING_ALREADY_LINKED_BUYER);
+            }
+            if (hasAnyContactLinkedAsSeller || hasAnyPropertyLinkedBySeller) {
+                throw new CommandException(Messages.MESSAGE_LINKING_ALREADY_LINKED_SELLER);
             }
         }
 

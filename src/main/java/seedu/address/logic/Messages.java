@@ -16,12 +16,19 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_CONTACT_DISPLAYED_INDEX = "A contact index provided is invalid";
+    public static final String MESSAGE_INVALID_CONTACT_DISPLAYED_ID = "A contact id provided is invalid";
     public static final String MESSAGE_CONTACTS_LISTED_OVERVIEW = "%d contacts listed! (showing %d–%d)";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX = "A property index provided is invalid";
     public static final String MESSAGE_INVALID_RELATIONSHIP = "The relationship provided is invalid";
-    public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_ID = "The property's id provided is invalid";
+    public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_ID = "A property id provided is invalid";
+    public static final String MESSAGE_LINKING_ALREADY_LINKED_BUYER =
+            "A Contact is already linked to one of the properties as buyer";
+    public static final String MESSAGE_LINKING_ALREADY_LINKED_SELLER =
+            "A Contact is already linked to one of the properties as seller";
+    public static final String MESSAGE_UNLINKING_ALREADY_UNLINKED =
+            "A Contact is not linked to any of the properties";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalProperties.PROPERTY_BETA;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.property.predicates.AssociatedWithContactPredicate;
 import seedu.address.model.uuid.Uuid;
 import seedu.address.testutil.PropertyBuilderUtil;
 
