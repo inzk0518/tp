@@ -272,11 +272,13 @@ Format: `filterproperty [a/ADDRESS] [p/POSTAL] [t/TYPE] [bed/BEDROOM] [bath/BATH
 * The search is case-insensitive. e.g `clementi` will match `Clementi`.
 * Substring property addresses will be matched e.g. `Clementi` will match `CLementi Avenue 8`.
 * Properties matching all the filters will be returned.
+* Filtering is cumulative. Once you filter by `BATHROOM`, you can filter by `TYPE` subsequently.
+* Only one filter per field is accepted. e.g. `t/condo hdb` is not accepted.
 
 Examples:
 * `filterproperty a/yishun`
 * `filterproperty bed/2 f/100`
-
+    
 <div markdown="block" class="alert alert-info">
 **:information_source: Important:**<br>
 To reset all filters, you can type <code>list</code>

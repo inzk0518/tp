@@ -944,6 +944,42 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Listing Contacts
+
+##### Listing the full contact list
+
+Command: `list`
+
+To simulate:<br>
+- Ensure you are on the contact list page.
+- If not, run `filtercontact` to switch to the contact list.
+- Run `list`.
+
+Expected:<br>
+- The full contact list is displayed.
+- Status message shows success.
+
+Variations:<br>
+- Try `list` after filtering to confirm it resets filters.
+- Repeat after editing or deleting a contact to confirm it reflects the latest state.
+
+### Switching to Contact List
+
+##### Switching to contact list view
+
+Command: `filtercontact`
+
+To simulate:<br>
+- Run the command while on any list (e.g., property list).
+
+Expected:<br>
+- The view switches to the contact list.
+- Status message confirms the change.
+
+Variations:<br>
+- Run multiple times; the second run should have no visible change.
+- Switch from property to contact and back to confirm toggling works.
+
 ### Adding a contact
 
 ##### Adding a contact with unique details
@@ -993,6 +1029,40 @@ Variations:<br>
 - Try `addcontact` with no arguments to observe the generic usage error.
 - Try `addcontact n/Zara Lim p/91234567 p/98765432` to see the duplicate prefix error.
 
+### Editing a Contact
+
+##### Editing a contact’s phone number
+
+Command: `edit 1 p/99272757`
+
+To simulate:<br>
+- Run `list` to show all contacts.
+- Choose a contact with ID 1.
+- Execute the command above.
+
+Expected:<br>
+- The contact with ID `1` has its phone updated to `99272757`.
+- Details of the updated contact appear in the status message.
+
+Variations:<br>
+- Change multiple fields (e.g., add `e/alice@newmail.com`) to confirm updates apply correctly.
+- Include extra whitespace between prefixes to confirm parsing tolerance.
+
+##### Missing field in edit command
+
+Command: `edit 1`
+
+To simulate:<br>
+- Run the command with no additional fields.
+
+Expected:<br>
+- No contact is edited.
+- Error message indicates missing field(s).
+
+Variations:<br>
+- Run `edit` alone to observe the same error.
+- Try invalid indexes (e.g., `edit 0`, `edit 999`) to confirm error handling.
+
 ### Deleting a contact
 
 ##### Deleting a contact by UUID
@@ -1026,6 +1096,90 @@ Expected:<br>
 Variations:<br>
 - Run `deletecontact` without arguments to observe the invalid command format error.
 - Run `deletecontact abc` to see the invalid UUID message.
+
+### Filtering Contacts
+
+##### Filtering by name and email
+
+Command: `filtercontact n/Alice e/example.com`
+
+To simulate:<br>
+- Ensure multiple contacts exist.
+- Run the command above.
+
+Expected:<br>
+- Lists only contacts whose names include “Alice” and emails include “example.com.”
+- Status message shows number of contacts displayed.
+
+Variations:<br>
+- Add more conditions (e.g., `t/buyer`) to confirm multi-prefix filtering.
+- Test with mixed casing (e.g., `n/aLiCe`) to confirm case-insensitive matching.
+
+##### Filtering by tag with limits
+Command: `filtercontact t/buyer limit/10 offset/1`
+
+To simulate:<br>
+- Ensure contact list contains multiple tagged `buyer`.
+- Run the command above.
+
+Expected:<br>
+- Shows up to 10 contacts, skipping the first one.
+- Status message indicates count and offset.
+
+Variations:<br>
+- Change limit/offset values to confirm pagination.
+- Use invalid tags to confirm error messages.
+
+##### Invalid filter command
+
+Command: `filtercontact abc/Apple`
+
+To simulate:<br>
+- Run the command with an invalid prefix.
+
+Expected:<br>
+- Error message displayed stating invalid parameter.
+- Contact list remains unchanged.
+
+Variations:<br>
+- Run `filtercontact abc` to confirm same outcome.
+- Run `filtercontact` alone — no change to list.
+
+### Listing Properties
+
+##### Listing the full property list
+
+Command: `list`
+
+To simulate:<br>
+- Ensure you are on the property list page.
+- If not, run `filterproperty`.
+- Execute `list`.
+
+Expected:<br>
+- All properties are displayed.
+- Success message appears.
+
+Variations:<br>
+- Run after filtering to ensure it resets view.
+- Repeat after add/delete operations to confirm accuracy.
+
+### Switching to Property List
+
+##### Switching to property list view
+
+Command: `filterproperty`
+
+To simulate:<br>
+- Run from any list, e.g., contact list.
+
+Expected:<br>
+- View switches to show property list.
+- Status message confirms switch.
+
+Variations:<br>
+- Run repeatedly — should not duplicate effect.
+- Switch back and forth between `filtercontact` and `filterproperty`.
 
 ### Adding a property
 
@@ -1112,6 +1266,38 @@ Variations:<br>
 - Run `deleteproperty` with no arguments to observe the invalid command format error.
 - Run `deleteproperty abc` to see the invalid UUID message.
 
+### Filtering Properties
+
+##### Filtering by address and bedrooms
+
+Command: `filterproperty a/Geylang bed/3`
+
+To simulate:<br>
+- Display multiple properties.
+- Execute command.
+
+Expected:<br>
+- Lists only properties in “Geylang” with 3 bedrooms.
+- Status shows number listed.
+
+Variations:<br>
+- Include more prefixes (e.g., `type`/`condo`) to confirm multi-criteria filtering.
+- Use case variations to test matching.
+
+##### Invalid filterproperty command
+
+Command: `filterproperty abc/Apple`
+
+To simulate:<br>
+- Run the command with an unrecognized prefix.
+
+Expected:<br>
+- Error message shown.
+- Property list unchanged.
+
+Variations:<br>
+- Run `filterproperty` abc or empty command to verify same behavior.
+
 ### Viewing help
 
 ##### Opening the help window via command box
@@ -1143,6 +1329,25 @@ Expected:<br>
 Variations:<br>
 - Replace `123` with other tokens (e.g. `/foo`) to ensure they are ignored.
 - Issue the command while the Help window is already focused.
+
+### Clearing All Entries
+
+##### Clearing contacts and properties
+
+Command: `clear`
+
+To simulate:<br>
+- Run `list` to confirm data presence.
+- Execute the command above. 
+
+Expected:<br>
+- All contacts and properties are removed.
+- Success message shown in status.
+- Lists are empty.
+
+Variations:<br>
+- Add new contact/property, then rerun `clear` to confirm both lists reset.
+- Confirm no partial deletion occurs.
 
 ### Exiting the program
 
