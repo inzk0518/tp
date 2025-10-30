@@ -23,7 +23,7 @@ deactivate model
 logic -[LOGIC_COLOR]> model : hasProperty(property)
 activate model MODEL_COLOR
 
-model -[MODEL_COLOR]-> logic : exists?
+model -[MODEL_COLOR]-> logic : isExisting
 deactivate model
 
 logic -[LOGIC_COLOR]> model : addProperty(propertyWithUuid)
