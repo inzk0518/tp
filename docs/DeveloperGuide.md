@@ -15,7 +15,7 @@ title: Developer Guide
 3. [Implementation](#3-implementation)
    1. [Contact management](#32-contact-management)
    2. [Property management](#33-property-management)
-   3. [Contact–property linking](#34-clientproperty-linking)
+   3. [Contact–property linking](#34-contactproperty-linking)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#4-documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Command Parameters](#appendix-command-parameters)
 6. [Appendix: Product Scope](#appendix-product-scope)
@@ -32,7 +32,7 @@ title: Developer Guide
 
 ## Acknowledgements
 
-TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3)(AB3) created by [SE-EDU](https://se-education.org/).
+TheRealDeal is a greenfield group project that is based on [addressbook-level3](https://github.com/se-edu/addressbook-level3) (AB3) created by [SE-EDU](https://se-education.org/).
 
 ## Legend
 These boxes in the Developer Guide has additional information that you should take note of.
@@ -78,7 +78,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -93,7 +93,7 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact when a user runs `addproperty address/123 Orchard Rd postal/238888 ...` to add a new listing.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -110,7 +110,7 @@ The sections below give more details of each component.
 
 ### 2.2. UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
@@ -127,7 +127,7 @@ The `UI` component,
 
 ### 2.3. Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -142,9 +142,9 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
-1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a contact).<br>
+1. When `Logic` is called upon to execute a command, it hands the raw text to a `UnifiedCommandParser`, which delegates to feature-specific parsers (e.g. `PropertyBookParser`) until one recognises the syntax (such as `FilterPropertyCommandParser`).
+1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `FilterPropertyCommand`) which is executed by the `LogicManager`.
+1. The command can communicate with the `Model` when it is executed (e.g. to update the filtered property list).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -159,9 +159,9 @@ How the parsing works:
 ### 2.4. Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-[ModelClassDiagram](images/ModelClassDiagram.png)
-[ContactClassDiagram](images/ContactClassDiagram.png)
-[PropertyClassDiagram](images/PropertyClassDiagram.png)
+![ModelClassDiagram](images/ModelClassDiagram.png)
+![ContactClassDiagram](images/ContactClassDiagram.png)
+![PropertyClassDiagram](images/PropertyClassDiagram.png)
 
 The `Model` component,
 
@@ -174,13 +174,13 @@ The `Model` component,
 
 ### 2.5. Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
 The `Storage` component,
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* can save address book data, property book data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from all of `AddressBookStorage`, `PropertyBookStorage` and `UserPrefStorage`, which means it can be treated as any (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### 2.6. Common classes
@@ -197,7 +197,7 @@ This section describes some noteworthy details on how certain features are imple
 
 These features do not require any parameters and do not have a corresponding `Parser` class so is directly instantiated in `AddressBookParser`.
 
-#### <u> Help Command</u> (`help`)
+#### <u>Help Command</u> (`help`)
 The `HelpCommand` opens up a separate window containing a link to the User Guide.
 
 ![help message](images/helpMessage.png)
@@ -210,7 +210,7 @@ We designed the `HelpCommand` to let the user copy and navigate to the User Guid
 Users can also press the <code>F1</code> key to open the help window
 </div>
 
-#### <u> List Command</u> (`list`)
+#### <u>List Command</u> (`list`)
 The `ListCommand` resets all current filters and displays all the contacts/properties stored in the application.
 
 ##### Execution
@@ -268,7 +268,7 @@ Optional Fields:
 The `AddContactCommandParser` class is responsible for parsing the command input.
 It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
 
-The parser constructs a new `Person` object that is wrapped inside a `AddContactCommand`.
+The parser constructs a new `Contact` object that is wrapped inside a `AddContactCommand`.
 
 Validation done:
 - Ensures compulsory fields are present
@@ -277,7 +277,7 @@ Validation done:
 - Unknown parameters provided will throw a `ParseException`
 
 ##### Execution
-The `AddContactCommand` class generates the UUID for the `Person` object and checks for duplicates in the address book before adding the new contact.
+The `AddContactCommand` class generates the UUID for the `Contact` object and checks for duplicates in the address book before adding the new contact.
 
 #### <u>Delete Command</u> (`deletecontact`)
 The `deletecontact` command is designed to delete an existing contact from the address book, identified by their UUID.
@@ -311,15 +311,15 @@ The `EditContactCommandParser` class is responsible for parsing the command inpu
 It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_NAME`, `PREFIX_PHONE`, etc)
 The UUID is also validated and parsed.
 
-The parser creates an `EditPersonDescriptor` object that stores the newly edited fields.
+The parser creates an `EditContactDescriptor` object that stores the newly edited fields.
 
 Validation done:
 - Same validation done as `addcontact`
 - At least one field must be edited
-- New person must not already be in the address book
+- New contact must not already be in the address book
 
 ##### Execution
-The `EditContactCommand` executes by finding the target person based on their UUID, creating an edited `Person` object and updating the person in the address book with the new details.
+The `EditContactCommand` executes by finding the target contact based on their UUID, creating an edited `Contact` object and updating the contact in the address book with the new details.
 
 #### <u>Filter Contact Command</u> (`filtercontact`)
 The `filtercontact` command filters the contacts in the address book based on the criteria given.
@@ -351,13 +351,59 @@ The UI is then updated based on which contacts that match the predicate.
 
 ### 3.3. Property management
 
-#### `AddPropertyCommand` (`addproperty`)
-`AddPropertyCommand` accepts a full set of property descriptors (address, postal code, price, type, status, bedroom/bathroom counts, floor area, listing type, and owner UUID) and constructs a `Property` domain object before execution. During `execute`, the command requests a fresh `Uuid` from `PropertyBook#generateNextUuid()` and clones the staged property with this identifier via `Property#duplicateWithNewUuid`. The updated instance becomes the canonical version that is checked against `Model#hasProperty`; duplicates are detected through `Property#isSameProperty`, which currently compares address + postal pairs. When no conflict exists, the property is persisted with `Model#addProperty(propertyWithUuid)` and the success message is formed with `Messages.format` to surface that new UUID to the user. Any attempt to add a property that already exists raises a `CommandException` carrying `MESSAGE_DUPLICATE_PROPERTY`.
+#### <u>Add Property Command</u> (`addproperty`)
+The `addproperty` command adds a new property to the property book and links it to an existing owner contact.
 
-#### `DeletePropertyCommand` (`deleteproperty`)
-`DeletePropertyCommand` expects a property UUID. At runtime it reads `Model#getFilteredPropertyList()` (which reflects the properties currently shown to the user), locates the matching `Property` by identifier, and removes it through `Model#deleteProperty`. If the supplied UUID is absent from the active view, the command throws `CommandException(MESSAGE_INVALID_PROPERTY_DISPLAYED_ID)` to signal that the requested target is not deletable in the current context. The success response mirrors `Messages.format` to confirm the property that was deleted.
+Compulsory fields:
+- Address (`a/`)
+- Postal code (`postal/`)
+- Price (`price/`)
+- Type (`type/`)
+- Status (`status/`)
+- Bedroom count (`bed/`)
+- Bathroom count (`bath/`)
+- Floor area (`f/`)
+- Listing type (`l/`)
+- Owner UUID (`o/`)
 
-#### `ShowPropertiesCommand` (`showproperties`)
+Optional Fields:
+- None
+
+##### Parsing and Validating User Input
+The `AddPropertyCommandParser` tokenises the raw arguments with `ArgumentTokenizer`, ensuring every compulsory prefix appears exactly once.
+Each value is parsed via `ParserUtil` into the corresponding domain object (e.g. `PropertyAddress`, `Postal`, `Price`, `Owner`).
+
+Validation done:
+- Rejects missing or duplicate compulsory prefixes, raising a `ParseException` with `MESSAGE_USAGE`.
+- Ensures each field satisfies its domain constraints (such as postal format, positive price and valid owner identifier).
+- Trims surrounding whitespace so that inputs like `a/ 21 Sunset Way` are accepted.
+
+##### Execution
+`AddPropertyCommand#execute` requests a fresh UUID from `PropertyBook#generateNextUuid()`. It verifies the specified owner exists in the address book; if not, a `CommandException` with `MESSAGE_OWNER_NOT_FOUND` is thrown.
+
+A duplicate check is then performed, which compares address and postal pairs.
+When all checks pass, the property is added, the UI shifts to the property view, and a success message (including the assigned UUID) is returned.
+
+#### <u>Delete Property Command</u> (`deleteproperty`)
+The `deleteproperty` command removes an existing property identified by its UUID from the property book.
+
+Compulsory fields:
+- Property UUID
+
+##### Parsing and Validating User Input
+`DeletePropertyCommandParser` converts the supplied argument into a `Uuid` using `ParserUtil.parsePropertyId`.
+
+Validation done:
+- Rejects blank input or extraneous tokens, wrapping the error with `MESSAGE_USAGE`.
+- Ensures the UUID is a positive integer within bounds expected by the application.
+
+##### Execution
+`DeletePropertyCommand#execute` consults `Model#getFilteredPropertyList()`, which always reflects the latest property filtering applied in the UI (e.g. `list`, `filterproperty`).
+
+For example, after running `filterproperty type/condo`, only the condo subset is searched—even if you subsequently switch to the contacts tab—until another property-filtering command updates the list.
+If the supplied UUID is absent from that subset the command throws `MESSAGE_INVALID_PROPERTY_DISPLAYED_ID`; otherwise it deletes the property`, and update the UI accordingly.
+
+#### <u>Filter Property Command</u> (`filterproperty`)
 Documentation pending.
 
 #### <u>Mark Property as Sold Command</u> (`sold`)
@@ -392,16 +438,67 @@ Validation done:
 ##### Execution
 The `MarkUnsoldCommand` executes by retrieving the `Property` object for each UUID and creating a new `Property` object with the same attributes but with its `Status` as unavailable to replace the old `Property`.
 
-### 3.4. Client–property linking
+### 3.4. Contact–property linking
 
-#### `LinkCommand` (`link`)
+#### <u>Link Command</u> (`link`)
+The `link` command is designed to link contacts in the address book to properties in the property book, as either buyers or sellers, each identified by their UUID.
+
+Compulsory fields:
+- Contact UUID
+- Property UUID
+- Relationship (buyer/seller)
+
+Optional fields:
+- Additional contact UUIDs
+- Additional property UUIDs
+
+##### Parsing and Validating User Input
+The `LinkCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_CONTACT_ID`, `PREFIX_PROPERTY_ID`, `PREFIX_LINK_RELATIONSHIP`)
+Each UUID is also validated and parsed.
+
+The parser creates an `LinkDescriptor` object that stores the parsed UUIDs and relationship.
+
+Validation done:
+- No duplicate relationship parameter
+
+##### Execution
+The `LinkCommand` executes by:
+1. Finding the target contacts and properties based on their UUIDs
+2. Ensuring none of the targets are already linked
+3. Creating new edited `Contact` and `Property` objects with the updated relationship
+4. Updating the contacts and properties in the address and property book with the new details.
+
+#### <u>Unlink Command</u> (`unlink`)
+The `unlink` command is designed to unlink contacts in the address book from properties in the property book, each identified by their UUID.
+
+Compulsory fields:
+- Contact UUID
+- Property UUID
+
+Optional fields:
+- Additional contact UUIDs
+- Additional property UUIDs
+
+##### Parsing and Validating User Input
+The `UnlinkCommandParser` class is responsible for parsing the command input.
+It utilises `ArgumentTokenizer` to split the input string based on defined prefixes (`PREFIX_CONTACT_ID`, `PREFIX_PROPERTY_ID`)
+Each UUID is also validated and parsed.
+
+The parser creates an `UnlinkDescriptor` object that stores the parsed UUIDs and relationship.
+
+##### Execution
+The `LinkCommand` executes by:
+1. Finding the target contacts and properties based on their UUIDs
+2. Ensuring all of the targets were previously linked
+3. Creating new edited `Contact` and `Property` objects with buyer and seller relationships removed
+4. Updating the contacts and properties in the address and property book with the new details.
+
+#### <u>Show Contacts Command</u> (`showcontacts`)
+Currently returns a placeholder message while property–contact association storage is being developed.
+
+#### <u>Show Properties Command</u> (`showproperties`)
 Documentation pending.
-
-#### `UnlinkCommand` (`unlink`)
-Documentation pending.
-
-#### `ShowClientsCommand` (`showclients`)
-Currently returns a placeholder message while property–client association storage is being developed.
 
 ### 4. Documentation, Logging, Testing, Configuration, Dev-Ops
 
@@ -422,35 +519,64 @@ an empty parameter will be the same as not having the prefix<br>
 e.g. <code>n/NAME t/</code> is the same as <code>n/NAME</code>
 </div>
 
-| Parameter      | Prefix  | Constraints                                                                                                                 |
-|----------------|---------|-----------------------------------------------------------------------------------------------------------------------------|
-| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                       |
-| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                  |
-| Email          | e/      | Should follow the format: name@example.com                                                                                  |
-| Address        | a/      | Can take any value. Maximum of 200 characters                                                                               |
-| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                    |
-| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                                |
-| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000 |
-| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                               |
-| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                   |
-| Limit          | limit/  |                                                                                                                             |
-| Offset         | offset/ |                                                                                                                             |
-|                |         |                                                                                                                             |
+### Contact Management
+These are prefixes for purely contact related commands.
+Related commands: [`addcontact`](#add-command-addcontact), [`filtercontact`](#filter-contact-command-filtercontact), [`editcontact`](#filter-contact-command-filtercontact)
 
+| Parameter      | Prefix  | Constraints                                                                                                                |
+|----------------|---------|----------------------------------------------------------------------------------------------------------------------------|
+| Name           | n/      | Should only contain alphabetical characters (a-z, A-Z, 0-9) or spaces                                                      |
+| Phone Number   | p/      | Should only contain numbers (0-9), and it should be at least 3 digits long                                                 |
+| Email          | e/      | Should follow the format: name@example.com                                                                                 |
+| Address        | a/      | Can take any value. Maximum of 200 characters                                                                              |
+| Tag            | t/      | Should only be these (case-insensitive): buyer, seller, tenant, landlord                                                   |
+| Minimum Budget | min/    | Should be a non-negative integer. If not provided, will have a default of $0                                               |
+| Maximum Budget | max/    | Should be a non-negative integer and more than the minimum budget. If not provided, will have a default of $200,000,000,000|
+| Notes          | notes/  | Can take any value. Maximum of 500 characters                                                                              |
+| Status         | status/ | Should only be these (case-insensitive): active, inactive                                                                  |
+
+### Property Management
+These are prefixes for purely property related commands.
+Related commands: [`addproperty`](#addpropertycommand-addproperty), [`filterproperty`](#filter-property-command-filterproperty)
+
+| Parameter      | Prefix  | Constraints                                                                                                       |
+|----------------|---------|-------------------------------------------------------------------------------------------------------------------|
+| Address        | a/      | Should only contain alphabetical 5 to 200 characters (a-z, A-Z, 0-9) or spaces, with at least 1 letter and 1 digit|
+| Postal code    | p/      | Should only contain numbers (0-9), and it should be exactly least 6 digits long. (Singaporean Postal Code)        |
+| Price          | price/  | Should be an integer from 1 to 1,000,000,000,000                                                                  |
+| Type           | t/      | Should only be these (case-insensitive): hdb, condo, landed, apartment, office, others                            |
+| Status         | status/ | Should only be these (case-insensitive): available, unavailable                                                   |
+| Bedroom count  | bed/    | Should be an integer from 0 to 20                                                                                 |
+| Bathroom count | bath/   | Should be an integer from 0 to 20                                                                                 |
+| Floor area     | f/      | Should be an integer from 50 to 100,000                                                                           |
+| Listing        | l/      | Should only be these (case-insensitive): sale, rent                                                               |
+| Owner ID       | o/      | Should be a valid Contact UUID                                                                                    |
+
+### Others
+These are prefixes that are used over multiple commands.
+Related commands: [`filtercontact`](#filter-contact-command-filtercontact), [`filterproperty`](#filter-property-command-filterproperty), [`sold`](#mark-property-as-sold-command-sold), [`unsold`](#mark-property-as-unsold-command-unsold), [`link`](#linkcommand-link), [`unlink`](#unlinkcommand-unlink), [`showproperties`](#showpropertiescommand-showproperties), [`showcontacts`](#showcontactscommand-showcontacts)
+
+| Parameter      | Prefix  | Constraints                                            |
+|----------------|---------|--------------------------------------------------------|
+| Limit          | limit/  | An integer more than 0                                 |
+| Offset         | offset/ | An integer more than or equals to 0                    |
+| Contact UUID   | c/      | Should be a valid Contact UUID                         |
+| Property UUID  | p/      | Should be a valid Property UUID                        |
+| Relationship   | r/      | Should only be these (case-insensitive): buyer, seller |
 
 ## Appendix: Product Scope
 
 **Target user profile**:
 
 * real estate agents
-* has to manage a lot of clients with different informations
+* has to manage a lot of contacts with different informations
 * has to manage large property list
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage clients faster than a typical mouse/GUI driven app
+**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
 ## Appendix: User Stories
 
@@ -458,330 +584,264 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a…                        | I want to…                                       | So that I can…                                                           |
 | -------- | ---------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------ |
-| `* * *`  | user                         | add contacts                                     | keep track of my clients                                                 |
+| `* * *`  | user                         | add contacts                                     | keep track of my contacts                                                 |
 | `* * *`  | user                         | store properties                                 | keep track of my advertising properties                                  |
 | `* * *`  | user                         | delete contacts                                  | remove contacts that I no longer need                                    |
 | `* * *`  | user                         | delete properties                                | remove properties that I no longer need                                  |
-| `* * *`  | user                         | filter my contacts by their details              | find and prioritise clients easily                                       |
-| `* * *`  | user                         | filter my properties by criteria                    | find my properties for my clients easily and better match client's needs |
-| `* * *`  | user                         | track client associations to properties          | easily cross-reference clients                                           |
+| `* * *`  | user                         | filter my contacts by their details              | find and prioritise contacts easily                                       |
+| `* * *`  | user                         | filter my properties by criteria                 | find my properties for my contacts easily and better match contact's needs |
+| `* * *`  | user                         | track contact associations to properties          | easily cross-reference contacts                                           |
 | `* * *`  | user                         | track when properties are sold                   | filter them from searches                                                |
-| `* * *`  | detail-oriented user         | view a client’s full profile details             | prepare before meeting or calling them                                   |
+| `* * *`  | detail-oriented user         | view a contact’s full profile details             | prepare before meeting or calling them                                   |
 | `* *`    | user                         | edit stored information                          | avoid manually deleting and adding data back when something changes      |
 | `* *`    | collaborating user           | import Excel contact lists into the system       | avoid adding contacts one by one                                         |
-| `* *`    | user                         | record the dates of client property visits       | maintain a clear history of interactions                                 |
+| `* *`    | user                         | record the dates of contact property visits       | maintain a clear history of interactions                                 |
 | `* *`    | collaborating user           | export data of contacts                          | pass the information to associated contacts                              |
-| `* *`    | user                         | draft messages based on client profiles          | provide updates quickly and professionally                               |
-| `* *`    | user                         | mark clients as “active” or “inactive”           |                                                                          |
+| `* *`    | user                         | draft messages based on contact profiles          | provide updates quickly and professionally                               |
+| `* *`    | user                         | mark contacts as “active” or “inactive”           |                                                                          |
 | `* *`    | user                         | store signed contracts                           | quickly retrieve them if disputes or clarifications arise                |
 | `* *`    | user                         | generate reports                                 | analyze performance and opportunities                                    |
-| `* *`    | user                         | tag clients with labels                          | organise them better                                                     |
+| `* *`    | user                         | tag contacts with labels                          | organise them better                                                     |
 | `* *`    | user                         | track commission earned from each deal           | measure my performance                                                   |
 | `* *`    | user                         | have a recent contact list                       |                                                                          |
 | `*`      | user dealing with complaints | see the whole interaction history                | understand the context fully and manage the situation well               |
 | `*`      | forgetful user               | set automatic reminders for contract expirations | avoid missing key dates                                                  |
 | `*`      | user                         | mark and track the negotiation stage of a deal   | see deal progress                                                        |
 | `*`      | user                         | generate detailed draft contracts automatically  | speed up the transaction process                                         |
-| `*`      | forgetful user               | set reminders for follow-ups with clients        | avoid forgetting to contact them at the right time                             |
+| `*`      | forgetful user               | set reminders for follow-ups with contacts        | avoid forgetting to contact them at the right time                       |
 
 ## Appendix: Use Cases
 
-(For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise)
+For all use cases below, the **System** is `TheRealDeal` and the **Actor** is the `user`, unless specified otherwise.
 
-#### Use case: Add contact
+#### Use case: UC00 - Input Details
+
+**Guarantee:**<br>
+The input details will meet the required format and constraints for that command
+
+**Main Success Scenario:**
+1. User inputs details
+2. System successfully parses the input details
+
+   Use case ends
+
+**Extensions**
+
+* 1a. System detects a missing compulsory prefix
+  * 1a1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1b. System detects a duplicate prefix
+  * 1b1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1c. System detects an invalid prefix
+  * 1c1. System displays an error message and requests for new inputs
+    
+    Use case resumes at step 1<br><br>
+    
+* 1d. System detects a parameter not meeting required constraints
+  * 1d1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1e. System detects an invalid format
+  * 1e1. System displays an error message and requests for new inputs
+
+    Use case resumes at step 1<br><br>
+  
+* 1f. System detects duplicate details
+    * 1e1. System displays an error message and requests for new inputs
+
+      Use case resumes at step 1<br><br>
+
+#### Use case: UC01 - Help Command
+
+**Guarantee:**<br>
+Separate help window will pop up
+
+**Main Success Scenario:**
+1. User enters the help command
+2. System displays main help window
+
+    Use case ends
+
+#### Use case: UC02 - Exit Command
+
+**Guarantee:**<br>
+All application windows are closed
+
+**Main Success Scenario:**
+1. User enters the exit command
+2. System closes all windows
+
+   Use case ends
+
+#### Use case: UC03 - List Command
+
+**Guarantee:**<br>
+Unfilter list of contacts or properties
+
+**Main Success Scenario:**
+1. User enters the list command
+2. System will unfilter contacts and properties 
+
+   Use case ends
+
+#### Use case: UC04 - Clear Command
+
+**Guarantee:**<br>
+Deletes all contacts and properties
+
+**Main Success Scenario:**
+1. User enters the clear command
+2. System will delete all contact and property data
+
+   Use case ends
+
+#### Use case: UC05 - Add a contact
 
 **Main Success Scenario:**
 
-1.  User chooses to add a new contact
-2.  System requests contact details (name, phone number, email, etc.)
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
+1.  User chooses to add a contact and <u>enters the required inputs (UC0)</u>
+2.  System stores the required information
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC06 - Edit a contact
+
+**Precondition:** The contact exists in the System
+
+**Main Success Scenario:**
+
+1.  User chooses to edit a contact and <u>enters the required inputs (UC0)</u>
+2.  System updates the contact with the new details
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC07 - Filter all contacts
+
+**Main Success Scenario:**
+
+1.  User chooses to filter contacts and <u>enters the required inputs (UC0)</u>
+2.  System filters the contacts based on the details
+3.  System displays new contact list
+
+    Use case ends
+
+#### Use case: UC08 - Delete a contact
+
+**Main Success Scenario:**
+
+1.  User chooses to delete a contact and <u>enters the required inputs (UC0)</u>
+2.  System deletes the contact specified
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC09 - Add a property
+
+**Main Success Scenario:**
+
+1.  User chooses to add a property and <u>enters the required inputs (UC0)</u>
+2. System stores the required information
+3. System displays a success message
+
+    Use case ends
+
+#### Use case: UC10 - Filter all properties
+
+**Main Success Scenario:**
+
+1.  User chooses to filter properties and <u>enters the required inputs (UC0)</u>
+2.  System filters the properties based on the details
+3.  System displays new property list
+
+    Use case ends
+
+#### Use case: UC11 - Delete a property
+
+**Main Success Scenario:**
+
+1.  User chooses to delete a property and <u>enters the required inputs (UC0)</u>
+2.  System deletes the property specified
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC12 - Mark properties as sold
+
+**Main Success Scenario:**
+
+1.  User chooses to mark properties as sold and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties as sold
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC13 - Mark properties as unsold
+
+**Main Success Scenario:**
+
+1.  User chooses to mark properties as unsold and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties as unsold
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC14 - Link properties to clients
+
+**Main Success Scenario:**
+
+1.  User chooses to link properties to clients and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties and clients
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC15 - Unlink properties from clients
+
+**Main Success Scenario:**
+
+1.  User chooses to unlink properties from clients and <u>enters the required inputs (UC0)</u>
+2.  System updates the properties and clients
+3.  System displays a success message
+
+    Use case ends
+
+#### Use case: UC16 - Find clients linked to a property
+
+**Main Success Scenario:**
+
+1.  User chooses to find clients linked with a property and <u>enters the required inputs (UC0)</u>
+2.  System displays a result information
 
     Use case ends
 
 **Extensions**
 
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-#### Use case: Delete contact
-
-**Main Success Scenario:**
-
-1.  User chooses to delete a contact
-2.  System requests for which contact to delete
-3.  User enters the contact to be deleted
-4.  System removes the contact from the storage
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Filter contact
-
-**Main Success Scenario:**
-
-1.  User chooses to filter contacts by contact details
-2.  System requests contact details (name, phone number, email, etc.)
-3.  User enters the required information
-4.  System retrieves information and displays the contacts
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no contacts matching the properties
-    * 4a1. System displays "No contacts found" message
+* 1a. System finds no clients associated to the property
+    * 1a1. System displays error message
 
       Use case ends
 
-#### Use case: Add property
+#### Use case: UC17 - Find properties linked to a client
 
 **Main Success Scenario:**
 
-1.  User chooses to add a new property
-2.  System requests property details (address, no. of bedrooms, etc.)
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
+1.  User chooses to find properties linked to a client and <u>enters the required inputs (UC0)</u>
+2.  System displays a result information
 
     Use case ends
 
 **Extensions**
 
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Delete property
-
-**Main Success Scenario:**
-
-1.  User chooses to delete a property
-2.  System requests for which property to delete
-3.  User enters the property to be deleted
-4.  System removes the property from the storage
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Filter property
-
-**Main Success Scenario:**
-
-1.  User chooses to filter properties by property details
-2.  System requests property details (address, no. of bedrooms, etc.)
-3.  User enters the required information
-4.  System retrieves information and displays the properties
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no properties matching the properties
-    * 4a1. System displays "No properties found" message
-
-      Use case ends
-
-#### Use case: Associate property to client
-
-**Main Success Scenario:**
-
-1.  User chooses to associate property to client
-2.  System requests property details and client details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Unassociate property client
-
-**Main Success Scenario:**
-
-1.  User chooses to unassociate property to client
-2.  System requests property details and client details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Mark property as sold
-
-**Main Success Scenario:**
-
-1.  User chooses to mark property as sold
-2.  System requests property details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Mark property as unsold
-
-**Main Success Scenario:**
-
-1.  User chooses to mark property as unsold
-2.  System requests property details
-3.  User enters the required information
-4.  System stores the required information
-5.  System displays a success message
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-#### Use case: Find clients associated to property
-
-**Main Success Scenario:**
-
-1.  User chooses to find clients associated to a specific property
-2.  System requests property details
-3.  User enters the required information
-4.  System retrieves information and displays the clients
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no clients associated to the property
-    * 4a1. System displays "No clients found" message
-
-      Use case ends
-
-#### Use case: Find properties associated to client
-
-**Main Success Scenario:**
-
-1.  User chooses to find properties associated to a specific client
-2.  System requests client details
-3.  User enters the required information
-4.  System retrieves information and displays the properties
-
-    Use case ends
-
-**Extensions**
-
-* 3a. System detects missing, incorrect or duplicate information
-
-    * 3a1. System displays an error message and requests new inputs
-    * 3a2. User enters information again
-
-      Steps 3a1 - 3a2 are repeated until all data are valid
-
-      Use case resumes at step 4
-
-
-* 4a. System finds no properties associated to the client
-    * 4a1. System displays "No properties found" message
+* 1a. System finds no properties linked to a client
+    * 1a1. System displays error message
 
       Use case ends
 
@@ -797,7 +857,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    * Error messages should be domain-specific and actionable for real estate scenarios
 
 2. **Data Integrity**
-   * No duplicate clients or properties should be allowed based on unique identifiers
+   * No duplicate contacts or properties should be allowed based on unique identifiers
 
 #### Technical Requirements
 
@@ -812,7 +872,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 3. **User Interface**
    * CLI commands should follow consistent patterns across all operations
-   * Display should clearly distinguish between clients, properties, and associations
+   * Display should clearly distinguish between contacts, properties, and associations
    * Must support standard copy-paste operations for data entry
 
 #### Performance Requirements
@@ -821,8 +881,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    * The system should respond to each command within 3 seconds under normal load
 
 2. **Scalability**
-   * The system should be able to hold up to 10,000 properties and 10,000 clients
-   * Should efficiently handle relationships between clients and properties
+   * The system should be able to hold up to 10,000 properties and 10,000 contacts
+   * Should efficiently handle relationships between contacts and properties
 
 3. **Resource Efficiency**
    * Memory usage should not exceed 512MB during normal operation
@@ -844,18 +904,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Client**: A contact (e.g. buyer, seller) managed by the real estate agent in the system
-* **Property**: A real estate listing that can be bought or sold, with specific attributes like address, price and type
-* **Association**: A relationship link between a client and property indicating the client's interest (as buyer) or ownership (as seller)
-* **Client ID**: A unique identifier assigned to clients for precise identification
-* **Property ID**: A unique identifier assigned to properties for precise identification
-* **Role**: The relation of the client to the property (buyer, seller, tenant, landlord)
-* **Status**: The current state of a client (lead/active/archived) or property (listed/sold/rented/off-market)
-* **Listing**: Whether a property is available for sale or rent
-* **Budget Range**: The minimum and maximum price range a buyer is willing to spend
-* **Type**: Category of property such as HDB, condo or landed
-* **Floor Area**: The size of a property measured in square feet
+* **Mainstream OS**: Windows, Linux, Unix, MacOS.
+* **CLI**: Command Line Interface, a text-based interface that processes commands to a computer program in the form of lines of text.
+* **GUI**: Graphical User Interface, a form of user interface through which users interact with electronic devices via visual indicator representations.
+* **API**: Application Programming Interface, specifies the interface through which software and other programs interact.
+* **JSON**: JavaScript Object Notation, a text-based data storage format used to store the data of the application.
+* **Command**: A specific instruction given to TheRealDeal to perform a certain action, like adding a new contact to the list.
+* **Contact**: A domain entity representing a client (buyer, seller, tenant, or landlord) in TheRealDeal system.
+* **Prefix**: A unique identifier (e.g., n/, p/, a/) that tells the parser what type of parameter follows.
+* **Property**: A domain entity representing a real estate listing with attributes like address, price, type, and availability.
+* **UUID**: Universally Unique Identifier, generated by the application to uniquely identify contacts and properties.
 
 ---------------------------------------------------------------------------------------------------------------------
 
@@ -885,22 +943,590 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding a contact
+
+##### Adding a contact with unique details
+
+Command: `addcontact n/Zara Lim p/91234567 e/zara.lim@example.com a/11 Green Lane t/buyer s/active notes/Prefers email`
+
+To simulate:<br>
+- Run `list` to show all contacts and confirm the sample data does not already contain the details above.
+- Execute the command.
+
+Expected:<br>
+- Success message `New contact added:` appears.
+- The contacts panel shows a new `Zara Lim` card appended with a newly generated UUID (note it for later tests).
+
+Variations:<br>
+- Reorder optional prefixes or include additional tags to ensure the command still succeeds.
+- Repeat the command with extra whitespace around prefixes to confirm parsing tolerance.
+
+##### Duplicate contact rejected
+
+Command: `addcontact n/Zara Lim p/91234567 e/zara.lim@example.com a/11 Green Lane t/buyer s/active notes/Prefers email`
+
+To simulate:<br>
+- Ensure the contact from the previous scenario still exists.
+- Rerun the command above.
+
+Expected:<br>
+- Command fails with `This contact already exists in the address book`.
+- Contact list remains unchanged.
+
+Variations:<br>
+- Vary capitalisation while keeping values identical and observe the same rejection.
+- Attempt the command after filtering the contact list to verify the error message still appears.
+
+##### Missing compulsory addcontact field
+
+Command: `addcontact n/Zara Lim`
+
+To simulate:<br>
+- Run the command above.
+
+Expected:<br>
+- Command fails with an error stating that the phone parameter is missing and the usage message is displayed.
+- No new contact appears.
+
+Variations:<br>
+- Try `addcontact` with no arguments to observe the generic usage error.
+- Try `addcontact n/Zara Lim p/91234567 p/98765432` to see the duplicate prefix error.
+
 ### Deleting a contact
 
-1. Deleting a contact while all contacts are being shown
+##### Deleting a contact by UUID
 
-   1. Prerequisites: List all contacts using the `list` command. Multiple contacts in the list.
+Command: `deletecontact <CONTACT_UUID>`
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+To simulate:<br>
+- Run `list` and identify the UUID printed on the `Zara Lim` card (or another contact to delete).
+- Replace `<CONTACT_UUID>` with the exact UUID and run the command.
 
-   1. Test case: `delete 0`<br>
-      Expected: No contact is deleted. Error details shown in the status message. Status bar remains the same.
+Expected:<br>
+- Result box shows `Deleted Contact:` followed by the contact details.
+- The selected contact is removed and the status bar timestamp updates.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+Variations:<br>
+- Delete a different contact to confirm behaviour is consistent.
+- Perform the command after filtering the contact list to ensure deletion uses the displayed UUID.
 
-1. _{ more test cases …​ }_
+##### Invalid contact UUID
+
+Command: `deletecontact 9999`
+
+To simulate:<br>
+- Ensure no contact currently has the UUID `9999`.
+- Run the command above.
+
+Expected:<br>
+- Command fails with `No contact found with ID: 9999`.
+- Contact list stays the same.
+
+Variations:<br>
+- Run `deletecontact` without arguments to observe the invalid command format error.
+- Run `deletecontact abc` to see the invalid UUID message.
+
+### Adding a property
+
+##### Adding a property linked to an existing owner
+
+Command: `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/1`
+
+To simulate:<br>
+- Run `list` to show both contacts and properties.
+- Note the UUID of an existing owner contact (e.g. `1` for Alex Yeoh in sample data) and replace `o/1` with that value.
+- Execute the command.
+
+Expected:<br>
+- Success message `New property added:` appears.
+- Properties panel shows a new entry with the supplied details and a freshly generated UUID.
+
+Variations:<br>
+- Adjust optional fields (e.g. number of bedrooms) to verify they are captured correctly.
+- Repeat with additional whitespace between prefixes to confirm parsing tolerance.
+
+##### Owner contact does not exist
+
+Command: `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/9999`
+
+To simulate:<br>
+- Ensure no contact currently has the UUID `9999`.
+- Run the command above.
+
+Expected:<br>
+- Command fails with `Owner contact ID must match an existing contact (received: 9999).`
+- Property list remains unchanged.
+
+Variations:<br>
+- Replace `9999` with other non-existent UUIDs to see the same error.
+- Try negative UUID values to observe the invalid format message.
+
+##### Invalid addproperty commands
+
+Command: `addproperty`
+
+To simulate:<br>
+- Run the command above with no parameters.
+- Repeat with `addproperty a/21 Sunset Way postal/597145 price/1850000 type/condo status/available bed/3 bath/2 f/1180 l/sale o/` to omit the owner ID.
+
+Expected:<br>
+- Command fails with invalid format or constraint messages explaining the missing or malformed prefixes.
+- No properties are added.
+
+Variations:<br>
+- Provide duplicate prefixes (e.g. two `price/` values) to observe the corresponding error message.
+- Mix upper- and lower-case prefixes to ensure only the documented format is accepted.
+
+### Deleting a property
+
+##### Deleting a property by UUID
+
+Command: `deleteproperty <PROPERTY_UUID>`
+
+To simulate:<br>
+- Run `list` and identify the UUID of the property added earlier (or any property to delete).
+- Replace `<PROPERTY_UUID>` with the actual UUID and execute the command.
+
+Expected:<br>
+- Result box shows `Deleted property:` followed by the property details.
+- Property is removed from the list and the status bar timestamp updates.
+
+Variations:<br>
+- Delete a property from a filtered list to confirm behaviour is consistent.
+- Attempt deletion immediately after adding a property to verify the UUID remains valid.
+
+##### Invalid property UUID
+
+Command: `deleteproperty 9999`
+
+To simulate:<br>
+- Ensure no property currently has the UUID `9999`.
+- Run the command above.
+
+Expected:<br>
+- Command fails with `The property's id provided is invalid`.
+- Property list remains unchanged.
+
+Variations:<br>
+- Run `deleteproperty` with no arguments to observe the invalid command format error.
+- Run `deleteproperty abc` to see the invalid UUID message.
+
+### Viewing help
+
+##### Opening the help window via command box
+
+Command: `help`
+
+To simulate:<br>
+- Run the command above from the command box.
+
+Expected:<br>
+- Result box shows `Opened help window.`
+- The Help window pops up and the command box is cleared.
+
+Variations:<br>
+- Invoke the command repeatedly to ensure the Help window re-focuses without duplicating.
+- Trigger the command after switching between tabs to confirm consistent behaviour.
+
+##### Extraneous parameters ignored
+
+Command: `help 123`
+
+To simulate:<br>
+- Run the command above while the application is open.
+
+Expected:<br>
+- Same behaviour as `help`.
+- Existing Help window is brought to the front (or remains minimised if previously minimised).
+
+Variations:<br>
+- Replace `123` with other tokens (e.g. `/foo`) to ensure they are ignored.
+- Issue the command while the Help window is already focused.
+
+### Exiting the program
+
+##### Exiting from the main window
+
+Command: `exit`
+
+To simulate:<br>
+- Run the command above from the main window.
+
+Expected:<br>
+- Result box shows `Exiting Address Book as requested ...`.
+- Both the main GUI and any Help window close.
+
+Variations:<br>
+- Exit immediately after launching to ensure no confirmation dialog appears.
+- Execute `exit` after filtering the contact list to confirm unsaved filters do not block shutdown.
+
+##### Exiting while the Help window is open
+
+Command: `exit`
+
+To simulate:<br>
+- Run `help` to open the Help window.
+- Run the command above.
+
+Expected:<br>
+- Both the main GUI and Help window close.
+- Application can be relaunched to continue testing.
+
+Variations:<br>
+- Trigger `exit` from the Help window's focus to ensure the main window still closes.
+- Repeat after moving the Help window to another monitor.
+
+### Marking properties as sold
+
+##### Marking unsold as sold
+
+Command: `sold p/UUID`
+
+To simulate:<br>
+- Have at least 1 *available* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *available* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following success message:<br>`Marked 1 property(ies) as sold.`
+- GUI should display property book.
+- The property with UUID input to the command should have its *status* set to *unavailable*.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of *available* properties.
+- Add arbitrary whitespace.
+
+##### Marking sold as sold
+
+Command: `sold p/UUID`
+
+To simulate: <br>
+- Have at least 1 *unavailable* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *unavailable* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`TBA`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as one property input is *unavailable*.
+- Add arbitrary whitespace.
+
+##### Marking invalid properties as sold
+
+Command: `sold p/UUID`
+
+To simulate: <br>
+- Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid or invalid property UUIDs.<br>A similar output should display as long as one property UUID cannot be found.
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Marking as sold with unknown parameters
+
+Command: `sold ...`
+
+To simulate: <br>
+- Run `sold` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`sold: Marks one or more properties as sold.`<br>`Parameters: p/UUID...`<br>`Example: sold p/14 p/27`
+- No change to the GUI.
+
+### Marking properties as unsold
+
+##### Marking sold as unsold
+
+Command: `unsold p/UUID`
+
+To simulate:<br>
+- Have at least 1 *unavailable* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *unavailable* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following success message:<br>`Marked 1 property(ies) as unsold.`
+- GUI should display property book.
+- The property with UUID input to the command should have its *status* set to *available*.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of *unavailable* properties.
+- Add arbitrary whitespace.
+
+##### Marking unsold as unsold
+
+Command: `unsold p/UUID`
+
+To simulate: <br>
+- Have at least 1 *available* property in the current filtered property list.
+- Run the above command with UUID replaced with the UUID of an *available* property in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`TBA`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as one property input is *available*.
+- Add arbitrary whitespace.
+
+##### Marking invalid properties as unsold
+
+Command: `unsold p/UUID`
+
+To simulate: <br>
+- Run the above command with UUID replaced with a value that is not the same as any of the property UUIDs in the current filtered property list.
+
+Expected:<br>
+- Displays the following error message:<br>`The properties with the following IDs were not found: UUID`<br>`Command has been aborted.` 
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid or invalid property UUIDs.<br>A similar output should display as long as one property UUID cannot be found.
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Marking as unsold with unknown parameters
+
+Command: `unsold ...`
+
+To simulate: <br>
+- Run `unsold` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`unsold: Marks one or more properties as unsold`<br>`Parameters: p/UUID...`<br>`Example: unsold p/7 p/33`
+- No change to the GUI.
+
+### Linking contacts to properties
+
+##### Linking unlinked contacts and properties
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Linked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]] as seller`
+- The property with UUID input to the command should have its `Seller IDs` include the UUID of the contact input.
+- The contact with UUID input to the command should have its `Selling Property IDs` include the UUID of the property input.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with UUIDs of properties that are not linked to input contacts as buyers or sellers.
+- Add more parameters with prefix c/ with UUIDs of contacts that are not linked to input properties as buyers or sellers.
+- Add arbitrary whitespace.
+
+##### Linking linked contacts and properties
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that has any of each others' UUIDs in their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A contact is already linked to one of the properties as RELATIONSHIP`
+- No change to the GUI.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as any contact and property input are already linked with specified relationship.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as any contact and property input are already linked with specified relationship.
+- Add arbitrary whitespace.
+
+##### Linking invalid parameters
+
+Command: `link p/CONTACT_ID r/seller p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact in the current filtered contact list.
+- Have at least 1 property not in the current filtered property list.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A property id provided is invalid`
+- No change to the GUI.
+
+Variations:<br>
+- Change relationship from buyer to seller.
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Repeat with valid PROPERTY_ID but not present CONTACT_ID.<br>Alternate error message:<br>`A contact id provided is invalid`
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Using a RELATIONSHIP other than `buyer` or `seller`.<br>Alternate error message:<br>`The relationship provided is invalid`
+- Add arbitrary whitespace.
+
+##### Linking with unknown parameters
+
+Command: `link ...`
+
+To simulate: <br>
+- Run `link` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`link: Links properties to contacts.`<br>`Parameters: p/PROPERTY_ID... r/RELATIONSHIP (must be either 'buyer' or 'seller') c/CONTACT_ID...`<br>`Example: link p/2 r/buyer c/3 c/5`
+- No change to the GUI.
+
+### Unlinking contacts from properties
+
+##### Uninking linked contacts and properties
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list all have each others' UUIDs in either their `Buying Property IDs`/`Buyer IDs` or `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Unlinked Property IDs: [[PROPERTY_ID]] with Contact IDs: [[CONTACT_ID]]`
+- The property with UUID input to the command should have its `Seller IDs` exclude the UUID of the contact input.
+- The property with UUID input to the command should have its `Buyer IDs` exclude the UUID of the contact input.
+- The contact with UUID input to the command should have its `Buying Property IDs` exclude the UUID of the property input.
+- The contact with UUID input to the command should have its `Selling Property IDs` exclude the UUID of the property input.
+
+Variations:<br>
+- Add more parameters with prefix p/ with UUIDs of properties that are linked to input contacts as buyers or sellers.
+- Add more parameters with prefix c/ with UUIDs of contacts that are linked to input properties as buyers or sellers.
+- Add arbitrary whitespace.
+
+##### Unlinking unlinked contacts and properties
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list that do not have each others' UUIDs in both their `Buying Property IDs`/`Buyer IDs` and `Selling Property IDs`/`Seller IDs` data.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A contact is not linked to any of the properties`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as any contact and property input are not linked.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as any contact and property input are not linked.
+- Add arbitrary whitespace.
+
+##### Unlinking invalid parameters
+
+Command: `unlink p/CONTACT_ID p/PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact in the current filtered contact list.
+- Have at least 1 property not in the current filtered property list.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact, PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following error message:<br>`A property id provided is invalid`
+- No change to the GUI.
+
+Variations:<br>
+- Add more parameters with prefix p/ with valid property UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Add more parameters with prefix c/ with valid contact UUIDs.<br>A similar output should display as long as at least 1 property UUID input is invalid.
+- Repeat with valid PROPERTY_ID but not present CONTACT_ID.<br>Alternate error message:<br>`A contact id provided is invalid`
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Unlinking with unknown parameters
+
+Command: `unlink ...`
+
+To simulate: <br>
+- Run `unlink` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`unlink: unlinks properties from contacts.`<br>`Parameters: p/PROPERTY_ID... c/CONTACT_ID...`<br>`Example: unlink p/2 p/5 c/3`
+- No change to the GUI.
+
+### Show contacts linked to or owners of properties
+
+##### Show contacts linked to or owners of property
+
+Command: `showcontacts PROPERTY_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list where the contact is linked as buyer or seller, or is the owner of said property.
+- Run the above command with PROPERTY_ID replaced with the UUID of said property.
+
+Expected:<br>
+- Displays the following success message:<br>`Listed 1 contact associated with property ID: [PROPERTY_ID]`
+- GUI should display address book with only contacts linked or owning the input property. 
+
+Variations:<br>
+- Add arbitrary whitespace.
+
+##### Show contacts with invalid parameters
+
+Command: `showcontacts PROPERTY_ID`
+
+To simulate:<br>
+- Run the above command with PROPERTY_ID replaced with the UUID of a property not in the property list.
+
+Expected:<br>
+- Displays the following error message:<br>`No contacts found associated with property ID: [PROPERTY_ID]`<br>`Possible reasons:`<br>`  • The property exists but has no linked contacts yet`<br>`  • The property ID doesn't exist (use 'list' & 'filtercontact' to verify)`<br>`Tip: Use 'link p/[PROPERTY_ID] c/CONTACT_ID r/RELATIONSHIP' to associate contacts with this property.`
+- No change to the GUI.
+
+Variations:<br>
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Show contacts with unknown parameters
+
+Command: `showcontacts ...`
+
+To simulate: <br>
+- Run `showcontacts` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`showcontacts: Shows all contacts associated with the specified property.`<br>`Parameters: PROPERTY_UUID (must be a positive integer)`<br>`Example: showcontacts 123`
+- No change to the GUI.
+
+### Show properties linked to or owned by contacts
+
+##### Show properties linked to or owned by contact
+
+Command: `showproperties CONTACT_ID`
+
+To simulate:<br>
+- Have at least 1 contact and 1 property in the current filtered contact and property list where the property is linked as buying or selling, or is the owned by said contact.
+- Run the above command with CONTACT_ID replaced with the UUID of said contact.
+
+Expected:<br>
+- Displays the following success message:<br>`Listed 1 property associated with contact ID: [CONTACT_ID]`
+- GUI should display property book with only properties linked or owned by the input contact. 
+
+Variations:<br>
+- Add arbitrary whitespace.
+
+##### Show properties with invalid parameters
+
+Command: `showproperties CONTACT_ID`
+
+To simulate:<br>
+- Run the above command with CONTACT_ID replaced with the UUID of a contact not in the property list.
+
+Expected:<br>
+- Displays the following error message:<br>`No properties found associated to contact ID: [CONTACT_ID]`<br>`Possible reasons:`<br>`  • The contact exists but is not linked to any properties yet`<br>`  • The contact ID doesn't exist (use 'list' & 'filterproperty' to verify)`<br>`Tip: Use 'addproperty ... o/[CONTACT_ID]' to add a property for this contact.`
+- No change to the GUI.
+
+Variations:<br>
+- Using a UUID that is less than or equal to 0.<br>Alternate error message:<br>`UUID is not a valid format.`
+- Add arbitrary whitespace.
+
+##### Show properties with unknown parameters
+
+Command: `showproperties ...`
+
+To simulate: <br>
+- Run `showproperties` with any other parameters.
+
+Expected:<br>
+- Displays the following error message:<br>`Invalid command format!`<br>`showproperties: Shows all properties associated with the specified contact.`<br>`Parameters: CONTACT_UUID (must be a positive integer)`<br>`Example: showproperties 123`
+- No change to the GUI.
 
 ### Saving data
 
@@ -931,18 +1557,14 @@ No change in the GUI and performing any command that adds or edits any contacts/
 
 Team size: 5
 
-1. **Make command words and prefixes case-insensitive.** For example, `Addcontact` should be acceptable as a `addcontact` command and `N/` should be acceptable as a `Name` prefix. Users may make mistakes in the capitalisation of the commands and making the command words case-insensitive can help to save time.
-
-2. **Allow special characters to be used in contact names.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). Future improvements aim to support this functionality.
-
-3. **Phone Number lacks support for international formats.** The current validation for phone numbers requires it to be only numeric digits and to be at least 3 digits long. This does not support international contacts or the ability to specify country codes (e.g. `+60 123456789` or `(123)123-4567`). Future improvements aim to support international phone number formats.
+1. **Allow special characters to be used in contact names.** The current validation for contact names requires it to only consist of alphanumeric characters and spaces. The does not support names with special characters like `/` or `-` (e.g. `s/o`, `John-Mary`). Future improvements aim to support this functionality.
 
 ---------------------------------------------------------------------------------------------------------------------
 
 ## Appendix: Effort
 
 #### Difficulty Level and Effort Required
-This project was significantly harder and took more time that the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
+This project was significantly harder and took more time than the individual project. TheRealDeal is the first team-based software engineering project for all of us. Most of us had prior experience with a two-man project for NUS Orbital (CP2106) but this group project made it very difficult to split the workload and coordinate features.
 <br><br>
 Unlike AB3 which handles only `Contact`, this application handles both `Contact` and `Property` each with their distinct commands, models and UI components. This required a clear separation and linking between contacts and properties. Furthermore, this project was made significantly harder with the need of a comprehensive User Guide and Developer Guide.
 <br><br>
@@ -950,7 +1572,7 @@ A high proportion of effort was saved through reuse of AB3. Such examples includ
 
 #### Challenges Faced
 - More comprehensive input validation and testing because it is a CLI-based application
-- Coordinating and agreeing on the use case and format of a command as many changes were made week after week
+- Coordinating and agreeing on a use case and format of a command as many changes were made week after week
 - Implementing complex parsers due to the presence of compulsory parameters, optional parameters or multi-word parameters
 
 #### Achievements of the Project
@@ -961,21 +1583,22 @@ A high proportion of effort was saved through reuse of AB3. Such examples includ
 
 ---------------------------------------------------------------------------------------------------------------------
 
-## Appendix: Continuous Integration / Continuous Deployment
-Continuous Integration / Continuous Deployment (CI/CD) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
+## Appendix: Software Engineering Practices
+Common Software Engineering Practices (SEP) has been carried out throughout this project. Testing is done automatically after each code change and is also deployed to GitHub at the same time. <br>
 
-CI/CD has been carried out as follows:
-1. Unit Testing
-2. Integrated GitHub tests
-3. Code coverage reports
+SEP has been carried out as follows:
+1. Unit Testing and Test Coverage Analysis
+2. Integrated GitHub tests (Continuous Integration / Continuous Deployment)
+3. Version Control (GitHub)
 
-#### Unit Testing
-Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test).
+#### Unit Testing and Test Coverage Analysis
+Unit testing has been carried out in the form of [JUnit](https://docs.junit.org/current/user-guide/) tests of almost all Java classes. There are currently over 600 different test cases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/tree/master/src/test). <br> <br>
+Test coverage refers to the extent in which the code is tested, and we have utilised [CodeCov](https://about.codecov.io/) to measure our code coverage. The code coverage can be seen [here](https://app.codecov.io/github/AY2526S1-CS2103T-W10-2/tp). <br> <br>
+As of v1.5, the test coverage is above 80%.
 
-#### Integrated GitHub tests
+#### Integrated GitHub tests (Continuous Integration / Continuous Deployment)
 We have utilised _**GitHub Actions**_ to carry out automated testing on Windows, MacOS and Ubuntu devices on every push or pull request. Through these tests, feature branches can be tested before they are merged to the master branch, which ensures that regressions are caught early and are not deployed.
 The workflow file used can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/blob/3fef75e58132ad7d04d4d2cfef54b701466e2f22/.github/workflows/gradle.yml).
 
-#### Code Coverage Reports
-Test coverage refers to the extent in which the code is tested and we have utilised [CodeCov](https://about.codecov.io/) to measure our code coverage. The code coverage can be seen [here](https://app.codecov.io/github/AY2526S1-CS2103T-W10-2/tp). <br> <br>
-As of v1.5, the test coverage is above 80%.
+#### Version Control (GitHub)
+We have carried out version control in the form of GitHub Releases which can be seen [here](https://github.com/AY2526S1-CS2103T-W10-2/tp/releases).

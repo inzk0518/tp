@@ -35,6 +35,8 @@ import static seedu.address.logic.parser.AddContactCommandParser.NAME_AND_PHONE_
 import static seedu.address.logic.parser.AddContactCommandParser.NAME_MISSING;
 import static seedu.address.logic.parser.AddContactCommandParser.PHONE_MISSING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BUDGET_MAX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BUDGET_MIN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
@@ -155,9 +157,9 @@ public class AddContactCommandParserTest {
     public void parse_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddContactCommand.MESSAGE_USAGE);
         String expectedMissingName = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                "Name parameter (n/NAME) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
+                "Name parameter (" + PREFIX_NAME + "NAME) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
         String expectedMissingPhone = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                "Phone parameter (p/PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
+                "Phone parameter (" + PREFIX_PHONE + "PHONE) is missing.\n" + AddContactCommand.MESSAGE_USAGE);
 
         // missing name prefix -> should fail
         assertParseFailure(parser, PHONE_DESC_BOB + VALID_NAME_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
@@ -226,8 +228,8 @@ public class AddContactCommandParserTest {
     @Test
     public void parse_budgetMaxLessThanBudgetMin_failure() {
         String input = NAME_DESC_BOB + PHONE_DESC_BOB
-                + " min/5000"
-                + " max/1000"; // max < min
+                + " " + PREFIX_BUDGET_MIN + "5000"
+                + " " + PREFIX_BUDGET_MAX + "1000"; // max < min
         System.out.println(input);
         assertParseFailure(parser, input, "Budget maximum cannot be lesser than budget minimum.");
     }

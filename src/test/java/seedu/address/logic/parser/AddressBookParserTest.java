@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.Arrays;
@@ -77,7 +78,7 @@ public class AddressBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
 
         FilterContactCommand command = (FilterContactCommand) parser.parseCommand(
-                FilterContactCommand.COMMAND_WORD + " n/" + String.join(" ", keywords));
+                FilterContactCommand.COMMAND_WORD + " " + PREFIX_NAME + String.join(" ", keywords));
 
         FilterContactPredicate expectedPredicate = new FilterContactPredicate(
                 Optional.of(keywords), Optional.empty(), Optional.empty(),

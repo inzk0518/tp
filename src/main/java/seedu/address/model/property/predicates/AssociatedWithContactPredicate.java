@@ -1,7 +1,8 @@
-package seedu.address.model.property;
+package seedu.address.model.property.predicates;
 
 import java.util.function.Predicate;
 
+import seedu.address.model.property.Property;
 import seedu.address.model.uuid.Uuid;
 
 /**
@@ -18,22 +19,7 @@ public class AssociatedWithContactPredicate implements Predicate<Property> {
 
     @Override
     public boolean test(Property property) {
-        if (property == null) {
-            return false;
-        }
-
-        // Compare owner
-        boolean isOwner = property.getOwner() != null
-                && property.getOwner().value.equals(String.valueOf(contactUuid.getValue()));
-
-        // Check buyer and seller UUID lists
-        boolean isBuyer = property.getBuyingContactIds() != null
-                && property.getBuyingContactIds().contains(contactUuid);
-
-        boolean isSeller = property.getSellingContactIds() != null
-                && property.getSellingContactIds().contains(contactUuid);
-
-        return isOwner || isBuyer || isSeller;
+        return property != null && property.isAssociatedWith(contactUuid);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LIMIT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OFFSET;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BATHROOM;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_BEDROOM;
@@ -31,9 +33,6 @@ import seedu.address.model.property.predicates.PropertyMatchesFilterPredicate;
  * Parses input arguments and creates a new FilterPropertyCommand object.
  */
 public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand> {
-
-    private static final Prefix PREFIX_LIMIT = new Prefix("limit/");
-    private static final Prefix PREFIX_OFFSET = new Prefix("offset/");
 
     /**
      * Parses the given {@code String} of arguments in the context of the FilterPropertyCommand

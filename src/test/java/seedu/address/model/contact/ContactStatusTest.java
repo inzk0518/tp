@@ -24,11 +24,13 @@ public class ContactStatusTest {
 
     @Test
     public void isValidStatus() {
+        // equivalence partition: valid input
         assertTrue(ContactStatus.isValidStatus("Active"));
         assertTrue(ContactStatus.isValidStatus("Inactive"));
         assertTrue(ContactStatus.isValidStatus("")); // empty string allowed
-        assertTrue(ContactStatus.isValidStatus("active")); // case-insensitive
-        assertTrue(ContactStatus.isValidStatus("INACTIVE"));
+        assertTrue(ContactStatus.isValidStatus("InActive")); // case-insensitive
+
+        // equivalence partition: invalid input
         assertFalse(ContactStatus.isValidStatus("Invalid"));
     }
 

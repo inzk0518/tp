@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.MarkUnsoldCommand.getInvalidPropertyIdsMessage;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PROPERTY_ID;
 
 import java.util.Set;
 
@@ -25,11 +27,17 @@ public class MarkSoldCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks one or more properties as sold.\n"
-            + "Parameters: p/PROPERTY_ID [p/PROPERTY_ID]...\n"
-            + "Example: " + COMMAND_WORD + " p/14 p/27";
+            + "Parameters: "
+            + PREFIX_PROPERTY_ID + "UUID...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_PROPERTY_ID + "14 "
+            + PREFIX_PROPERTY_ID + "27";
 
-    public static final String MESSAGE_MARK_SOLD_SUCCESS = "Marked %d property(ies) as sold.";
-    public static final String MESSAGE_PROPERTY_NOT_FOUND = "%s not found.";
+    public static final String MESSAGE_MARK_SOLD_SUCCESS = "Marked the properties with these IDs as sold: %s";
+    public static final String MESSAGE_PROPERTY_ERROR_SOLD_COMMAND =
+                     "The properties with the following IDs do not exist or were already marked as sold:\n"
+                    + "%s\n"
+                    + "Command has been aborted.";
 
     private final Set<Uuid> propertyIds;
 
@@ -54,14 +62,14 @@ public class MarkSoldCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Validate all IDs first
-        for (Uuid id : propertyIds) {
-            if (model.getPropertyById(id) == null) {
-                throw new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, id));
-            }
+        String invalidIdsMessage = getInvalidPropertyIdsMessage(model, propertyIds,
+                    MESSAGE_PROPERTY_ERROR_SOLD_COMMAND, "unavailable");
+        if (invalidIdsMessage != null) {
+            throw new CommandException(invalidIdsMessage);
+
         }
 
-        int count = 0;
+        StringBuilder affectedIdsBuilder = new StringBuilder();
         for (Uuid id : propertyIds) {
             Property property = model.getPropertyById(id);
             Property updated = new Property(
@@ -80,12 +88,16 @@ public class MarkSoldCommand extends Command {
                     property.getSellingContactIds()
             );
             model.setProperty(property, updated);
-            count++;
+
+            if (!affectedIdsBuilder.isEmpty()) {
+                affectedIdsBuilder.append(", ");
+            }
+            affectedIdsBuilder.append(id.getValue());
         }
 
         showPropertiesView();
 
-        return new CommandResult(String.format(MESSAGE_MARK_SOLD_SUCCESS, count));
+        return new CommandResult(String.format(MESSAGE_MARK_SOLD_SUCCESS, affectedIdsBuilder.toString()));
     }
 
     @Override

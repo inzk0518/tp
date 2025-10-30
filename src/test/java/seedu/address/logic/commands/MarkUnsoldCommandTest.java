@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyPropertyBook;
@@ -50,6 +53,34 @@ public class MarkUnsoldCommandTest {
 
         assertEquals(String.format(MarkUnsoldCommand.MESSAGE_MARK_UNSOLD_SUCCESS, 1), result.getFeedbackToUser());
         assertEquals(new Status("available"), modelStub.getPropertyById(property1.getUuid()).getStatus());
+    }
+
+    @Test
+    public void execute_invalidId_throwsCommandException() {
+        Uuid invalidId = new Uuid(999999, Uuid.StoredItem.PROPERTY);
+        Set<Uuid> ids = Set.of(invalidId);
+        MarkUnsoldCommand command = new MarkUnsoldCommand(ids);
+
+        CommandException thrown = assertThrows(CommandException.class, () -> command.execute(modelStub));
+        assertTrue(thrown.getMessage().contains(invalidId.getValue() + ""));
+    }
+
+    @Test
+    public void execute_mixedValidAndInvalidIds_throwsCommandExceptionWithAllInvalids() {
+        Uuid invalidId1 = new Uuid(999999, Uuid.StoredItem.PROPERTY);
+        Uuid invalidId2 = new Uuid(999998, Uuid.StoredItem.PROPERTY);
+        Set<Uuid> ids = Set.of(property1.getUuid(), invalidId1, invalidId2);
+        MarkUnsoldCommand command = new MarkUnsoldCommand(ids);
+
+        CommandException thrown = assertThrows(CommandException.class, () -> command.execute(modelStub));
+
+        // Check message contains both invalid IDs
+        String message = thrown.getMessage();
+        assertTrue(message.contains(String.valueOf(invalidId1.getValue())));
+        assertTrue(message.contains(String.valueOf(invalidId2.getValue())));
+
+        // Also ensure the valid ID is not marked (status unchanged)
+        assertEquals(new Status("unavailable"), modelStub.getPropertyById(property1.getUuid()).getStatus());
     }
 
     private static class ModelStub implements Model {

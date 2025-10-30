@@ -17,19 +17,13 @@ public class ShowPropertiesCommandParserTest {
     @Test
     public void parse_validArgs_returnsShowPropertiesCommand() {
         Uuid expectedUuid = new Uuid(1, CONTACT);
-        assertParseSuccess(parser, " c/1", new ShowPropertiesCommand(expectedUuid));
+        assertParseSuccess(parser, " 1", new ShowPropertiesCommand(expectedUuid));
     }
 
     @Test
     public void parse_validArgsLargeNumber_returnsShowPropertiesCommand() {
         Uuid expectedUuid = new Uuid(123, CONTACT);
-        assertParseSuccess(parser, " c/123", new ShowPropertiesCommand(expectedUuid));
-    }
-
-    @Test
-    public void parse_missingPrefix_throwsParseException() {
-        assertParseFailure(parser, "1",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowPropertiesCommand.MESSAGE_USAGE));
+        assertParseSuccess(parser, " 123", new ShowPropertiesCommand(expectedUuid));
     }
 
     @Test
@@ -46,22 +40,17 @@ public class ShowPropertiesCommandParserTest {
 
     @Test
     public void parse_invalidUuidNonNumeric_throwsParseException() {
-        assertParseFailure(parser, " c/abc", ParserUtil.MESSAGE_INVALID_UUID);
+        assertParseFailure(parser, " abc", ParserUtil.MESSAGE_INVALID_UUID);
     }
 
     @Test
     public void parse_invalidUuidNegative_throwsParseException() {
-        assertParseFailure(parser, " c/-1", ParserUtil.MESSAGE_INVALID_UUID);
+        assertParseFailure(parser, " -1", ParserUtil.MESSAGE_INVALID_UUID);
     }
 
     @Test
     public void parse_invalidUuidZero_throwsParseException() {
-        assertParseFailure(parser, " c/0", ParserUtil.MESSAGE_INVALID_UUID);
+        assertParseFailure(parser, " 0", ParserUtil.MESSAGE_INVALID_UUID);
     }
 
-    @Test
-    public void parse_preamblePresent_throwsParseException() {
-        assertParseFailure(parser, "extra text c/1",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowPropertiesCommand.MESSAGE_USAGE));
-    }
 }

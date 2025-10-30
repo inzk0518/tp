@@ -123,7 +123,7 @@ public class FilterContactPredicateTest {
         FilterContactPredicate predicate = new FilterContactPredicate(
                 Optional.empty(), Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty(),
-                Optional.of(100), Optional.of(500),
+                Optional.of(100L), Optional.of(500L),
                 Optional.empty(), Optional.empty(),
                 Optional.empty(), Optional.empty());
 
@@ -202,8 +202,8 @@ public class FilterContactPredicateTest {
                 Optional.empty(),
                 Optional.empty(),
                 Optional.empty(),
-                Optional.of(100),
-                Optional.of(500),
+                Optional.of(100L),
+                Optional.of(500L),
                 Optional.of(Arrays.asList("note1")),
                 Optional.of(Arrays.asList("active")),
                 Optional.empty(), Optional.empty()

@@ -30,18 +30,10 @@ public class AssociatedWithPropertyPredicate implements Predicate<Contact> {
             return false;
         }
 
+        // Find the property with matching UUID and check if contact is associated
         for (Property property : allProperties) {
-            // Match the property we’re filtering against
             if (property.getUuid().equals(propertyUuid)) {
-
-                boolean isOwner = property.getOwner() != null
-                        && property.getOwner().value.equals(String.valueOf(contact.getUuid().getValue()));
-
-                boolean isBuyer = property.getBuyingContactIds().contains(contact.getUuid());
-
-                boolean isSeller = property.getSellingContactIds().contains(contact.getUuid());
-
-                return isOwner || isBuyer || isSeller;
+                return property.isAssociatedWith(contact.getUuid());
             }
         }
 

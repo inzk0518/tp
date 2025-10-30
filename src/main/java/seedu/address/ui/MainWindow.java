@@ -36,6 +36,7 @@ public class MainWindow extends UiPart<Stage> {
     private PropertyListPanel propertyListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private StatusBarFooter statusBarFooter;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -108,7 +109,7 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusBarFooter = new StatusBarFooter("Contacts List");
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
@@ -119,19 +120,21 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Switches to contacts view.
+     * Switches to contacts view and updates the status bar message.
      */
     public void showContactsView() {
         contentPlaceholder.getChildren().clear();
         contentPlaceholder.getChildren().add(contactListPanel.getRoot());
+        statusBarFooter.setStatusMessage("Contacts List");
     }
 
     /**
-     * Switches to properties view.
+     * Switches to properties view and updates the status bar message.
      */
     public void showPropertiesView() {
         contentPlaceholder.getChildren().clear();
         contentPlaceholder.getChildren().add(propertyListPanel.getRoot());
+        statusBarFooter.setStatusMessage("Properties List");
     }
 
     /**
