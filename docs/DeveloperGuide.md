@@ -884,38 +884,20 @@ testers are expected to do more *exploratory* testing.
 
 ### Launch and shutdown
 
-##### Initial launch
+1. Initial launch
 
-Command: `java -jar <downloaded-file>.jar`
+   1. Download the jar file and copy into an empty folder
 
-To simulate:<br>
-- Download the packaged JAR and place it in an empty folder.
-- Run the command above from that folder or double-click the JAR.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-Expected:<br>
-- Shows the GUI with a set of sample contacts.
-- Initial window size may not be optimal.
+1. Saving window preferences
 
-Variations:<br>
-- Launch from different user accounts or directories.
-- Use `javaw -jar <downloaded-file>.jar` on Windows to observe a console-less launch.
+   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-##### Saving window preferences
+   1. Re-launch the app by double-clicking the jar file.<br>
+       Expected: The most recent window size and location is retained.
 
-Command: `java -jar <downloaded-file>.jar`
-
-To simulate:<br>
-- Launch the application.
-- Resize the window to an optimum size and move it to a different location.
-- Close the window, then rerun the command above.
-
-Expected:<br>
-- The relaunched window retains the most recent size.
-- The relaunched window retains the most recent location.
-
-Variations:<br>
-- Switch between monitors or change display scaling before closing.
-- Toggle between maximised and restored states before exiting.
+1. _{ more test cases …​ }_
 
 ### Adding a contact
 
