@@ -420,7 +420,11 @@ Validation done:
 - No duplicate relationship parameter
 
 ##### Execution
-Documentation pending.
+The `LinkCommand` executes by:
+1. Finding the target contacts and properties based on their UUIDs
+2. Ensuring none of the targets are already linked
+3. Creating new edited `Contact` and `Property` objects with the updated relationship
+4. Updating the contacts and properties in the address and property book with the new details.
 
 #### <u>UnlinkCommand</u> (`unlink`)
 The `unlink` command is designed to unlink contacts in the address book from properties in the property book, each identified by their UUID.
@@ -441,7 +445,11 @@ Each UUID is also validated and parsed.
 The parser creates an `UnlinkDescriptor` object that stores the parsed UUIDs and relationship.
 
 ##### Execution
-Documentation pending.
+The `LinkCommand` executes by:
+1. Finding the target contacts and properties based on their UUIDs
+2. Ensuring all of the targets were previously linked
+3. Creating new edited `Contact` and `Property` objects with buyer and seller relationships removed
+4. Updating the contacts and properties in the address and property book with the new details.
 
 #### <u>ShowContactsCommand</u> (`showcontacts`)
 Currently returns a placeholder message while property–contact association storage is being developed.
