@@ -85,11 +85,8 @@ public class FilterContactCommand extends Command {
         List<Contact> page = allMatches.subList(start, endExclusive);
         model.updateFilteredContactList(page::contains);
 
-        // Build output message (e.g., “12 properties matched (showing 6–10)”)
-        int from = total == 0 ? 0 : start + 1;
-        int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW,
-                Math.min(limit, total - offset), from, to);
+        // Build output message (e.g., “12 properties matched”)
+        String msg = String.format(MESSAGE_CONTACTS_LISTED_OVERVIEW, page.size());
 
         showContactsView();
 
