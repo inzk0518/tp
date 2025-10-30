@@ -88,7 +88,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class FilterPropertyCommandTest {
         assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
         assertTrue(shown.contains(p3));
-        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p2));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -159,7 +159,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -173,7 +173,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
         assertTrue(shown.contains(p3));
-        assertEquals("1 properties matched (showing 1–1)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class FilterPropertyCommandTest {
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(2, shown.size());
         assertTrue(shown.contains(p1));
-        assertEquals("2 properties matched (showing 1–2)", result.getFeedbackToUser());
+        assertEquals("2 properties matched", result.getFeedbackToUser());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class FilterPropertyCommandTest {
 
         List<Property> shown = model.getFilteredPropertyList();
         assertEquals(1, shown.size());
-        assertEquals("2 properties matched (showing 2–2)", result.getFeedbackToUser());
+        assertEquals("1 properties matched", result.getFeedbackToUser());
     }
 
     @Test

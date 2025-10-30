@@ -22,9 +22,6 @@ public class FilterPropertyCommand extends Command {
             + "address/ postal/ type/ bedroom/ bathroom/ floorarea/ price/ status/ owner/ listing/ limit/ offset/\n"
             + "Example: " + COMMAND_WORD + " postal/123000 bedroom/2 bathroom/3 price/500000 listing/sale";
 
-    public static final String MESSAGE_INVALID_LIMIT = "Error: Invalid limit";
-    public static final String MESSAGE_INVALID_OFFSET = "Error: Invalid offset";
-
     private final PropertyMatchesFilterPredicate predicate;
     private final int limit;
     private final int offset;
@@ -42,13 +39,6 @@ public class FilterPropertyCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (limit < 1) {
-            throw new CommandException(MESSAGE_INVALID_LIMIT);
-        }
-        if (offset < 0) {
-            throw new CommandException(MESSAGE_INVALID_OFFSET);
-        }
-
         List<Property> allMatches = model.getFilteredPropertyList().stream()
                 .filter(predicate)
                 .toList();
@@ -60,10 +50,8 @@ public class FilterPropertyCommand extends Command {
 
         model.updateFilteredPropertyList(page::contains);
 
-        // Build “X properties matched (showing i–j)”
-        int from = total == 0 ? 0 : start + 1;
-        int to = total == 0 ? 0 : endExclusive;
-        String msg = String.format("%d properties matched (showing %d–%d)", total, from, to);
+        // Build “X properties matched”
+        String msg = String.format("%d properties matched", Math.min(limit, total - offset));
 
         showPropertiesView();
 

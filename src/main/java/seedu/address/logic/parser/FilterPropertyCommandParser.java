@@ -169,12 +169,12 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
             builder.withListing(t);
         }
 
-        int limit = 20;
+        int limit = Integer.MAX_VALUE;
         Optional<String> maybeLimit = argMultimap.getValue(PREFIX_LIMIT);
         if (maybeLimit.isPresent()) {
             String t = maybeLimit.get().trim();
             if (!t.matches("^[1-9]\\d*$")) {
-                throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_LIMIT);
+                throw new ParseException("Error: Invalid limit (Positive integer only)");
             }
             limit = Integer.parseInt(t);
         }
@@ -184,7 +184,7 @@ public class FilterPropertyCommandParser implements Parser<FilterPropertyCommand
         if (maybeOffset.isPresent()) {
             String t = maybeOffset.get().trim();
             if (!t.matches("^0|[1-9]\\d*$")) {
-                throw new ParseException(FilterPropertyCommand.MESSAGE_INVALID_OFFSET);
+                throw new ParseException("Error: Invalid offset (Non-negative integer only)");
             }
             offset = Integer.parseInt(t);
         }
